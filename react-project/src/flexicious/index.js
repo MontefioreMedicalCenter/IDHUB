@@ -116,8 +116,6 @@ import {
   XmlExporter,
   PrintExportOptions,
 } from "flexicious-react-datagrid";
-import MaterialFlexDataGridCheckBoxColumn from "../component/ExtendedDataGrid/material/grid/MaterialFlexDataGridCheckBoxColumn";
-import MaterialCheckBoxColumn from "../component/ExtendedDataGrid/material/grid/MaterialCheckBoxColumn";
 export {
   AdvancedFilter,
   BaseEvent,
