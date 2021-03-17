@@ -7,8 +7,6 @@ import {
   FlexDataGridEvent,
 } from "../../../flexicious";
 import MaterialDataGrid from "./material/grid/MaterialDataGrid";
-import ApplicationModel from "../../../service/utils/ApplicationModel";
-import { updateToLocalStorage } from "../../../service/ServiceHelper";
 import { toUintColorCode } from "../../utils";
 
 const iconExpand = "/keyboard_arrow_right.svg";
@@ -25,7 +23,7 @@ StyleDefaults.defaults.toolbarImagesRoot = Constants.IMAGE_PATH;
 StyleDefaults.defaults.disclosureClosedIcon = iconExpand;
 StyleDefaults.defaults.disclosureOpenIcon = iconCollapse;
 
-export default class MRXDataGrid extends MaterialDataGrid {
+export default class DataGrid extends MaterialDataGrid {
   constructor(props, arg1, arg2) {
     super(props, arg1, arg2);
     this.enableActiveCellHighlight = false;
@@ -97,11 +95,9 @@ export default class MRXDataGrid extends MaterialDataGrid {
     // this.restoreVerticalScrollEnabled = false;
     // this.restoreHorizontalScrollEnabled = false;
     this.gotoRowIndex = -1;
-    this.appModel = ApplicationModel.getInstance();
     window.addEventListener("resize", this.refreshGrid);
     this.getBodyContainer().enableHorizontalRecycling = false;
     if (this.variableRowHeight) this.recalculateSeedOnEachScroll = true;
-    //this.enableStickyControlKeySelection=ApplicationModel.getInstance().enableStickyControlKeySelection;
     this.paddingRight = Constants.GLOBAL_ROW_HEIGHT > 30 ? 5 : 2;
     this.paddingLeft = this.paddingRight;
     this.headerPaddingLeft = this.paddingRight;
@@ -156,11 +152,10 @@ export default class MRXDataGrid extends MaterialDataGrid {
     // this is an unique functionality for automatic testing
     if (column && cell && column._uniqueIdentifier) {
       const rowData = cell.rowInfo.getData();
-      const automationName = `${
-        column.type === "checkbox"
+      const automationName = `${column.type === "checkbox"
           ? rowData[column._uniqueIdentifier]
           : column._uniqueIdentifier + "-" + rowData[column.dataField]
-      }`;
+        }`;
 
       cell.setAutomationName(automationName);
     }
@@ -177,7 +172,6 @@ export default class MRXDataGrid extends MaterialDataGrid {
   componentDidMount() {
     super.componentDidMount();
     if (this.props.applySavedPreferencesOnMount) {
-      this.applySavedPreferences();
     }
     this.domElement.addEventListener(
       "mousedown",
@@ -208,51 +202,21 @@ export default class MRXDataGrid extends MaterialDataGrid {
   }
 
   savePreferences(evt, clearPreferences = false) {
-    this.appModel = ApplicationModel.getInstance();
 
-    if (this.enableServerPreferencePersistence) {
-      this.appModel.persistedPreferences[
-        this.getPreferencePersistenceKey()
-      ] = clearPreferences ? "" : this.getPreferences();
-
-      ApplicationModel.instance = this.appModel;
-      updateToLocalStorage("app", ApplicationModel.instance);
-    }
   }
 
   /**
    * @override
    */
   getClassNames() {
-    return ["MRXDataGrid", ...super.getClassNames()];
+    return ["Montefiore", ...super.getClassNames()];
   }
 
   buildColumns = () => {
     //this is overridden in the student grid.
   };
 
-  applySavedPreferences(setEmptyPreferences = false) {
-    this.appModel = ApplicationModel.getInstance();
 
-    if (!this.appModel.persistedPreferences) {
-      return;
-    }
-
-    if (setEmptyPreferences) {
-      this.setPreferences("");
-      this.buildColumns();
-
-      return;
-    }
-
-    const preferences = this.appModel.persistedPreferences[
-      this.getPreferencePersistenceKey()
-    ];
-
-    if (preferences) {
-      this.setPreferences(preferences);
-    }
-  }
   setPreferences(val) {
     this.pausePreferences = true;
     super.setPreferences(val);
@@ -361,7 +325,7 @@ export default class MRXDataGrid extends MaterialDataGrid {
             ) {
               if (
                 this.localLastVScroll + bodyContainer.getHeight() <
-                  rowPositionInfo.getVerticalPosition() ||
+                rowPositionInfo.getVerticalPosition() ||
                 this.localLastVScroll > rowPositionInfo.getVerticalPosition()
               )
                 this.localLastVScroll = rowPositionInfo.getVerticalPosition(); //only reset vsp if the row would not be visible otherwise
@@ -384,7 +348,7 @@ export default class MRXDataGrid extends MaterialDataGrid {
           didSetPendingScroll ||
           Math.abs(
             this.lastCalculatedTotalHeight -
-              bodyContainer._calculatedTotalHeight
+            bodyContainer._calculatedTotalHeight
           ) < 200
         ) {
           if (this.restoreVerticalScrollEnabled && this.localLastVScroll)
@@ -658,7 +622,7 @@ export default class MRXDataGrid extends MaterialDataGrid {
         (this.getSelectionMode() ==
           flexiciousNmsp.NdgBase.SELECTION_MODE_MULTIPLE_ROWS ||
           this.getSelectionMode() ==
-            flexiciousNmsp.NdgBase.SELECTION_MODE_MULTIPLE_CELLS)) ||
+          flexiciousNmsp.NdgBase.SELECTION_MODE_MULTIPLE_CELLS)) ||
       this.enableStickyControlKeySelection
     );
   }
