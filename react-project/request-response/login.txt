@@ -1,0 +1,17 @@
+Search messages
+ 
+POST http://localhost:8080/IdentityHub/api/authenticationsvc/authenticateUser
+200
+22.49 s
+POST /IdentityHub/api/authenticationsvc/authenticateUser HTTP/1.1
+Cache-Control: no-cache
+Postman-Token: c5f757fb-fad9-4ba5-88c7-c137a6d80795
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 38
+password=Sandyno35!&userName=mmishra
+HTTP/1.1 200 OK
+Connection: keep-alive
+Content-Type: application/json
+Content-Length: 332
+Date: Wed, 17 Mar 2021 19:40:39 GMT
+{"created-by":"system","role-map":[{"access-active-flag":1,"created-by":"system","id":{"role-id":"Admin","user-id":"mmishra"},"updated-by":"system"}],"updated-by":"system","user-active-flag":1,"user-email":"mmishra@montefiore.org","user-first-name":"Mittul","user-id":"mmishra","user-last-name":"Mishra","user-phone":"914-457-6018"}
