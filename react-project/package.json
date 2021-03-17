@@ -9,19 +9,42 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "axios": "^0.21.1",
+    "bfj": "^7.0.2",
+    "case-sensitive-paths-webpack-plugin": "^2.4.0",
+    "chalk": "^4.1.0",
+    "dotenv": "^8.2.0",
     "flexicious-react-datagrid": "^1.9.9",
+    "fork-ts-checker-webpack-plugin-alt": "^0.4.14",
+    "fs-extra": "^9.1.0",
+    "history": "^5.0.0",
+    "html-webpack-plugin": "^5.3.1",
+    "is-offline": "^2.1.1",
+    "jest-pnp-resolver": "^1.2.2",
+    "jest-resolve": "^26.6.2",
+    "loadsh": "^0.0.4",
+    "mini-css-extract-plugin": "^1.3.9",
+    "node-sass": "^5.0.0",
+    "optimize-css-assets-webpack-plugin": "^5.0.4",
+    "pnp-webpack-plugin": "^1.6.4",
+    "postcss-flexbugs-fixes": "^5.0.2",
+    "postcss-loader": "^5.2.0",
+    "postcss-preset-env": "^6.7.0",
+    "postcss-safe-parser": "^5.0.2",
     "react": "^17.0.1",
+    "react-dev-utils": "^11.0.4",
     "react-dom": "^17.0.1",
     "react-redux": "^7.2.2",
     "react-router-dom": "^5.2.0",
     "react-scripts": "4.0.3",
     "redux": "^4.0.5",
+    "resolve": "^1.20.0",
+    "uuid": "^8.3.2",
     "web-vitals": "^1.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "node scripts/test.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -41,5 +64,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "unzip": "^0.1.11"
   }
 }
