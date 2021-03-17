@@ -1,3 +1,6 @@
+import "@babel/polyfill";
+import "core-js/features/reflect";
+import "isomorphic-fetch";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
