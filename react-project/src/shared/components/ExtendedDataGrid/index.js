@@ -153,8 +153,8 @@ export default class DataGrid extends MaterialDataGrid {
     if (column && cell && column._uniqueIdentifier) {
       const rowData = cell.rowInfo.getData();
       const automationName = `${column.type === "checkbox"
-          ? rowData[column._uniqueIdentifier]
-          : column._uniqueIdentifier + "-" + rowData[column.dataField]
+        ? rowData[column._uniqueIdentifier]
+        : column._uniqueIdentifier + "-" + rowData[column.dataField]
         }`;
 
       cell.setAutomationName(automationName);
