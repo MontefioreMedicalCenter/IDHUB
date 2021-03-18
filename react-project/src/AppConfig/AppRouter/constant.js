@@ -1,8 +1,7 @@
-
-import React from 'react'
+import Login from '../../components/Login'
 
 const ROUTES = [
-   // { name: 'login', url: '/', private: false, component: Login, exact: true },
+   { name: 'login', url: '/', private: false, component: Login, exact: true },
 ]
 
 
