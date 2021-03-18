@@ -8,7 +8,7 @@ Cache-Control: no-cache
 Postman-Token: c5f757fb-fad9-4ba5-88c7-c137a6d80795
 Content-Type: application/x-www-form-urlencoded
 Content-Length: 38
-password=Sandyno35!&userName=mmishra
+password=xxxxxxxx&userName=mmishra
 HTTP/1.1 200 OK
 Connection: keep-alive
 Content-Type: application/json
