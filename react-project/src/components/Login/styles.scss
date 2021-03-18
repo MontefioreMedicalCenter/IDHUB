@@ -9,9 +9,12 @@
     flex-direction: column;
     justify-content: center;
     display: flex;
-    background-color: cornsilk;
-    width:40%;
+    background-color: #e3eff7;
+    width:35%;
     height: 50%;
+    border-radius: 10%;
+    padding: 10px;
+    box-shadow: 0px 100px #61889c;
 }
 .textfield{
     flex-direction: column; 
@@ -20,4 +23,11 @@
 .passwordfield{
     flex-direction: column;  
     height: 25%;
+}
+
+//not working
+button{
+    border-radius: 10%;
+    color:  #DC143C;
+    //background-color: crimson;
 }
