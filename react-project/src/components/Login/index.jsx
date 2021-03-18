@@ -1,5 +1,8 @@
 import React from 'react'
 import TextFeildComponent from '../../shared/components/TextFeildComponent'
+import ButtonComponent from '../../shared/components/ButtonComponent'
+import PersonIcon from '@material-ui/icons/Person';
+import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import './styles.scss'
 
 const Login = () => {
@@ -7,13 +10,23 @@ const Login = () => {
         <div className='login-root-container' >
             <div className='login-child-container'>
                 <div className="textfield">
-                    <TextFeildComponent id="username" label="username" type="text" />
+                    <PersonIcon style={{ height: "3em" }} /> &nbsp;
+                    <TextFeildComponent
+                        label="username"
+                        id="text"
+                        type="text"
+                    />
                 </div>
                 <div className="passwordfield">
-                    <TextFeildComponent id="password" label="password" type="password" />
+                    <VpnKeyIcon style={{ height: "3em" }} /> &nbsp;
+                    <TextFeildComponent
+                        label="password"
+                        id="password"
+                        type="password"
+                    />
                 </div>
                 <div className="button">
-                    {/* <ButtonComponent color="red" /> */}
+                    <ButtonComponent />
                 </div>
             </div>
         </div>

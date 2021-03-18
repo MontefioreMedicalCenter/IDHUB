@@ -3,7 +3,15 @@ import Button from '@material-ui/core/Button';
 
 const ButtonComponent = (props) => {
     return (
-        <Button variant="contained" color={props.color} />
+        <Button
+            variant="contained"
+            color="primary"
+            onClick = { () =>{
+                            console.log("clicked...")
+                        }}
+            >
+            Login
+        </Button>
     );
 }
 
