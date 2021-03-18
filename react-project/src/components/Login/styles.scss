@@ -3,4 +3,21 @@
     height: inherit;
     justify-content: center;
     align-items: center;
+    background-color: #527a94;
+}
+.login-child-container{
+    flex-direction: column;
+    justify-content: center;
+    display: flex;
+    background-color: cornsilk;
+    width:40%;
+    height: 50%;
+}
+.textfield{
+    flex-direction: column; 
+    height: 25%;
+}
+.passwordfield{
+    flex-direction: column;  
+    height: 25%;
 }

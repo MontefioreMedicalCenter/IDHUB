@@ -1,10 +1,10 @@
 import React from 'react'
 import TextField from '@material-ui/core/TextField';
 
-const TextFeildComponent = () => {
+const TextFeildComponent = (props) => {
     return (
         <React.Fragment>
-            <TextField id="user-name" label="user-name" type="text" variant="outlined" />
+            <TextField id={props.id} label={props.label} type={props.type} variant="outlined" />
         </React.Fragment>
     );
 }
