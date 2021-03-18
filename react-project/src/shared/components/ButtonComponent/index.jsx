@@ -6,10 +6,8 @@ const ButtonComponent = (props) => {
         <Button
             variant="contained"
             color="primary"
-            onClick = { () =>{
-                            console.log("clicked...")
-                        }}
-            >
+            onClick={props.onClick}
+        >
             Login
         </Button>
     );

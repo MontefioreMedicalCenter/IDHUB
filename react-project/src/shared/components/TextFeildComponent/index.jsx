@@ -8,8 +8,9 @@ const TextFeildComponent = (props) => {
                 id={props.id}
                 label={props.label}
                 type={props.type}
+                value={props.value}
+                onChange={props.onChange}
             />
-            {/* variant="outlined"  */}
         </React.Fragment>
     );
 }

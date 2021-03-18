@@ -30,7 +30,7 @@ export const toUintColorCode = (colorStr) => {
   throw new Error("Not a valid html color code!");
 };
 
-export const authenticate = async () => {
-  const data = await localStorage.getItem('userDetails')
+export const authenticate = () => {
+  const data = localStorage.getItem('userDetails')
   return Boolean(data)
 }
