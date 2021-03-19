@@ -27,7 +27,7 @@ export default class ServiceProxyBase extends TypedObject {
     super();
     this.showBusyCursor = false;
     ServiceProxyBase.callCount = 0;
-    this.baseUrl = 'http://localhost:8000/'
+    this.baseUrl = 'http://localhost:8080/'
   }
 
   static get finish() {
