@@ -7,7 +7,7 @@
 // FIXME: Add correct types where FlowFixMe's have been used
 
 import { TypedObject } from "../../flexicious";
-import { traceError, /* trace */ } from "../../helpers/loggers";
+// import { traceError, /* trace */ } from "../../helpers/loggers";
 import {
   watch as networkStateWatcher,
   check as checkNetworkStatus,
@@ -27,7 +27,7 @@ export default class ServiceProxyBase extends TypedObject {
     super();
     this.showBusyCursor = false;
     ServiceProxyBase.callCount = 0;
-    this.baseUrl = 'base url'
+    this.baseUrl = 'http://localhost:8000/'
   }
 
   static get finish() {
@@ -48,31 +48,35 @@ export default class ServiceProxyBase extends TypedObject {
     }
   };
 
-  callApi = (methodType, url, token, params) => {
+  callApi = (methodType, url, token, params, contentType) => {
 
     let headers = {};
 
-    if(token){
+    if (token) {
       headers = { "Content-Type": "application/json", "Authorization": "Bearer " + token };
     }
     else {
-      headers = { "Content-Type": "application/json" } ;
+      if (contentType === 'form') {
+        headers = { "Content-Type": "application/x-www-form-urlencoded" };
+      } else {
+        headers = { "Content-Type": "application/json" }
+      }
     }
 
-    if(methodType === "get"){
-       return axios({
-          method: "get",
-          url: this.baseUrl + url,
-          headers: headers
-        });
+    if (methodType === "get") {
+      return axios({
+        method: "get",
+        url: this.baseUrl + url,
+        headers: headers
+      });
     }
-    else if (methodType === "post"){
-        return axios({
-          method: "post",
-          url: this.baseUrl + url,
-          data: params, 
-          headers: headers
-        });
+    else if (methodType === "post") {
+      return axios({
+        method: "post",
+        url: this.baseUrl + url,
+        data: params,
+        headers: headers
+      });
     }
 
   };
@@ -84,6 +88,7 @@ export default class ServiceProxyBase extends TypedObject {
     token,
     resultFunction,
     faultFunction,
+    contentType,
   ) => {
     if (typeof faultFunction == "undefined") faultFunction = null;
     if (faultFunction == null) faultFunction = this.defaultFaultHandler;
@@ -93,48 +98,48 @@ export default class ServiceProxyBase extends TypedObject {
       this.execHook();
     }
 
-      let promise = this.callApi(
-        method, urlPath, token, args
-      );
-      promise.then(
-        (response) => {
-          ServiceProxyBase.callCount -= ServiceProxyBase.callCount ? 1 : 0;
-          this.showBusyCursor = false;
-          if (ServiceProxyBase.finish) {
-            this.execHook();
-          }
-          // if(resultFunction)
-          // resultFunction({ result: typeof response.data =="string" ? JSON.parse(response.data) : response.data });
+    let promise = this.callApi(
+      method, urlPath, token, args, contentType
+    );
+    promise.then(
+      (response) => {
+        ServiceProxyBase.callCount -= ServiceProxyBase.callCount ? 1 : 0;
+        this.showBusyCursor = false;
+        if (ServiceProxyBase.finish) {
+          this.execHook();
+        }
+        // if(resultFunction)
+        // resultFunction({ result: typeof response.data =="string" ? JSON.parse(response.data) : response.data });
 
-          /**
-           * if there any error in backend server please return it as error response
-           * that's why I have replaced above lines with bunch of lines below
-           */
-          if (resultFunction) {
-            let result;
-            try {
-              result =
-                typeof response.data == "string"
-                  ? JSON.parse(response.data)
-                  : response.data;
-              resultFunction({ result });
-            } catch (err) {
-              if (faultFunction) {
-                traceError(response.data);
-                faultFunction({error: response}) ;
-              }
+        /**
+         * if there any error in backend server please return it as error response
+         * that's why I have replaced above lines with bunch of lines below
+         */
+        if (resultFunction) {
+          let result;
+          try {
+            result =
+              typeof response.data == "string"
+                ? JSON.parse(response.data)
+                : response.data;
+            resultFunction({ result });
+          } catch (err) {
+            if (faultFunction) {
+              // traceError(response.data);
+              faultFunction({ error: response });
             }
           }
-        },
-        (err) => {
-          ServiceProxyBase.callCount -= ServiceProxyBase.callCount ? 1 : 0;
-          this.showBusyCursor = false;
-          if (ServiceProxyBase.finish) {
-            this.execHook();
-          }
-          faultFunction({error: err});
-        },
-      );
+        }
+      },
+      (err) => {
+        ServiceProxyBase.callCount -= ServiceProxyBase.callCount ? 1 : 0;
+        this.showBusyCursor = false;
+        if (ServiceProxyBase.finish) {
+          this.execHook();
+        }
+        faultFunction({ error: err });
+      },
+    );
 
     if (ServiceProxyBase.IsOffline) {
       promise[this.useJsonService ? "reject" : "resolve"](

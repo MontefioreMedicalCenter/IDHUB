@@ -1,13 +1,17 @@
 import React, { useCallback, useState } from 'react'
+import './styles.scss'
 import TextFeildComponent from '../../shared/components/TextFeildComponent'
 import ButtonComponent from '../../shared/components/ButtonComponent'
 import PersonIcon from '@material-ui/icons/Person';
 import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { useHistory } from 'react-router';
-import './styles.scss'
+import LoginService from '../../service/cfc/LoginService';
+import { useDispatch } from 'react-redux';
+import { saveUserDetails } from '../../AppConfig/store/actions/loginAction';
 
 const Login = () => {
 
+    const dispatch = useDispatch();
     const history = useHistory()
     const [state, setState] = useState({
         userName: "",
@@ -18,32 +22,30 @@ const Login = () => {
         setState({ ...state, [event.target.id]: event.target.value })
     }, [state])
 
-    const handleOnLogin = useCallback(() => {
-        localStorage.setItem('userDetails',
-            JSON.stringify({
-                "created-by": "system",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "system",
-                        "id": {
-                            "role-id": "Admin",
-                            "user-id": "mmishra"
-                        },
-                        "updated-by": "system"
-                    }
-                ],
-                "updated-by": "system",
-                "user-active-flag": 1,
-                "user-email": "mmishra@montefiore.org",
-                "user-first-name": "Mittul",
-                "user-id": "mmishra",
-                "user-last-name": "Mishra",
-                "user-phone": "914-457-6018"
-            })
-        )
-        history.push('/main/worklist')
-    }, [])
+    const loginResultHandler = (resp) => {
+        if (resp.result) {
+            localStorage.setItem('userDetails',
+                JSON.stringify(resp.result)
+            )
+            dispatch(saveUserDetails(resp.result))
+            history.push('/main/worklist')
+        }
+    }
+
+    const loginFaultHandler = (err) => {
+        console.log(err)
+    }
+
+    const handleOnLogin = () => {
+        if (state.userName && state.password) {
+            LoginService.getInstance().login(
+                state.userName,
+                state.password,
+                loginResultHandler,
+                loginFaultHandler
+            )
+        }
+    }
     return (
         <div className='login-root-container' >
             <div className='login-child-container'>

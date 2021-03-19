@@ -23,11 +23,7 @@ const sendResponse = (res, statusCode, data = {}, message) => {
     // if the status code starts with 2, set satus variable as success
     pattern.test(statusCode) ? (status = 'success') : (status = 'failed');
   
-    return res.status(statusCode).json({
-      status,
-      data,
-      message,
-    });
+    return res.status(statusCode).json(data);
   };
   
   module.exports = sendResponse;

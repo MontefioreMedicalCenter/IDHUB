@@ -3,14 +3,35 @@
  * Copyright 2011, Flexicious LLC
  */
 import ServiceProxyBase from "./ServiceProxyBase";
+import qs from 'qs';
 export default class LoginService extends ServiceProxyBase {
   constructor(props) {
     super(props);
-    this.source = ''  }
+    this.source = ''
+  }
 
   getClassNames() {
     return ["LoginService", "ServiceProxyBase"];
   }
+
+  login(username, password, resultHandler, faultHandler) {
+    if (typeof faultHandler == "undefined") faultHandler = null;
+    var bodyFormData = qs.stringify({
+      userName: username,
+      password: password
+    })
+
+    return this.callServiceMethod(
+      'post',
+      'IdentityHub/api/authenticationsvc/authenticateUser',
+      bodyFormData,
+      null,
+      resultHandler,
+      faultHandler,
+      'form'
+    );
+  }
+
 }
 
 LoginService.prototype.typeName = LoginService.typeName = "LoginService"; //for quick inspection

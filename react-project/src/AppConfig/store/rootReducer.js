@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux'
-import appCommon from '../../Components/AppLayout/reducer'
+import loginReducer from './reducers/loginReducer'
 
 const appReducer = combineReducers({
-    appCommon,
+    loginState: loginReducer,
 })
 
 const rootReducer = (state, action) => {
