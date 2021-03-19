@@ -1,15 +1,15 @@
 {
-  "main.css": "/static/css/main.b4d4f1c2.chunk.css",
-  "main.js": "/static/js/main.94d3ce87.chunk.js",
-  "main.js.map": "/static/js/main.94d3ce87.chunk.js.map",
-  "static/js/1.8c5b544e.chunk.js": "/static/js/1.8c5b544e.chunk.js",
-  "static/js/1.8c5b544e.chunk.js.map": "/static/js/1.8c5b544e.chunk.js.map",
-  "static/js/2.4069def0.chunk.js": "/static/js/2.4069def0.chunk.js",
-  "static/js/2.4069def0.chunk.js.map": "/static/js/2.4069def0.chunk.js.map",
-  "runtime~main.js": "/static/js/runtime~main.7780a58f.js",
-  "runtime~main.js.map": "/static/js/runtime~main.7780a58f.js.map",
-  "static/css/main.b4d4f1c2.chunk.css.map": "/static/css/main.b4d4f1c2.chunk.css.map",
-  "index.html": "/index.html",
-  "precache-manifest.b4592f2827a0502e3b7882a18b906ea5.js": "/precache-manifest.b4592f2827a0502e3b7882a18b906ea5.js",
-  "service-worker.js": "/service-worker.js"
+  "main.css": "/IdentityHub/IdentityHub/index.html/static/css/main.b4d4f1c2.chunk.css",
+  "main.js": "/IdentityHub/IdentityHub/index.html/static/js/main.94d3ce87.chunk.js",
+  "main.js.map": "/IdentityHub/IdentityHub/index.html/static/js/main.94d3ce87.chunk.js.map",
+  "static/js/1.8c5b544e.chunk.js": "/IdentityHub/IdentityHub/index.html/static/js/1.8c5b544e.chunk.js",
+  "static/js/1.8c5b544e.chunk.js.map": "/IdentityHub/IdentityHub/index.html/static/js/1.8c5b544e.chunk.js.map",
+  "static/js/2.4069def0.chunk.js": "/IdentityHub/IdentityHub/index.html/static/js/2.4069def0.chunk.js",
+  "static/js/2.4069def0.chunk.js.map": "/IdentityHub/IdentityHub/index.html/static/js/2.4069def0.chunk.js.map",
+  "runtime~main.js": "/IdentityHub/IdentityHub/index.html/static/js/runtime~main.ef1bed9d.js",
+  "runtime~main.js.map": "/IdentityHub/IdentityHub/index.html/static/js/runtime~main.ef1bed9d.js.map",
+  "static/css/main.b4d4f1c2.chunk.css.map": "/IdentityHub/IdentityHub/index.html/static/css/main.b4d4f1c2.chunk.css.map",
+  "index.html": "/IdentityHub/IdentityHub/index.html/index.html",
+  "precache-manifest.ef250f5636315e9a877fd41a4b5c21c8.js": "/IdentityHub/IdentityHub/index.html/precache-manifest.ef250f5636315e9a877fd41a4b5c21c8.js",
+  "service-worker.js": "/IdentityHub/IdentityHub/index.html/service-worker.js"
 }
