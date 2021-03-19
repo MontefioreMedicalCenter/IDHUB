@@ -37,7 +37,7 @@ export default class MaterialDataGrid extends ReactDataGrid {
         //unless we have sort numeric or label function, just use case insensitive sort
         col.sortCaseInsensitive = true;
       }
-      if (col.dataField == "Sequence" || col._headerText == "Seq") {
+      if (col.dataField === "Sequence" || col._headerText === "Seq") {
         col.sortNumeric = true;
       }
 

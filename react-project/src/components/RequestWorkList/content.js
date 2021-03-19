@@ -1,8 +1,6 @@
 export const tabList = [
-    { label: 'Requestor WorkList', value: 0, path: "/main/worklist" },
-    { label: 'Service Desk Reviewer', value: 1, path: "/main/reviewer" },
-    { label: 'Manage Users ', value: 2, path: "/main/users" },
-    { label: 'Admin', value: 3, path: "/main/admin" }
+    { label: 'current Request', value: 0, path: "/main/worklist" },
+    { label: 'search Request', value: 1, path: "/main/worklist/search" },
 ]
 
 export const tabStyles = {

@@ -114,6 +114,8 @@ import {
   UserSettingsController,
   UserSettingsOptions,
   XmlExporter,
+  MaterialFlexDataGridCheckBoxColumn,
+  MaterialCheckBoxColumn,
   PrintExportOptions,
 } from "flexicious-react-datagrid";
 export {

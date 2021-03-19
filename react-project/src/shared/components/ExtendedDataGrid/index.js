@@ -56,7 +56,7 @@ export default class DataGrid extends MaterialDataGrid {
       if (flexiciousNmsp.DisplayList.isMouseDown)
         this.localLastHScroll = this.getHorizontalScrollPosition();
       if (
-        this.getVerticalScrollPosition() == 0 &&
+        this.getVerticalScrollPosition() === 0 &&
         !flexiciousNmsp.DisplayList.isMouseDown
       ) {
         //this means user is not scrolling to zero - just the grid is rebiulding.
@@ -109,7 +109,7 @@ export default class DataGrid extends MaterialDataGrid {
   }
   onMouseWheel(event) {
     super.onMouseWheel(event);
-    if (this.getVerticalScrollPosition() == 0) {
+    if (this.getVerticalScrollPosition() === 0) {
       this.localLastVScroll = 0;
     }
   }
@@ -226,7 +226,7 @@ export default class DataGrid extends MaterialDataGrid {
     //for flat grids that have clearSelectionOnDataProviderChange.
     //if we get new dataprovider, we need to check to see if items
     //that were previously selected are currently selectable.
-    if (val && val.length && val != this._dataProvider) {
+    if (val && val.length && val !== this._dataProvider) {
       if (!this.clearSelectionOnDataProviderChange) {
         const selectedItemsToRemove = [];
         const thisSelectedItems = this._columnLevel._selectedObjects;
@@ -273,7 +273,7 @@ export default class DataGrid extends MaterialDataGrid {
     super.setDataProvider(val);
   }
   areArraysEqual(arr1, arr2) {
-    if (arr1.length != arr2.length) return false;
+    if (arr1.length !== arr2.length) return false;
     for (let i = 0; i < arr1.length; i++) {
       if (!this.getColumnLevel().areItemsEqual(arr1[i], arr2[i])) return false;
     }
@@ -619,36 +619,11 @@ export default class DataGrid extends MaterialDataGrid {
 
     return (
       (ctrlKey &&
-        (this.getSelectionMode() ==
+        (this.getSelectionMode() ===
           flexiciousNmsp.NdgBase.SELECTION_MODE_MULTIPLE_ROWS ||
-          this.getSelectionMode() ==
+          this.getSelectionMode() ===
           flexiciousNmsp.NdgBase.SELECTION_MODE_MULTIPLE_CELLS)) ||
       this.enableStickyControlKeySelection
     );
   }
 }
-
-MRXDataGrid.Student_Media_List_DG = "Student_Media_Media_List";
-MRXDataGrid.Student_Grid = "Student_Grid";
-MRXDataGrid.Student_Filter = "Student_Filter";
-MRXDataGrid.Plan_Record_On_Grid_Grid = "Plan_Record_On_Grid_Grid";
-MRXDataGrid.Review_Plan_Grid = "Review_Plan_Grid";
-MRXDataGrid.Student_Notes_Grid = "Student_Notes_Grid";
-MRXDataGrid.Take_Attendance_Grid = "Take_Attendance_Grid";
-MRXDataGrid.Attendance_Checkin_Grid = "Attendance_Checkin_Grid";
-MRXDataGrid.Cumulative_Progress_Grid = "Cumulative_Progress_Grid";
-MRXDataGrid.Student_Activity_Grid = "Student_Activity_Grid";
-MRXDataGrid.Mailing_Labels_Grid = "Mailing_Labels_Grid";
-MRXDataGrid.Student_Assignments_Grid = "Student_Assignments_Grid";
-MRXDataGrid.Generate_Reports_Report_Options_Radio_Buttons =
-  "Generate_Reports_Report_Options_Radio_Buttons";
-MRXDataGrid.Calendar_Unscheduled_Lessons_Grid =
-  "Calendar_Unscheduled_Lessons_Grid";
-MRXDataGrid.Video_Assign_to_Lesson_Grid = "Video_Assign_to_Lesson_Grid";
-MRXDataGrid.Worksheet_Assign_to_Lesson_Grid = "Worksheet_Assign_to_Lesson_Grid";
-MRXDataGrid.Video_Library_Grid = "Video_Library_Grid";
-MRXDataGrid.Worksheet_Library_Grid = "Worksheet_Library_Grid";
-MRXDataGrid.Show_Hide_Menu_Tabs = "Show_Hide_Menu_Tabs";
-MRXDataGrid.Show_Hide_Drawer_Menus = "Show_Hide_Drawer_Menus";
-MRXDataGrid.Record_Progress_Auto_Open = "Record_Progress_Auto_Open";
-MRXDataGrid.Add_Update_Lessons = "Add_Update_Lessons";
