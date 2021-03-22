@@ -6,7 +6,7 @@ import ROUTES from './constant'
 const AppRouter = () => {
 
     return (
-        <BrowserRouter>
+        <BrowserRouter  basename="/IdentityHub" >
             <Switch>
                 {ROUTES && ROUTES.length &&
                     ROUTES.map((route, index) => {

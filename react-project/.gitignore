@@ -3,6 +3,7 @@
 # dependencies
 /node_modules
 /request-response/dummy-backend/node_modules
+/request-response/dummy-backend/build
 /.pnp
 .pnp.js
 
