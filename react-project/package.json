@@ -2,7 +2,6 @@
   "name": "montefiore",
   "version": "0.1.0",
   "private": true,
-  "homepage": "http://localhost:8080/IdentityHub/IdentityHub/index.html",
   "dependencies": {
     "@babel/core": "7.1.0",
     "@babel/polyfill": "^7.4.4",
@@ -77,9 +76,6 @@
     "test": "node scripts/test.js",
     "postinstall": "node scripts/post-install.js",
     "eject": "react-scripts eject"
-  },
-  "engines": {
-    "node": "10.15.3"
   },
   "eslintConfig": {
     "extends": [
@@ -157,11 +153,11 @@
     "eslint-plugin-flowtype": "^2.50.1",
     "eslint-plugin-import": "^2.14.0",
     "eslint-plugin-jest": "^24.3.2",
-    "eslint-plugin-testing-library": "^3.10.1",
     "eslint-plugin-jsx-a11y": "^6.1.2",
     "eslint-plugin-lodash": "^6.0.0",
     "eslint-plugin-react": "^7.14.3",
     "eslint-plugin-react-hooks": "^2.0.1",
-    "unzip": "^0.1.11"
+    "eslint-plugin-testing-library": "^3.10.1",
+    "unzipper": "^0.10.11"
   }
 }

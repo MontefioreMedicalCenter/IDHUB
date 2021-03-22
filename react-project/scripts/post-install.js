@@ -15,10 +15,10 @@ process.on('unhandledRejection', err => {
 require('../config/env');
 
 const fs = require('fs');
-const unzip = require('unzip');
+const {Extract} = require('unzipper')
 
 const stream = fs.createReadStream('./patches/react-datagrid.min.zip');
 stream.on('error', function(err) { /* ignore incase patch not available*/ })
-stream.pipe(unzip.Extract({ 
+stream.pipe(Extract({ 
     path: './node_modules/flexicious-react-datagrid/dist' 
 }));
