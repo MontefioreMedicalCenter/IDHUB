@@ -32,6 +32,27 @@ export default class LoginService extends ServiceProxyBase {
     );
   }
 
+
+  logout(resultHandler, faultHandler) {
+
+    if (typeof faultHandler == "undefined") faultHandler = null;
+    var headerData = {
+      userName: localStorage.getItem("user-id"),
+      "Content-Type": "application/json"
+    }
+
+    return this.callServiceMethod(
+      'post',
+      'IdentityHub/api/authenticationsvc/logOut',
+      null,
+      null,
+      resultHandler,
+      faultHandler,
+      null,
+      headerData
+    );
+  }
+
 }
 
 LoginService.prototype.typeName = LoginService.typeName = "LoginService"; //for quick inspection

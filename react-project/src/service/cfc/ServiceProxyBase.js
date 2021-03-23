@@ -48,7 +48,7 @@ export default class ServiceProxyBase extends TypedObject {
     }
   };
 
-  callApi = (methodType, url, token, params, contentType) => {
+  callApi = (methodType, url, token, params, contentType, headerData = {}) => {
 
     let headers = {};
 
@@ -61,6 +61,10 @@ export default class ServiceProxyBase extends TypedObject {
       } else {
         headers = { "Content-Type": "application/json" }
       }
+    }
+
+    if (Object.keys(headerData).length) {
+      headers = headerData
     }
 
     if (methodType === "get") {
@@ -89,6 +93,7 @@ export default class ServiceProxyBase extends TypedObject {
     resultFunction,
     faultFunction,
     contentType,
+    header,
   ) => {
     if (typeof faultFunction == "undefined") faultFunction = null;
     if (faultFunction == null) faultFunction = this.defaultFaultHandler;
@@ -99,7 +104,7 @@ export default class ServiceProxyBase extends TypedObject {
     }
 
     let promise = this.callApi(
-      method, urlPath, token, args, contentType
+      method, urlPath, token, args, contentType, header
     );
     promise.then(
       (response) => {

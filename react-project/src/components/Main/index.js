@@ -5,7 +5,8 @@ import { PRIVATE_ROUTES } from '../../AppConfig/AppRouter/constant';
 import CustomizedTabs from '../../shared/components/Tabs'
 import { tabList, tabStyles } from './content';
 import moment from 'moment';
-import Montefiore from "../../assets/images/Doing-More-Logo.jpg"
+import Montefiore from "../../assets/images/Doing-More-Logo.jpg";
+import LoginService from '../../service/cfc/LoginService';
 
 const Main = () => {
     const history = useHistory();
@@ -13,9 +14,19 @@ const Main = () => {
     const dateString = `${moment().format("MM/DD/YYYY")}`;
     const timeString = `${moment().format("HH:mm:ss")}`;
 
-    const handleLogout = () => {
+    const onSuccessLogout = () => {
         localStorage.clear()
         history.push('/')
+    }
+    const onLogoutFail = (err) => {
+        console.log('Logout Failed!', err)
+    }
+
+    const handleLogout = () => {
+        LoginService.getInstance().logout(
+            onSuccessLogout,
+            onLogoutFail
+        )
     }
 
     return (

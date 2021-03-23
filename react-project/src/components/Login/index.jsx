@@ -36,9 +36,7 @@ const Login = () => {
             localStorage.setItem('userDetails',
                 JSON.stringify(resp.result)
             )
-            localStorage.setItem('user-id',
-                JSON.stringify(resp.result["user-id"])
-            )
+            localStorage.setItem('user-id',resp.result["user-id"])
 
             dispatch(saveUserDetails(resp.result))
             history.push('/main/worklist')

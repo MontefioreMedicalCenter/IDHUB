@@ -18,10 +18,18 @@ app.post('/IdentityHub/api/authenticationsvc/authenticateUser', (req, res) => {
     }
 })
 
+app.post('/IdentityHub/api/authenticationsvc/logOut', (req, res) => {
+    if(req.headers.username === "mmishra") {
+        sendResponse(res, 200)
+    } else {
+        sendResponse(res, 400)
+    }
+})
+
 app.use(require('express').static(path.join(__dirname, 'build')));
 
-app.get('/', function(req,res) {
-		res.sendFile(path.join(__dirname, 'build', 'index.html'));
+app.get('/', function (req, res) {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 });
 
 
