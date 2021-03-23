@@ -10,6 +10,7 @@ const TextFeildComponent = (props) => {
                 type={props.type}
                 value={props.value}
                 onChange={props.onChange}
+                error={props.error || false}
             />
         </React.Fragment>
     );
