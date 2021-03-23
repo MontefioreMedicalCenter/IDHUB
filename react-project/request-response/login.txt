@@ -15,3 +15,31 @@ Content-Type: application/json
 Content-Length: 332
 Date: Wed, 17 Mar 2021 19:40:39 GMT
 {"created-by":"system","role-map":[{"access-active-flag":1,"created-by":"system","id":{"role-id":"Admin","user-id":"mmishra"},"updated-by":"system"}],"updated-by":"system","user-active-flag":1,"user-email":"mmishra@montefiore.org","user-first-name":"Mittul","user-id":"mmishra","user-last-name":"Mishra","user-phone":"914-457-6018"}
+
+
+
+
+
+
+
+
+Exception Message to be caught.
+ 
+ 
+POST http://localhost:8080/IdentityHub/api/authenticationsvc/authenticateUser
+400
+10.26 s
+Network
+Request Headers
+Cache-Control: no-cache
+Postman-Token: 9beb7012-f33b-4c5d-9581-6db759d95d4a
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 39
+Request Body
+Response Headers
+Connection: keep-alive
+Transfer-Encoding: chunked
+Content-Type: application/json
+Date: Mon, 22 Mar 2021 19:36:44 GMT
+Response Body
+{"reason":"Login Failed. Please try again!","message":"PBOX00070: Password invalid/Password required"}
