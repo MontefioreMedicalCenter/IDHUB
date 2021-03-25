@@ -1,4 +1,19 @@
-export default class IdUserBase {
+import ArrayCollection from "../ArrayCollection";
+import VoBase from "../VoBase";
+import IdUserRoleMap from "./IdUserRoleMap";
+
+export default class IdUserBase extends VoBase{
+    constructor() {
+        super();
+        this._roleMap = new ArrayCollection();
+    }
+    //For JSON deserialization
+    getComplexProperty(key){
+        if(key === "roleMap"){
+            return new IdUserRoleMap();
+        }
+        return super.getComplexProperty(key);
+    }
     set createDate(value) {
         this._createDate = value;
     }

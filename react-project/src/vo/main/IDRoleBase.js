@@ -1,4 +1,6 @@
-export default class IDRoleBase {
+import VoBase from "../VoBase";
+
+export default class IDRoleBase extends VoBase {
     
     set roleId(value) {
         this._id = value;

@@ -1,4 +1,15 @@
-export default class IdUserRoleMapBase {
+import VoBase from "../VoBase";
+import IdUserRoleMapPK from "./IdUserRoleMapPK";
+
+export default class IdUserRoleMapBase extends VoBase {
+    //For JSON deserialization
+    getComplexProperty(key){
+        if(key === "id"){
+            return new IdUserRoleMapPK();
+        }
+        return super.getComplexProperty(key);
+    }
+
     set accessActiveFlag(value) {
         this._accessActiveFlag = value;
     }

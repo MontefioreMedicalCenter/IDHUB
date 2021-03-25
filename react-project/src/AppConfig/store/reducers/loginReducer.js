@@ -1,7 +1,7 @@
 import { LOGIN_SUCESSFUL } from '../actions/loginAction';
 
 const initialState = {
-    userDetail: {}
+    loginModel: {}
 };
 
 const loginReducer = (state = initialState, action) => {
@@ -9,7 +9,7 @@ const loginReducer = (state = initialState, action) => {
         case LOGIN_SUCESSFUL:
             return {
                 ...state,
-                userDetail: action.payload
+                loginModel: action.payload
             };
         default:
             return state;

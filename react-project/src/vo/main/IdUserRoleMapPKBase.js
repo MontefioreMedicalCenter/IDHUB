@@ -1,4 +1,6 @@
-export default class IdUserRoleMapPKBase {
+import VoBase from "../VoBase";
+
+export default class IdUserRoleMapPKBase extends VoBase {
     set roleId(value) {
         this._roleId = value;
     }

@@ -33,7 +33,7 @@ export const toUintColorCode = (colorStr) => {
 };
 
 export const authenticate = () => {
-  const data = localStorage.getItem('userDetails')
+  const data = localStorage.getItem('loginModel')
   return Boolean(data)
 }
 

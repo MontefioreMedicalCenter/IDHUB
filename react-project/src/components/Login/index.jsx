@@ -8,13 +8,14 @@ import VpnKeyIcon from '@material-ui/icons/VpnKey';
 import { useHistory } from 'react-router';
 import LoginService from '../../service/cfc/LoginService';
 import { useDispatch } from 'react-redux';
-import { saveUserDetails } from '../../AppConfig/store/actions/loginAction';
+import { saveLoginModel } from '../../AppConfig/store/actions/loginAction';
 import Montefiore from "../../assets/images/Doing-More-Logo.jpg"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { plainToClass } from 'class-transformer';
 import IdUser from '../../vo/main/IdUser';
 import { camelizeKeys } from '../../shared/utils';
+import LoginModel from '../../vo/main/LoginModel';
 
 const Login = () => {
 
@@ -36,14 +37,14 @@ const Login = () => {
 
     const loginResultHandler = (resp) => {
         if (resp.result) {
-            localStorage.setItem('userDetails',
+            localStorage.setItem('loginModel',
                 JSON.stringify(resp.result)
             )
-
-            let users = plainToClass(IdUser, camelizeKeys(resp.result))
+            const loginModel = new LoginModel();
+            loginModel.fromJson({"user":camelizeKeys(resp.result)})
             localStorage.setItem('user-id', resp.result["user-id"])
 
-            dispatch(saveUserDetails(users))
+            dispatch(saveLoginModel(loginModel))
             history.push('/main/worklist')
         }
     }

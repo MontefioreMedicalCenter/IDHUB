@@ -11,7 +11,7 @@ import { useSelector } from 'react-redux';
 
 const Main = () => {
     const history = useHistory();
-    const userDetail = useSelector(state => state.loginState.userDetail)
+    const loginModel = useSelector(state => state.loginState.loginModel)
     const [tabValue, handleTabChange] = useState(0);
     const dateString = `${moment().format("MM/DD/YYYY")}`;
     const timeString = `${moment().format("HH:mm:ss")}`;
@@ -45,7 +45,7 @@ const Main = () => {
                 <div className="title-content">
                     {dateString} -&nbsp;
                     {timeString} |&nbsp;
-                    {userDetail._userId} |&nbsp;
+                    {loginModel ? loginModel.user.userId : ""} |&nbsp;
                     <span className="logout-btn" onClick={handleLogout}>logout</span>
                 </div>
             </div>
