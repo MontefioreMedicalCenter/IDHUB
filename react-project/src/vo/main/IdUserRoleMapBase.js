@@ -1,11 +1,14 @@
 import VoBase from "../VoBase";
+import IdUser from "./IdUser";
 import IdUserRoleMapPK from "./IdUserRoleMapPK";
 
 export default class IdUserRoleMapBase extends VoBase {
     //For JSON deserialization
-    getComplexProperty(key){
-        if(key === "id"){
+    getComplexProperty(key) {
+        if (key === "id") {
             return new IdUserRoleMapPK();
+        } else if (key === "mappedUser") {
+            return new IdUser();
         }
         return super.getComplexProperty(key);
     }

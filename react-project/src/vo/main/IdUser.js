@@ -2,6 +2,7 @@
 /*[RemoteClass(alias="org.mit.idhub.model.IdUser")]*/
 import IdUserBase from "./IdUserBase"
 import ArrayCollection from "../ArrayCollection"
+import IdUserRoleMap from "./IdUserRoleMap";
 export default class IdUser extends IdUserBase {
     constructor(userId = null, password = null) {
         super();
@@ -11,8 +12,16 @@ export default class IdUser extends IdUserBase {
         this._remMaps = new ArrayCollection();
         this._fsaAdds = new ArrayCollection();
         this._fsaRems = new ArrayCollection();
+        this._facilityMap = new ArrayCollection();
         this.userId = userId;
         this.password = password;
+    }
+    //For JSON deserialization
+    getComplexProperty(key) {
+        if (["facilityMap","adds","rems","addMaps","remMaps","fsaAdds","fsaRems"].indexOf(key) >= 0) {
+            return new IdUserRoleMap();
+        }
+        return super.getComplexProperty(key);
     }
     get password() {
         return this._password;
