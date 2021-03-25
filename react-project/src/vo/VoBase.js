@@ -31,6 +31,9 @@ export default class VoBase {
         }
     }
     getComplexProperty(key) {
+        if(key.endsWith("Date")){
+            return this.dateProxy(); 
+        }
         return null;
     }
 
