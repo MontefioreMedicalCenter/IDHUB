@@ -12,6 +12,9 @@ import { saveUserDetails } from '../../AppConfig/store/actions/loginAction';
 import Montefiore from "../../assets/images/Doing-More-Logo.jpg"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { plainToClass } from 'class-transformer';
+import IdUser from '../../vo/main/IdUser';
+import { camelizeKeys } from '../../shared/utils';
 
 const Login = () => {
 
@@ -28,7 +31,7 @@ const Login = () => {
 
     const handleChangeTxt = useCallback((event) => {
         setState({ ...state, [event.target.id]: event.target.value })
-        setError({...error, [event.target.id]: event.target.value === ""})
+        setError({ ...error, [event.target.id]: event.target.value === "" })
     }, [state, error])
 
     const loginResultHandler = (resp) => {
@@ -36,14 +39,16 @@ const Login = () => {
             localStorage.setItem('userDetails',
                 JSON.stringify(resp.result)
             )
-            localStorage.setItem('user-id',resp.result["user-id"])
 
-            dispatch(saveUserDetails(resp.result))
+            let users = plainToClass(IdUser, camelizeKeys(resp.result))
+            localStorage.setItem('user-id', resp.result["user-id"])
+
+            dispatch(saveUserDetails(users))
             history.push('/main/worklist')
         }
     }
 
-    const emptyField = () =>{
+    const emptyField = () => {
         toast.warning("Fields cannot be empty!!")
     }
 
@@ -52,7 +57,7 @@ const Login = () => {
     }
 
     const handleOnLogin = () => {
-        if(state.userName === "" && state.password === ""){
+        if (state.userName === "" && state.password === "") {
             emptyField()
         }
         if (state.userName && state.password) {
@@ -100,7 +105,7 @@ const Login = () => {
                 <div className="button">
                     <ButtonComponent
                         onClick={handleOnLogin}
-                    />                    
+                    />
                 </div>
             </div>
             <ToastContainer />

@@ -7,9 +7,11 @@ import { tabList, tabStyles } from './content';
 import moment from 'moment';
 import Montefiore from "../../assets/images/Doing-More-Logo.jpg";
 import LoginService from '../../service/cfc/LoginService';
+import { useSelector } from 'react-redux';
 
 const Main = () => {
     const history = useHistory();
+    const userDetail = useSelector(state => state.loginState.userDetail)
     const [tabValue, handleTabChange] = useState(0);
     const dateString = `${moment().format("MM/DD/YYYY")}`;
     const timeString = `${moment().format("HH:mm:ss")}`;
@@ -43,7 +45,7 @@ const Main = () => {
                 <div className="title-content">
                     {dateString} -&nbsp;
                     {timeString} |&nbsp;
-                    beweeks |&nbsp;
+                    {userDetail._userId} |&nbsp;
                     <span className="logout-btn" onClick={handleLogout}>logout</span>
                 </div>
             </div>

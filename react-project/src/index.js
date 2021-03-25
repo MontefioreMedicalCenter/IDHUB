@@ -8,6 +8,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import store from "./AppConfig/store/configureStore";
 import { Provider } from 'react-redux'
+import 'reflect-metadata';
 
 ReactDOM.render(
   <React.StrictMode>
