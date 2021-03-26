@@ -4,7 +4,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const sendResponse = require('./sendResponse')
 const path = require('path')
-const { findWorklist } = require('./constant')
+const { findWorklist, lookupList } = require('./constant')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -36,6 +36,16 @@ app.post('/IdentityHub/api/worklistsvc/findWorklistGroups', (req, res) => {
             "message": "wrong number of arguments"
         })
     }
+})
+
+app.post('/IdentityHub/api/worklistsvc/findLookupListsReCache', (req, res) => {
+    if (req.headers.username === "mmishra") {
+        sendResponse(res, 200, lookupList)
+} else {
+    sendResponse(res, 400,{
+        "reason":"Error fetching Lookup list","message":"/ by zero"
+    })
+}
 })
 
 app.use(require('express').static(path.join(__dirname, 'build')));

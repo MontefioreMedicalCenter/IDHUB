@@ -9,13 +9,13 @@ import { useHistory } from 'react-router';
 import LoginService from '../../service/cfc/LoginService';
 import { useDispatch } from 'react-redux';
 import { saveLoginModel } from '../../AppConfig/store/actions/loginAction';
+import { saveLookupData }  from '../../AppConfig/store/actions/workListSheet';
 import Montefiore from "../../assets/images/Doing-More-Logo.jpg"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { plainToClass } from 'class-transformer';
-import IdUser from '../../vo/main/IdUser';
 import { camelizeKeys } from '../../shared/utils';
 import LoginModel from '../../vo/main/LoginModel';
+import WorklistService from '../../service/cfc/WorklistService';
 
 const Login = () => {
 
@@ -45,8 +45,24 @@ const Login = () => {
             localStorage.setItem('user-id', resp.result["user-id"])
 
             dispatch(saveLoginModel(loginModel))
+            findLookupLists();
             history.push('/main/worklist')
         }
+    }
+
+    const findLookupLists = () => {
+        WorklistService.getInstance().findWorklistGroups(
+            worklistResultHandler,
+            worklistFaultHandler,
+        )
+    }
+
+    const worklistResultHandler = (resp) => {
+        dispatch(saveLookupData({"lookupLists":camelizeKeys(resp.result)}))
+    }
+
+    const worklistFaultHandler = (err) => {
+        console.log("err", err)
     }
 
     const emptyField = () => {
@@ -68,6 +84,7 @@ const Login = () => {
                 loginResultHandler,
                 loginFaultHandler
             )
+            
         }
     }
     return (
