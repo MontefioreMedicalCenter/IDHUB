@@ -1,4 +1,6 @@
-export class IdWorklistGroupBase {
+import VoBase from "../VoBase";
+
+export class IdWorklistGroupBase extends VoBase {
     constructor(
         _additionalComments,
         _processedDate,

@@ -1,4 +1,6 @@
-export class DirectoryListEntryBase {
+import VoBase from "../VoBase";
+
+export class DirectoryListEntryBase extends VoBase {
     constructor(
         _baseName,
         _canExecute,
