@@ -1,22 +1,45 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import './requestWork.style.scss';
 import DataGrid from '../../shared/components/ExtendedDataGrid';
-import { ReactDataGridColumn } from '../../flexicious';
-import { Paper, Tab, Tabs } from '@material-ui/core';
+import { ReactDataGridColumn, ReactDataGridColumnGroup } from '../../flexicious';
+import { Paper, Tab, Tabs, withStyles } from '@material-ui/core';
+import WorklistService from '../../service/cfc/WorklistService'
+import { toast } from 'react-toastify';
 
-const RequestWorkList = () => {
+const styles = (theme) => ({
+  gridHeader: {
+    color: `${theme.palette.primary.contrastText}`,
+    background: `${theme.palette.primary.main}`,
+    fontWeight: "lighter !important",
+  },
+});
 
-  const [tab, setTab] = useState(0)
-  const dataProvider = [
-    { column1: "Row1-Column1", column2: "Row1-Column2", column3: "Row1-Column3", column4: "Row1-Column4", },
-    { column1: "Row2-Column1", column2: "Row2-Column2", column3: "Row2-Column3", column4: "Row2-Column4", },
-    { column1: "Row3-Column1", column2: "Row3-Column2", column3: "Row3-Column3", column4: "Row3-Column4", },
-    { column1: "Row4-Column1", column2: "Row4-Column2", column3: "Row4-Column3", column4: "Row4-Column4", },
-  ]
+const RequestWorkList = (props) => {
+  const dataGridRef = useRef(null)
+  const [tab, setTab] = useState(0);
+  const [gridData, setGridData] = useState([]);
 
   const handleChange = (event, value) => {
     setTab(value)
   }
+
+  const loginResultHandler = (resp) => {
+    console.log("resp", resp)
+    setGridData(resp.result)
+  }
+
+  const loginFaultHandler = ({ error }) => {
+    toast.error(error.response.data.reason);
+  }
+
+  useEffect(() => {
+    dataGridRef && DataGrid.updatePresetStyle(props, dataGridRef.current);
+    WorklistService.getInstance().findWorklistGroups(
+      loginResultHandler,
+      loginFaultHandler
+    )
+  }, [dataGridRef, tab, props]);
+
 
   return (
     <div className="requestWork-main-container">
@@ -34,37 +57,110 @@ const RequestWorkList = () => {
           </Tabs>
         </Paper>
       </div>
-      {Boolean(tab === 0) && <div className="grid-container">
+      { Boolean(tab === 0) && <div className="grid-container">
         <DataGrid
+          ref={dataGridRef}
           textAlign={"center"}
           height={"100%"}
           width={"100%"}
           id="Requestor_WorkList_Grid"
-          dataProvider={dataProvider}
+          dataProvider={gridData}
+          headerStyleName={props.classes.gridHeader}
         >
+          <ReactDataGridColumnGroup
+            headerText="ID"
+            headerAlign="center" >
+            <ReactDataGridColumn
+              dataField="worklist-id"
+              headerText="worklist#"
+            />
+            <ReactDataGridColumn
+              dataField="id.worklistSeqNum"
+              headerText="seq"
+            />
+          </ReactDataGridColumnGroup>
           <ReactDataGridColumn
+            headerText="Status"
             headerAlign="center"
-            dataField="column1"
-            headerText={"Column1"}
-            Width={300}
+            dataField="worklist-status"
+          />
+          <ReactDataGridColumnGroup
+            headerText="Personal"
+            headerAlign="center"
+            dataField="requester-user-id"
+          >
+            <ReactDataGridColumn
+              dataField="requester-user-id"
+              headerText="Last name"
+            />
+            <ReactDataGridColumn
+              dataField="firstName"
+              headerText="First Name"
+            />
+            <ReactDataGridColumn
+              dataField="init"
+              headerText="Init"
+            />
+            <ReactDataGridColumn
+              dataField="noSsn"
+              headerText="No SSN"
+            />
+            <ReactDataGridColumn
+              dataField="dob"
+              headerText="DOB"
+            />
+            <ReactDataGridColumn
+              dataField="gender"
+              headerText="Gender"
+            />
+            <ReactDataGridColumn
+              dataField="email"
+              headerText="Personal or Bussiness Email"
+            />
+            <ReactDataGridColumn
+              dataField="userType"
+              headerText="User Type"
+            />
+            <ReactDataGridColumn
+              dataField="vendorCompany"
+              headerText="Vendor Consultant Company"
+            />
+            <ReactDataGridColumn
+              dataField="location"
+              headerText="Location"
+            />
+            <ReactDataGridColumn
+              dataField="title"
+              headerText="Title"
+            />
+            <ReactDataGridColumn
+              dataField="department"
+              headerText="Department"
+            />
+            <ReactDataGridColumn
+              dataField="accept-date"
+              headerText="Start date"
+            />
+          </ReactDataGridColumnGroup>
+          <ReactDataGridColumn
+            dataField="uploadDocs"
+            headerText="Upload or view Docs"
           />
           <ReactDataGridColumn
-            headerAlign="center"
-            dataField="column2"
-            headerText={"Column2"}
-            Width={300}
+            dataField="Save"
+            headerText="Save"
           />
           <ReactDataGridColumn
-            headerAlign="center"
-            dataField="column3"
-            headerText={"Column3"}
-            Width={300}
+            dataField="Edit"
+            headerText="Edit"
           />
           <ReactDataGridColumn
-            headerAlign="center"
-            dataField="column4"
-            headerText={"Column4"}
-            Width={300}
+            dataField="Delete"
+            headerText="Delete"
+          />
+          <ReactDataGridColumn
+            dataField="Submit"
+            headerText="Submit"
           />
         </DataGrid>
       </div>}
@@ -72,4 +168,4 @@ const RequestWorkList = () => {
   )
 }
 
-export default RequestWorkList;
+export default (withStyles(styles, { withTheme: true })(RequestWorkList));

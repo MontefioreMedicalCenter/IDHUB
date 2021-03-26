@@ -523,11 +523,11 @@ export default class DataGrid extends MaterialDataGrid {
       const { getContrastText } = theme.palette;
 
       grid.applyMaterialStyles({
-        rollOverColor: theme.palette.primary[50],
-        textRollOverColor: getContrastText(theme.palette.primary[50]),
-        selectionColor: theme.palette.primary[50],
-        textSelectedColor: getContrastText(theme.palette.primary[50]),
-        headerColor: theme.palette.primary[300],
+        rollOverColor: theme.palette.primary.main,
+        textRollOverColor: getContrastText(theme.palette.primary.main),
+        selectionColor: theme.palette.primary.main,
+        textSelectedColor: getContrastText(theme.palette.primary.main),
+        headerColor: theme.palette.primary.main,
       });
       grid.headerStyleName = classes ? classes.gridHeader : "";
       grid.rebuildHeader(); // sync with global switched theme
