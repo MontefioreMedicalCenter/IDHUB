@@ -1,5 +1,7 @@
 import { ExampleUtils } from "../../utils/ExampleUtils";
 import VoBase from "../VoBase";
+import { IdWorklistGroup } from "./IdWorklistGroup";
+import { IdWorklistPK } from "./IdWorklistPK";
 
 export class IdWorklistBase extends VoBase {
     constructor(_id, _IPPhone, _additionalComments, _affiliateEmailRequest = 'N', _assignedMonteId, _campusCode, _companyCode, _createDate, _createdBy, _dateOfBirth, _dateOfBirthStr, _department, _division, _documentCount, _employeeGroup, _employeeSubGroup, _endDate, _endDateStr, _epcsHardTokenRequest = 'N', _epfRequest = 'N', _epicRequest = 'N', _errorMessage, _firstName, _firstNameCleaned, _gender, _homeDriveRequest = 'N', _lastName, _lastNameCleaned, _loaReturnDate, _loaStartDate, _managerSourceUniqueId, _middleNameOrInitial, _mmcEmailRequest = 'N', _nameSuffix, _nonMonteEmail, _officeAddress, _officeCity, _officePhone, _officeState, _officeZipCode, _preHireFlag, _preferredName, _sourceSystem, _sourceUniqueId, _ssn, _ssn4, _ssn4Hash, _ssnHash, _startDate, _startDateStr, _statusCode, _title, _udcid, _updateDate, _updatedBy, _worklistStatus, _worklistGroup, _managerPhone, _managerEmail, _reviewerComments, _noSSN = 'N') {
@@ -65,6 +67,16 @@ export class IdWorklistBase extends VoBase {
         this._reviewerComments = _reviewerComments;
         this._noSSN = _noSSN;
     }
+
+    getComplexProperty(key) {
+        if (key === "id") {
+            return new IdWorklistPK();
+        } else if (key === "worklistGroup") {
+            return new IdWorklistGroup();
+        }
+        return super.getComplexProperty(key);
+    }
+
     set id(value) {
         this._id = value;
     }

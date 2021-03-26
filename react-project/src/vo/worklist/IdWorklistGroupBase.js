@@ -1,42 +1,10 @@
+import ArrayCollection from "../ArrayCollection";
 import VoBase from "../VoBase";
 
 export class IdWorklistGroupBase extends VoBase {
-    constructor(
-        _additionalComments,
-        _processedDate,
-        _createDate,
-        _createdBy,
-        _requesterUser,
-        _requesterUserId,
-        _reviewerComments,
-        _reviewerUserId,
-        _updateDate,
-        _updatedBy,
-        _worklistId,
-        _worklistStatus,
-        _workLists,
-        _fileList,
-        _submitDate,
-        _acceptDate,
-        _updateRequestor = true
-    ) {
-        this._additionalComments = _additionalComments;
-        this._processedDate = _processedDate;
-        this._createDate = _createDate;
-        this._createdBy = _createdBy;
-        this._requesterUser = _requesterUser;
-        this._requesterUserId = _requesterUserId;
-        this._reviewerComments = _reviewerComments;
-        this._reviewerUserId = _reviewerUserId;
-        this._updateDate = _updateDate;
-        this._updatedBy = _updatedBy;
-        this._worklistId = _worklistId;
-        this._worklistStatus = _worklistStatus;
-        this._workLists = _workLists;
-        this._fileList = _fileList;
-        this._submitDate = _submitDate;
-        this._acceptDate = _acceptDate;
-        this._updateRequestor = _updateRequestor;
+    constructor( ) {
+        this._workLists = new ArrayCollection();
+        this._fileList = new ArrayCollection();  
     }
     set additionalComments(value) {
         this._additionalComments = value;
