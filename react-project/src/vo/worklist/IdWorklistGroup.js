@@ -1,6 +1,6 @@
-import { IdWorklistGroupBase } from "./IdWorklistGroupBase";
+import IdWorklistGroupBase from "./IdWorklistGroupBase";
 
-export class IdWorklistGroup extends IdWorklistGroupBase {
+export default class IdWorklistGroup extends IdWorklistGroupBase {
     constructor(
         _edit = false,
         _save = false,
@@ -25,6 +25,7 @@ export class IdWorklistGroup extends IdWorklistGroupBase {
         _startDate,
         _endDate
     ) {
+        super();
         this._edit = _edit;
         this._save = _save;
         this._errorMessage = _errorMessage;

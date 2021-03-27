@@ -45,7 +45,7 @@ const Main = () => {
                 <div className="title-content">
                     {dateString} -&nbsp;
                     {timeString} |&nbsp;
-                    {loginModel ? loginModel.user.userId : ""} |&nbsp;
+                    {loginModel && loginModel.user ? loginModel.user.userId : ""} |&nbsp;
                     <span className="logout-btn" onClick={handleLogout}>logout</span>
                 </div>
             </div>

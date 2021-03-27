@@ -16,6 +16,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { camelizeKeys } from '../../shared/utils';
 import LoginModel from '../../vo/main/LoginModel';
 import WorklistService from '../../service/cfc/WorklistService';
+import WorkListModel from '../../vo/worklist/WorkListModel';
 
 const Login = () => {
 
@@ -58,7 +59,9 @@ const Login = () => {
     }
 
     const worklistResultHandler = (resp) => {
-        dispatch(saveLookupData({"lookupLists":camelizeKeys(resp.result)}))
+        const workListModel = new WorkListModel();
+        workListModel.fromJson({"lookupLists":camelizeKeys(resp.result)})
+        dispatch(saveLookupData(workListModel))
     }
 
     const worklistFaultHandler = (err) => {

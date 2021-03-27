@@ -1,6 +1,6 @@
 import VoBase from "../VoBase";
 
-export class IdWorklistPKBase extends VoBase {
+export default class IdWorklistPKBase extends VoBase {
     set worklistId(value) {
         this._worklistId = value;
     }

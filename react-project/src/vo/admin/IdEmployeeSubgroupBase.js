@@ -1,6 +1,6 @@
 import VoBase from "../VoBase";
 
-export class IdEmployeeSubgroupBase extends VoBase {
+export default class IdEmployeeSubgroupBase extends VoBase {
     set createDate(value) {
         this._createDate = value;
     }

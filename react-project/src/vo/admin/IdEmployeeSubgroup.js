@@ -1,6 +1,6 @@
 import { IdEmployeeSubgroupBase } from "./IdEmployeeSubgroupBase";
 
-export class IdEmployeeSubgroup extends IdEmployeeSubgroupBase{
+export default class IdEmployeeSubgroup extends IdEmployeeSubgroupBase{
     constructor() {
         this._edit = false;
         this._save = false;

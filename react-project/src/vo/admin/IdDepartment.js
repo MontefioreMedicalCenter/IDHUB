@@ -1,7 +1,8 @@
 import { IdDepartmentBase } from "./IdDepartmentBase";
 
-export class IdDepartment extends IdDepartmentBase {
+export default class IdDepartment extends IdDepartmentBase {
     constructor() {
+        super();
         this._edit = false;
         this._save = false;
     }

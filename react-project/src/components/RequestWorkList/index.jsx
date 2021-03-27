@@ -23,20 +23,20 @@ const RequestWorkList = (props) => {
     setTab(value)
   }
 
-  const loginResultHandler = (resp) => {
+  const worklistResultHandler = (resp) => {
     console.log("resp", resp)
     setGridData(resp.result)
   }
 
-  const loginFaultHandler = ({ error }) => {
+  const worklistFaultHandler = ({ error }) => {
     toast.error(error.response.data.reason);
   }
 
   useEffect(() => {
     dataGridRef && DataGrid.updatePresetStyle(props, dataGridRef.current);
     WorklistService.getInstance().findWorklistGroups(
-      loginResultHandler,
-      loginFaultHandler
+      worklistResultHandler,
+      worklistFaultHandler
     )
   }, [dataGridRef, tab, props]);
 
@@ -115,7 +115,7 @@ const RequestWorkList = (props) => {
             />
             <ReactDataGridColumn
               dataField="email"
-              headerText="Personal or Bussiness Email"
+              headerText="Personal or Business Email"
             />
             <ReactDataGridColumn
               dataField="userType"

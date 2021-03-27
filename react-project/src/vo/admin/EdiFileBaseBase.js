@@ -1,6 +1,6 @@
 import VoBase from "../VoBase";
 
-export class EdiFileBaseBase extends VoBase {
+export default class EdiFileBaseBase extends VoBase {
     set fileContent(value) {
         this._fileContent = value;
     }

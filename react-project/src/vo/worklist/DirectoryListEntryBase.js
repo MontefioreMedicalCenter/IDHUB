@@ -1,6 +1,6 @@
 import VoBase from "../VoBase";
 
-export class DirectoryListEntryBase extends VoBase {
+export default class DirectoryListEntryBase extends VoBase {
     constructor(
         _baseName,
         _canExecute,
@@ -16,6 +16,7 @@ export class DirectoryListEntryBase extends VoBase {
         _parentDir,
         _parentURL
     ) {
+        super();
         this._baseName = _baseName;
         this._canExecute = _canExecute;
         this._canRead = _canRead;

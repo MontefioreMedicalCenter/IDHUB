@@ -1,6 +1,6 @@
 import VoBase from "../VoBase";
 
-export class IdCampusCodeBase extends VoBase {
+export default class IdCampusCodeBase extends VoBase {
     set campusCodeId(value) {
         this._campusCodeId = value;
     }

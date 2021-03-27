@@ -1,7 +1,8 @@
 import { EdiFileBaseBase } from "./EdiFileBaseBase";
 
-export class EdiFileBase extends EdiFileBaseBase {
+export default class EdiFileBase extends EdiFileBaseBase {
     constructor() {
+        super();
         this._reportOnly = false;
         this._removeCRLF = false;
     }

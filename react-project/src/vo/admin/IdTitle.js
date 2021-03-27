@@ -1,6 +1,6 @@
 import { IdTitleBase } from "./IdTitleBase";
 
-export class IdTitle extends IdTitleBase {
+export default class IdTitle extends IdTitleBase {
     constructor() {
         this._edit = false;
         this._save = false;

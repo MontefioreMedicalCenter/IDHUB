@@ -1,9 +1,12 @@
-import { ExampleUtils } from "../../utils/ExampleUtils";
-import { IdWorklistBase } from "./IdWorklistBase";
-import { IdWorklistPK } from "./IdWorklistPK";
+import ExampleUtils from "../../utils/ExampleUtils";
+import ArrayCollection from "../ArrayCollection";
+import DirectoryListEntry from "./DirectoryListEntry";
+import IdWorklistBase from "./IdWorklistBase";
+import IdWorklistPK from "./IdWorklistPK";
 
-export class IdWorklist extends IdWorklistBase{
+export default class IdWorklist extends IdWorklistBase{
     constructor(_edit = false, _save = false, _managerPh, _managerExt, _worklistId, _reviewerUserId, _requestorFullName, _fileList) {
+        super();
         this._edit = _edit;
         this._save = _save;
         this._managerPh = _managerPh;
@@ -11,7 +14,14 @@ export class IdWorklist extends IdWorklistBase{
         this._worklistId = _worklistId;
         this._reviewerUserId = _reviewerUserId;
         this._requestorFullName = _requestorFullName;
-        this._fileList = _fileList;
+        this._fileList = _fileList || new ArrayCollection();
+    }
+    
+    getComplexProperty(key){
+        if(key === "fileList"){
+            return new DirectoryListEntry();
+        }
+        return super.getComplexProperty(key);
     }
     get edit() {
         return this._edit;
@@ -26,7 +36,7 @@ export class IdWorklist extends IdWorklistBase{
         this._save = value;
     }
     clone() {
-        var idWorklist = new IdWorklist;
+        var idWorklist = new IdWorklist();
         idWorklist.id = this.id == null ? new IdWorklistPK() : this.id.clone();
         idWorklist.IPPhone = this.IPPhone;
         idWorklist.additionalComments = this.additionalComments;
@@ -154,7 +164,7 @@ export class IdWorklist extends IdWorklistBase{
         this._fileList = value;
     }
     get fileList() {
-        if (this.worklistGroup.workLists.length < 2)
+        if (this.worklistGroup && this.worklistGroup.workLists.length < 2)
             this._fileList = this.worklistGroup.fileList;
         return this._fileList;
     }

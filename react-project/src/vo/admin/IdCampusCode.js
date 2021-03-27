@@ -1,7 +1,8 @@
 import { IdCampusCodeBase } from "./IdCampusCodeBase";
 
-export class IdCampusCode extends IdCampusCodeBase {
+export default class IdCampusCode extends IdCampusCodeBase {
     constructor() {
+        super();
         this._edit = false;
         this._save = false;
     }

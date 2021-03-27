@@ -1,8 +1,9 @@
 import ArrayCollection from "../ArrayCollection";
 import VoBase from "../VoBase";
 
-export class IdWorklistGroupBase extends VoBase {
+export default class IdWorklistGroupBase extends VoBase {
     constructor( ) {
+        super();
         this._workLists = new ArrayCollection();
         this._fileList = new ArrayCollection();  
     }

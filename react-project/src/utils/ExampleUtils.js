@@ -1,6 +1,7 @@
-export class ExampleUtils {
-    constructor() {
-    }
+import { CurrencyFormatter, DateFormatter  } from "../flexicious";
+import PhoneFormatter from "./PhoneFormatter";
+export default class ExampleUtils {
+    
     static get globalCurrencyFormatter() {
         if (!ExampleUtils._currencyFormatter) {
             ExampleUtils._currencyFormatter = new CurrencyFormatter();

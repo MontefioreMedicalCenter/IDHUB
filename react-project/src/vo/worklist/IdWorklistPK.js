@@ -1,6 +1,6 @@
-import { IdWorklistPKBase } from "./IdWorklistPKBase";
+import IdWorklistPKBase from "./IdWorklistPKBase";
 
-export class IdWorklistPK extends IdWorklistPKBase {
+export default class IdWorklistPK extends IdWorklistPKBase {
     clone() {
         var pk = new IdWorklistPK();
         pk.worklistId = this.worklistId;

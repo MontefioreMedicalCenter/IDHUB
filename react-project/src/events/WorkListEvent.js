@@ -1,12 +1,12 @@
 
 
 // This was imported from flash.events.Event
-// export class WorkListEvent extends Event {
+// export default class WorkListEvent extends Event {
 
 import VoBase from "../vo/VoBase";
 import { IdWorklist } from "../vo/worklist/IdWorklist";
 
-export class WorkListEvent extends VoBase {
+export default class WorkListEvent extends VoBase {
     constructor(SAVE_GROUP = "savegroup", SAVE_SINGLE = "savesingle", SAVED_SINGLE = "savedsingle", DELETE_MULTI = "deletemulti", DELETE_SINGLE = "deletesingle", DELETED_SINGLE = "deletedsingle", GET = "get", GET_WORK_LIST = 'getWorkList', GET_REV_WORK_LIST = 'getRevWorkList', WORK_LIST = 'workList', REV_WORK_LIST = 'revWorkList', WORK_LIST_SAVE = 'workListSave', LOOKUP_LS = "Lookup", SET_LOOKUP_LS = "SetLookup", _workList, _eventObject, _eventObjectGroup, type, val = null, group = null) {
         super(type);
         this.SAVE_GROUP = SAVE_GROUP;
