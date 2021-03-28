@@ -1,4 +1,4 @@
-import { IdCampusCodeBase } from "./IdCampusCodeBase";
+import IdCampusCodeBase from "./IdCampusCodeBase";
 
 export default class IdCampusCode extends IdCampusCodeBase {
     constructor() {

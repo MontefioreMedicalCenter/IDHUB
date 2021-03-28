@@ -1,7 +1,8 @@
-import { IdEmployeeSubgroupBase } from "./IdEmployeeSubgroupBase";
+import IdEmployeeSubgroupBase from "./IdEmployeeSubgroupBase";
 
 export default class IdEmployeeSubgroup extends IdEmployeeSubgroupBase{
     constructor() {
+        super();
         this._edit = false;
         this._save = false;
     }

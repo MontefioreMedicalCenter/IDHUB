@@ -1,4 +1,4 @@
-import { EdiFileBaseBase } from "./EdiFileBaseBase";
+import EdiFileBaseBase from "./EdiFileBaseBase";
 
 export default class EdiFileBase extends EdiFileBaseBase {
     constructor() {

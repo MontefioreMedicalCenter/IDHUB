@@ -366,7 +366,7 @@ export default class IdWorklistBase extends VoBase {
         var ssnval = ExampleUtils.phoneFormatter2;
         var ssnresult = ssnval.format(value);
         //Alert.show(ssnresult);    
-        if (ssnresult != '')
+        if (ssnresult !== '')
             this._ssn = ssnval.format(value);
         else
             this._ssn = value;

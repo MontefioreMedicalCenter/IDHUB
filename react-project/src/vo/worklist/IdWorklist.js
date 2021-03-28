@@ -113,7 +113,7 @@ export default class IdWorklist extends IdWorklistBase{
         else {
             this._managerPh = value;
         }
-        if (this.managerExt == null || this.managerExt == '') {
+        if (this.managerExt === null || this.managerExt === '') {
             addExt = false;
         }
         else
@@ -134,7 +134,7 @@ export default class IdWorklist extends IdWorklistBase{
     set managerExt(value) {
         var addExt = false;
         this._managerExt = value;
-        if (value == null || value == '') {
+        if (value == null || value === '') {
             addExt = false;
         }
         else

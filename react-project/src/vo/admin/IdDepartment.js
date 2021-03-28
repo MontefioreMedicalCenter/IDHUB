@@ -1,4 +1,4 @@
-import { IdDepartmentBase } from "./IdDepartmentBase";
+import IdDepartmentBase from "./IdDepartmentBase";
 
 export default class IdDepartment extends IdDepartmentBase {
     constructor() {

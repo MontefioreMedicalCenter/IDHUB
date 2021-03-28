@@ -62,7 +62,7 @@ export default class IdWorklistGroup extends IdWorklistGroupBase {
         this._save = value;
     }
     get errorMessage() {
-        if (this.workLists.length == 1)
+        if (this.workLists.length === 1)
             this._errorMessage = (this.workLists.getItemAt(0)).errorMessage
         return this._errorMessage;
     }
