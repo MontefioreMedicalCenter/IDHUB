@@ -541,6 +541,7 @@
   display: table-cell;
   white-space: pre-wrap !important;
   vertical-align: middle;
+  text-align: center;
 }
 
 .flexiciousGrid  .flexDataGridHeaderCell {

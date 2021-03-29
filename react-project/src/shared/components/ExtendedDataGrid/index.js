@@ -523,9 +523,9 @@ export default class DataGrid extends MaterialDataGrid {
       const { getContrastText } = theme.palette;
 
       grid.applyMaterialStyles({
-        rollOverColor: theme.palette.primary.main,
-        textRollOverColor: getContrastText(theme.palette.primary.main),
-        selectionColor: theme.palette.primary.main,
+        rollOverColor: theme.palette.primary.light,
+        selectionColor: theme.palette.primary.light,
+        textRollOverColor: getContrastText(theme.palette.primary.light),
         textSelectedColor: getContrastText(theme.palette.primary.main),
         headerColor: theme.palette.primary.main,
       });
