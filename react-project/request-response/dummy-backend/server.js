@@ -4,7 +4,12 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const sendResponse = require('./sendResponse')
 const path = require('path')
-const { findWorklist, lookupList } = require('./constant')
+const loginResponse = require('./response/loginResponse')
+const loginError = require('./error/loginError')
+const { findWorklist } = require('./response/findWorklistResponse')
+const findWorklistError = require('./error/findWorklistError')
+const lookuplistError = require('./error/lookuplistError')
+const lookuplistResponse = require('./response/lookuplistResponse')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -13,9 +18,9 @@ app.use(bodyParser.json());
 
 app.post('/IdentityHub/api/authenticationsvc/authenticateUser', (req, res) => {
     if (req.body.userName === 'flexicious' && req.body.password === 'support') {
-        sendResponse(res, 200, { "create-date": "2018-03-26 04:00:00", "created-by": "system", "role-map": [{ "access-active-flag": 1, "created-by": "system", "id": { "role-id": "Admin", "user-id": "mmishra" }, "updated-by": "system" }], "updated-by": "system", "user-active-flag": 1, "user-email": "mmishra@montefiore.org", "user-first-name": "Mittul", "user-id": "mmishra", "user-last-name": "Mishra", "user-phone": "914-457-6018" })
+        sendResponse(res, 200, loginResponse)
     } else {
-        sendResponse(res, 400, { "reason": "Login Failed. Please try again!", "message": "PBOX00070: Password invalid/Password required" })
+        sendResponse(res, 400, loginError)
     }
 })
 
@@ -31,21 +36,16 @@ app.post('/IdentityHub/api/worklistsvc/findWorklistGroups', (req, res) => {
     if (req.headers.username === "mmishra") {
         sendResponse(res, 200, findWorklist)
     } else {
-        sendResponse(res, 400, {
-            "reason": "Error Fetching Worklist for the Requestor: mmishra",
-            "message": "wrong number of arguments"
-        })
+        sendResponse(res, 400, findWorklistError)
     }
 })
 
 app.post('/IdentityHub/api/worklistsvc/findLookupListsReCache', (req, res) => {
     if (req.headers.username === "mmishra") {
-        sendResponse(res, 200, lookupList)
-} else {
-    sendResponse(res, 400,{
-        "reason":"Error fetching Lookup list","message":"/ by zero"
-    })
-}
+        sendResponse(res, 200, lookuplistResponse)
+    } else {
+        sendResponse(res, 400, lookuplistError)
+    }
 })
 
 app.use(require('express').static(path.join(__dirname, 'build')));
