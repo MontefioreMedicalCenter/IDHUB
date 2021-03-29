@@ -25,7 +25,7 @@ const RequestWorkList = (props) => {
 
   const worklistResultHandler = (resp) => {
     console.log("resp", resp)
-    setGridData(resp.result)
+    setGridData(resp.result[0].workLists)
   }
 
   const worklistFaultHandler = ({ error }) => {
@@ -69,20 +69,28 @@ const RequestWorkList = (props) => {
         >
           <ReactDataGridColumnGroup
             headerText="ID"
-            headerAlign="center" >
+            headerAlign="center"
+            >
             <ReactDataGridColumn
-              dataField="worklist-id"
+              dataField="id.worklistId"
               headerText="worklist#"
+              width = {50}
+              columnLockMode={"left"}
+              enableCellClickRowSelect={"false"}
             />
             <ReactDataGridColumn
               dataField="id.worklistSeqNum"
               headerText="seq"
+              width = {50}
+              columnLockMode={"left"}
             />
           </ReactDataGridColumnGroup>
           <ReactDataGridColumn
             headerText="Status"
             headerAlign="center"
-            dataField="worklist-status"
+            dataField="worklistStatus"
+            width = {80}
+            columnLockMode={"left"}
           />
           <ReactDataGridColumnGroup
             headerText="Personal"
@@ -90,77 +98,106 @@ const RequestWorkList = (props) => {
             dataField="requester-user-id"
           >
             <ReactDataGridColumn
-              dataField="requester-user-id"
+              dataField="lastName"
               headerText="Last name"
+              width = {100}
             />
             <ReactDataGridColumn
               dataField="firstName"
               headerText="First Name"
+              width = {100}
             />
             <ReactDataGridColumn
-              dataField="init"
+              dataField="middleNameOrInitial"
               headerText="Init"
+              width = {100}
             />
             <ReactDataGridColumn
-              dataField="noSsn"
+              dataField="noSSN"
               headerText="No SSN"
+              width = {100}
             />
             <ReactDataGridColumn
-              dataField="dob"
+              dataField="dateOfBirth"
               headerText="DOB"
+              width = {100}
             />
             <ReactDataGridColumn
               dataField="gender"
               headerText="Gender"
+              width = {100}
             />
             <ReactDataGridColumn
               dataField="email"
               headerText="Personal or Business Email"
+              width = {70}
             />
+            </ReactDataGridColumnGroup>
+            <ReactDataGridColumnGroup
+            headerText="Official Details"
+            headerAlign="center"
+            dataField="requester-user-id"
+          >
             <ReactDataGridColumn
               dataField="userType"
               headerText="User Type"
+              width = {100}
             />
             <ReactDataGridColumn
               dataField="vendorCompany"
               headerText="Vendor Consultant Company"
+              width = {100}
             />
             <ReactDataGridColumn
               dataField="location"
               headerText="Location"
+              width = {100}
             />
             <ReactDataGridColumn
               dataField="title"
               headerText="Title"
+              width = {100}
             />
             <ReactDataGridColumn
               dataField="department"
               headerText="Department"
+              width = {100}
             />
             <ReactDataGridColumn
               dataField="accept-date"
               headerText="Start date"
+              width = {100}
             />
           </ReactDataGridColumnGroup>
           <ReactDataGridColumn
             dataField="uploadDocs"
             headerText="Upload or view Docs"
+            width = {60}
+            columnLockMode={"right"}
           />
           <ReactDataGridColumn
             dataField="Save"
             headerText="Save"
+            width = {60}
+            columnLockMode={"right"}
           />
           <ReactDataGridColumn
             dataField="Edit"
             headerText="Edit"
+            width = {60}
+            columnLockMode={"right"}
           />
           <ReactDataGridColumn
             dataField="Delete"
             headerText="Delete"
+            width = {60}
+            columnLockMode={"right"}            
           />
           <ReactDataGridColumn
             dataField="Submit"
             headerText="Submit"
+            width = {60}
+            columnLockMode={"right"}
           />
         </DataGrid>
       </div>}

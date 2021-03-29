@@ -1,610 +1,451 @@
 
 module.exports = {
-    findWorklist: [
+    findWorklist: 
+    [
         {
-            "accept-date": "2020-06-12 13:51:26",
-            "additional-comments": null,
-            "create-date": "2020-06-11 20:50:39",
-            "created-by": "Job14161",
-            "file-list": [
+            "acceptDate": "2020-06-12 13:51:26",
+            "additionalComments": null,
+            "createDate": "2020-06-11 20:50:39",
+            "createdBy": "Job14161",
+            "fileList": [
                 {
                     "directory": false,
-                    "file-name": "D:\\IDHub\\FileStore\\wk.00010489\\wk.00000717_20181105_ConfAgree_Contreras.pdf",
-                    "file-url": "https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010489/wk.00000717_20181105_ConfAgree_Contreras.pdf",
-                    "parent-url": "https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010489/"
+                    "fileName": "C:\\IDHub\\FileStore\\wk.00010489\\wk.00000717_20181105_ConfAgree_Contreras.pdf",
+                    "fileURL": "https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010489/wk.00000717_20181105_ConfAgree_Contreras.pdf",
+                    "parentURL": "https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010489/"
                 }
             ],
-            "processed-date": "2020-06-12 14:00:11",
-            "requester-user": {
-                "create-date": "2018-03-26 04:00:00",
-                "created-by": "system",
-                "role-map": [
+            "processedDate": "2020-06-12 14:00:11",
+            "requesterUser": {
+                "createDate": "2018-03-26 04:00:00",
+                "createdBy": "system",
+                "roleMap": [
                     {
-                        "access-active-flag": 1,
-                        "created-by": "system",
+                        "accessActiveFlag": 1,
+                        "createdBy": "system",
                         "id": {
-                            "role-id": "Admin",
-                            "user-id": "mmishra"
+                            "roleId": "Requestor",
+                            "userId": "mmishra"
                         },
-                        "updated-by": "system"
+                        "updatedBy": "system"
                     }
                 ],
-                "update-date": "2018-03-26 04:00:00",
-                "updated-by": "system",
-                "user-active-flag": 1,
-                "user-email": "mmishra@montefiore.org",
-                "user-first-name": "Mittul",
-                "user-id": "mmishra",
-                "user-last-name": "Mishra",
-                "user-phone": "914-457-6018"
+                "updateDate": "2018-03-26 04:00:00",
+                "updatedBy": "system",
+                "userActiveFlag": 1,
+                "userEmail": "mmishra@montefiore.org",
+                "userFirstName": "Mittul",
+                "userId": "mmishra",
+                "userLastName": "Mishra",
+                "userPhone": "914-457-6018"
             },
-            "requester-user-id": "mmishra",
-            "reviewer-comments": null,
-            "reviewer-user-id": "jrosner",
-            "submit-date": "2020-06-11 20:51:40",
-            "update-date": "2020-06-11 20:50:40",
-            "update-requestor": true,
-            "updated-by": "echiment",
-            "worklist-id": "wk.00010489",
-            "worklist-status": "Initial"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 13:59:43",
-            "created-by": "lirodrig",
-            "file-list": [
+            "requesterUserId": "mmishra",
+            "reviewerComments": null,
+            "reviewerUserId": "jrosner",
+            "submitDate": "2020-06-11 20:51:40",
+            "updateDate": "2020-06-11 20:50:40",
+            "updateRequestor": true,
+            "updatedBy": "echiment",
+            "workLists": [
                 {
-                    "directory": false,
-                    "file-name": "D:\\IDHub\\FileStore\\wk.00010491\\wk.00000727_20181105_Confagree Henry.pdf",
-                    "file-url": "https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010491/wk.00000727_20181105_Confagree%20Henry.pdf",
-                    "parent-url": "https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010491/"
+                    "IPPhone": null,
+                    "additionalComments": "Needs Email. Prior AD Account dciraco",
+                    "affiliateEmailRequest": "N",
+                    "assignedMonteId": null,
+                    "campusCode": "Mt. Vernon",
+                    "companyCode": "Montefiore School of Nursing",
+                    "createDate": "2020-06-11 20:50:39",
+                    "createdBy": "Job14161",
+                    "dateOfBirth": "1981-04-15 05:00:00",
+                    "dateOfBirthStr": null,
+                    "department": "Nursing",
+                    "division": null,
+                    "documentCount": 0,
+                    "employeeGroup": null,
+                    "employeeSubGroup": "Student",
+                    "endDate": "2021-12-21 05:00:00",
+                    "endDateStr": null,
+                    "epcsHardTokenRequest": "N",
+                    "epfRequest": "N",
+                    "epicRequest": "N",
+                    "errorMessage": null,
+                    "firstName": "Angela",
+                    "firstNameCleaned": null,
+                    "gender": "F",
+                    "homeDriveRequest": "N",
+                    "id": {
+                        "worklistId": "wk.00010489",
+                        "worklistSeqNum": 1
+                    },
+                    "jobControlNumber": null,
+                    "lastName": "Corning",
+                    "lastNameCleaned": null,
+                    "loaReturnDate": null,
+                    "loaStartDate": null,
+                    "managerEmail": "dpalermo@montefiore.org",
+                    "managerPhone": "914-555-5555",
+                    "managerSourceUniqueId": "202197",
+                    "middleNameOrInitial": null,
+                    "mmcEmailRequest": "Y",
+                    "nameSuffix": null,
+                    "noSSN": "Y",
+                    "nonMonteEmail": "acorning@gmail.com",
+                    "officeAddress": null,
+                    "officeCity": null,
+                    "officePhone": null,
+                    "officeState": null,
+                    "officeZipCode": null,
+                    "preHireFlag": null,
+                    "preferredName": null,
+                    "reviewerComments": null,
+                    "sourceSystem": "NonEmployee",
+                    "sourceUniqueId": "C631654",
+                    "ssn": null,
+                    "ssn4": null,
+                    "ssn4Hash": null,
+                    "ssnHash": null,
+                    "startDate": "2020-06-15 04:00:00",
+                    "startDateStr": null,
+                    "statusCode": "A",
+                    "title": "Nursing Student",
+                    "udcid": null,
+                    "updateDate": "2020-06-11 20:50:40",
+                    "updatedBy": "dpalermo",
+                    "worklistStatus": "Processed"
                 },
                 {
-                    "directory": false,
-                    "file-name": "D:\\IDHub\\FileStore\\wk.00010491\\wk.00000727_20181107_ConfAgree Henry1.pdf",
-                    "file-url": "https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010491/wk.00000727_20181107_ConfAgree%20Henry1.pdf",
-                    "parent-url": "https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010491/"
-                }
-            ],
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-03-26 04:00:00",
-                "created-by": "system",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "system",
-                        "id": {
-                            "role-id": "Admin",
-                            "user-id": "dpalermo"
-                        },
-                        "updated-by": "system"
+                    "IPPhone": null,
+                    "additionalComments": "Needs Email. Prior AD Account vcoronel",
+                    "affiliateEmailRequest": "N",
+                    "assignedMonteId": null,
+                    "campusCode": "Mt. Vernon",
+                    "companyCode": "Montefiore School of Nursing",
+                    "createDate": "2020-06-11 20:50:39",
+                    "createdBy": "Job14161",
+                    "dateOfBirth": "1991-09-01 04:00:00",
+                    "dateOfBirthStr": null,
+                    "department": "Nursing",
+                    "division": null,
+                    "documentCount": 0,
+                    "employeeGroup": null,
+                    "employeeSubGroup": "Student",
+                    "endDate": "2021-12-21 05:00:00",
+                    "endDateStr": null,
+                    "epcsHardTokenRequest": "N",
+                    "epfRequest": "N",
+                    "epicRequest": "N",
+                    "errorMessage": null,
+                    "firstName": "Julie",
+                    "firstNameCleaned": null,
+                    "gender": "F",
+                    "homeDriveRequest": "N",
+                    "id": {
+                        "worklistId": "wk.00010489",
+                        "worklistSeqNum": 2
                     },
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "beweeks",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "dpalermo"
-                        },
-                        "updated-by": "beweeks"
-                    }
-                ],
-                "update-date": "2018-11-29 22:47:33",
-                "updated-by": "beweeks",
-                "user-active-flag": 1,
-                "user-email": "dpalermo@montefiore.org",
-                "user-first-name": "Dave",
-                "user-id": "dpalermo",
-                "user-last-name": "Palermo",
-                "user-phone": "919-457-6105"
-            },
-            "requester-user-id": "dpalermo",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": "2020-06-12 14:00:58",
-            "update-date": "2020-06-12 13:59:43",
-            "update-requestor": true,
-            "updated-by": "lirodrig",
-            "worklist-id": "wk.00010491",
-            "worklist-status": "Initial"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 14:05:06",
-            "created-by": "Job14184",
-            "file-list": [
+                    "jobControlNumber": null,
+                    "lastName": "McCoy",
+                    "lastNameCleaned": null,
+                    "loaReturnDate": null,
+                    "loaStartDate": null,
+                    "managerEmail": "dpalermo@montefiore.org",
+                    "managerPhone": "914-555-5555",
+                    "managerSourceUniqueId": "202197",
+                    "middleNameOrInitial": null,
+                    "mmcEmailRequest": "Y",
+                    "nameSuffix": null,
+                    "noSSN": "Y",
+                    "nonMonteEmail": "julie@lboat.com",
+                    "officeAddress": null,
+                    "officeCity": null,
+                    "officePhone": null,
+                    "officeState": null,
+                    "officeZipCode": null,
+                    "preHireFlag": null,
+                    "preferredName": null,
+                    "reviewerComments": null,
+                    "sourceSystem": "NonEmployee",
+                    "sourceUniqueId": "C631655",
+                    "ssn": null,
+                    "ssn4": null,
+                    "ssn4Hash": null,
+                    "ssnHash": null,
+                    "startDate": "2020-06-15 04:00:00",
+                    "startDateStr": null,
+                    "statusCode": "A",
+                    "title": "Nursing Student",
+                    "udcid": null,
+                    "updateDate": "2020-06-11 20:50:40",
+                    "updatedBy": "dpalermo",
+                    "worklistStatus": "Processed"
+                },
                 {
-                    "directory": false,
-                    "file-name": "D:\\IDHub\\FileStore\\wk.00010493\\wk.00000726_20181102_ConfAgree Hospital Receivables Systems Inc.pdf",
-                    "file-url": "https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010493/wk.00000726_20181102_ConfAgree%20Hospital%20Receivables%20Systems%20Inc.pdf",
-                    "parent-url": "https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010493/"
+                    "IPPhone": null,
+                    "additionalComments": "Needs Email. Prior AD Account junortiz",
+                    "affiliateEmailRequest": "N",
+                    "assignedMonteId": null,
+                    "campusCode": "Mt. Vernon",
+                    "companyCode": "Montefiore School of Nursing",
+                    "createDate": "2020-06-11 20:50:39",
+                    "createdBy": "Job14161",
+                    "dateOfBirth": "1979-11-21 05:00:00",
+                    "dateOfBirthStr": null,
+                    "department": "Nursing",
+                    "division": null,
+                    "documentCount": 0,
+                    "employeeGroup": null,
+                    "employeeSubGroup": "Student",
+                    "endDate": "2021-12-21 05:00:00",
+                    "endDateStr": null,
+                    "epcsHardTokenRequest": "N",
+                    "epfRequest": "N",
+                    "epicRequest": "N",
+                    "errorMessage": null,
+                    "firstName": "Betty",
+                    "firstNameCleaned": null,
+                    "gender": "F",
+                    "homeDriveRequest": "N",
+                    "id": {
+                        "worklistId": "wk.00010489",
+                        "worklistSeqNum": 3
+                    },
+                    "jobControlNumber": null,
+                    "lastName": "White",
+                    "lastNameCleaned": null,
+                    "loaReturnDate": null,
+                    "loaStartDate": null,
+                    "managerEmail": "dpalermo@montefiore.org",
+                    "managerPhone": "914-555-5555",
+                    "managerSourceUniqueId": "202197",
+                    "middleNameOrInitial": null,
+                    "mmcEmailRequest": "Y",
+                    "nameSuffix": null,
+                    "noSSN": "Y",
+                    "nonMonteEmail": "bwhite@yahoo.com",
+                    "officeAddress": null,
+                    "officeCity": null,
+                    "officePhone": null,
+                    "officeState": null,
+                    "officeZipCode": null,
+                    "preHireFlag": null,
+                    "preferredName": null,
+                    "reviewerComments": null,
+                    "sourceSystem": "NonEmployee",
+                    "sourceUniqueId": "C631656",
+                    "ssn": null,
+                    "ssn4": null,
+                    "ssn4Hash": null,
+                    "ssnHash": null,
+                    "startDate": "2020-06-15 04:00:00",
+                    "startDateStr": null,
+                    "statusCode": "A",
+                    "title": "Nursing Student",
+                    "udcid": null,
+                    "updateDate": "2020-06-11 20:50:40",
+                    "updatedBy": "dpalermo",
+                    "worklistStatus": "Processed"
+                },
+                {
+                    "IPPhone": null,
+                    "additionalComments": "Re-activate Monte Email Acct",
+                    "affiliateEmailRequest": "N",
+                    "assignedMonteId": null,
+                    "campusCode": "Mt. Vernon",
+                    "companyCode": "Montefiore School of Nursing",
+                    "createDate": "2020-06-11 20:50:39",
+                    "createdBy": "Job14161",
+                    "dateOfBirth": "1980-02-16 05:00:00",
+                    "dateOfBirthStr": null,
+                    "department": "Nursing",
+                    "division": null,
+                    "documentCount": 0,
+                    "employeeGroup": null,
+                    "employeeSubGroup": "Student",
+                    "endDate": "2021-12-21 05:00:00",
+                    "endDateStr": null,
+                    "epcsHardTokenRequest": "N",
+                    "epfRequest": "N",
+                    "epicRequest": "N",
+                    "errorMessage": null,
+                    "firstName": "Larry",
+                    "firstNameCleaned": null,
+                    "gender": "M",
+                    "homeDriveRequest": "N",
+                    "id": {
+                        "worklistId": "wk.00010489",
+                        "worklistSeqNum": 4
+                    },
+                    "jobControlNumber": null,
+                    "lastName": "Watson",
+                    "lastNameCleaned": null,
+                    "loaReturnDate": null,
+                    "loaStartDate": null,
+                    "managerEmail": "dpalermo@montefiore.org",
+                    "managerPhone": "914-555-5555",
+                    "managerSourceUniqueId": "202197",
+                    "middleNameOrInitial": null,
+                    "mmcEmailRequest": "Y",
+                    "nameSuffix": null,
+                    "noSSN": "Y",
+                    "nonMonteEmail": "larry@yahoo.com",
+                    "officeAddress": null,
+                    "officeCity": null,
+                    "officePhone": null,
+                    "officeState": null,
+                    "officeZipCode": null,
+                    "preHireFlag": null,
+                    "preferredName": null,
+                    "reviewerComments": null,
+                    "sourceSystem": "NonEmployee",
+                    "sourceUniqueId": "C631657",
+                    "ssn": null,
+                    "ssn4": null,
+                    "ssn4Hash": null,
+                    "ssnHash": null,
+                    "startDate": "2020-06-15 04:00:00",
+                    "startDateStr": null,
+                    "statusCode": "A",
+                    "title": "Nursing Student",
+                    "udcid": null,
+                    "updateDate": "2020-06-11 20:50:40",
+                    "updatedBy": "dpalermo",
+                    "worklistStatus": "Processed"
+                },
+                {
+                    "IPPhone": null,
+                    "additionalComments": "Needs Email. Prior AD Account appphipps",
+                    "affiliateEmailRequest": "N",
+                    "assignedMonteId": null,
+                    "campusCode": "Mt. Vernon",
+                    "companyCode": "Montefiore School of Nursing",
+                    "createDate": "2020-06-11 20:50:39",
+                    "createdBy": "Job14161",
+                    "dateOfBirth": "1973-06-04 04:00:00",
+                    "dateOfBirthStr": null,
+                    "department": "Nursing",
+                    "division": null,
+                    "documentCount": 0,
+                    "employeeGroup": null,
+                    "employeeSubGroup": "Student",
+                    "endDate": "2021-06-02 04:00:00",
+                    "endDateStr": null,
+                    "epcsHardTokenRequest": "N",
+                    "epfRequest": "N",
+                    "epicRequest": "N",
+                    "errorMessage": null,
+                    "firstName": "Katie",
+                    "firstNameCleaned": null,
+                    "gender": "F",
+                    "homeDriveRequest": "N",
+                    "id": {
+                        "worklistId": "wk.00010489",
+                        "worklistSeqNum": 5
+                    },
+                    "jobControlNumber": null,
+                    "lastName": "Segal",
+                    "lastNameCleaned": null,
+                    "loaReturnDate": null,
+                    "loaStartDate": null,
+                    "managerEmail": "dpalermo@montefiore.org",
+                    "managerPhone": "914-555-5555",
+                    "managerSourceUniqueId": "202197",
+                    "middleNameOrInitial": null,
+                    "mmcEmailRequest": "Y",
+                    "nameSuffix": null,
+                    "noSSN": "Y",
+                    "nonMonteEmail": "katiesegal@gmail.com",
+                    "officeAddress": null,
+                    "officeCity": null,
+                    "officePhone": null,
+                    "officeState": null,
+                    "officeZipCode": null,
+                    "preHireFlag": null,
+                    "preferredName": null,
+                    "reviewerComments": null,
+                    "sourceSystem": "NonEmployee",
+                    "sourceUniqueId": "C631658",
+                    "ssn": null,
+                    "ssn4": null,
+                    "ssn4Hash": null,
+                    "ssnHash": null,
+                    "startDate": "2020-06-15 04:00:00",
+                    "startDateStr": null,
+                    "statusCode": "A",
+                    "title": "Nursing Student",
+                    "udcid": null,
+                    "updateDate": "2020-06-11 20:50:40",
+                    "updatedBy": "dpalermo",
+                    "worklistStatus": "Processed"
+                },
+                {
+                    "IPPhone": null,
+                    "additionalComments": "Re-activate Monte Email Acct",
+                    "affiliateEmailRequest": "N",
+                    "assignedMonteId": null,
+                    "campusCode": "Mt. Vernon",
+                    "companyCode": "Montefiore School of Nursing",
+                    "createDate": "2020-06-11 20:50:39",
+                    "createdBy": "Job14161",
+                    "dateOfBirth": "1987-04-11 04:00:00",
+                    "dateOfBirthStr": null,
+                    "department": "Nursing",
+                    "division": null,
+                    "documentCount": 0,
+                    "employeeGroup": null,
+                    "employeeSubGroup": "Student",
+                    "endDate": "2020-12-21 05:00:00",
+                    "endDateStr": null,
+                    "epcsHardTokenRequest": "N",
+                    "epfRequest": "N",
+                    "epicRequest": "N",
+                    "errorMessage": null,
+                    "firstName": "Kelly",
+                    "firstNameCleaned": null,
+                    "gender": "F",
+                    "homeDriveRequest": "N",
+                    "id": {
+                        "worklistId": "wk.00010489",
+                        "worklistSeqNum": 6
+                    },
+                    "jobControlNumber": null,
+                    "lastName": "Clarkson",
+                    "lastNameCleaned": null,
+                    "loaReturnDate": null,
+                    "loaStartDate": null,
+                    "managerEmail": "dpalermo@montefiore.org",
+                    "managerPhone": "914-555-5555",
+                    "managerSourceUniqueId": "202197",
+                    "middleNameOrInitial": null,
+                    "mmcEmailRequest": "Y",
+                    "nameSuffix": null,
+                    "noSSN": "Y",
+                    "nonMonteEmail": "kellyclarkson@agt.com",
+                    "officeAddress": null,
+                    "officeCity": null,
+                    "officePhone": null,
+                    "officeState": null,
+                    "officeZipCode": null,
+                    "preHireFlag": null,
+                    "preferredName": null,
+                    "reviewerComments": null,
+                    "sourceSystem": "NonEmployee",
+                    "sourceUniqueId": "C631659",
+                    "ssn": null,
+                    "ssn4": null,
+                    "ssn4Hash": null,
+                    "ssnHash": null,
+                    "startDate": "2020-06-15 04:00:00",
+                    "startDateStr": null,
+                    "statusCode": "A",
+                    "title": "Nursing Student",
+                    "udcid": null,
+                    "updateDate": "2020-06-11 20:50:40",
+                    "updatedBy": "dpalermo",
+                    "worklistStatus": "Processed"
                 }
             ],
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-10-08 20:24:57",
-                "created-by": "beweeks",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "beweeks",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "aclausen"
-                        },
-                        "updated-by": "beweeks"
-                    }
-                ],
-                "update-date": "2018-10-15 19:24:08",
-                "updated-by": "beweeks",
-                "user-active-flag": 1,
-                "user-email": "aclausen@montefiore.org",
-                "user-first-name": "Anne",
-                "user-id": "aclausen",
-                "user-last-name": "Clausen",
-                "user-phone": "914-378-6040"
-            },
-            "requester-user-id": "aclausen",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": "2020-06-12 14:05:54",
-            "update-date": "2020-06-12 14:05:07",
-            "update-requestor": true,
-            "updated-by": "aclausen",
-            "worklist-id": "wk.00010493",
-            "worklist-status": "Submitted"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 16:10:38",
-            "created-by": "acarrion",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-12-14 18:57:13",
-                "created-by": "jrosner",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "jrosner",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "acarrion"
-                        },
-                        "updated-by": "jrosner"
-                    }
-                ],
-                "update-date": "2018-12-14 18:57:32",
-                "updated-by": "jrosner",
-                "user-active-flag": 1,
-                "user-email": "acarrion@montefiore.org",
-                "user-first-name": "Alyssa",
-                "user-id": "acarrion",
-                "user-last-name": "Carrion",
-                "user-phone": "914-349-8623"
-            },
-            "requester-user-id": "acarrion",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": "2020-06-12 16:12:08",
-            "update-date": "2020-06-12 16:11:41",
-            "update-requestor": true,
-            "updated-by": "acarrion",
-            "worklist-id": "wk.00010494",
-            "worklist-status": "Submitted"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 16:15:26",
-            "created-by": "acarrion",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-12-14 18:57:13",
-                "created-by": "jrosner",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "jrosner",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "acarrion"
-                        },
-                        "updated-by": "jrosner"
-                    }
-                ],
-                "update-date": "2018-12-14 18:57:32",
-                "updated-by": "jrosner",
-                "user-active-flag": 1,
-                "user-email": "acarrion@montefiore.org",
-                "user-first-name": "Alyssa",
-                "user-id": "acarrion",
-                "user-last-name": "Carrion",
-                "user-phone": "914-349-8623"
-            },
-            "requester-user-id": "acarrion",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": null,
-            "update-date": "2020-06-12 16:15:26",
-            "update-requestor": true,
-            "updated-by": "acarrion",
-            "worklist-id": "wk.00010495",
-            "worklist-status": "Initial"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 16:28:35",
-            "created-by": "acarrion",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-12-14 18:57:13",
-                "created-by": "jrosner",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "jrosner",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "acarrion"
-                        },
-                        "updated-by": "jrosner"
-                    }
-                ],
-                "update-date": "2018-12-14 18:57:32",
-                "updated-by": "jrosner",
-                "user-active-flag": 1,
-                "user-email": "acarrion@montefiore.org",
-                "user-first-name": "Alyssa",
-                "user-id": "acarrion",
-                "user-last-name": "Carrion",
-                "user-phone": "914-349-8623"
-            },
-            "requester-user-id": "acarrion",
-            "reviewer-comments": "Form is invalid.  Must be signed within the last 30 days.",
-            "reviewer-user-id": null,
-            "submit-date": "2020-06-12 16:29:20",
-            "update-date": "2020-06-12 16:28:59",
-            "update-requestor": true,
-            "updated-by": "acarrion",
-            "worklist-id": "wk.00010496",
-            "worklist-status": "Rejected"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 16:35:13",
-            "created-by": "acarrion",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-12-14 18:57:13",
-                "created-by": "jrosner",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "jrosner",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "acarrion"
-                        },
-                        "updated-by": "jrosner"
-                    }
-                ],
-                "update-date": "2018-12-14 18:57:32",
-                "updated-by": "jrosner",
-                "user-active-flag": 1,
-                "user-email": "acarrion@montefiore.org",
-                "user-first-name": "Alyssa",
-                "user-id": "acarrion",
-                "user-last-name": "Carrion",
-                "user-phone": "914-349-8623"
-            },
-            "requester-user-id": "acarrion",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": null,
-            "update-date": "2020-06-12 16:35:13",
-            "update-requestor": true,
-            "updated-by": "acarrion",
-            "worklist-id": "wk.00010497",
-            "worklist-status": "Initial"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 17:58:33",
-            "created-by": "lfley",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-12-27 21:00:00",
-                "created-by": "beweeks",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "beweeks",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "lfley"
-                        },
-                        "updated-by": "beweeks"
-                    }
-                ],
-                "update-date": "2018-12-27 21:00:00",
-                "updated-by": "beweeks",
-                "user-active-flag": 1,
-                "user-email": "LFLEY@montefiore.org",
-                "user-first-name": "Leslie",
-                "user-id": "lfley",
-                "user-last-name": "Fley",
-                "user-phone": "000-000-0000"
-            },
-            "requester-user-id": "lfley",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": null,
-            "update-date": "2020-06-12 18:52:12",
-            "update-requestor": true,
-            "updated-by": "lfley",
-            "worklist-id": "wk.00010498",
-            "worklist-status": "Initial"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 19:51:51",
-            "created-by": "napollock",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-11-20 05:00:00",
-                "created-by": "ryelisey",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "ryelisey",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "napollock"
-                        },
-                        "updated-by": "ryelisey"
-                    }
-                ],
-                "update-date": "2018-11-20 05:00:00",
-                "updated-by": "ryelisey",
-                "user-active-flag": 1,
-                "user-email": "NPollock@wphospital.org",
-                "user-first-name": "Nathan",
-                "user-id": "napollock",
-                "user-last-name": "Pollock",
-                "user-phone": "347-602-1402"
-            },
-            "requester-user-id": "napollock",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": null,
-            "update-date": "2020-06-12 20:02:02",
-            "update-requestor": true,
-            "updated-by": "napollock",
-            "worklist-id": "wk.00010499",
-            "worklist-status": "Initial"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 19:53:29",
-            "created-by": "napollock",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-11-20 05:00:00",
-                "created-by": "ryelisey",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "ryelisey",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "napollock"
-                        },
-                        "updated-by": "ryelisey"
-                    }
-                ],
-                "update-date": "2018-11-20 05:00:00",
-                "updated-by": "ryelisey",
-                "user-active-flag": 1,
-                "user-email": "NPollock@wphospital.org",
-                "user-first-name": "Nathan",
-                "user-id": "napollock",
-                "user-last-name": "Pollock",
-                "user-phone": "347-602-1402"
-            },
-            "requester-user-id": "napollock",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": null,
-            "update-date": "2020-06-12 20:02:04",
-            "update-requestor": true,
-            "updated-by": "napollock",
-            "worklist-id": "wk.00010500",
-            "worklist-status": "Initial"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 19:54:58",
-            "created-by": "napollock",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-11-20 05:00:00",
-                "created-by": "ryelisey",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "ryelisey",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "napollock"
-                        },
-                        "updated-by": "ryelisey"
-                    }
-                ],
-                "update-date": "2018-11-20 05:00:00",
-                "updated-by": "ryelisey",
-                "user-active-flag": 1,
-                "user-email": "NPollock@wphospital.org",
-                "user-first-name": "Nathan",
-                "user-id": "napollock",
-                "user-last-name": "Pollock",
-                "user-phone": "347-602-1402"
-            },
-            "requester-user-id": "napollock",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": null,
-            "update-date": "2020-06-12 19:54:58",
-            "update-requestor": true,
-            "updated-by": "napollock",
-            "worklist-id": "wk.00010501",
-            "worklist-status": "Initial"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 19:56:29",
-            "created-by": "napollock",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-03-26 04:00:00",
-                "created-by": "system",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "system",
-                        "id": {
-                            "role-id": "Admin",
-                            "user-id": "dpalermo"
-                        },
-                        "updated-by": "system"
-                    },
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "beweeks",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "dpalermo"
-                        },
-                        "updated-by": "beweeks"
-                    }
-                ],
-                "update-date": "2018-11-29 22:47:33",
-                "updated-by": "beweeks",
-                "user-active-flag": 1,
-                "user-email": "dpalermo@montefiore.org",
-                "user-first-name": "Dave",
-                "user-id": "dpalermo",
-                "user-last-name": "Palermo",
-                "user-phone": "919-457-6105"
-            },
-            "requester-user-id": "dpalermo",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": null,
-            "update-date": "2021-03-21 12:54:01",
-            "update-requestor": true,
-            "updated-by": "dpalermo",
-            "worklist-id": "wk.00010502",
-            "worklist-status": "Initial"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 19:57:53",
-            "created-by": "napollock",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-11-20 05:00:00",
-                "created-by": "ryelisey",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "ryelisey",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "napollock"
-                        },
-                        "updated-by": "ryelisey"
-                    }
-                ],
-                "update-date": "2018-11-20 05:00:00",
-                "updated-by": "ryelisey",
-                "user-active-flag": 1,
-                "user-email": "NPollock@wphospital.org",
-                "user-first-name": "Nathan",
-                "user-id": "napollock",
-                "user-last-name": "Pollock",
-                "user-phone": "347-602-1402"
-            },
-            "requester-user-id": "napollock",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": null,
-            "update-date": "2020-06-12 20:02:06",
-            "update-requestor": true,
-            "updated-by": "napollock",
-            "worklist-id": "wk.00010503",
-            "worklist-status": "Initial"
-        },
-        {
-            "accept-date": null,
-            "additional-comments": null,
-            "create-date": "2020-06-12 19:59:54",
-            "created-by": "napollock",
-            "file-list": null,
-            "processed-date": null,
-            "requester-user": {
-                "create-date": "2018-11-20 05:00:00",
-                "created-by": "ryelisey",
-                "role-map": [
-                    {
-                        "access-active-flag": 1,
-                        "created-by": "ryelisey",
-                        "id": {
-                            "role-id": "Requestor",
-                            "user-id": "napollock"
-                        },
-                        "updated-by": "ryelisey"
-                    }
-                ],
-                "update-date": "2018-11-20 05:00:00",
-                "updated-by": "ryelisey",
-                "user-active-flag": 1,
-                "user-email": "NPollock@wphospital.org",
-                "user-first-name": "Nathan",
-                "user-id": "napollock",
-                "user-last-name": "Pollock",
-                "user-phone": "347-602-1402"
-            },
-            "requester-user-id": "napollock",
-            "reviewer-comments": null,
-            "reviewer-user-id": null,
-            "submit-date": null,
-            "update-date": "2020-06-12 19:59:54",
-            "update-requestor": true,
-            "updated-by": "napollock",
-            "worklist-id": "wk.00010504",
-            "worklist-status": "Initial"
+            "worklistId": "wk.00010489",
+            "worklistStatus": "Initial"
         }
     ],
 
@@ -1814,6 +1655,7 @@ module.exports = {
             "X-ray Technologist"
         ]
     }
-    ]
+
+]
 
 }
