@@ -12,6 +12,9 @@ import DeleteIcon from '@material-ui/icons/Delete';
 import CheckCircleTwoToneIcon from '@material-ui/icons/CheckCircleTwoTone';
 import WorklistService from '../../../service/cfc/WorklistService';
 import { toast } from 'react-toastify';
+import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup';
+import ArrayCollection from '../../../vo/ArrayCollection';
+import { camelizeKeys } from '../../../shared/utils';
 
 const styles = (theme) => ({
     gridHeader: {
@@ -28,9 +31,18 @@ const CurrentRequest = (props) => {
 
 
     const worklistResultHandler = (resp) => {
-        console.log("resp", resp)
-        setGridData(resp.result[0].workLists)
-    }
+        var workListGroupArr = new ArrayCollection()
+        var workListArr = new ArrayCollection()
+        resp.result.forEach((data) => {
+          let workGroup = new IdWorklistGroup()
+          workGroup.fromJson(camelizeKeys(data))
+          if (workGroup.workLists != null && workGroup.workLists.length === 1)
+            workListArr.addItem(workGroup.workLists);
+          else
+            workListGroupArr.addItem(workGroup)
+        })
+        setGridData(workListGroupArr[0].workLists)
+      }
 
     const worklistFaultHandler = ({ error }) => {
         toast.error(error.response.data.reason);
