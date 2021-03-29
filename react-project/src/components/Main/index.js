@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './main.style.scss';
 import { Route, Switch, useHistory } from 'react-router';
 import { PRIVATE_ROUTES } from '../../AppConfig/AppRouter/constant';
@@ -15,6 +15,34 @@ const Main = () => {
     const [tabValue, handleTabChange] = useState(0);
     const dateString = `${moment().format("MM/DD/YYYY")}`;
     const timeString = `${moment().format("HH:mm:ss")}`;
+    const [mainTabData, setTabData] = useState([])
+
+    useEffect(() => {
+        if (Object.keys(loginModel).length) {
+            const isAdmin = loginModel.user.hasRole("Admin");
+            // const isAdminRequestor = loginModel.user.hasRole("AdminRequestor")
+            const isRequestor = loginModel.user.hasRole("Requestor")
+            const isReviewer = loginModel.user.hasRole("Reviewer");
+
+            let tabData = []
+            if (isRequestor || isAdmin) {
+                tabData.push(tabList[0])
+            }
+            if (isReviewer || isAdmin) {
+                tabData.push(tabList[1])
+            }
+            if (isReviewer || isAdmin) {
+                tabData.push(tabList[2])
+            }
+            if (isAdmin) {
+                tabData.push(tabList[3])
+            }
+            setTabData(tabData)
+        } else {
+            history.push('/')
+        }
+
+    }, [loginModel, history])
 
     const onSuccessLogout = () => {
         localStorage.clear()
@@ -53,7 +81,7 @@ const Main = () => {
                 customStyle={tabStyles}
                 setTabValue={handleTabChange}
                 tabValue={tabValue}
-                tabList={tabList}
+                tabList={mainTabData}
             />
             <div className="container-main-view">
                 <Switch>

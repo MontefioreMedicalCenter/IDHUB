@@ -43,7 +43,7 @@ const Login = () => {
             )
             const loginModel = new LoginModel();
             loginModel.fromJson({"user":camelizeKeys(resp.result)})
-            localStorage.setItem('user-id', resp.result["user-id"])
+            localStorage.setItem('user-id', loginModel.user.userId)
 
             dispatch(saveLoginModel(loginModel))
             findLookupLists();
