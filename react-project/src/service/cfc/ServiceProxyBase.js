@@ -27,7 +27,9 @@ export default class ServiceProxyBase extends TypedObject {
     super();
     this.showBusyCursor = false;
     ServiceProxyBase.callCount = 0;
-    this.baseUrl = 'http://localhost:8080/'
+    this.baseUrl =  window.location.href.indexOf("localhost") >= 0 || window.location.href.indexOf("192.168.") >= 0
+    ? "http://localhost:8080/"
+    : window.location.origin + "/";
   }
 
   static get finish() {
