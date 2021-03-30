@@ -2,8 +2,8 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import '../requestWork.style.scss';
 import DataGrid from '../../../shared/components/ExtendedDataGrid';
-import { ReactDataGridColumn, ReactDataGridColumnGroup } from '../../../flexicious';
-import { withStyles } from '@material-ui/core';
+import { ReactDataGridColumn, ReactDataGridColumnGroup, ReactDataGridColumnLevel } from '../../../flexicious';
+import { Paper, withStyles } from '@material-ui/core';
 import FolderIcon from '@material-ui/icons/Folder';
 import { Button } from "@material-ui/core";
 import SaveIcon from '@material-ui/icons/Save';
@@ -34,15 +34,15 @@ const CurrentRequest = (props) => {
         var workListGroupArr = new ArrayCollection()
         var workListArr = new ArrayCollection()
         resp.result.forEach((data) => {
-          let workGroup = new IdWorklistGroup()
-          workGroup.fromJson(camelizeKeys(data))
-          if (workGroup.workLists != null && workGroup.workLists.length === 1)
-            workListArr.addItem(workGroup.workLists);
-          else
-            workListGroupArr.addItem(workGroup)
+            let workGroup = new IdWorklistGroup()
+            workGroup.fromJson(camelizeKeys(data))
+            if (workGroup.workLists != null && workGroup.workLists.length === 1)
+                workListArr.addItem(workGroup.workLists);
+            else
+                workListGroupArr.addItem(workGroup)
         })
-        setGridData(workListGroupArr[0].workLists)
-      }
+        setGridData((workListGroupArr[0].workLists))
+    }
 
     const worklistFaultHandler = ({ error }) => {
         toast.error(error.response.data.reason);
@@ -99,251 +99,550 @@ const CurrentRequest = (props) => {
 
     return (
         <div className="grid-container">
-            <DataGrid
-                ref={dataGridRef}
-                textAlign={"center"}
-                height={"100%"}
-                width={"100%"}
-                id="Requestor_WorkList_Grid"
-                dataProvider={gridData}
-                headerStyleName={props.classes.gridHeader}
-            >
-                <ReactDataGridColumnGroup
-                    headerText="ID"
-                    headerAlign="center"
+            <Paper style={{ height: "100%", width: "100%", marginTop: "10px" }}>
+                <DataGrid
+                    ref={dataGridRef}
+                    textAlign={"center"}
+                    height={"100%"}
+                    width={"100%"}
+                    id="Requestor_WorkList_Grid"
+                    dataProvider={gridData}
+                    enablePrint
+                    enablePreferencePersistence
+                    enableDrag
+                    showSpinnerOnFilterPageSort
+                    enableEagerDraw
+                    enableDrop
+                    enableExport
+                    enableCopy
+                    preferencePersistenceKey={'simpleGrid'}
+                    enableMultiColumnSort
+                    useCompactPreferences
+                    horizontalScrollPolicy={'auto'}
+                    footerDrawTopBorder
+                    enablePdf
+                    // cellBackgroundColorFunction="getColor"
+                    //  alternatingItemColors="[0xffffff,0xffffff]" 
+                    enableToolbarActions="true"
+                    styleName="gridStyle"
+                    toolbarActionExecutedFunction="onExecuteToolbarAction"
+                    editable="true"
+                    cellEditableFunction="isCellEditable"
+                    //  enableDrillDown="true" 
+                    filterVisible="false"
                 >
-                    <ReactDataGridColumn
-                        dataField="id.worklistId"
-                        headerText="worklist#"
-                        width={50}
-                        columnLockMode={"left"}
-                        enableCellClickRowSelect={"false"}
-                        headerAlign="center"
-                    />
-                    <ReactDataGridColumn
-                        dataField="id.worklistSeqNum"
-                        headerText="seq"
-                        width={50}
-                        columnLockMode={"left"}
-                        headerAlign="center"
-                    />
-                </ReactDataGridColumnGroup>
-                <ReactDataGridColumn
-                    headerText="Status"
-                    headerAlign="center"
-                    dataField="worklistStatus"
-                    width={80}
-                    columnLockMode={"left"}
-                />
-                <ReactDataGridColumnGroup
-                    headerText="Personal"
-                    headerAlign="center"
-                    dataField="requester-user-id"
-                >
-                    <ReactDataGridColumn
-                        dataField="lastName"
-                        headerText="Last name"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="firstName"
-                        headerText="First Name"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="middleNameOrInitial"
-                        headerText="Init"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="noSSN"
-                        headerText="No SSN"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="dateOfBirth"
-                        headerText="DOB"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="gender"
-                        headerText="Gender"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="nonMonteEmail"
-                        headerText="Personal or Business Email"
-                        headerAlign="center"
-                        width={70}
-                    />
-                </ReactDataGridColumnGroup>
-                <ReactDataGridColumnGroup
-                    headerText="Official Details"
-                    headerAlign="center"
-                    dataField="requester-user-id"
-                >
-                    <ReactDataGridColumn
-                        dataField="employeeSubGroup"
-                        headerText="User Type"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="companyCode"
-                        headerText="Vendor Consultant Company"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="campusCode"
-                        headerText="Location"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="title"
-                        headerText="Title"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="department"
-                        headerText="Department"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="startDate"
-                        headerText="Start date"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="endDate"
-                        headerText="End Date"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="managerSourceUniqueId"
-                        headerText="MHS Manager ID"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="managerPh"
-                        headerText="MHS Manager Phone"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="managerExt"
-                        headerText="MHS Manager Ext"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="managerEmail"
-                        headerText="MHS Manager Email"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="epicRequest"
-                        headerText="EPIC"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="epfRequest"
-                        headerText="EPF"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="epcsHardTokenRequest"
-                        headerText="EPCS Hard Token"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="mmcEmailRequest"
-                        headerText="MMC Email"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="additionalComments"
-                        headerText="Requestors Comment"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="requestorFullName"
-                        headerText="Requestor"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="reviewerComments"
-                        headerText="Reject Reason"
-                        headerAlign="center"
-                        width={100}
-                    />
-                    <ReactDataGridColumn
-                        dataField="createDate"
-                        headerText="Create Date"
-                        headerAlign="center"
-                        width={100}
-                    />
-                </ReactDataGridColumnGroup>
-                <ReactDataGridColumn
-                    dataField="uploadDocs"
-                    headerText="Upload or view Docs"
-                    headerAlign="center"
-                    width={60}
-                    columnLockMode={"right"}
-                    itemRenderer={uploadOrViewFile}
-                />
-                <ReactDataGridColumn
-                    dataField="Save"
-                    headerText="Save"
-                    headerAlign="center"
-                    width={60}
-                    columnLockMode={"right"}
-                    itemRenderer={save}
-                />
-                <ReactDataGridColumn
-                    dataField="Edit"
-                    headerText="Edit"
-                    headerAlign="center"
-                    width={60}
-                    columnLockMode={"right"}
-                    itemRenderer={edit}
-                />
-                <ReactDataGridColumn
-                    dataField="Delete"
-                    headerText="Delete"
-                    headerAlign="center"
-                    width={60}
-                    columnLockMode={"right"}
-                    itemRenderer={remove}
-                />
-                <ReactDataGridColumn
-                    dataField="Submit"
-                    headerText="Submit"
-                    headerAlign="center"
-                    width={60}
-                    columnLockMode={"right"}
-                    itemRenderer={submit}
-                />
-            </DataGrid>
+                    <ReactDataGridColumnLevel
+                        rowHeight={10}
+                        enablePaging={true}
+                        horizontalGridLines={false}
+                        pageSize={10000}
+                        childrenField={"workLists"}
+                        alternatingItemColors="[0xe1eef7,0xe1eef7]"
+                        enableFilters={true}
+                        horizontalGridLineColor={"#99BBE8"}
+                        horizontalGridLineThickness={1}
+                    >
+                        <ReactDataGridColumnGroup
+                            headerText="ID"
+                            headerAlign="center"
+                        >
+                            <ReactDataGridColumn
+                                dataField="id.worklistId"
+                                headerText="worklist#"
+                                width={50}
+                                columnLockMode={"left"}
+                                enableCellClickRowSelect={"false"}
+                                headerAlign="center"
+                                editable="false"
+                                filterControl="TextInput"
+                                filterOperation="Contains"
+                                filterWaterMark="Contains"
+                            // filterWaterMark={"Contains"}                                
+                            />
+                            <ReactDataGridColumn
+                                dataField="id.worklistSeqNum"
+                                headerText="seq"
+                                width={50}
+                                columnLockMode={"left"}
+                                headerAlign="center"
+                                editable="false"
+                                enableCellClickRowSelect="false"
+                                filterControl="TextInput"
+                                filterOperation="Contains"
+                                filterWaterMark="Contains"
+                            />
+                        </ReactDataGridColumnGroup>
+                        <ReactDataGridColumn
+                            headerText="Status"
+                            headerAlign="center"
+                            dataField="worklistStatus"
+                            width={80}
+                            columnLockMode={"left"}
+                            enableCellClickRowSelect="false"
+                            editable="false"
+                            filterComboBoxBuildFromGrid="true"
+                            filterControl="MultiSelectComboBox"
+                            //  cellBackgroundColorFunction={"getCellBackgroundColor"}
+                            enableIcon="true"
+                            //  iconFunction="dynamicIconFunction" 
+                            paddingRight="20"
+                            iconRight="5"
+                            iconHandCursor="true"
+                            iconToolTip="Hover over to view Errors."
+                        />
+                        <ReactDataGridColumnGroup
+                            headerText="Personal"
+                            headerAlign="center"
+                            dataField="requester-user-id"
+                        >
+                            <ReactDataGridColumn
+                                dataField="lastName"
+                                headerText="Last name"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="TextInput"
+                                filterOperation="Contains"
+                                filterWaterMark="Contains"
+                                headerWordWrap="true"
+                                enableRecursiveSearch="true"
+                                //  itemEditorValidatorFunction="validateLname" 
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="firstName"
+                                headerText="First Name"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="TextInput"
+                                filterOperation="Contains"
+                                filterWaterMark="Contains"
+                                headerWordWrap="true"
+                                enableRecursiveSearch="true" i
+                                //  temEditorValidatorFunction="validateFname" 
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="middleNameOrInitial"
+                                headerText="Init"
+                                headerAlign="center"
+                                width={100}
+                                headerWordWrap="true"
+                                //  itemEditorValidatorFunction="validateInitial" 
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                sortable="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="noSSN"
+                                headerText="No SSN"
+                                headerAlign="center"
+                                width={100}
+                                headerWordWrap="true"
+                                editable="false"
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                sortable="false"
+                            />
+                            <ReactDataGridColumn
+                                width={90}
+                                dataField="ssn"
+                                headerText="SSN"
+                                headerWordWrap="true"
+                                //  itemEditorValidatorFunction="validateSSN" 
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                sortable="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="dateOfBirth"
+                                headerText="DOB"
+                                headerAlign="center"
+                                width={100}
+                                editorDataField="selectedDate"
+                                filterControl="DateComboBox"
+                                enableRecursiveSearch="true"
+                                //  formatter={ExampleUtils.dateFormatter3} 
+                                //  itemEditorValidatorFunction="validateDOB" 
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                //  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}" 
+                                sortable="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="gender"
+                                headerText="Gender"
+                                headerAlign="center"
+                                width={100}
+                                headerWordWrap="true"
+                                filterControl="MultiSelectComboBox"
+                                //  filterComboBoxDataProvider="{combogenderDP}" 
+                                enableRecursiveSearch="true"
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="nonMonteEmail"
+                                headerText="Personal or Business Email"
+                                headerAlign="center"
+                                width={70}
+                                headerWordWrap="true"
+                                //  itemEditorValidatorFunction="validatePersonEmail" 
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                sortable="false"
+                            />
+                        </ReactDataGridColumnGroup>
+                        <ReactDataGridColumnGroup
+                            headerText="Official Details"
+                            headerAlign="center"
+                            dataField="requester-user-id"
+                        >
+                            <ReactDataGridColumn
+                                dataField="employeeSubGroup"
+                                headerText="User Type"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="TextInput"
+                                filterOperation="Contains"
+                                filterWaterMark="Contains"
+                                enableRecursiveSearch="true"
+                                headerWordWrap="true"
+                                editable="true"
+                                itemEditorApplyOnValueCommit="false"
+                                enableCellClickRowSelect="false"
+                                itemEditorManagesPersistence="true"
+                            />
+                            <ReactDataGridColumn
+                                dataField="companyCode"
+                                headerText="Vendor Consultant Company"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="TextInput"
+                                filterOperation="Contains"
+                                filterWaterMark="Contains"
+                                enableRecursiveSearch="true"
+                                headerWordWrap="True"
+                                //  itemEditorValidatorFunction="validateCompanyCode" 
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                sortable="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="campusCode"
+                                headerText="Location"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="TextInput"
+                                filterOperation="Contains"
+                                filterWaterMark="Contains"
+                                enableRecursiveSearch="true"
+                                headerWordWrap="true"
+                                itemEditorApplyOnValueCommit="false"
+                                enableCellClickRowSelect="false"
+                                itemEditorManagesPersistence="true"
+                            />
+                            <ReactDataGridColumn
+                                dataField="title"
+                                headerText="Title"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="TextInput"
+                                filterOperation="Contains"
+                                filterWaterMark="Contains"
+                                enableRecursiveSearch="true"
+                                headerWordWrap="true"
+                                itemEditorApplyOnValueCommit="false"
+                                enableCellClickRowSelect="false"
+                                itemEditorManagesPersistence="true"
+                            />
+                            <ReactDataGridColumn
+                                dataField="department"
+                                headerText="Department"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="TextInput"
+                                filterOperation="Contains"
+                                filterWaterMark="Contains"
+                                enableRecursiveSearch="true"
+                                headerWordWrap="true"
+                                itemEditorApplyOnValueCommit="false"
+                                enableCellClickRowSelect="false"
+                                itemEditorManagesPersistence="true"
+                            />
+                            <ReactDataGridColumn
+                                dataField="startDate"
+                                headerText="Start date"
+                                headerAlign="center"
+                                width={100}
+                                editorDataField="selectedDate"
+                                filterControl="DateComboBox"
+                                enableRecursiveSearch="true"
+                                headerWordWrap="false"
+                                //  formatter="{ExampleUtils.dateFormatter3}" 
+                                //  itemEditorValidatorFunction="validateStartDate" 
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                            //  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
+                            />
+                            <ReactDataGridColumn
+                                dataField="endDate"
+                                headerText="End Date"
+                                headerAlign="center"
+                                width={100}
+                                editorDataField="selectedDate"
+                                filterControl="DateComboBox"
+                                enableRecursiveSearch="true"
+                                headerWordWrap="false"
+                                //  formatter="{ExampleUtils.dateFormatter3}" 
+                                //  itemEditorValidatorFunction="validateEndDate" 
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                            //  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
+                            />
+                            <ReactDataGridColumn
+                                dataField="managerSourceUniqueId"
+                                headerText="MHS Manager ID"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="TextInput"
+                                filterOperation="Contains"
+                                filterWaterMark="Contains"
+                                enableRecursiveSearch="true"
+                                headerWordWrap="true"
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                //  itemEditorValidatorFunction="validatesmanagersource" 
+                                sortable="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="managerPh"
+                                headerText="MHS Manager Phone"
+                                headerAlign="center"
+                                width={100}
+                                headerWordWrap="true"
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                //  itemEditorValidatorFunction="validatePhone" 
+                                sortable="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="managerExt"
+                                headerText="MHS Manager Ext"
+                                headerAlign="center"
+                                width={100}
+                            />
+                            <ReactDataGridColumn
+                                dataField="managerEmail"
+                                headerText="MHS Manager Email"
+                                headerAlign="center"
+                                width={100}
+                                headerWordWrap="true"
+                                //  itemEditorValidatorFunction="validatePersonEmail" 
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                sortable="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="epicRequest"
+                                headerText="EPIC"
+                                headerAlign="center"
+                                width={100}
+                                headerWordWrap="true"
+                                filterControl="MultiSelectComboBox"
+                                //  filterComboBoxDataProvider="{comboDP}" 
+                                editable="false"
+                                enableRecursiveSearch="true"
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="epfRequest"
+                                headerText="EPF"
+                                headerAlign="center"
+                                width={100}
+                                headerWordWrap="true"
+                                filterControl="MultiSelectComboBox"
+                                //  filterComboBoxDataProvider="{comboDP}" 
+                                editable="false"
+                                enableRecursiveSearch="true"
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="epcsHardTokenRequest"
+                                headerText="EPCS Hard Token"
+                                headerAlign="center"
+                                width={100}
+                                headerWordWrap="true"
+                                filterControl="MultiSelectComboBox"
+                                //  filterComboBoxDataProvider="{comboDP}" 
+                                editable="false"
+                                enableRecursiveSearch="true"
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="mmcEmailRequest"
+                                headerText="MMC Email"
+                                headerAlign="center"
+                                width={100}
+                                headerWordWrap="true"
+                                filterControl="MultiSelectComboBox"
+                                //  filterComboBoxDataProvider="{comboDP}" 
+                                editable="false"
+                                enableRecursiveSearch="true"
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="additionalComments"
+                                headerText="Requestors Comment"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="TextInput"
+                                filterWaterMark="Contains"
+                                filterOperation="Contains"
+                                headerWordWrap="true"
+                                enableRecursiveSearch="true"
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                sortable="false"
+                            //  itemEditorValidatorFunction="validateAdditionalComment"
+                            />
+                            <ReactDataGridColumn
+                                dataField="requestorFullName"
+                                headerText="Requestor"
+                                headerAlign="center"
+                                width={100}
+                                columnWidthMode="fixed"
+                                enableCellClickRowSelect="false"
+                                filterControl="MultiSelectComboBox"
+                                filterComboBoxBuildFromGrid="true"
+                                useHandCursor="true"
+                                editable="false"
+                                sortable="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="reviewerComments"
+                                headerText="Reject Reason"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="TextInput"
+                                filterWaterMark="Contains"
+                                filterOperation="Contains"
+                                enableRecursiveSearch="true"
+                                headerWordWrap="true"
+                                itemEditorApplyOnValueCommit="true"
+                                enableCellClickRowSelect="false"
+                                sortable="false"
+                            />
+                            <ReactDataGridColumn
+                                dataField="createDate"
+                                headerText="Create Date"
+                                headerAlign="center"
+                                width={100}
+                                filterControl="DateComboBox"
+                                enableRecursiveSearch="true"
+                                headerWordWrap="false"
+                                //  formatter="{ExampleUtils.dateFormatter3}" 
+                                editable="false"
+                                enableCellClickRowSelect="false"
+                                //  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}" 
+                                sortable="false"
+                            />
+                        </ReactDataGridColumnGroup>
+                        <ReactDataGridColumn
+                            dataField="uploadDocs"
+                            headerText="Upload or view Docs"
+                            headerAlign="center"
+                            width={60}
+                            columnLockMode={"right"}
+                            itemRenderer={uploadOrViewFile}
+                            editable="false"
+                            hideText="true"
+                            headerWordWrap="true"
+                            //  enableIcon="true" 
+                            //  iconFunction="dynamicIconFunctionUpload" 
+                            iconToolTip="View/Upload Request Document"
+                            iconHandCursor="true"
+                            columnWidthMode="fixed"
+                            iconLeft="25"
+                            sortable="false"
+                        />
+                        <ReactDataGridColumn
+                            dataField="Save"
+                            headerText="Save"
+                            headerAlign="center"
+                            width={60}
+                            columnLockMode={"right"}
+                            itemRenderer={save}
+                            editable="false"
+                            hideText="true"
+                            //  enableIcon="true" 
+                            //  iconFunction="dynamicIconFunctionSave" 
+                            iconToolTip="Save Request"
+                            iconHandCursor="true"
+                            columnWidthMode="fixed"
+                            iconLeft="20"
+                            sortable="false"
+                        />
+                        <ReactDataGridColumn
+                            dataField="Edit"
+                            headerText="Edit"
+                            headerAlign="center"
+                            width={60}
+                            columnLockMode={"right"}
+                            itemRenderer={edit}
+                            editable="false"
+                            hideText="true"
+                            //  enableIcon="true" 
+                            //  iconFunction="dynamicIconFunctionEdit" 
+                            iconToolTip="Edit Request"
+                            iconHandCursor="true"
+                            columnWidthMode="fixed"
+                            iconLeft="20"
+                            sortable="false"
+                        />
+                        <ReactDataGridColumn
+                            dataField="Delete"
+                            headerText="Delete"
+                            headerAlign="center"
+                            width={60}
+                            columnLockMode={"right"}
+                            itemRenderer={remove}
+                            editable="false"
+                            hideText="true"
+                            //  enableIcon="{this.searchTb.viewStack.selectedIndex==0}" 
+                            //  iconFunction="dynamicIconFunctionDelete" 
+                            iconToolTip="Delete Request"
+                            iconHandCursor="true"
+                            columnWidthMode="fixed"
+                            iconLeft="20"
+                            sortable="false"
+                        />
+                        <ReactDataGridColumn
+                            dataField="Submit"
+                            headerText="Submit"
+                            headerAlign="center"
+                            width={60}
+                            columnLockMode={"right"}
+                            itemRenderer={submit}
+                            editable="false"
+                            hideText="true"
+                            headerWordWrap="true"
+                            //  enableIcon="true" 
+                            //  iconFunction="dynamicIconFunctionSubmit" 
+                            iconToolTip="Submit/Accept Request"
+                            iconHandCursor="true"
+                            columnWidthMode="fixed"
+                            iconLeft="20"
+                            sortable="false"
+                        />
+                    </ReactDataGridColumnLevel>
+                </DataGrid>
+            </Paper>
         </div>
     )
 }
