@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Switch, Route, BrowserRouter } from 'react-router-dom'
 import PrivateRoute from './PrivateRoute'
 import ROUTES from './constant'

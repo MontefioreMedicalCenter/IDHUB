@@ -503,6 +503,7 @@ body {
     display:block;
     margin: 12px;
     float: right;
+    background-color: white;
 }
 .flexiciousGrid .multiSelectComboBoxPopup .okCancel{
     padding:4px;
@@ -678,7 +679,6 @@ body {
 }
 .flexiciousGrid  .uIComponent {
     text-overflow:clip;
-    display: inline-block;
 }
 
 .flexiciousGrid .columnResizingGlyph{

@@ -73,7 +73,7 @@ const Login = () => {
     }
 
     const loginFaultHandler = ({ error }) => {
-        toast.error(error.response.data.reason);
+        toast.error(error.toString());
     }
 
     const handleOnLogin = () => {

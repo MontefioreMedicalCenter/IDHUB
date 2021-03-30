@@ -46,7 +46,7 @@ const CurrentRequest = (props) => {
     }
 
     const worklistFaultHandler = ({ error }) => {
-        toast.error(error.response.data.reason);
+        toast.error(error.toString());
     }
 
     useEffect(() => {
@@ -55,7 +55,7 @@ const CurrentRequest = (props) => {
             worklistResultHandler,
             worklistFaultHandler
         )
-    }, []);
+    }, [props]);
 
     const uploadOrViewFile = () => {
         return (
