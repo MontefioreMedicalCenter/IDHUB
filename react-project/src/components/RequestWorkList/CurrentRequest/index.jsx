@@ -15,6 +15,7 @@ import { toast } from 'react-toastify';
 import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup';
 import ArrayCollection from '../../../vo/ArrayCollection';
 import { camelizeKeys } from '../../../shared/utils';
+import BulkFileUpload from '../../../shared/components/BulkFileUpload';
 
 const styles = (theme) => ({
     gridHeader: {
@@ -47,6 +48,14 @@ const CurrentRequest = (props) => {
     const worklistFaultHandler = ({ error }) => {
         toast.error(error.response.data.reason);
     }
+
+    useEffect(() => {
+        dataGridRef && DataGrid.updatePresetStyle(props, dataGridRef.current);
+        WorklistService.getInstance().findWorklistGroups(
+            worklistResultHandler,
+            worklistFaultHandler
+        )
+    }, []);
 
     const uploadOrViewFile = () => {
         return (
@@ -88,22 +97,19 @@ const CurrentRequest = (props) => {
         )
     }
 
-    useEffect(() => {
-        dataGridRef && DataGrid.updatePresetStyle(props, dataGridRef.current);
-        WorklistService.getInstance().findWorklistGroups(
-            worklistResultHandler,
-            worklistFaultHandler
-        )
-    }, []);
+
 
 
     return (
         <div className="grid-container">
             <Paper style={{ height: "100%", width: "100%", marginTop: "10px" }}>
+                <div className="header-field">
+                    <BulkFileUpload />
+                </div>
                 <DataGrid
                     ref={dataGridRef}
                     textAlign={"center"}
-                    height={"100%"}
+                    height={"90%"}
                     width={"100%"}
                     id="Requestor_WorkList_Grid"
                     dataProvider={gridData}

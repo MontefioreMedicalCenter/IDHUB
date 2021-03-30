@@ -9,7 +9,7 @@ import { useHistory } from 'react-router';
 import LoginService from '../../service/cfc/LoginService';
 import { useDispatch } from 'react-redux';
 import { saveLoginModel } from '../../AppConfig/store/actions/loginAction';
-import { saveLookupData }  from '../../AppConfig/store/actions/workListSheet';
+import { saveLookupData } from '../../AppConfig/store/actions/workListSheet';
 import Montefiore from "../../assets/images/Doing-More-Logo.jpg"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -42,7 +42,7 @@ const Login = () => {
                 JSON.stringify(resp.result)
             )
             const loginModel = new LoginModel();
-            loginModel.fromJson({"user":camelizeKeys(resp.result)})
+            loginModel.fromJson({ "user": camelizeKeys(resp.result) })
             localStorage.setItem('user-id', loginModel.user.userId)
 
             dispatch(saveLoginModel(loginModel))
@@ -60,7 +60,7 @@ const Login = () => {
 
     const worklistResultHandler = (resp) => {
         const workListModel = new WorkListModel();
-        workListModel.fromJson({"lookupLists":camelizeKeys(resp.result)})
+        workListModel.fromJson({ "lookupLists": camelizeKeys(resp.result) })
         dispatch(saveLookupData(workListModel))
     }
 
@@ -87,7 +87,7 @@ const Login = () => {
                 loginResultHandler,
                 loginFaultHandler
             )
-            
+
         }
     }
     return (
