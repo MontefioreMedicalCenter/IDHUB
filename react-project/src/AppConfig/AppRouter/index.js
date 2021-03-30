@@ -5,15 +5,10 @@ import ROUTES from './constant'
 
 const AppRouter = () => {
 
-    const [domain, setDomain] = useState('');
-
-    useEffect(() => {
-        const parsedData = window.location.pathname;
-        setDomain(parsedData)
-    }, [])
+    
 
     return (
-        <BrowserRouter basename={domain} >
+        <BrowserRouter basename={window.location.pathname} >
             <Switch>
                 {ROUTES && ROUTES.length &&
                     ROUTES.map((route, index) => {
