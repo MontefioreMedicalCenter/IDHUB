@@ -52,7 +52,7 @@ const Login = () => {
     }
 
     const findLookupLists = () => {
-        WorklistService.getInstance().findWorklistGroups(
+        WorklistService.getInstance().findLookupLists(
             worklistResultHandler,
             worklistFaultHandler,
         )
