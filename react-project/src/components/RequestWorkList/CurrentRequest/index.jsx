@@ -50,12 +50,14 @@ const CurrentRequest = (props) => {
     }
 
     useEffect(() => {
-        dataGridRef && DataGrid.updatePresetStyle(props, dataGridRef.current);
         WorklistService.getInstance().findWorklistGroups(
             worklistResultHandler,
             worklistFaultHandler
         )
-    }, [props]);
+    }, []);
+    useEffect(() => {
+        dataGridRef && DataGrid.updatePresetStyle(props, dataGridRef.current);
+    }, [props])
 
     const uploadOrViewFile = () => {
         return (

@@ -25,6 +25,29 @@ export default class WorklistService extends ServiceProxyBase {
       headerData
     );
   }
+
+
+  findLookupLists(resultHandler, faultHandler) {
+
+    if (typeof faultHandler == "undefined") faultHandler = null;
+    var headerData = {
+      userName: localStorage.getItem("user-id"),
+      "content-Type": "application/json"
+    }
+
+    return this.callServiceMethod(
+      'post',
+      'IdentityHub/api/worklistsvc/findLookupListsReCache',
+      null,
+      null,
+      resultHandler,
+      faultHandler,
+      null,
+      headerData
+
+    )
+  }
+
 }
 
 WorklistService.prototype.typeName = WorklistService.typeName = "WorklistService"; //for quick inspection
