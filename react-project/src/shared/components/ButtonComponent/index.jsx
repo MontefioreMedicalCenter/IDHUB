@@ -7,6 +7,7 @@ const ButtonComponent = (props) => {
             variant="contained"
             color="primary"
             onClick={props.onClick}
+            {...props}
         >
             Login
         </Button>

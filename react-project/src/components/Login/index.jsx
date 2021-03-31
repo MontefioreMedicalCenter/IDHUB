@@ -90,43 +90,54 @@ const Login = () => {
 
         }
     }
+
+    const handleKeyUp = (event) => {
+        if (event.keyCode === 13) {
+            event.preventDefault();
+            document.getElementById("loginBtn").click();
+        }
+    };
+
     return (
         <div className='login-root-container' >
             <div className='login-child-container'>
-                <div className="title-logo">
-                    <img
-                        id="montefiore"
-                        alt="Montefiorelogo"
-                        src={Montefiore}
-                        style={{ height: "30px" }}
-                    />
-                </div> &nbsp;
+                <div onKeyUp={(e) => handleKeyUp(e)}>
+                    <div className="title-logo">
+                        <img
+                            id="montefiore"
+                            alt="Montefiorelogo"
+                            src={Montefiore}
+                            style={{ height: "30px" }}
+                        />
+                    </div> &nbsp;
                 <div className="textfield">
-                    <PersonIcon style={{ height: "3em" }} /> &nbsp;
+                        <PersonIcon style={{ height: "3em" }} /> &nbsp;
                     <TextFeildComponent
-                        label="username"
-                        id="userName"
-                        type="text"
-                        value={state.userName}
-                        onChange={handleChangeTxt}
-                        error={error.userName}
-                    />
-                </div>
-                <div className="passwordfield">
-                    <VpnKeyIcon style={{ height: "3em" }} /> &nbsp;
+                            label="username"
+                            id="userName"
+                            type="text"
+                            value={state.userName}
+                            onChange={handleChangeTxt}
+                            error={error.userName}
+                        />
+                    </div>
+                    <div className="passwordfield">
+                        <VpnKeyIcon style={{ height: "3em" }} /> &nbsp;
                     <TextFeildComponent
-                        label="password"
-                        id="password"
-                        type="password"
-                        value={state.password}
-                        onChange={handleChangeTxt}
-                        error={error.password}
-                    />
-                </div>
-                <div className="button">
-                    <ButtonComponent
-                        onClick={handleOnLogin}
-                    />
+                            label="password"
+                            id="password"
+                            type="password"
+                            value={state.password}
+                            onChange={handleChangeTxt}
+                            error={error.password}
+                        />
+                    </div>
+                    <div className="button">
+                        <ButtonComponent
+                            id={"loginBtn"}
+                            onClick={handleOnLogin}
+                        />
+                    </div>
                 </div>
             </div>
             <ToastContainer />

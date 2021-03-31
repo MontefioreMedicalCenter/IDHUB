@@ -1,0 +1,19 @@
+
+.dialog-header-container{
+    width: calc(100% - 20px);
+    height: 50px;
+    background-color: #3f51b5;
+    border-radius: 3px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 10px;
+}
+.dialog-paper-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+.dialog-header-title{
+    color: white;
+}

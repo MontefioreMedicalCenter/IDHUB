@@ -5,10 +5,8 @@ import ROUTES from './constant'
 
 const AppRouter = () => {
 
-    
-
     return (
-        <BrowserRouter basename={window.location.pathname} >
+        <BrowserRouter basename={window.location.pathname.split('main')[0]} >
             <Switch>
                 {ROUTES && ROUTES.length &&
                     ROUTES.map((route, index) => {

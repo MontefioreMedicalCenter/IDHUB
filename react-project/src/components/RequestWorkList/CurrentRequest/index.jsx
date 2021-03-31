@@ -20,6 +20,8 @@ import MontefioreUtils from '../../../service/utils/MontefioreUtils';
 import NoSSNItemRenderer from '../../../container/views/itemRenderers/NoSSNItemRenderer'
 import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
 import EpicRequestRenderer from '../../../container/views/itemRenderers/EpicRequestRenderer'
+import AdvanceDialog from '../../../shared/components/AdvanceDialog';
+import RequestDocument from '../RequestDocument';
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer);
 const ssnItemRenderer = new ClassFactory(SsnItemRender);
@@ -37,6 +39,7 @@ const CurrentRequest = (props) => {
 
     const dataGridRef = useRef(null)
     const [gridData, setGridData] = useState([]);
+    const [openModal, setOpenModal] = useState(true);
 
 
     const worklistResultHandler = (resp) => {
@@ -139,20 +142,20 @@ const CurrentRequest = (props) => {
                     enablePdf
                     // cellBackgroundColorFunction="getColor"
                     //  alternatingItemColors="[0xffffff,0xffffff]" 
-                    enableToolbarActions="true"
+                    enableToolbarActions
                     styleName="gridStyle"
                     toolbarActionExecutedFunction="onExecuteToolbarAction"
-                    editable="true"
+                    editable
+                    enableDrillDown
                     cellEditableFunction="isCellEditable"
-                    //  enableDrillDown="true" 
-                    filterVisible="false"
+                    filterVisible={false}
                 >
                     <ReactDataGridColumnLevel
                         rowHeight={10}
                         enablePaging={true}
                         horizontalGridLines={false}
                         pageSize={10000}
-                        childrenField={"workLists"}
+                        childrenField="workLists"
                         alternatingItemColors="[0xe1eef7,0xe1eef7]"
                         enableFilters={true}
                         horizontalGridLineColor={"#99BBE8"}
@@ -660,6 +663,12 @@ const CurrentRequest = (props) => {
                     </ReactDataGridColumnLevel>
                 </DataGrid>
             </Paper>
+            <AdvanceDialog
+                open={openModal}
+                handleClose={() => setOpenModal(false)}
+                headerTitle="Request Documents"
+                bodyRenderer={<RequestDocument />}
+            />
         </div>
     )
 }
