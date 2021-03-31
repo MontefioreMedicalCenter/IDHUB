@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 
 import '../requestWork.style.scss';
 import DataGrid from '../../../shared/components/ExtendedDataGrid';
-import { ReactDataGridColumn, ReactDataGridColumnGroup, ReactDataGridColumnLevel } from '../../../flexicious';
+import { ReactDataGridColumn, ReactDataGridColumnGroup, ReactDataGridColumnLevel, ClassFactory } from '../../../flexicious';
 import { Paper, withStyles } from '@material-ui/core';
 import FolderIcon from '@material-ui/icons/Folder';
 import { Button } from "@material-ui/core";
@@ -16,6 +16,14 @@ import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup';
 import ArrayCollection from '../../../vo/ArrayCollection';
 import { camelizeKeys } from '../../../shared/utils';
 import BulkFileUpload from '../../../shared/components/BulkFileUpload';
+import MontefioreUtils from '../../../service/utils/MontefioreUtils';
+import NoSSNItemRenderer from '../../../container/views/itemRenderers/NoSSNItemRenderer'
+import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
+import EpicRequestRenderer from '../../../container/views/itemRenderers/EpicRequestRenderer'
+
+const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer);
+const ssnItemRenderer = new ClassFactory(SsnItemRender);
+const epicRequestRenderer = new ClassFactory(EpicRequestRenderer)
 
 const styles = (theme) => ({
     gridHeader: {
@@ -252,6 +260,7 @@ const CurrentRequest = (props) => {
                                 itemEditorApplyOnValueCommit="true"
                                 enableCellClickRowSelect="false"
                                 sortable="false"
+                                itemRenderer={noSSNItemRenderer}
                             />
                             <ReactDataGridColumn
                                 width={90}
@@ -262,6 +271,7 @@ const CurrentRequest = (props) => {
                                 itemEditorApplyOnValueCommit="true"
                                 enableCellClickRowSelect="false"
                                 sortable="false"
+                                itemRenderer={ssnItemRenderer}
                             />
                             <ReactDataGridColumn
                                 dataField="dateOfBirth"
@@ -392,7 +402,7 @@ const CurrentRequest = (props) => {
                                 //  itemEditorValidatorFunction="validateStartDate" 
                                 itemEditorApplyOnValueCommit="true"
                                 enableCellClickRowSelect="false"
-                            //  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
+                                labelFunction={MontefioreUtils.dateFormatter2}
                             />
                             <ReactDataGridColumn
                                 dataField="endDate"
@@ -403,11 +413,9 @@ const CurrentRequest = (props) => {
                                 filterControl="DateComboBox"
                                 enableRecursiveSearch="true"
                                 headerWordWrap="false"
-                                //  formatter="{ExampleUtils.dateFormatter3}" 
-                                //  itemEditorValidatorFunction="validateEndDate" 
                                 itemEditorApplyOnValueCommit="true"
                                 enableCellClickRowSelect="false"
-                            //  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
+                                labelFunction={MontefioreUtils.dateFormatter2}
                             />
                             <ReactDataGridColumn
                                 dataField="managerSourceUniqueId"
@@ -464,6 +472,7 @@ const CurrentRequest = (props) => {
                                 enableRecursiveSearch="true"
                                 itemEditorApplyOnValueCommit="true"
                                 enableCellClickRowSelect="false"
+                                itemRenderer={epicRequestRenderer}
                             />
                             <ReactDataGridColumn
                                 dataField="epfRequest"
