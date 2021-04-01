@@ -21,10 +21,17 @@ import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
 import EpicRequestRenderer from '../../../container/views/itemRenderers/EpicRequestRenderer'
 import AdvanceDialog from '../../../shared/components/AdvanceDialog';
 import RequestDocument from '../RequestDocument';
+import EpfRequestRenderer from '../../../container/views/itemRenderers/EpfRequestRenderer'
+import EpcsHardTokenRequest from '../../../container/views/itemRenderers/EpcsHardTokenRequest'
+import MmcEmailRequest from '../../../container/views/itemRenderers/MmcEmailRequest'
+
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer);
 const ssnItemRenderer = new ClassFactory(SsnItemRender);
 const epicRequestRenderer = new ClassFactory(EpicRequestRenderer)
+const epfRequestRenderer = new ClassFactory(EpfRequestRenderer)
+const epcsHardTokenRequest = new ClassFactory(EpcsHardTokenRequest)
+const mmcEmailRequest = new ClassFactory(MmcEmailRequest)
 
 const styles = (theme) => ({
     gridHeader: {
@@ -40,7 +47,6 @@ const CurrentRequest = (props) => {
     const [gridData, setGridData] = useState([]);
     const [openModal, setOpenModal] = useState(false);
 
-
     const worklistResultHandler = (resp) => {
         var workListGroupArr = new ArrayCollection()
         var workListArr = new ArrayCollection()
@@ -53,7 +59,7 @@ const CurrentRequest = (props) => {
                 workListGroupArr.addItem(workGroup)
         })
         setGridData((workListGroupArr[0].workLists))
-    } 
+    }
 
     useEffect(() => {
         WorklistService.getInstance().findWorklistGroups(
@@ -165,9 +171,9 @@ const CurrentRequest = (props) => {
                                 headerText="worklist#"
                                 width={50}
                                 columnLockMode={"left"}
-                                enableCellClickRowSelect={"false"}
+                                enableCellClickRowSelect={false}
                                 headerAlign="center"
-                                editable="false"
+                                editable={false}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
@@ -179,8 +185,8 @@ const CurrentRequest = (props) => {
                                 width={50}
                                 columnLockMode={"left"}
                                 headerAlign="center"
-                                editable="false"
-                                enableCellClickRowSelect="false"
+                                editable={false}
+                                enableCellClickRowSelect={false}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
@@ -192,17 +198,17 @@ const CurrentRequest = (props) => {
                             dataField="worklistStatus"
                             width={80}
                             columnLockMode={"left"}
-                            enableCellClickRowSelect="false"
-                            editable="false"
-                            filterComboBoxBuildFromGrid="true"
+                            enableCellClickRowSelect={false}
+                            editable={false}
+                            filterComboBoxBuildFromGrid={true}
                             filterControl="MultiSelectComboBox"
                             //  cellBackgroundColorFunction={"getCellBackgroundColor"}
-                            enableIcon="true"
+                            enableIcon={true}
                             //  iconFunction="dynamicIconFunction" 
                             paddingRight="20"
                             iconRight="5"
-                            iconHandCursor="true"
-                            iconToolTip="Hover over to view Errors."
+                            iconHandCursor={true}
+                        // iconToolTip={Hover over to view Errors.}
                         />
                         <ReactDataGridColumnGroup
                             headerText="Personal"
@@ -217,11 +223,11 @@ const CurrentRequest = (props) => {
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
-                                headerWordWrap="true"
-                                enableRecursiveSearch="true"
+                                headerWordWrap={true}
+                                enableRecursiveSearch={true}
                                 //  itemEditorValidatorFunction="validateLname" 
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
                             />
                             <ReactDataGridColumn
                                 dataField="firstName"
@@ -231,44 +237,44 @@ const CurrentRequest = (props) => {
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
-                                headerWordWrap="true"
-                                enableRecursiveSearch="true" i
+                                headerWordWrap={true}
+                                enableRecursiveSearch={true}
                                 //  temEditorValidatorFunction="validateFname" 
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
                             />
                             <ReactDataGridColumn
                                 dataField="middleNameOrInitial"
                                 headerText="Init"
                                 headerAlign="center"
                                 width={100}
-                                headerWordWrap="true"
+                                headerWordWrap={true}
                                 //  itemEditorValidatorFunction="validateInitial" 
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
-                                sortable="false"
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                sortable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="noSSN"
                                 headerText="No SSN"
                                 headerAlign="center"
                                 width={100}
-                                headerWordWrap="true"
-                                editable="false"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
-                                sortable="false"
+                                headerWordWrap={true}
+                                editable={false}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                sortable={false}
                                 itemRenderer={noSSNItemRenderer}
                             />
                             <ReactDataGridColumn
                                 width={90}
                                 dataField="ssn"
                                 headerText="SSN"
-                                headerWordWrap="true"
+                                headerWordWrap={true}
                                 //  itemEditorValidatorFunction="validateSSN" 
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
-                                sortable="false"
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                sortable={false}
                                 itemRenderer={ssnItemRenderer}
                             />
                             <ReactDataGridColumn
@@ -278,36 +284,36 @@ const CurrentRequest = (props) => {
                                 width={100}
                                 editorDataField="selectedDate"
                                 filterControl="DateComboBox"
-                                enableRecursiveSearch="true"
+                                enableRecursiveSearch={true}
                                 //  formatter={ExampleUtils.dateFormatter3} 
                                 //  itemEditorValidatorFunction="validateDOB" 
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
                                 //  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}" 
-                                sortable="false"
+                                sortable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="gender"
                                 headerText="Gender"
                                 headerAlign="center"
                                 width={100}
-                                headerWordWrap="true"
+                                headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
                                 //  filterComboBoxDataProvider="{combogenderDP}" 
-                                enableRecursiveSearch="true"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                enableRecursiveSearch={true}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
                             />
                             <ReactDataGridColumn
                                 dataField="nonMonteEmail"
                                 headerText="Personal or Business Email"
                                 headerAlign="center"
                                 width={70}
-                                headerWordWrap="true"
+                                headerWordWrap={true}
                                 //  itemEditorValidatorFunction="validatePersonEmail" 
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
-                                sortable="false"
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                sortable={false}
                             />
                         </ReactDataGridColumnGroup>
                         <ReactDataGridColumnGroup
@@ -323,12 +329,12 @@ const CurrentRequest = (props) => {
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
-                                enableRecursiveSearch="true"
-                                headerWordWrap="true"
-                                editable="true"
-                                itemEditorApplyOnValueCommit="false"
-                                enableCellClickRowSelect="false"
-                                itemEditorManagesPersistence="true"
+                                enableRecursiveSearch={true}
+                                headerWordWrap={true}
+                                editable={true}
+                                itemEditorApplyOnValueCommit={false}
+                                enableCellClickRowSelect={false}
+                                itemEditorManagesPersistence={true}
                             />
                             <ReactDataGridColumn
                                 dataField="companyCode"
@@ -338,12 +344,12 @@ const CurrentRequest = (props) => {
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
-                                enableRecursiveSearch="true"
+                                enableRecursiveSearch={true}
                                 headerWordWrap="True"
                                 //  itemEditorValidatorFunction="validateCompanyCode" 
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
-                                sortable="false"
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                sortable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="campusCode"
@@ -353,11 +359,11 @@ const CurrentRequest = (props) => {
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
-                                enableRecursiveSearch="true"
-                                headerWordWrap="true"
-                                itemEditorApplyOnValueCommit="false"
-                                enableCellClickRowSelect="false"
-                                itemEditorManagesPersistence="true"
+                                enableRecursiveSearch={true}
+                                headerWordWrap={true}
+                                itemEditorApplyOnValueCommit={false}
+                                enableCellClickRowSelect={false}
+                                itemEditorManagesPersistence={true}
                             />
                             <ReactDataGridColumn
                                 dataField="title"
@@ -367,11 +373,11 @@ const CurrentRequest = (props) => {
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
-                                enableRecursiveSearch="true"
-                                headerWordWrap="true"
-                                itemEditorApplyOnValueCommit="false"
-                                enableCellClickRowSelect="false"
-                                itemEditorManagesPersistence="true"
+                                enableRecursiveSearch={true}
+                                headerWordWrap={true}
+                                itemEditorApplyOnValueCommit={false}
+                                enableCellClickRowSelect={false}
+                                itemEditorManagesPersistence={true}
                             />
                             <ReactDataGridColumn
                                 dataField="department"
@@ -381,11 +387,11 @@ const CurrentRequest = (props) => {
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
-                                enableRecursiveSearch="true"
-                                headerWordWrap="true"
-                                itemEditorApplyOnValueCommit="false"
-                                enableCellClickRowSelect="false"
-                                itemEditorManagesPersistence="true"
+                                enableRecursiveSearch={true}
+                                headerWordWrap={true}
+                                itemEditorApplyOnValueCommit={false}
+                                enableCellClickRowSelect={false}
+                                itemEditorManagesPersistence={true}
                             />
                             <ReactDataGridColumn
                                 dataField="startDate"
@@ -394,12 +400,12 @@ const CurrentRequest = (props) => {
                                 width={100}
                                 editorDataField="selectedDate"
                                 filterControl="DateComboBox"
-                                enableRecursiveSearch="true"
-                                headerWordWrap="false"
+                                enableRecursiveSearch={true}
+                                headerWordWrap={false}
                                 //  formatter="{ExampleUtils.dateFormatter3}" 
                                 //  itemEditorValidatorFunction="validateStartDate" 
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
                                 labelFunction={MontefioreUtils.dateFormatter2}
                             />
                             <ReactDataGridColumn
@@ -409,10 +415,10 @@ const CurrentRequest = (props) => {
                                 width={100}
                                 editorDataField="selectedDate"
                                 filterControl="DateComboBox"
-                                enableRecursiveSearch="true"
-                                headerWordWrap="false"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                enableRecursiveSearch={true}
+                                headerWordWrap={false}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
                                 labelFunction={MontefioreUtils.dateFormatter2}
                             />
                             <ReactDataGridColumn
@@ -423,23 +429,23 @@ const CurrentRequest = (props) => {
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
-                                enableRecursiveSearch="true"
-                                headerWordWrap="true"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                enableRecursiveSearch={true}
+                                headerWordWrap={true}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
                                 //  itemEditorValidatorFunction="validatesmanagersource" 
-                                sortable="false"
+                                sortable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="managerPh"
                                 headerText="MHS Manager Phone"
                                 headerAlign="center"
                                 width={100}
-                                headerWordWrap="true"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                headerWordWrap={true}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
                                 //  itemEditorValidatorFunction="validatePhone" 
-                                sortable="false"
+                                sortable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="managerExt"
@@ -452,24 +458,24 @@ const CurrentRequest = (props) => {
                                 headerText="MHS Manager Email"
                                 headerAlign="center"
                                 width={100}
-                                headerWordWrap="true"
+                                headerWordWrap={true}
                                 //  itemEditorValidatorFunction="validatePersonEmail" 
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
-                                sortable="false"
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                sortable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="epicRequest"
                                 headerText="EPIC"
                                 headerAlign="center"
                                 width={100}
-                                headerWordWrap="true"
+                                headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
                                 //  filterComboBoxDataProvider="{comboDP}" 
-                                editable="false"
-                                enableRecursiveSearch="true"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                editable={false}
+                                enableRecursiveSearch={true}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
                                 itemRenderer={epicRequestRenderer}
                             />
                             <ReactDataGridColumn
@@ -477,39 +483,42 @@ const CurrentRequest = (props) => {
                                 headerText="EPF"
                                 headerAlign="center"
                                 width={100}
-                                headerWordWrap="true"
+                                headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
                                 //  filterComboBoxDataProvider="{comboDP}" 
-                                editable="false"
-                                enableRecursiveSearch="true"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                editable={false}
+                                enableRecursiveSearch={true}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                itemRenderer={epfRequestRenderer}
                             />
                             <ReactDataGridColumn
                                 dataField="epcsHardTokenRequest"
                                 headerText="EPCS Hard Token"
                                 headerAlign="center"
                                 width={100}
-                                headerWordWrap="true"
+                                headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
                                 //  filterComboBoxDataProvider="{comboDP}" 
-                                editable="false"
-                                enableRecursiveSearch="true"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                editable={false}
+                                enableRecursiveSearch={true}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                itemRenderer={epcsHardTokenRequest}
                             />
                             <ReactDataGridColumn
                                 dataField="mmcEmailRequest"
                                 headerText="MMC Email"
                                 headerAlign="center"
                                 width={100}
-                                headerWordWrap="true"
+                                headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
                                 //  filterComboBoxDataProvider="{comboDP}" 
-                                editable="false"
-                                enableRecursiveSearch="true"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
+                                editable={false}
+                                enableRecursiveSearch={true}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                itemRenderer={mmcEmailRequest}
                             />
                             <ReactDataGridColumn
                                 dataField="additionalComments"
@@ -519,11 +528,11 @@ const CurrentRequest = (props) => {
                                 filterControl="TextInput"
                                 filterWaterMark="Contains"
                                 filterOperation="Contains"
-                                headerWordWrap="true"
-                                enableRecursiveSearch="true"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
-                                sortable="false"
+                                headerWordWrap={true}
+                                enableRecursiveSearch={true}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                sortable={false}
                             //  itemEditorValidatorFunction="validateAdditionalComment"
                             />
                             <ReactDataGridColumn
@@ -532,12 +541,12 @@ const CurrentRequest = (props) => {
                                 headerAlign="center"
                                 width={100}
                                 columnWidthMode="fixed"
-                                enableCellClickRowSelect="false"
+                                enableCellClickRowSelect={false}
                                 filterControl="MultiSelectComboBox"
-                                filterComboBoxBuildFromGrid="true"
-                                useHandCursor="true"
-                                editable="false"
-                                sortable="false"
+                                filterComboBoxBuildFromGrid={true}
+                                useHandCursor={true}
+                                editable={false}
+                                sortable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="reviewerComments"
@@ -547,11 +556,11 @@ const CurrentRequest = (props) => {
                                 filterControl="TextInput"
                                 filterWaterMark="Contains"
                                 filterOperation="Contains"
-                                enableRecursiveSearch="true"
-                                headerWordWrap="true"
-                                itemEditorApplyOnValueCommit="true"
-                                enableCellClickRowSelect="false"
-                                sortable="false"
+                                enableRecursiveSearch={true}
+                                headerWordWrap={true}
+                                itemEditorApplyOnValueCommit={true}
+                                enableCellClickRowSelect={false}
+                                sortable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="createDate"
@@ -559,13 +568,13 @@ const CurrentRequest = (props) => {
                                 headerAlign="center"
                                 width={100}
                                 filterControl="DateComboBox"
-                                enableRecursiveSearch="true"
-                                headerWordWrap="false"
+                                enableRecursiveSearch={true}
+                                headerWordWrap={false}
                                 //  formatter="{ExampleUtils.dateFormatter3}" 
-                                editable="false"
-                                enableCellClickRowSelect="false"
+                                editable={false}
+                                enableCellClickRowSelect={false}
                                 //  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}" 
-                                sortable="false"
+                                sortable={false}
                             />
                         </ReactDataGridColumnGroup>
                         <ReactDataGridColumn
@@ -575,16 +584,16 @@ const CurrentRequest = (props) => {
                             width={60}
                             columnLockMode={"right"}
                             itemRenderer={uploadOrViewFile}
-                            editable="false"
-                            hideText="true"
-                            headerWordWrap="true"
-                            //  enableIcon="true" 
+                            editable={false}
+                            hideText={true}
+                            headerWordWrap={true}
+                            //  enableIcon={true} 
                             //  iconFunction="dynamicIconFunctionUpload" 
                             iconToolTip="View/Upload Request Document"
-                            iconHandCursor="true"
+                            iconHandCursor={true}
                             columnWidthMode="fixed"
                             iconLeft="25"
-                            sortable="false"
+                            sortable={false}
                         />
                         <ReactDataGridColumn
                             dataField="Save"
@@ -593,15 +602,15 @@ const CurrentRequest = (props) => {
                             width={60}
                             columnLockMode={"right"}
                             itemRenderer={save}
-                            editable="false"
-                            hideText="true"
-                            //  enableIcon="true" 
+                            editable={false}
+                            hideText={true}
+                            //  enableIcon={true} 
                             //  iconFunction="dynamicIconFunctionSave" 
                             iconToolTip="Save Request"
-                            iconHandCursor="true"
+                            iconHandCursor={true}
                             columnWidthMode="fixed"
                             iconLeft="20"
-                            sortable="false"
+                            sortable={false}
                         />
                         <ReactDataGridColumn
                             dataField="Edit"
@@ -610,15 +619,15 @@ const CurrentRequest = (props) => {
                             width={60}
                             columnLockMode={"right"}
                             itemRenderer={edit}
-                            editable="false"
-                            hideText="true"
-                            //  enableIcon="true" 
+                            editable={false}
+                            hideText={true}
+                            //  enableIcon={true} 
                             //  iconFunction="dynamicIconFunctionEdit" 
                             iconToolTip="Edit Request"
-                            iconHandCursor="true"
+                            iconHandCursor={true}
                             columnWidthMode="fixed"
                             iconLeft="20"
-                            sortable="false"
+                            sortable={false}
                         />
                         <ReactDataGridColumn
                             dataField="Delete"
@@ -627,15 +636,15 @@ const CurrentRequest = (props) => {
                             width={60}
                             columnLockMode={"right"}
                             itemRenderer={remove}
-                            editable="false"
-                            hideText="true"
+                            editable={false}
+                            hideText={true}
                             //  enableIcon="{this.searchTb.viewStack.selectedIndex==0}" 
                             //  iconFunction="dynamicIconFunctionDelete" 
                             iconToolTip="Delete Request"
-                            iconHandCursor="true"
+                            iconHandCursor={true}
                             columnWidthMode="fixed"
                             iconLeft="20"
-                            sortable="false"
+                            sortable={false}
                         />
                         <ReactDataGridColumn
                             dataField="Submit"
@@ -644,16 +653,16 @@ const CurrentRequest = (props) => {
                             width={60}
                             columnLockMode={"right"}
                             itemRenderer={submit}
-                            editable="false"
-                            hideText="true"
-                            headerWordWrap="true"
-                            //  enableIcon="true" 
+                            editable={false}
+                            hideText={true}
+                            headerWordWrap={true}
+                            //  enableIcon={true} 
                             //  iconFunction="dynamicIconFunctionSubmit" 
                             iconToolTip="Submit/Accept Request"
-                            iconHandCursor="true"
+                            iconHandCursor={true}
                             columnWidthMode="fixed"
                             iconLeft="20"
-                            sortable="false"
+                            sortable={false}
                         />
                     </ReactDataGridColumnLevel>
                 </DataGrid>

@@ -3,18 +3,24 @@ import React from "react";
 
 const EpicRequestRenderer = (props) => {
 
+    const handleChangeData = () => {
+        const rowData = props.row.getData()
+        if (rowData.epicRequest === "Y") {
+            rowData.epicRequest = "N"
+        } else {
+            rowData.epicRequest = "Y"
+        }
+        props.grid.refreshGrid();
+    }
+
     return (
         <div>
             <Checkbox
                 id="epicChkBox"
+                // disabled={props.tabValue === 0}
                 checked={Boolean(props.row.rowPositionInfo.rowData.epicRequest === "Y")}
-                // enabled={(props.row.rowPositionInfo.rowData.edit === true)} //this.outerDocument.searchTb.viewStack.selectedIndex === 0 &&
-                // visible="{this.data is IdWorklist?true:false}"
-                // selected="{data.epicRequest=='Y'?true:false}"
-
-                onClick={() => Boolean(props.row.rowPositionInfo.rowData.epicRequest === "Y") ? props.row.rowPositionInfo.rowData.epicRequest = "N" : props.row.rowPositionInfo.rowData.epicRequest = "Y"}
+                onClick={handleChangeData}
                 styleName="checkBoxStyle"
-            // change="epicChkBox_changeHandler(event)"
             />
         </div>
     )

@@ -27,7 +27,7 @@ const RequestWorkList = () => {
           </Tabs>
         </Paper>
       </div>
-      { Boolean(tab === 0) && <CurrentRequest/> }
+      { Boolean(tab === 0) && <CurrentRequest tabValue={tab} />}
     </div>
   )
 }
