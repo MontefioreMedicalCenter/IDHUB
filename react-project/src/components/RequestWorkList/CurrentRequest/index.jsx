@@ -25,6 +25,7 @@ import EpfRequestRenderer from '../../../container/views/itemRenderers/EpfReques
 import EpcsHardTokenRequest from '../../../container/views/itemRenderers/EpcsHardTokenRequest'
 import MmcEmailRequest from '../../../container/views/itemRenderers/MmcEmailRequest'
 
+import DocumentLibrary from '../DocumentLibrary';
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer);
 const ssnItemRenderer = new ClassFactory(SsnItemRender);
@@ -46,6 +47,7 @@ const CurrentRequest = (props) => {
     const dataGridRef = useRef(null)
     const [gridData, setGridData] = useState([]);
     const [openModal, setOpenModal] = useState(false);
+    const [openDocumentLibrary, setDocumentLibraryModal] = useState(false);
 
     const worklistResultHandler = (resp) => {
         var workListGroupArr = new ArrayCollection()
@@ -672,6 +674,12 @@ const CurrentRequest = (props) => {
                 handleClose={() => setOpenModal(false)}
                 headerTitle="Request Documents"
                 bodyRenderer={<RequestDocument />}
+            />
+            <AdvanceDialog
+                open={openDocumentLibrary}
+                handleClose={() => setDocumentLibraryModal(false)}
+                headerTitle="Document Library"
+                bodyRenderer={<DocumentLibrary />}
             />
         </div>
     )
