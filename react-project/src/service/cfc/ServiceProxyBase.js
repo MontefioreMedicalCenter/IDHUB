@@ -133,7 +133,7 @@ export default class ServiceProxyBase extends TypedObject {
           } catch (err) {
             if (faultFunction) {
               // traceError(response.data);
-              faultFunction({ error: response });
+              faultFunction({ error: err, response });
             }
           }
         }

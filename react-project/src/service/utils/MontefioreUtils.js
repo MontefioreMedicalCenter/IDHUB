@@ -1,5 +1,6 @@
 import moment from "moment";
 import { DateFormatter, UIUtils } from "../../flexicious";
+import { toast } from 'react-toastify';
 
 const MontefioreUtils = () => { };
 const formatter = (item, dataField, formatString) => {
@@ -22,7 +23,9 @@ const formatter = (item, dataField, formatString) => {
         return UIUtils.toString(item[dataField]);
     }
 }
-
+MontefioreUtils.showError = (err) => {
+    toast.error("Error: " + (err.error ? err.error.message : err.toString()));
+}
 MontefioreUtils.dateFormatter2 = (item, { dataField }) => {
     return formatter(item, dataField, "MMM D, YYYY")
 };

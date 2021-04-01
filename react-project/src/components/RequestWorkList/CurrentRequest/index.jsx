@@ -11,7 +11,6 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import CheckCircleTwoToneIcon from '@material-ui/icons/CheckCircleTwoTone';
 import WorklistService from '../../../service/cfc/WorklistService';
-import { toast } from 'react-toastify';
 import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup';
 import ArrayCollection from '../../../vo/ArrayCollection';
 import { camelizeKeys } from '../../../shared/utils';
@@ -54,16 +53,12 @@ const CurrentRequest = (props) => {
                 workListGroupArr.addItem(workGroup)
         })
         setGridData((workListGroupArr[0].workLists))
-    }
-
-    const worklistFaultHandler = ({ error }) => {
-        toast.error(error.toString());
-    }
+    } 
 
     useEffect(() => {
         WorklistService.getInstance().findWorklistGroups(
             worklistResultHandler,
-            worklistFaultHandler
+            MontefioreUtils.showError
         )
     }, []);
     useEffect(() => {

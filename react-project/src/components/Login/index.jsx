@@ -11,12 +11,12 @@ import { useDispatch } from 'react-redux';
 import { saveLoginModel } from '../../AppConfig/store/actions/loginAction';
 import { saveLookupData } from '../../AppConfig/store/actions/workListSheet';
 import Montefiore from "../../assets/images/Doing-More-Logo.jpg"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 import { camelizeKeys } from '../../shared/utils';
 import LoginModel from '../../vo/main/LoginModel';
 import WorklistService from '../../service/cfc/WorklistService';
 import WorkListModel from '../../vo/worklist/WorkListModel';
+import MontefioreUtils from '../../service/utils/MontefioreUtils';
 
 const Login = () => {
 
@@ -53,19 +53,16 @@ const Login = () => {
 
     const findLookupLists = () => {
         WorklistService.getInstance().findLookupLists(
-            worklistResultHandler,
-            worklistFaultHandler,
+            lookupListsResultHandler,
+            MontefioreUtils.showError
         )
     }
 
-    const worklistResultHandler = (resp) => {
+    const lookupListsResultHandler = (resp) => {
         const workListModel = new WorkListModel();
-        workListModel.fromJson({ "lookupLists": camelizeKeys(resp.result) })
+        //confirm with Mittul that the lookup list reponse is an array of 1 object?
+        workListModel.fromJson({ "lookupLists": camelizeKeys(resp.result[0]) })
         dispatch(saveLookupData(workListModel))
-    }
-
-    const worklistFaultHandler = (err) => {
-        console.log("err", err)
     }
 
     const emptyField = () => {
@@ -140,7 +137,6 @@ const Login = () => {
                     </div>
                 </div>
             </div>
-            <ToastContainer />
         </div>
     );
 }

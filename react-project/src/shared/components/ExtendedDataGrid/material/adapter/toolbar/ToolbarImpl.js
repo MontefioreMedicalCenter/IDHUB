@@ -160,38 +160,42 @@ export default class ToolbarImpl extends React.Component {
 
   /**
    * Default handler for the Word Export Button. Calls
-   * ExtendedExportController.instance().doexport(this.props.pager.grid,ExportOptions.create(ExportOptions.DOC_EXPORT))
+   * ExtendedExportController.instance().doexport(grid,ExportOptions.create(ExportOptions.DOC_EXPORT))
    */
   onWordExport() {
-    this.props.pager.grid.toolbarWordHandlerFunction();
+    const grid = this.props.pager.grid;
+    grid.toolbarWordHandlerFunction();
   }
 
   /**
    * Default handler for the Word Export Button. Calls
-   * ExtendedExportController.instance().doexport(this.props.pager.grid,ExportOptions.create())
+   * ExtendedExportController.instance().doexport(grid,ExportOptions.create())
    */
   onExcelExport() {
-    this.props.pager.grid.toolbarExcelHandlerFunction();
+    const grid = this.props.pager.grid;
+    grid.toolbarExcelHandlerFunction();
   }
 
   /**
    * Default handler for the Print Button. Calls
    * var po:PrintOptions=PrintOptions.create();
    * po.printOptionsViewrenderer = new ClassFactory(ExtendedPrintOptionsView);
-   * ExtendedPrintController.instance().print(this.props.pager.grid,po)
+   * ExtendedPrintController.instance().print(grid,po)
    */
   onPrint() {
-    this.props.pager.grid.toolbarPrintHandlerFunction();
+    const grid = this.props.pager.grid;
+    grid.toolbarPrintHandlerFunction();
   }
 
   /**
    * Default handler for the Print Button. Calls
    * var po:PrintOptions=PrintOptions.create(true);
    * po.printOptionsViewrenderer = new ClassFactory(ExtendedPrintOptionsView);
-   * ExtendedPrintController.instance().print(this.props.pager.grid,po)
+   * ExtendedPrintController.instance().print(grid,po)
    */
   onPdf() {
-    this.props.pager.grid.toolbarPdfHandlerFunction();
+    const grid = this.props.pager.grid;
+    grid.toolbarPdfHandlerFunction();
   }
 
   /**
@@ -199,7 +203,8 @@ export default class ToolbarImpl extends React.Component {
    * Calls grid.clearFilter()
    */
   onClearFilter() {
-    this.props.pager.grid.clearFilter();
+    const grid = this.props.pager.grid;
+    grid.clearFilter();
   }
 
   /**
@@ -207,27 +212,30 @@ export default class ToolbarImpl extends React.Component {
    * Calls grid.processFilter()
    */
   onProcessFilter() {
-    this.props.pager.grid.processFilter();
+    const grid = this.props.pager.grid;
+    grid.processFilter();
   }
 
   /**
    * Default handler for the Show Hide Filter Button.
-   * Calls this.props.pager.grid.filterVisible=!this.props.pager.grid.filterVisible;nestedGrid.placeSections()
+   * Calls grid.filterVisible=!grid.filterVisible;nestedGrid.placeSections()
    */
   onShowHideFilter() {
-    this.props.pager.grid.setFilterVisible(
-      !this.props.pager.grid.getFilterVisible(),
+    const grid = this.props.pager.grid;
+    grid.setFilterVisible(
+      !grid.getFilterVisible(),
     );
-    this.props.pager.grid.rebuild();
+    grid.rebuild();
   }
 
   /**
    * Default handler for the Show Hide Filter Button.
-   * Calls this.props.pager.grid.filterVisible=!this.props.pager.grid.filterVisible;nestedGrid.placeSections()
+   * Calls grid.filterVisible=!grid.filterVisible;nestedGrid.placeSections()
    */
   onShowHideFooter() {
-    this.props.pager.grid.footerVisible = !this.props.pager.grid.footerVisible;
-    this.props.pager.grid.placeSections();
+    const grid = this.props.pager.grid;
+    grid.footerVisible = !grid.footerVisible;
+    grid.placeSections();
   }
 
   /**
@@ -235,9 +243,10 @@ export default class ToolbarImpl extends React.Component {
    * Calls var popup:SaveSettingsPopup=new SaveSettingsPopup();UIUtils.addPopUp(popup,grid as DisplayObject);popup.grid=grid;
    */
   onShowSettingsPopup() {
-    const popup = this.props.pager.grid.popupFactorySettingsPopup.newInstance();
+    const grid = this.props.pager.grid;
+    const popup = grid.popupFactorySettingsPopup.newInstance();
 
-    popup.setGrid(this.props.pager.grid);
+    popup.setGrid(grid);
     popup.showDialog();
   }
 
@@ -246,9 +255,10 @@ export default class ToolbarImpl extends React.Component {
    * Calls var popup:OpenSettingsPopup=new OpenSettingsPopup();UIUtils.addPopUp(popup,grid as DisplayObject);popup.grid=grid;
    */
   onOpenSettingsPopup() {
-    const popup = this.props.pager.grid.popupFactoryOpenSettingsPopup.newInstance();
+    const grid = this.props.pager.grid;
+    const popup = grid.popupFactoryOpenSettingsPopup.newInstance();
 
-    popup.setGrid(this.props.pager.grid);
+    popup.setGrid(grid);
     popup.showDialog();
   }
 
@@ -257,14 +267,16 @@ export default class ToolbarImpl extends React.Component {
    * Calls var popup:SaveSettingsPopup=new SaveSettingsPopup();UIUtils.addPopUp(popup,grid as DisplayObject);popup.grid=grid;
    */
   onSaveSettingsPopup() {
-    const popup = this.props.pager.grid.popupFactorySaveSettingsPopup.newInstance();
+    const grid = this.props.pager.grid;
+    const popup = grid.popupFactorySaveSettingsPopup.newInstance();
 
-    popup.setGrid(this.props.pager.grid);
+    popup.setGrid(grid);
     popup.showDialog();
   }
 
   render() {
-    let gridId = this.props.pager.grid.id;
+    const grid = this.props.pager.grid;
+    let gridId = grid.id;
 
     gridId += "_";
 
@@ -277,23 +289,24 @@ export default class ToolbarImpl extends React.Component {
       this.linesep = 1;
     }
     var linesep = this.linesep;
+    if(!grid) return;
 
     if (this.props.pager.level.getNestDepth() === 1) {
-      if (this.props.pager.grid.enableDrillDown) {
+      if (grid.enableDrillDown) {
         topLevelToolbarButtons.push(
           <span key="1">
             <span
               key={gridId + "btnCollapseOne"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnCollapseOne"}
-              onClick={this.expandUp.bind(this)}
+              onClick={grid.expandUp.bind(this)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
                   alt={Constants.PGR_BTN_EXP_ONE_UP_TOOLTIP}
                   className={"imageButtonExpandUp"}
                   src={
-                    this.props.pager.grid.getThemeToolbarIconFolder() +
+                    grid.getThemeToolbarIconFolder() +
                     "/collapseOne.png"
                   }
                   tabIndex={0}
@@ -306,14 +319,14 @@ export default class ToolbarImpl extends React.Component {
               key={gridId + "btnExpandOne"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnExpandOne"}
-              onClick={this.expandDown.bind(this)}
+              onClick={grid.expandDown.bind(this)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
                   alt={Constants.PGR_BTN_EXP_ONE_DOWN_TOOLTIP}
                   className={"imageButtonExpandDown"}
                   src={
-                    this.props.pager.grid.getThemeToolbarIconFolder() +
+                    grid.getThemeToolbarIconFolder() +
                     "/expandOne.png"
                   }
                   tabIndex={0}
@@ -326,14 +339,14 @@ export default class ToolbarImpl extends React.Component {
               key={gridId + "btnCollapseAll"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnCollapseAll"}
-              onClick={this.collapseAll.bind(this)}
+              onClick={grid.collapseAll.bind(this)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
                   alt={Constants.PGR_BTN_COLLAPSE_ALL_TOOLTIP}
                   className={"imageButtonCollapseAll"}
                   src={
-                    this.props.pager.grid.getThemeToolbarIconFolder() +
+                    grid.getThemeToolbarIconFolder() +
                     "/collapseAll.png"
                   }
                   tabIndex={0}
@@ -346,14 +359,14 @@ export default class ToolbarImpl extends React.Component {
               key={gridId + "btnExpandAll"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnExpandAll"}
-              onClick={this.expandAll.bind(this)}
+              onClick={grid.expandAll.bind(this)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
                   alt={Constants.PGR_BTN_EXP_ALL_TOOLTIP}
                   className={"imageButtonExpandAll"}
                   src={
-                    this.props.pager.grid.getThemeToolbarIconFolder() +
+                    grid.getThemeToolbarIconFolder() +
                     "/expandAll.png"
                   }
                   tabIndex={0}
@@ -371,7 +384,7 @@ export default class ToolbarImpl extends React.Component {
         );
       }
 
-      if (this.props.pager.grid.enableMultiColumnSort) {
+      if (grid.enableMultiColumnSort) {
         topLevelToolbarButtons.push(
           <span key="2">
             <span
@@ -385,7 +398,7 @@ export default class ToolbarImpl extends React.Component {
                   alt={Constants.PGR_BTN_SORT_TOOLTIP}
                   className={"imageButtonSort"}
                   src={
-                    this.props.pager.grid.getThemeToolbarIconFolder() +
+                    grid.getThemeToolbarIconFolder() +
                     "/sort.png"
                   }
                   tabIndex={0}
@@ -404,7 +417,7 @@ export default class ToolbarImpl extends React.Component {
       }
       //not yet supported
 
-      if (this.props.pager.grid.enablePreferencePersistence) {
+      if (grid.enablePreferencePersistence) {
         topLevelToolbarButtons.push(
           <span key="3">
             <span
@@ -418,14 +431,14 @@ export default class ToolbarImpl extends React.Component {
                 title={Constants.PGR_BTN_SETTINGS_TOOLTIP}
               >
                 <Settings className={"imageButtonSettings"}>{}</Settings>
-                {/* <img tabIndex={0} src={this.props.pager.grid.getThemeToolbarIconFolder() + "/settings.png"} 
+                {/* <img tabIndex={0} src={grid.getThemeToolbarIconFolder() + "/settings.png"} 
                             className={"imageButtonSettings"}
                                 alt={Constants.PGR_BTN_SETTINGS_TOOLTIP} title={Constants.PGR_BTN_SETTINGS_TOOLTIP} /> */}
               </IconButton>
             </span>
           </span>,
         );
-        if (this.props.pager.grid.enableMultiplePreferences) {
+        if (grid.enableMultiplePreferences) {
           topLevelToolbarButtons.push(
             <span key="4">
               <span
@@ -531,7 +544,7 @@ export default class ToolbarImpl extends React.Component {
           </span>,
         );
       }
-      if (this.props.pager.grid.enablePrint) {
+      if (grid.enablePrint) {
         topLevelToolbarButtons.push(
           <span key="9">
             <span
@@ -545,7 +558,7 @@ export default class ToolbarImpl extends React.Component {
                   alt={Constants.PGR_BTN_PRINT_TOOLTIP}
                   className={"imageButtonPrint"}
                   src={
-                    this.props.pager.grid.getThemeToolbarIconFolder() +
+                    grid.getThemeToolbarIconFolder() +
                     "/print.png"
                   }
                   tabIndex={0}
@@ -556,7 +569,7 @@ export default class ToolbarImpl extends React.Component {
           </span>,
         );
       }
-      if (this.props.pager.grid.enablePdf) {
+      if (grid.enablePdf) {
         topLevelToolbarButtons.push(
           <span key="10">
             <span
@@ -570,7 +583,7 @@ export default class ToolbarImpl extends React.Component {
                   alt={Constants.PGR_BTN_PDF_TOOLTIP}
                   className={"imageButtonPdf"}
                   src={
-                    this.props.pager.grid.getThemeToolbarIconFolder() +
+                    grid.getThemeToolbarIconFolder() +
                     "/pdf.png"
                   }
                   tabIndex={0}
@@ -582,8 +595,8 @@ export default class ToolbarImpl extends React.Component {
         );
       }
       if (
-        this.props.pager.grid.enablePrint ||
-        this.props.pager.grid.enablePdf
+        grid.enablePrint ||
+        grid.enablePdf
       ) {
         topLevelToolbarButtons.push(
           <span
@@ -595,18 +608,18 @@ export default class ToolbarImpl extends React.Component {
         );
       }
 
-      // if (this.props.pager.grid.enableExport) {
+      // if (grid.enableExport) {
       //     topLevelToolbarButtons.push(
       //         <span key="11">
       //             <span key={gridId + "btnWord"} id={gridId + "btnWord"} className={"pagerDiv  iconCell"}>
       //                 <IconButton className={"imageButtonSize"}>
-      //                     <img tabIndex={0} src={this.props.pager.grid.getThemeToolbarIconFolder() + "/word.png"} className={"imageButtonWord"}
+      //                     <img tabIndex={0} src={grid.getThemeToolbarIconFolder() + "/word.png"} className={"imageButtonWord"}
       //                         alt={Constants.PGR_BTN_WORD_TOOLTIP} title={Constants.PGR_BTN_WORD_TOOLTIP} />
       //                 </IconButton>
       //             </span>
       //         </span>);
       // }
-      if (this.props.pager.grid.enableExport) {
+      if (grid.enableExport) {
         topLevelToolbarButtons.push(
           <span key="12">
             <span
@@ -679,7 +692,7 @@ export default class ToolbarImpl extends React.Component {
                 {" "}
                 <SkipPrevious />{" "}
               </IconButton>
-              {/* <img tabIndex='0' src={this.props.pager.grid.getThemeToolbarIconFolder() + "/firstPage.png"} className={"imageButtonFirstPage"}
+              {/* <img tabIndex='0' src={grid.getThemeToolbarIconFolder() + "/firstPage.png"} className={"imageButtonFirstPage"}
                         alt={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP} title={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP} /> */}
             </span>
           ) : null}
@@ -701,7 +714,7 @@ export default class ToolbarImpl extends React.Component {
                 {" "}
                 <ArrowLeft />{" "}
               </IconButton>
-              {/* <img tabIndex='0' src={this.props.pager.grid.getThemeToolbarIconFolder() + "/prevPage.png"} className={"imageButtonPrevPage"}
+              {/* <img tabIndex='0' src={grid.getThemeToolbarIconFolder() + "/prevPage.png"} className={"imageButtonPrevPage"}
                         alt={Constants.PGR_BTN_PREV_PAGE_TOOLTIP} title={Constants.PGR_BTN_PREV_PAGE_TOOLTIP} /> */}
             </span>
           ) : null}
@@ -723,7 +736,7 @@ export default class ToolbarImpl extends React.Component {
                 {" "}
                 <ArrowRight />{" "}
               </IconButton>
-              {/* <img tabIndex='0' src={this.props.pager.grid.getThemeToolbarIconFolder() + "/nextPage.png"} className={"imageButtonNextPage"}
+              {/* <img tabIndex='0' src={grid.getThemeToolbarIconFolder() + "/nextPage.png"} className={"imageButtonNextPage"}
                         alt={Constants.PGR_BTN_NEXT_PAGE_TOOLTIP} title={Constants.PGR_BTN_NEXT_PAGE_TOOLTIP} /> */}
             </span>
           ) : null}
@@ -745,7 +758,7 @@ export default class ToolbarImpl extends React.Component {
                 {" "}
                 <SkipNext />{" "}
               </IconButton>
-              {/* <img tabIndex='0' src={this.props.pager.grid.getThemeToolbarIconFolder() + "/lastPage.png"} className={"imageButtonLastPage"}
+              {/* <img tabIndex='0' src={grid.getThemeToolbarIconFolder() + "/lastPage.png"} className={"imageButtonLastPage"}
                         alt={Constants.PGR_BTN_LAST_PAGE_TOOLTIP} title={Constants.PGR_BTN_LAST_PAGE_TOOLTIP} /> */}
             </span>
           ) : null}
@@ -812,15 +825,17 @@ export default class ToolbarImpl extends React.Component {
     if (!this.props.pager.level) {
       return;
     }
+    const grid = this.props.pager.grid;
     this.refresh();
-    this.props.pager.grid.addEventListener(
+    grid.addEventListener(
       this,
       FlexDataGrid.EVENT_CHANGE,
       this.refresh,
     );
   }
   componentWillUnmount() {
-    this.props.pager.grid.removeEventListener(
+    const grid = this.props.pager.grid;
+    grid.removeEventListener(
       FlexDataGrid.EVENT_CHANGE,
       this.refresh,
     );
@@ -835,7 +850,7 @@ export default class ToolbarImpl extends React.Component {
 
       if (img && img.hasOwnProperty("className")) {
         UIUtils.detachClass(img, "over");
-        //this.props.pager.grid.domElement.focus();
+        //grid.domElement.focus();
       }
     }
   }
@@ -849,6 +864,7 @@ export default class ToolbarImpl extends React.Component {
   }
 
   onMultiColumnSort() {
-    this.props.pager.grid.multiColumnSortShowPopup();
+    const grid = this.props.pager.grid;
+    grid.multiColumnSortShowPopup();
   }
 }
