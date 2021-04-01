@@ -38,7 +38,7 @@ const CurrentRequest = (props) => {
 
     const dataGridRef = useRef(null)
     const [gridData, setGridData] = useState([]);
-    const [openModal, setOpenModal] = useState(true);
+    const [openModal, setOpenModal] = useState(false);
 
 
     const worklistResultHandler = (resp) => {
