@@ -60,7 +60,7 @@ const CurrentRequest = (props) => {
             else
                 workListGroupArr.addItem(workGroup)
         })
-        setGridData((workListGroupArr[0].workLists))
+        setGridData(workListGroupArr)
     }
 
     useEffect(() => {
@@ -158,7 +158,7 @@ const CurrentRequest = (props) => {
                         enablePaging={true}
                         horizontalGridLines={false}
                         pageSize={10000}
-                        childrenField="workLists"
+                        childrenField="_workLists"
                         alternatingItemColors="[0xe1eef7,0xe1eef7]"
                         enableFilters={true}
                         horizontalGridLineColor={"#99BBE8"}
@@ -665,6 +665,16 @@ const CurrentRequest = (props) => {
                             columnWidthMode="fixed"
                             iconLeft="20"
                             sortable={false}
+                        />
+                        <ReactDataGridColumnLevel
+                            enableFooters selectedKeyField={"id"} parentField={"invoice"} nestIndent={40}
+                            horizontalGridLines={false}
+                            horizontalGridLineColor="0xffffff"
+                            horizontalGridLineThickness="0"
+                            rowHeight="23"
+                            reusePreviousLevelColumns={true}
+                            alternatingItemColors="[0xFFFFFF,0xFFFFFF]"
+                            initialSortField="id.worklistSeqNum"
                         />
                     </ReactDataGridColumnLevel>
                 </DataGrid>
