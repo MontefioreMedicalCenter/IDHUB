@@ -3,7 +3,13 @@ export default class ArrayCollection extends Array {
     isEmpty() {
         return this.length === 0;
     }
-
+    addAll(addList){
+        var length = addList.length;
+        for (var i= 0; i < length; i++)
+        {
+            this.push(addList.getItemAt(i));
+        }
+    }
     addItem(item) {
         this.push(item);
     }

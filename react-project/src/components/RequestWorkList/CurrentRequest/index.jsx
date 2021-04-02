@@ -56,11 +56,13 @@ const CurrentRequest = (props) => {
         resp.result.forEach((data) => {
             let workGroup = new IdWorklistGroup()
             workGroup.fromJson(camelizeKeys(data))
+            workGroup.workLists.forEach(wl=>wl.worklistGroup=workGroup);
             if (workGroup.workLists != null && workGroup.workLists.length === 1)
-                workListArr.addItem(workGroup.workLists);
+                workListArr.addAll(workGroup.workLists);
             else
-                workListGroupArr.addItem(workGroup)
+                workListGroupArr.addItem(workGroup);
         })
+        workListGroupArr.addAll(workListArr)
         setGridData(workListGroupArr)
     }
 
