@@ -273,7 +273,14 @@ export default class ToolbarImpl extends React.Component {
     popup.setGrid(grid);
     popup.showDialog();
   }
-
+  expandToLevel(lvl){
+    const grid = this.props.pager.grid;
+    grid.expandToLevel(lvl);
+  }
+  getMaxDepth(){
+    const grid = this.props.pager.grid;
+    return grid.getMaxDepth();
+  }
   render() {
     const grid = this.props.pager.grid;
     let gridId = grid.id;
@@ -299,7 +306,7 @@ export default class ToolbarImpl extends React.Component {
               key={gridId + "btnCollapseOne"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnCollapseOne"}
-              onClick={grid.expandUp.bind(this)}
+              onClick={grid.expandUp.bind(grid)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
@@ -319,7 +326,7 @@ export default class ToolbarImpl extends React.Component {
               key={gridId + "btnExpandOne"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnExpandOne"}
-              onClick={grid.expandDown.bind(this)}
+              onClick={grid.expandDown.bind(grid)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
@@ -339,7 +346,7 @@ export default class ToolbarImpl extends React.Component {
               key={gridId + "btnCollapseAll"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnCollapseAll"}
-              onClick={grid.collapseAll.bind(this)}
+              onClick={grid.collapseAll.bind(grid)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
@@ -359,7 +366,7 @@ export default class ToolbarImpl extends React.Component {
               key={gridId + "btnExpandAll"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnExpandAll"}
-              onClick={grid.expandAll.bind(this)}
+              onClick={grid.expandAll.bind(grid)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
