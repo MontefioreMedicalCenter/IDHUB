@@ -17,7 +17,7 @@ const EpicRequestRenderer = (props) => {
         <div>
             <Checkbox
                 id="epicChkBox"
-                // disabled={props.tabValue === 0}
+                disabled={props.column.valueOfTab !== 0}
                 checked={Boolean(props.row.rowPositionInfo.rowData.epicRequest === "Y")}
                 onClick={handleChangeData}
                 styleName="checkBoxStyle"

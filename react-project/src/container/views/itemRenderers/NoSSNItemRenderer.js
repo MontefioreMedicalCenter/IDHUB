@@ -16,7 +16,7 @@ const NoSSNItemRenderer = (props) => {
         <div>
             <Checkbox
                 id="nossnChkBox"
-                // disabled={props.tabValue === 0}
+                disabled={props.column.valueOfTab !== 0}
                 checked={Boolean(props.row.rowPositionInfo.rowData.noSsn === "Y")}
                 onClick={handleChangeData}
             />

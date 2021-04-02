@@ -17,6 +17,7 @@ import {
   Sync,
 } from "@material-ui/icons";
 import React from "react";
+import FolderIcon from '@material-ui/icons/Folder';
 import {
   Constants,
   ExtendedFilterPageSortChangeEvent,
@@ -273,11 +274,11 @@ export default class ToolbarImpl extends React.Component {
     popup.setGrid(grid);
     popup.showDialog();
   }
-  expandToLevel(lvl){
+  expandToLevel(lvl) {
     const grid = this.props.pager.grid;
     grid.expandToLevel(lvl);
   }
-  getMaxDepth(){
+  getMaxDepth() {
     const grid = this.props.pager.grid;
     return grid.getMaxDepth();
   }
@@ -296,7 +297,7 @@ export default class ToolbarImpl extends React.Component {
       this.linesep = 1;
     }
     var linesep = this.linesep;
-    if(!grid) return;
+    if (!grid) return;
 
     if (this.props.pager.level.getNestDepth() === 1) {
       if (grid.enableDrillDown) {
@@ -307,6 +308,16 @@ export default class ToolbarImpl extends React.Component {
               className={"pagerDiv  iconCell"}
               id={gridId + "btnCollapseOne"}
               onClick={grid.expandUp.bind(grid)}
+            >
+              <IconButton className={"imageButtonSize"}>
+                <FolderIcon fontSize="large" />
+              </IconButton>
+            </span>
+            <span
+              key={gridId + "btnCollapseOne"}
+              className={"pagerDiv  iconCell"}
+              id={gridId + "btnCollapseOne"}
+              onClick={this.addDemoPopUp.bind(this)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
@@ -398,7 +409,7 @@ export default class ToolbarImpl extends React.Component {
               key={gridId + "btnSort"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnSort"}
-              onClick={this.onMultiColumnSort.bind(this)}
+              onClick={this.addDemoPopUp.bind(this)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
@@ -437,7 +448,7 @@ export default class ToolbarImpl extends React.Component {
                 style={{ width: "40px", height: "40px" }}
                 title={Constants.PGR_BTN_SETTINGS_TOOLTIP}
               >
-                <Settings className={"imageButtonSettings"}>{}</Settings>
+                <Settings className={"imageButtonSettings"}>{ }</Settings>
                 {/* <img tabIndex={0} src={grid.getThemeToolbarIconFolder() + "/settings.png"} 
                             className={"imageButtonSettings"}
                                 alt={Constants.PGR_BTN_SETTINGS_TOOLTIP} title={Constants.PGR_BTN_SETTINGS_TOOLTIP} /> */}
@@ -458,7 +469,7 @@ export default class ToolbarImpl extends React.Component {
                   style={{ width: "40px", height: "40px" }}
                   title={Constants.PGR_BTN_OPEN_SETTINGS_TOOLTIP}
                 >
-                  <Settings className={"imageButtonOpenSettings"}>{}</Settings>
+                  <Settings className={"imageButtonOpenSettings"}>{ }</Settings>
                 </IconButton>
               </span>
             </span>,
@@ -478,7 +489,7 @@ export default class ToolbarImpl extends React.Component {
                 title={Constants.PGR_BTN_SAVE_SETTINGS_TOOLTIP}
               >
                 <SettingsApplications className={"imageButtonSaveSettings"}>
-                  {}
+                  { }
                 </SettingsApplications>
               </IconButton>
             </span>
@@ -670,15 +681,11 @@ export default class ToolbarImpl extends React.Component {
           {this.props.pager.level.enablePaging ? (
             <span key="pageInfo" className={"pagerDiv pageInfo"}>
               {" "}
-              {`${Constants.PGR_ITEMS} ${this.getPageStart()} ${
-                Constants.PGR_TO
-              } ${this.getPageEnd()} ${
-                Constants.PGR_OF
-              } ${this.getTotalRecords()}. ${
-                Constants.PGR_PAGE
-              } ${this.getPageIndex() + 1} ${
-                Constants.PGR_OF
-              } ${this.getPageCount()} `}
+              {`${Constants.PGR_ITEMS} ${this.getPageStart()} ${Constants.PGR_TO
+                } ${this.getPageEnd()} ${Constants.PGR_OF
+                } ${this.getTotalRecords()}. ${Constants.PGR_PAGE
+                } ${this.getPageIndex() + 1} ${Constants.PGR_OF
+                } ${this.getPageCount()} `}
             </span>
           ) : null}
 

@@ -15,7 +15,7 @@ const MmcEmailRequest = (props) => {
         <div>
             <Checkbox
                 id="mmcEmailChkBox"
-                // disabled={props.tabValue === 0}
+                disabled={props.column.valueOfTab !== 0}
                 checked={Boolean(props.row.rowPositionInfo.rowData.mmcEmailRequest === "Y")}
                 onClick={handleChangeData}
             />

@@ -1,20 +1,17 @@
 // import { TextField } from "@material-ui/core";
 import React from "react";
-import { TextInput } from "../../../flexicious";
 
-const SsnItemRender = (props) => { 
+const SsnItemRender = (props) => {
 
-    return (props.row.rowPositionInfo.rowData.workLists? <div></div>:
+    return (props.row.rowPositionInfo.rowData.workLists ? <div></div> :
         <div>
-            <TextInput
+            <input
                 value={props.row.rowPositionInfo.rowData.ssn}
-                inputProps={{ maxLength: 5 }}
                 displayAsPassword={true}
                 editable={false}
                 text={props.row.rowPositionInfo.rowData.ssn}
-                maxChars={11}
-                height={30}
-                restrict="0-9"
+                type="text"
+                maxlength="10"
             />
 
         </div>

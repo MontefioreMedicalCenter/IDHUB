@@ -16,7 +16,7 @@ const EpfRequestRenderer = (props) => {
         <div>
             <Checkbox
                 id="epfChkBox"
-                // disabled={props.tabValue === 0}
+                disabled={props.column.valueOfTab !== 0}
                 checked={Boolean(props.row.rowPositionInfo.rowData.epfRequest === "Y")}
                 onClick={handleChangeData}
             />

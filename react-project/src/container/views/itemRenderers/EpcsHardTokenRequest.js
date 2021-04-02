@@ -15,7 +15,7 @@ const EpcsHardTokenRequest = (props) => {
         <div>
             <Checkbox
                 id="epcsChkBox"
-                // disabled={props.tabValue === 0}
+                disabled={props.column.valueOfTab !== 0}
                 checked={Boolean(props.row.rowPositionInfo.rowData.epcsHardTokenRequest === "Y")}
                 onClick={handleChangeData}
             />

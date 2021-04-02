@@ -4,12 +4,6 @@ import '../requestWork.style.scss';
 import DataGrid from '../../../shared/components/ExtendedDataGrid';
 import { ReactDataGridColumn, ReactDataGridColumnGroup, ReactDataGridColumnLevel, ClassFactory } from '../../../flexicious';
 import { Paper, withStyles } from '@material-ui/core';
-import FolderIcon from '@material-ui/icons/Folder';
-import { Button } from "@material-ui/core";
-import SaveIcon from '@material-ui/icons/Save';
-import EditIcon from '@material-ui/icons/Edit';
-import DeleteIcon from '@material-ui/icons/Delete';
-import CheckCircleTwoToneIcon from '@material-ui/icons/CheckCircleTwoTone';
 import WorklistService from '../../../service/cfc/WorklistService';
 import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup';
 import ArrayCollection from '../../../vo/ArrayCollection';
@@ -24,9 +18,14 @@ import RequestDocument from '../RequestDocument';
 import EpfRequestRenderer from '../../../container/views/itemRenderers/EpfRequestRenderer'
 import EpcsHardTokenRequest from '../../../container/views/itemRenderers/EpcsHardTokenRequest'
 import MmcEmailRequest from '../../../container/views/itemRenderers/MmcEmailRequest'
-
+import UploadOrViewFile from '../../../container/views/itemRenderers/UploadOrViewFile'
+import Save from '../../../container/views/itemRenderers/Save'
+import Edit from '../../../container/views/itemRenderers/Edit'
+import Remove from '../../../container/views/itemRenderers/Remove'
+import Submit from '../../../container/views/itemRenderers/Submit'
 import DocumentLibrary from '../DocumentLibrary';
 import IdWorklist from '../../../vo/worklist/IdWorklist';
+// import PopUp from '../../PopUp';
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer);
 const ssnItemRenderer = new ClassFactory(SsnItemRender);
@@ -34,6 +33,11 @@ const epicRequestRenderer = new ClassFactory(EpicRequestRenderer)
 const epfRequestRenderer = new ClassFactory(EpfRequestRenderer)
 const epcsHardTokenRequest = new ClassFactory(EpcsHardTokenRequest)
 const mmcEmailRequest = new ClassFactory(MmcEmailRequest)
+const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
+const save = new ClassFactory(Save)
+const edit = new ClassFactory(Edit)
+const remove = new ClassFactory(Remove)
+const submit = new ClassFactory(Submit)
 
 const styles = (theme) => ({
     gridHeader: {
@@ -47,8 +51,9 @@ const CurrentRequest = (props) => {
 
     const dataGridRef = useRef(null)
     const [gridData, setGridData] = useState([]);
-    const [openModal, setOpenModal] = useState(false);
+    const [openModal, setOpenModal] = useState(true);
     const [openDocumentLibrary, setDocumentLibraryModal] = useState(false);
+    const [valueOfTab] = useState(props.tabValue);
 
     const worklistResultHandler = (resp) => {
         var workListGroupArr = new ArrayCollection()
@@ -56,7 +61,7 @@ const CurrentRequest = (props) => {
         resp.result.forEach((data) => {
             let workGroup = new IdWorklistGroup()
             workGroup.fromJson(camelizeKeys(data))
-            workGroup.workLists.forEach(wl=>wl.worklistGroup=workGroup);
+            workGroup.workLists.forEach(wl => wl.worklistGroup = workGroup);
             if (workGroup.workLists != null && workGroup.workLists.length === 1)
                 workListArr.addAll(workGroup.workLists);
             else
@@ -71,46 +76,8 @@ const CurrentRequest = (props) => {
             worklistResultHandler,
             MontefioreUtils.showError
         )
+
     }, []);
-    const uploadOrViewFile = () => {
-        return (
-            <Button>
-                <FolderIcon fontSize="small" style={{ fill: '#1daed6' }} />
-            </Button>
-        )
-    }
-
-    const save = () => {
-        return (
-            <Button>
-                <SaveIcon fontSize="small" />
-            </Button>
-        )
-    }
-
-    const edit = () => {
-        return (
-            <Button>
-                <EditIcon fontSize="small" />
-            </Button>
-        )
-    }
-
-    const remove = () => {
-        return (
-            <Button>
-                <DeleteIcon fontSize="small" />
-            </Button>
-        )
-    }
-
-    const submit = () => {
-        return (
-            <Button>
-                <CheckCircleTwoToneIcon fontSize="small" style={{ fill: '#008000' }} />
-            </Button>
-        )
-    }
 
     const placeExpandCollapseIcon = (img) => { img.move(0, 0) };
 
@@ -176,7 +143,7 @@ const CurrentRequest = (props) => {
                     //  alternatingItemColors="[0xffffff,0xffffff]" 
                     enableToolbarActions
                     styleName="gridStyle"
-                    toolbarActionExecutedFunction="onExecuteToolbarAction"
+                    // toolbarActionExecutedFunction={onExecuteToolbarAction}
                     editable
                     enableDrillDown
                     filterVisible={false}
@@ -208,7 +175,6 @@ const CurrentRequest = (props) => {
                                 width={150}
                                 columnLockMode={"left"}
                                 enableCellClickRowSelect={false}
-
                                 editable={false}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
@@ -251,7 +217,6 @@ const CurrentRequest = (props) => {
                         />
                         <ReactDataGridColumnGroup
                             headerText="Personal"
-
                             dataField="requester-user-id"
                         >
                             <ReactDataGridColumn
@@ -296,7 +261,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="noSSN"
                                 headerText="No SSN"
-
+                                valueOfTab={valueOfTab}
                                 width={100}
                                 headerWordWrap={true}
                                 editable={false}
@@ -309,6 +274,7 @@ const CurrentRequest = (props) => {
                                 width={90}
                                 dataField="ssn"
                                 headerText="SSN"
+                                editable={false}
                                 headerWordWrap={true}
                                 //  itemEditorValidatorFunction="validateSSN" 
                                 itemEditorApplyOnValueCommit={true}
@@ -510,6 +476,7 @@ const CurrentRequest = (props) => {
                                 width={100}
                                 headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
+                                valueOfTab={valueOfTab}
                                 //  filterComboBoxDataProvider="{comboDP}" 
                                 editable={false}
                                 enableRecursiveSearch={true}
@@ -523,6 +490,7 @@ const CurrentRequest = (props) => {
 
                                 width={100}
                                 headerWordWrap={true}
+                                valueOfTab={valueOfTab}
                                 filterControl="MultiSelectComboBox"
                                 //  filterComboBoxDataProvider="{comboDP}" 
                                 editable={false}
@@ -538,6 +506,7 @@ const CurrentRequest = (props) => {
                                 width={100}
                                 headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
+                                valueOfTab={valueOfTab}
                                 //  filterComboBoxDataProvider="{comboDP}" 
                                 editable={false}
                                 enableRecursiveSearch={true}
@@ -552,6 +521,7 @@ const CurrentRequest = (props) => {
                                 width={100}
                                 headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
+                                valueOfTab={valueOfTab}
                                 //  filterComboBoxDataProvider="{comboDP}" 
                                 editable={false}
                                 enableRecursiveSearch={true}
