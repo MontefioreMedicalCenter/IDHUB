@@ -141,7 +141,7 @@ export default class IdWorklistBase extends VoBase {
     set dateOfBirth(value) {
         this._dateOfBirth = value;
         if (this._dateOfBirth != null)
-            this._dateOfBirthStr = this._dateOfBirth.toDateString();
+            this._dateOfBirthStr = new Date(this._dateOfBirthStr).toDateString();
     }
     get dateOfBirth() {
         return this._dateOfBirth;
@@ -189,7 +189,7 @@ export default class IdWorklistBase extends VoBase {
     set endDate(value) {
         this._endDate = value;
         if (this._endDate != null)
-            this._endDateStr = this._endDate.toDateString();
+            this._endDateStr = new Date(this._endDate).toDateString();
     }
     get endDate() {
         return this._endDate;
@@ -395,7 +395,7 @@ export default class IdWorklistBase extends VoBase {
     set startDate(value) {
         this._startDate = value;
         if (this._startDate != null)
-            this._startDateStr = this._startDate.toDateString();
+            this._startDateStr =  new Date(this._startDate).toDateString();
     }
     get startDate() {
         return this._startDate;

@@ -7,7 +7,6 @@ import {
   FlexDataGridEvent,
 } from "../../../flexicious";
 import MaterialDataGrid from "./material/grid/MaterialDataGrid";
-import { toUintColorCode } from "../../utils";
 
 const iconExpand = "/keyboard_arrow_right.svg";
 const iconCollapse = "/keyboard_arrow_up.svg";
@@ -36,6 +35,7 @@ export default class DataGrid extends MaterialDataGrid {
       this.showSpinnerOnFilterPageSort = false;
     }
     this.headerPaddingLeft = 4;
+    this.headerColors = this.columnGroupColors = [0xFFFFFF, 0x99BBE8]
     //Vertical Grid Lines for all Grids
     this.verticalGridLines = true;
     this.verticalGridLineColor = 0xcccccc;
@@ -383,41 +383,6 @@ export default class DataGrid extends MaterialDataGrid {
     super.onGridMouseOut();
     this.getBodyContainer().gridMouseOut();
   }
-  applyMaterialStyles = ({
-    rollOverColor,
-    textRollOverColor,
-    selectionColor,
-    textSelectedColor,
-    headerColor,
-  }) => {
-    // this.alternatingItemColors = [0xFFFFFF, 0xFFFFFF],
-    this.alternatingTextColors = [0x000000, 0x000000];
-    this.rollOverColor = rollOverColor
-      ? toUintColorCode(rollOverColor)
-      : 0xcedbef;
-    // this.headerRollOverColors =  [0xE6E6E6, 0xFFFFFF],
-    this.headerRollOverColors = headerColor
-      ? [toUintColorCode(headerColor), toUintColorCode(headerColor)]
-      : [0xffffff, 0xffffff];
-    this.headerColors = headerColor
-      ? [toUintColorCode(headerColor), toUintColorCode(headerColor)]
-      : [0xffffff, 0xffffff];
-    this.columnGroupColors = this.headerColors;
-    this.columnGroupRollOverColors = this.headerRollOverColors;
-    this.textSelectedColor = textSelectedColor
-      ? toUintColorCode(textSelectedColor)
-      : 0x000000;
-    this.textRollOverColor = textRollOverColor
-      ? toUintColorCode(textRollOverColor)
-      : 0x000000;
-    // this.borderColor = 0x666666,
-    this.selectionColor = selectionColor
-      ? [toUintColorCode(selectionColor), toUintColorCode(selectionColor)]
-      : [0xffffff, 0xffffff];
-
-    this.refreshCells();
-  };
-
   static countSelectedRows = (dataGrid) => {
     return dataGrid && dataGrid.getSelectedItems()
       ? dataGrid.getSelectedItems().length
@@ -518,21 +483,6 @@ export default class DataGrid extends MaterialDataGrid {
     }
   };
 
-  static updatePresetStyle = ({ theme, classes }, grid) => {
-    if (grid && theme) {
-      const { getContrastText } = theme.palette;
-
-      grid.applyMaterialStyles({
-        rollOverColor: theme.palette.primary.light,
-        selectionColor: theme.palette.primary.light,
-        textRollOverColor: getContrastText(theme.palette.primary.light),
-        textSelectedColor: getContrastText(theme.palette.primary.main),
-        headerColor: theme.palette.primary.main,
-      });
-      grid.headerStyleName = classes ? classes.gridHeader : "";
-      grid.rebuildHeader(); // sync with global switched theme
-    }
-  };
   expandCollapseItem = (data, open, level) => {
     if (open) {
       this.getBodyContainer().addOpenItem(data);

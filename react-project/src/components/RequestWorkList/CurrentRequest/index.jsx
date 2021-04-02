@@ -26,6 +26,7 @@ import EpcsHardTokenRequest from '../../../container/views/itemRenderers/EpcsHar
 import MmcEmailRequest from '../../../container/views/itemRenderers/MmcEmailRequest'
 
 import DocumentLibrary from '../DocumentLibrary';
+import IdWorklist from '../../../vo/worklist/IdWorklist';
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer);
 const ssnItemRenderer = new ClassFactory(SsnItemRender);
@@ -69,10 +70,6 @@ const CurrentRequest = (props) => {
             MontefioreUtils.showError
         )
     }, []);
-    useEffect(() => {
-        dataGridRef && DataGrid.updatePresetStyle(props, dataGridRef.current);
-    }, [props])
-
     const uploadOrViewFile = () => {
         return (
             <Button>
@@ -113,8 +110,37 @@ const CurrentRequest = (props) => {
         )
     }
 
+    const placeExpandCollapseIcon = (img) => { img.move(0, 0) };
 
 
+
+    const isCellEditable = (cell) => {
+        const rowData = cell.rowInfo.getData();
+        var selectedRequest = rowData instanceof IdWorklist ? rowData : null;
+        const column = cell.getColumn();
+        if (rowData.worklistStatus === "Processed")
+            return (rowData.edit && column.dataField === "endDate")
+        else if (cell.level.getNestDepth() !== 1 || selectedRequest !== null)
+            return (rowData.edit && (column.dataField === "firstName" ||
+                column.dataField === "middleNameOrInitial" || column.dataField === "lastName"
+                || column.dataField === "ssn" || column.dataField === "dateOfBirth"
+                || column.dataField === "gender" || column.dataField === "nonMonteEmail"
+                || column.dataField === "employeeSubGroup" || column.dataField === "companyCode"
+                || column.dataField === "campusCode" || column.dataField === "title"
+                || column.dataField === "department" || column.dataField === "startDate"
+                || column.dataField === "endDate" || column.dataField === "managerSourceUniqueId"
+                || column.dataField === "mmcEmailRequest" || column.dataField === "affiliateEmailRequest"
+                || column.dataField === "homeDriveRequest" || column.dataField === "epicRequest"
+                || column.dataField === "epfRequest" || column.dataField === "epcsHardTokenRequest"
+                || column.dataField === "additionalComments" || column.dataField === "officePhone"
+                || column.dataField === "managerPhone" || column.dataField === "managerEmail"
+                || column.dataField === "managerPh" || column.dataField === "managerExt"
+                || column.dataField === "noSSN"));
+        else if (cell.level.getNestDepth() === 1)
+            return (rowData.edit && column.dataField === "additionalComments");
+        else
+            return false;
+    }
 
     return (
         <div className="grid-container">
@@ -128,6 +154,7 @@ const CurrentRequest = (props) => {
                     height={"90%"}
                     width={"100%"}
                     id="Requestor_WorkList_Grid"
+                    alternatingItemColors={[0xffffff, 0xffffff]}
                     dataProvider={gridData}
                     enablePrint
                     enablePreferencePersistence
@@ -150,43 +177,51 @@ const CurrentRequest = (props) => {
                     toolbarActionExecutedFunction="onExecuteToolbarAction"
                     editable
                     enableDrillDown
-                    cellEditableFunction="isCellEditable"
                     filterVisible={false}
+                    headerWordWrap
+                    headerHeight={60}
+                    enableDefaultDisclosureIcon={false}
+                    headerSortSeparatorRight={3}
+                    selectionMode="none"
+                    cellEditableFunction={isCellEditable}
                 >
                     <ReactDataGridColumnLevel
                         rowHeight={10}
                         enablePaging={true}
-                        horizontalGridLines={false}
+                        horizontalGridLines={true}
                         pageSize={10000}
                         childrenField="_workLists"
-                        alternatingItemColors="[0xe1eef7,0xe1eef7]"
+                        alternatingItemColors={[0xe1eef7, 0xe1eef7]}
                         enableFilters={true}
-                        horizontalGridLineColor={"#99BBE8"}
+                        horizontalGridLineColor={0x99BBE8}
                         horizontalGridLineThickness={1}
                     >
                         <ReactDataGridColumnGroup
                             headerText="ID"
-                            headerAlign="center"
+
                         >
                             <ReactDataGridColumn
-                                dataField="id.worklistId"
-                                headerText="worklist#"
-                                width={50}
+                                dataField="worklistId"
+                                headerText="Worklist #"
+                                width={150}
                                 columnLockMode={"left"}
                                 enableCellClickRowSelect={false}
-                                headerAlign="center"
+
                                 editable={false}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
+                                enableExpandCollapseIcon
+                                enableHierarchicalNestIndent
+                                expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
                             // filterWaterMark={"Contains"}                                
                             />
                             <ReactDataGridColumn
                                 dataField="id.worklistSeqNum"
-                                headerText="seq"
+                                headerText="Seq"
                                 width={50}
                                 columnLockMode={"left"}
-                                headerAlign="center"
+
                                 editable={false}
                                 enableCellClickRowSelect={false}
                                 filterControl="TextInput"
@@ -196,7 +231,7 @@ const CurrentRequest = (props) => {
                         </ReactDataGridColumnGroup>
                         <ReactDataGridColumn
                             headerText="Status"
-                            headerAlign="center"
+
                             dataField="worklistStatus"
                             width={80}
                             columnLockMode={"left"}
@@ -214,13 +249,13 @@ const CurrentRequest = (props) => {
                         />
                         <ReactDataGridColumnGroup
                             headerText="Personal"
-                            headerAlign="center"
+
                             dataField="requester-user-id"
                         >
                             <ReactDataGridColumn
                                 dataField="lastName"
                                 headerText="Last name"
-                                headerAlign="center"
+
                                 width={100}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
@@ -234,7 +269,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="firstName"
                                 headerText="First Name"
-                                headerAlign="center"
+
                                 width={100}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
@@ -248,7 +283,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="middleNameOrInitial"
                                 headerText="Init"
-                                headerAlign="center"
+
                                 width={100}
                                 headerWordWrap={true}
                                 //  itemEditorValidatorFunction="validateInitial" 
@@ -259,7 +294,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="noSSN"
                                 headerText="No SSN"
-                                headerAlign="center"
+
                                 width={100}
                                 headerWordWrap={true}
                                 editable={false}
@@ -282,7 +317,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="dateOfBirth"
                                 headerText="DOB"
-                                headerAlign="center"
+
                                 width={100}
                                 editorDataField="selectedDate"
                                 filterControl="DateComboBox"
@@ -297,7 +332,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="gender"
                                 headerText="Gender"
-                                headerAlign="center"
+
                                 width={100}
                                 headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
@@ -309,8 +344,8 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="nonMonteEmail"
                                 headerText="Personal or Business Email"
-                                headerAlign="center"
-                                width={70}
+
+                                width={120}
                                 headerWordWrap={true}
                                 //  itemEditorValidatorFunction="validatePersonEmail" 
                                 itemEditorApplyOnValueCommit={true}
@@ -320,14 +355,14 @@ const CurrentRequest = (props) => {
                         </ReactDataGridColumnGroup>
                         <ReactDataGridColumnGroup
                             headerText="Official Details"
-                            headerAlign="center"
+
                             dataField="requester-user-id"
                         >
                             <ReactDataGridColumn
                                 dataField="employeeSubGroup"
                                 headerText="User Type"
-                                headerAlign="center"
-                                width={100}
+
+                                width={140}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
@@ -341,7 +376,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="companyCode"
                                 headerText="Vendor Consultant Company"
-                                headerAlign="center"
+
                                 width={100}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
@@ -356,7 +391,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="campusCode"
                                 headerText="Location"
-                                headerAlign="center"
+
                                 width={100}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
@@ -370,7 +405,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="title"
                                 headerText="Title"
-                                headerAlign="center"
+
                                 width={100}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
@@ -384,7 +419,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="department"
                                 headerText="Department"
-                                headerAlign="center"
+
                                 width={100}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
@@ -398,7 +433,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="startDate"
                                 headerText="Start date"
-                                headerAlign="center"
+
                                 width={100}
                                 editorDataField="selectedDate"
                                 filterControl="DateComboBox"
@@ -413,7 +448,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="endDate"
                                 headerText="End Date"
-                                headerAlign="center"
+
                                 width={100}
                                 editorDataField="selectedDate"
                                 filterControl="DateComboBox"
@@ -426,7 +461,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="managerSourceUniqueId"
                                 headerText="MHS Manager ID"
-                                headerAlign="center"
+
                                 width={100}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
@@ -441,7 +476,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="managerPh"
                                 headerText="MHS Manager Phone"
-                                headerAlign="center"
+
                                 width={100}
                                 headerWordWrap={true}
                                 itemEditorApplyOnValueCommit={true}
@@ -452,13 +487,13 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="managerExt"
                                 headerText="MHS Manager Ext"
-                                headerAlign="center"
+
                                 width={100}
                             />
                             <ReactDataGridColumn
                                 dataField="managerEmail"
                                 headerText="MHS Manager Email"
-                                headerAlign="center"
+
                                 width={100}
                                 headerWordWrap={true}
                                 //  itemEditorValidatorFunction="validatePersonEmail" 
@@ -469,7 +504,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="epicRequest"
                                 headerText="EPIC"
-                                headerAlign="center"
+
                                 width={100}
                                 headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
@@ -483,7 +518,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="epfRequest"
                                 headerText="EPF"
-                                headerAlign="center"
+
                                 width={100}
                                 headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
@@ -497,7 +532,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="epcsHardTokenRequest"
                                 headerText="EPCS Hard Token"
-                                headerAlign="center"
+
                                 width={100}
                                 headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
@@ -511,7 +546,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="mmcEmailRequest"
                                 headerText="MMC Email"
-                                headerAlign="center"
+
                                 width={100}
                                 headerWordWrap={true}
                                 filterControl="MultiSelectComboBox"
@@ -525,7 +560,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="additionalComments"
                                 headerText="Requestors Comment"
-                                headerAlign="center"
+
                                 width={100}
                                 filterControl="TextInput"
                                 filterWaterMark="Contains"
@@ -540,7 +575,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="requestorFullName"
                                 headerText="Requestor"
-                                headerAlign="center"
+
                                 width={100}
                                 columnWidthMode="fixed"
                                 enableCellClickRowSelect={false}
@@ -553,7 +588,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="reviewerComments"
                                 headerText="Reject Reason"
-                                headerAlign="center"
+
                                 width={100}
                                 filterControl="TextInput"
                                 filterWaterMark="Contains"
@@ -567,7 +602,7 @@ const CurrentRequest = (props) => {
                             <ReactDataGridColumn
                                 dataField="createDate"
                                 headerText="Create Date"
-                                headerAlign="center"
+
                                 width={100}
                                 filterControl="DateComboBox"
                                 enableRecursiveSearch={true}
@@ -582,7 +617,7 @@ const CurrentRequest = (props) => {
                         <ReactDataGridColumn
                             dataField="uploadDocs"
                             headerText="Upload or view Docs"
-                            headerAlign="center"
+
                             width={60}
                             columnLockMode={"right"}
                             itemRenderer={uploadOrViewFile}
@@ -600,7 +635,7 @@ const CurrentRequest = (props) => {
                         <ReactDataGridColumn
                             dataField="Save"
                             headerText="Save"
-                            headerAlign="center"
+
                             width={60}
                             columnLockMode={"right"}
                             itemRenderer={save}
@@ -617,7 +652,7 @@ const CurrentRequest = (props) => {
                         <ReactDataGridColumn
                             dataField="Edit"
                             headerText="Edit"
-                            headerAlign="center"
+
                             width={60}
                             columnLockMode={"right"}
                             itemRenderer={edit}
@@ -634,7 +669,7 @@ const CurrentRequest = (props) => {
                         <ReactDataGridColumn
                             dataField="Delete"
                             headerText="Delete"
-                            headerAlign="center"
+
                             width={60}
                             columnLockMode={"right"}
                             itemRenderer={remove}
@@ -651,7 +686,7 @@ const CurrentRequest = (props) => {
                         <ReactDataGridColumn
                             dataField="Submit"
                             headerText="Submit"
-                            headerAlign="center"
+
                             width={60}
                             columnLockMode={"right"}
                             itemRenderer={submit}
@@ -667,13 +702,13 @@ const CurrentRequest = (props) => {
                             sortable={false}
                         />
                         <ReactDataGridColumnLevel
-                            enableFooters selectedKeyField={"id"} parentField={"invoice"} nestIndent={40}
+                            enableFooters selectedKeyField={"id"} parentField={"invoice"}
                             horizontalGridLines={false}
                             horizontalGridLineColor="0xffffff"
                             horizontalGridLineThickness="0"
                             rowHeight="23"
                             reusePreviousLevelColumns={true}
-                            alternatingItemColors="[0xFFFFFF,0xFFFFFF]"
+                            alternatingItemColors={[0xFFFFFF, 0xFFFFFF]}
                             initialSortField="id.worklistSeqNum"
                         />
                     </ReactDataGridColumnLevel>

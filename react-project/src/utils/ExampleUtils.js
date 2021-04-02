@@ -1,5 +1,4 @@
-import { CurrencyFormatter, DateFormatter  } from "../flexicious";
-import PhoneFormatter from "./PhoneFormatter";
+import { CurrencyFormatter, DateFormatter, NumberFormatter  } from "../flexicious"; 
 export default class ExampleUtils {
     
     static get globalCurrencyFormatter() {
@@ -46,7 +45,7 @@ export default class ExampleUtils {
     }
     static get phoneFormatter1() {
         if (!ExampleUtils._phoneFormatter1) {
-            ExampleUtils._phoneFormatter1 = new PhoneFormatter();
+            ExampleUtils._phoneFormatter1 = new NumberFormatter();
             ExampleUtils._phoneFormatter1.formatString = '###-###-####';
         }
         return ExampleUtils._phoneFormatter1;
@@ -56,7 +55,7 @@ export default class ExampleUtils {
     }
     static get phoneFormatter2() {
         if (!ExampleUtils._phoneFormatter2) {
-            ExampleUtils._phoneFormatter2 = new PhoneFormatter();
+            ExampleUtils._phoneFormatter2 = new NumberFormatter();
             ExampleUtils._phoneFormatter2.formatString = '###-##-####';
         }
         return ExampleUtils._phoneFormatter2;

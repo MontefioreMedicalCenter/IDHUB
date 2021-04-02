@@ -1,11 +1,22 @@
 import ArrayCollection from "../ArrayCollection";
 import VoBase from "../VoBase";
+import DirectoryListEntry from "./DirectoryListEntry";
+import IdWorklist from "./IdWorklist";
 
 export default class IdWorklistGroupBase extends VoBase {
-    constructor( ) {
+    constructor() {
         super();
         this._workLists = new ArrayCollection();
-        this._fileList = new ArrayCollection();  
+        this._fileList = new ArrayCollection();
+    }
+
+    getComplexProperty(key) {
+        if (key === "fileList") {
+            return new DirectoryListEntry();
+        } else if (key === "workLists") {
+            return new IdWorklist();
+        }
+        return super.getComplexProperty(key);
     }
     set additionalComments(value) {
         this._additionalComments = value;

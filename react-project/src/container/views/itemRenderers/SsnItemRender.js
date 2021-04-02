@@ -2,10 +2,9 @@
 import React from "react";
 import { TextInput } from "../../../flexicious";
 
-const SsnItemRender = (props) => {
+const SsnItemRender = (props) => { 
 
-
-    return (
+    return (props.row.rowPositionInfo.rowData.workLists? <div></div>:
         <div>
             <TextInput
                 value={props.row.rowPositionInfo.rowData.ssn}
@@ -14,6 +13,7 @@ const SsnItemRender = (props) => {
                 editable={false}
                 text={props.row.rowPositionInfo.rowData.ssn}
                 maxChars={11}
+                height={30}
                 restrict="0-9"
             />
 

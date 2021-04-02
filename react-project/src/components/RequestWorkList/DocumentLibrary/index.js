@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, {  useRef } from 'react';
 import { Button, Paper, withStyles } from '@material-ui/core';
 import './DocumentLibrary.style.scss';
 import DataGrid from '../../../shared/components/ExtendedDataGrid';
@@ -15,10 +15,6 @@ const styles = (theme) => ({
 
 const DocumentLibrary = (props) => {
     const dataGridRef = useRef(null)
-
-    useEffect(() => {
-        dataGridRef && DataGrid.updatePresetStyle(props, dataGridRef.current);
-    }, [props])
 
     const baseNamerenderer = (props) => {
         const row = props.row.getData();

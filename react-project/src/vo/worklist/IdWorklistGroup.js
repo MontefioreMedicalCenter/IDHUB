@@ -93,6 +93,7 @@ export default class IdWorklistGroup extends IdWorklistGroupBase {
         idWorklistGroup.worklistStatus = this.worklistStatus;
         return idWorklistGroup;
     }
+    
     get firstName() {
         if (this._firstName == null)
             this._firstName = '';
