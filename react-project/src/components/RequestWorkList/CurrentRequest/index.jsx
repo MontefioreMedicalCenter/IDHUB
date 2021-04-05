@@ -51,7 +51,7 @@ const CurrentRequest = (props) => {
 
     const dataGridRef = useRef(null)
     const [gridData, setGridData] = useState([]);
-    const [openModal, setOpenModal] = useState(true);
+    const [openModal, setOpenModal] = useState(false);
     const [openDocumentLibrary, setDocumentLibraryModal] = useState(false);
     const [valueOfTab] = useState(props.tabValue);
 
@@ -111,6 +111,10 @@ const CurrentRequest = (props) => {
             return false;
     }
 
+    const onOpenDocument = () => {
+        setDocumentLibraryModal(!openDocumentLibrary)
+    }
+
     return (
         <div className="grid-container">
             <Paper style={{ height: "100%", width: "100%", marginTop: "10px" }}>
@@ -153,6 +157,7 @@ const CurrentRequest = (props) => {
                     headerSortSeparatorRight={3}
                     selectionMode="none"
                     cellEditableFunction={isCellEditable}
+                    documentOpenFunction={onOpenDocument}
                 >
                     <ReactDataGridColumnLevel
                         rowHeight={10}
@@ -694,7 +699,7 @@ const CurrentRequest = (props) => {
             />
             <AdvanceDialog
                 open={openDocumentLibrary}
-                handleClose={() => setDocumentLibraryModal(false)}
+                handleClose={onOpenDocument}
                 headerTitle="Document Library"
                 bodyRenderer={<DocumentLibrary />}
             />

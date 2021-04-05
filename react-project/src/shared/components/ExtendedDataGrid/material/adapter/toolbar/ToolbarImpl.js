@@ -304,10 +304,10 @@ export default class ToolbarImpl extends React.Component {
         topLevelToolbarButtons.push(
           <span key="1">
             <span
-              key={gridId + "btnCollapseOne"}
+              key={gridId + "btnAddDocument"}
               className={"pagerDiv  iconCell"}
-              id={gridId + "btnCollapseOne"}
-              onClick={grid.expandUp.bind(grid)}
+              id={gridId + "btnAddDocument"}
+              onClick={this.addDocument.bind(this)}
             >
               <IconButton className={"imageButtonSize"}>
                 <FolderIcon fontSize="large" />
@@ -317,7 +317,7 @@ export default class ToolbarImpl extends React.Component {
               key={gridId + "btnCollapseOne"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnCollapseOne"}
-              onClick={this.addDemoPopUp.bind(this)}
+              onClick={grid.expandUp.bind(grid)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
@@ -409,7 +409,7 @@ export default class ToolbarImpl extends React.Component {
               key={gridId + "btnSort"}
               className={"pagerDiv  iconCell"}
               id={gridId + "btnSort"}
-              onClick={this.addDemoPopUp.bind(this)}
+              onClick={this.onMultiColumnSort.bind(this)}
             >
               <IconButton className={"imageButtonSize"}>
                 <img
@@ -880,5 +880,10 @@ export default class ToolbarImpl extends React.Component {
   onMultiColumnSort() {
     const grid = this.props.pager.grid;
     grid.multiColumnSortShowPopup();
+  }
+
+  addDocument() {
+    const grid = this.props.pager.grid;
+    grid.documentOpenFunction && grid.documentOpenFunction();
   }
 }
