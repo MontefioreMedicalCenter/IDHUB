@@ -1,9 +1,11 @@
-import React, {  useRef } from 'react';
+import React, { useRef } from 'react';
 import { Button, Paper, withStyles } from '@material-ui/core';
 import './DocumentLibrary.style.scss';
 import DataGrid from '../../../shared/components/ExtendedDataGrid';
-import { ReactDataGridColumn } from '../../../flexicious';
+import { ReactDataGridColumn, ClassFactory } from '../../../flexicious';
 import Back from '../../../assets/images/back_2.png';
+import { useSelector } from 'react-redux';
+import Remove from '../../../container/views/itemRenderers/Remove'
 
 const styles = (theme) => ({
     gridHeader: {
@@ -13,13 +15,20 @@ const styles = (theme) => ({
     },
 });
 
-const DocumentLibrary = (props) => {
+
+const remove = new ClassFactory(Remove)
+
+const DocumentLibrary = () => {
     const dataGridRef = useRef(null)
+    const documentLibrary = useSelector(state => state.workListState.documentLibrary)
+    const documentLibraryState = useSelector(state => state.documentLibraryState)
+
+    console.log("documentLibraryState", documentLibraryState)
 
     const baseNamerenderer = (props) => {
         const row = props.row.getData();
         return (
-            <span >{row.baseName}</span>
+            <span >{row.baseName || "..."}</span>
         )
     }
 
@@ -40,8 +49,8 @@ const DocumentLibrary = (props) => {
                     textAlign={"center"}
                     height={"90%"}
                     width={"100%"}
-                    id="Requestor_WorkList_Grid"
-                    dataProvider={[]}
+                    id="Document_Library_Grid"
+                    dataProvider={documentLibrary}
                     editable
                     enableCopy
                     styleName="gridStyle"
@@ -59,14 +68,12 @@ const DocumentLibrary = (props) => {
                     />
                     <ReactDataGridColumn
                         textAlign="right"
-                        enableIcon
                         paddingRight={20}
-                        iconRight={5}
-                        iconHandCursor
+                        itemRenderer={Boolean(documentLibraryState.showDelete) ? remove : () => null}
                     />
                 </DataGrid>
             </Paper>
-            <div className="upload-container">
+            {Boolean(documentLibraryState.showUpload) && <div className="upload-container">
                 <span className="upload-text">Upload File:</span>
                 <div className="upload-file-name" onClick={locateImage}>browse...</div>
                 <input
@@ -81,7 +88,7 @@ const DocumentLibrary = (props) => {
                     size="large"
                     startIcon={<img src={Back} alt="no-img" />}
                 > Upload </Button>
-            </div>
+            </div>}
         </div>
 
     )

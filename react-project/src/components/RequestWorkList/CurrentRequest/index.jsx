@@ -630,8 +630,9 @@ const CurrentRequest = (props) => {
                             editable={false}
                             hideText={true}
                             headerWordWrap={true}
-                            // enableIcon={true}
-                            // iconFunction={dynamicIconFunctionUpload}
+                            onDocumentClick={onOpenDocument}
+                            //  enableIcon={true} 
+                            //  iconFunction="dynamicIconFunctionUpload" 
                             iconToolTip="View/Upload Request Document"
                             iconHandCursor={true}
                             columnWidthMode="fixed"

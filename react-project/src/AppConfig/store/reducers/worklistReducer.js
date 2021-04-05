@@ -1,7 +1,8 @@
-import {LOOKUP_SUCCESSFULL} from '../actions/workListSheet'
+import {LOOKUP_SUCCESSFULL, SET_DOCUMENT_LIBRARY} from '../actions/workListSheet'
 
 const initialState = {
-    workListmodel: {}
+    workListmodel: {},
+    documentLibrary: []
 };
 
 const worklistReducer = (state = initialState, action) => {
@@ -10,6 +11,11 @@ const worklistReducer = (state = initialState, action) => {
             return {
                 ...state,
                 workListmodel: action.payload
+            };
+        case SET_DOCUMENT_LIBRARY:
+            return {
+                ...state,
+                documentLibrary: action.payload
             };
         default:
             return state;
