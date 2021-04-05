@@ -1,0 +1,22 @@
+Request Headers
+User-Agent: PostmanRuntime/7.26.1
+Accept: */*
+Postman-Token: cbabdcc9-2a45-41bd-b6fe-72b1edfa29e6
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 214
+Request Body
+worklistId: "wk.10101012"
+dirListEntry: "{"baseName": "TestFileConfAgree.pdf", "fileContents": [68,101,102,97,117,108,116,32,99,111,110,116,101,110,116,115]}"
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: *
+Content-Type: application/json
+Content-Length: 451
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Mon, 05 Apr 2021 14:39:45 GMT
+Response Body
+[{"baseName":"TestFileConfAgree.pdf","directory":false,"fileModificationDate":"2021-04-05 02:39 PM","fileName":"C:\\IDHub\\FileStore\\wk.10101012\\TestFileConfAgree.pdf","fileSize":16,"fileURL":"http://ODCFSVVWD01:8080/IdhubDocumentLibrary/IDHub/FileStore/wk.10101012/TestFileConfAgree.pdf","parentDir":"C:\\IDHub\\FileStore\\wk.10101012\\TestFileConfAgree.pdf","parentURL":"http://ODCFSVVWD01:8080/IdhubDocumentLibrary/IDHub/FileStore/wk.10101012/"}]
