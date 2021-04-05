@@ -19,13 +19,14 @@ import EpfRequestRenderer from '../../../container/views/itemRenderers/EpfReques
 import EpcsHardTokenRequest from '../../../container/views/itemRenderers/EpcsHardTokenRequest'
 import MmcEmailRequest from '../../../container/views/itemRenderers/MmcEmailRequest'
 import UploadOrViewFile from '../../../container/views/itemRenderers/UploadOrViewFile'
+import WorklistStatusRenderer from '../../../container/views/itemRenderers/WorklistStatusRenderer'
 import Save from '../../../container/views/itemRenderers/Save'
 import Edit from '../../../container/views/itemRenderers/Edit'
 import Remove from '../../../container/views/itemRenderers/Remove'
 import Submit from '../../../container/views/itemRenderers/Submit'
+import Gender from '../../../container/views/itemRenderers/Gender'
 import DocumentLibrary from '../DocumentLibrary';
 import IdWorklist from '../../../vo/worklist/IdWorklist';
-// import PopUp from '../../PopUp';
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer);
 const ssnItemRenderer = new ClassFactory(SsnItemRender);
@@ -38,6 +39,8 @@ const save = new ClassFactory(Save)
 const edit = new ClassFactory(Edit)
 const remove = new ClassFactory(Remove)
 const submit = new ClassFactory(Submit)
+const worklistStatusRenderer = new ClassFactory(WorklistStatusRenderer)
+const gender = new ClassFactory(Gender)
 
 const styles = (theme) => ({
     gridHeader: {
@@ -114,6 +117,34 @@ const CurrentRequest = (props) => {
     const onOpenDocument = () => {
         setDocumentLibraryModal(!openDocumentLibrary)
     }
+
+    const getCellBackgroundColor = (cell) => {
+        if (cell._column.dataField === "worklistStatus") {
+            const txtstatus = cell.rowInfo.getData().worklistStatus
+            if (txtstatus === "Initial") {
+                return 0xb3d9ff;
+            }
+            else if (txtstatus === "Rejected") {
+                return 0xff8080;
+            }
+            else if (txtstatus === "Ready") {
+                return 0x00cc99;
+            }
+            else if (txtstatus === "OnHold") {
+                return 0xffd9b3;
+            }
+            else if (txtstatus === "Processed") {
+                return 0xffffff;
+            }
+            else if (txtstatus === "Submitted") {
+                return 0xE6E6FA
+                    ;
+            }
+        } else {
+            return 0xffffff;
+        }
+        return 0xffffff
+    };
 
     return (
         <div className="grid-container">
@@ -212,13 +243,9 @@ const CurrentRequest = (props) => {
                             editable={false}
                             filterComboBoxBuildFromGrid={true}
                             filterControl="MultiSelectComboBox"
-                            //  cellBackgroundColorFunction={"getCellBackgroundColor"}
-                            enableIcon={true}
-                            //  iconFunction="dynamicIconFunction" 
                             paddingRight="20"
-                            iconRight="5"
-                            iconHandCursor={true}
-                        // iconToolTip={Hover over to view Errors.}
+                            itemRenderer={worklistStatusRenderer}
+                            cellBackgroundColorFunction={getCellBackgroundColor}
                         />
                         <ReactDataGridColumnGroup
                             headerText="Personal"
@@ -313,6 +340,8 @@ const CurrentRequest = (props) => {
                                 enableRecursiveSearch={true}
                                 itemEditorApplyOnValueCommit={true}
                                 enableCellClickRowSelect={false}
+                                itemRenderer={gender}
+                                editable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="nonMonteEmail"
@@ -601,8 +630,8 @@ const CurrentRequest = (props) => {
                             editable={false}
                             hideText={true}
                             headerWordWrap={true}
-                            //  enableIcon={true} 
-                            //  iconFunction="dynamicIconFunctionUpload" 
+                            // enableIcon={true}
+                            // iconFunction={dynamicIconFunctionUpload}
                             iconToolTip="View/Upload Request Document"
                             iconHandCursor={true}
                             columnWidthMode="fixed"
