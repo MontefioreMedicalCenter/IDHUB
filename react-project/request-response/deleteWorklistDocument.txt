@@ -1,0 +1,23 @@
+POST http://localhost:8080/IdentityHub/api/storagesvc/deleteWorklistDocument
+Request Headers
+User-Agent: PostmanRuntime/7.26.1
+Accept: */*
+Postman-Token: 10c5b483-626e-4231-b339-675f29778658
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 89
+Request Body
+worklistId: "wk.10101012"
+dirListEntry: "{"baseName": "TestFileConfAgree.pdf"}"
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: *
+Content-Type: application/json
+Content-Length: 2
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Mon, 05 Apr 2021 16:33:58 GMT
+Response Body
+[]
