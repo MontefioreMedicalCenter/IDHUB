@@ -1,0 +1,187 @@
+-----------
+scenario 1
+----------
+
+
+POST http://localhost:8080/IdentityHub/api/worklistsvc/loadWorklistFromSpreadsheet
+200
+1333 ms
+Network
+
+Request Headers
+username: whussain
+User-Agent: PostmanRuntime/7.26.10
+Accept: */*
+Postman-Token: 96a01bdb-42d9-4202-b7ff-ffddc18bd14f
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: multipart/form-data; boundary=--------------------------956658556589087055237639
+Content-Length: 203819
+
+Request Body
+groupFlag: "true"
+content: undefined
+
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Content-Type: application/json
+Content-Length: 97
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Tue, 06 Apr 2021 20:32:57 GMT
+
+Response Body
+"Completed - Loaded 6 worklist items with Worklist IDs from 'wk.00010534' through 'wk.00010539'."
+
+
+----------
+scenario 2
+----------
+
+
+POST http://localhost:8080/IdentityHub/api/worklistsvc/loadWorklistFromSpreadsheet
+200
+
+Request Headers
+username: whussain
+User-Agent: PostmanRuntime/7.26.10
+Accept: */*
+Postman-Token: a463c4ab-ba79-45fd-b232-e0297deb0d58
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: multipart/form-data; boundary=--------------------------363857451741712040236678
+Content-Length: 203820
+
+Request Body
+groupFlag: "false"
+content: undefined
+
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Content-Type: application/json
+Content-Length: 97
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Tue, 06 Apr 2021 20:34:35 GMT
+
+Response Body
+"Completed - Loaded 6 worklist items with Worklist IDs from 'wk.00010540' through 'wk.00010545'."
+
+
+----------
+scenario 3
+----------
+
+
+ 
+POST http://localhost:8080/IdentityHub/api/worklistsvc/loadWorklistFromSpreadsheet
+200
+1328 ms
+Network
+
+Request Headers
+username: whussain
+User-Agent: PostmanRuntime/7.26.10
+Accept: */*
+Postman-Token: f17d7692-53ff-4565-828f-f1afb2b83186
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: multipart/form-data; boundary=--------------------------490308319110496706661108
+Content-Length: 203488
+
+Request Body
+groupFlag: "false"
+content: undefined
+
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Content-Type: application/json
+Content-Length: 97
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Tue, 06 Apr 2021 20:25:42 GMT
+
+Response Body
+"Completed - Loaded 3 worklist items with Worklist IDs from 'wk.00010528' through 'wk.00010530'."
+
+
+
+
+
+
+----------
+scenario 4
+----------
+
+
+POST http://localhost:8080/IdentityHub/api/worklistsvc/loadWorklistFromSpreadsheet
+200
+1206 ms
+Network
+
+Request Headers
+username: whussain
+User-Agent: PostmanRuntime/7.26.10
+Accept: */*
+Postman-Token: 43ca0528-cf88-4731-8c65-c480847e2f31
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: multipart/form-data; boundary=--------------------------617613401593031067392619
+Content-Length: 203487
+
+Request Body
+groupFlag: "true"
+content: undefined
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Content-Type: application/json
+Content-Length: 97
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Tue, 06 Apr 2021 20:29:37 GMT
+
+Response Body
+"Completed - Loaded 3 worklist items with Worklist IDs from 'wk.00010531' through 'wk.00010533'."
+
+
+
+----------
+scenario 5 
+----------
+
+
+
+
+POST http://localhost:8080/IdentityHub/api/worklistsvc/loadWorklistFromSpreadsheet
+400
+739 ms
+Network
+
+Request Headers
+username: whussain
+User-Agent: PostmanRuntime/7.26.10
+Accept: */*
+Postman-Token: d6e29fa3-f213-4b1a-9926-3b8d5022fc82
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: multipart/form-data; boundary=--------------------------743281546662559368782168
+Content-Length: 203820
+Request Body
+groupFlag: "false"
+content: undefined
+
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Content-Type: application/json
+Content-Length: 70
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Tue, 06 Apr 2021 20:43:01 GMT
+
+Response Body
+{"reason":"Error loadWorklistFromSpreadsheet: ","message":"/ by zero"}
