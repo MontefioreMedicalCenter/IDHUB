@@ -1,0 +1,90 @@
+ 
+POST http://localhost:8080/IdentityHub/api/worklistsvc/deleteWorklist
+200
+4.60 s
+Network
+Request Headers
+userName: mmishra
+User-Agent: PostmanRuntime/7.26.8
+Accept: */*
+Cache-Control: no-cache
+Postman-Token: 7ba399ce-1861-49aa-837c-c121f39167b0
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 5701
+Request Body
+worklist: "{
+                "IPPhone": null,
+                "additionalComments": "Needs Email. Prior AD Account dciraco",
+                "affiliateEmailRequest": "N",
+                "assignedMonteId": null,
+                "campusCode": "Mt. Vernon",
+                "companyCode": "Montefiore School of Nursing",
+                "createDate": "2020-06-11 20:50:39",
+                "createdBy": "Job14161",
+                "dateOfBirth": "1981-04-15 05:00:00",
+                "dateOfBirthStr": null,
+                "department": "Nursing",
+                "division": null,
+                "documentCount": 0,
+                "employeeGroup": null,
+                "employeeSubGroup": "Student",
+                "endDate": "2021-12-21 05:00:00",
+                "endDateStr": null,
+                "epcsHardTokenRequest": "N",
+                "epfRequest": "N",
+                "epicRequest": "N",
+                "errorMessage": null,
+                "firstName": "Angela",
+                "firstNameCleaned": null,
+                "gender": "F",
+                "homeDriveRequest": "N",
+                "id": {
+                    "worklistId": "wk.00010489",
+                    "worklistSeqNum": 1
+                },
+                "jobControlNumber": null,
+                "lastName": "Corning",
+                "lastNameCleaned": null,
+                "loaReturnDate": null,
+                "loaStartDate": null,
+                "managerEmail": "dpalermo@montefiore.org",
+                "managerPhone": "914-555-5555",
+                "managerSourceUniqueId": "202197",
+                "middleNameOrInitial": null,
+                "mmcEmailRequest": "Y",
+                "nameSuffix": null,
+                "noSSN": "Y",
+                "nonMonteEmail": "acorning@gmail.com",
+                "officeAddress": null,
+                "officeCity": null,
+                "officePhone": null,
+                "officeState": null,
+                "officeZipCode": null,
+                "preHireFlag": null,
+                "preferredName": null,
+                "reviewerComments": null,
+                "sourceSystem": "NonEmployee",
+                "sourceUniqueId": "C631654",
+                "ssn": null,
+                "ssn4": null,
+                "ssn4Hash": null,
+                "ssnHash": null,
+                "startDate": "2020-06-15 04:00:00",
+                "startDateStr": null,
+                "statusCode": "A",
+                "title": "Nursing Student",
+                "udcid": null,
+                "updateDate": "2020-06-11 20:50:40",
+                "updatedBy": "dpalermo",
+                "worklistStatus": "Processed"
+            }"
+Response Headers
+Connection: keep-alive
+Transfer-Encoding: chunked
+Content-Type: application/json
+Date: Tue, 06 Apr 2021 20:52:08 GMT
+Response Body
+{"createDate":"2021-04-06T16:41:18.367Z[UTC]","createdBy":"mmishra","fileList":[{"directory":false,"fileName":"C:\\IDHub\\FileStore\\wk.00010489\\wk.00000717_20181105_ConfAgree_Contreras.pdf","fileURL":"https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010489/wk.00000717_20181105_ConfAgree_Contreras.pdf","parentURL":"https://ODEHIN9:8443/IdhubDocumentLibrary/IDHub/FileStore/wk.00010489/"}],"requesterUser":{"createDate":"2018-03-26T04:00:00Z[UTC]","createdBy":"system","roleMap":[{"accessActiveFlag":1,"createdBy":"system","id":{"roleId":"Requestor","userId":"mmishra"},"updatedBy":"system"}],"updateDate":"2018-03-26T04:00:00Z[UTC]","updatedBy":"system","userActiveFlag":1,"userEmail":"mmishra@montefiore.org","userFirstName":"Mittul","userId":"mmishra","userLastName":"Mishra","userPhone":"914-457-6018"},"requesterUserId":"mmishra","updateDate":"2021-04-06T16:41:18.367Z[UTC]","updateRequestor":true,"updatedBy":"mmishra","workLists":[{"additionalComments":"Needs Email. Prior AD Account xxx","affiliateEmailRequest":"N","campusCode":"Mt. Vernon","companyCode":"Montefiore School of Nursing","createDate":"2020-06-11T20:50:39.277Z[UTC]","createdBy":"Job14161","dateOfBirth":"1991-09-01T04:00:00Z[UTC]","department":"Nursing","documentCount":0,"employeeSubGroup":"Student","endDate":"2021-12-21T05:00:00Z[UTC]","epcsHardTokenRequest":"N","epfRequest":"N","epicRequest":"N","firstName":"Julie","gender":"F","homeDriveRequest":"N","id":{"worklistId":"wk.00010489","worklistSeqNum":2},"lastName":"McCoy","managerEmail":"dpalermo@montefiore.org","managerPhone":"914-555-5555","managerSourceUniqueId":"202197","mmcEmailRequest":"Y","noSSN":"Y","nonMonteEmail":"julie@lboat.com","sourceSystem":"NonEmployee","sourceUniqueId":"C631655","startDate":"2020-06-15T04:00:00Z[UTC]","statusCode":"A","title":"Nursing Student","updateDate":"2020-06-11T20:50:40.057Z[UTC]","updatedBy":"dpalermo","worklistStatus":"Processed"},{"additionalComments":"Needs Email. Prior AD Account xxx","affiliateEmailRequest":"N","campusCode":"Mt. Vernon","companyCode":"Montefiore School of Nursing","createDate":"2020-06-11T20:50:39.277Z[UTC]","createdBy":"Job14161","dateOfBirth":"1979-11-21T05:00:00Z[UTC]","department":"Nursing","documentCount":0,"employeeSubGroup":"Student","endDate":"2021-12-21T05:00:00Z[UTC]","epcsHardTokenRequest":"N","epfRequest":"N","epicRequest":"N","firstName":"Betty","gender":"F","homeDriveRequest":"N","id":{"worklistId":"wk.00010489","worklistSeqNum":3},"lastName":"White","managerEmail":"dpalermo@montefiore.org","managerPhone":"914-555-5555","managerSourceUniqueId":"202197","mmcEmailRequest":"Y","noSSN":"Y","nonMonteEmail":"bwhite@yahoo.com","sourceSystem":"NonEmployee","sourceUniqueId":"C631656","startDate":"2020-06-15T04:00:00Z[UTC]","statusCode":"A","title":"Nursing Student","updateDate":"2020-06-11T20:50:40.103Z[UTC]","updatedBy":"dpalermo","worklistStatus":"Processed"},{"additionalComments":"Re-activate Monte Email Acct","affiliateEmailRequest":"N","campusCode":"Mt. Vernon","companyCode":"Montefiore School of Nursing","createDate":"2020-06-11T20:50:39.277Z[UTC]","createdBy":"Job14161","dateOfBirth":"1980-02-16T05:00:00Z[UTC]","department":"Nursing","documentCount":0,"employeeSubGroup":"Student","endDate":"2021-12-21T05:00:00Z[UTC]","epcsHardTokenRequest":"N","epfRequest":"N","epicRequest":"N","firstName":"Larry","gender":"M","homeDriveRequest":"N","id":{"worklistId":"wk.00010489","worklistSeqNum":4},"lastName":"Watson","managerEmail":"dpalermo@montefiore.org","managerPhone":"914-555-5555","managerSourceUniqueId":"202197","mmcEmailRequest":"Y","noSSN":"Y","nonMonteEmail":"larry@yahoo.com","sourceSystem":"NonEmployee","sourceUniqueId":"C631657","startDate":"2020-06-15T04:00:00Z[UTC]","statusCode":"A","title":"Nursing Student","updateDate":"2020-06-11T20:50:40.167Z[UTC]","updatedBy":"dpalermo","worklistStatus":"Processed"},{"additionalComments":"Needs Email. Prior AD Account xxx","affiliateEmailRequest":"N","campusCode":"Mt. Vernon","companyCode":"Montefiore School of Nursing","createDate":"2020-06-11T20:50:39.277Z[UTC]","createdBy":"Job14161","dateOfBirth":"1973-06-04T04:00:00Z[UTC]","department":"Nursing","documentCount":0,"employeeSubGroup":"Student","endDate":"2021-06-02T04:00:00Z[UTC]","epcsHardTokenRequest":"N","epfRequest":"N","epicRequest":"N","firstName":"Katie","gender":"F","homeDriveRequest":"N","id":{"worklistId":"wk.00010489","worklistSeqNum":5},"lastName":"Segal","managerEmail":"dpalermo@montefiore.org","managerPhone":"914-555-5555","managerSourceUniqueId":"202197","mmcEmailRequest":"Y","noSSN":"Y","nonMonteEmail":"katiesegal@gmail.com","sourceSystem":"NonEmployee","sourceUniqueId":"C631658","startDate":"2020-06-15T04:00:00Z[UTC]","statusCode":"A","title":"Nursing Student","updateDate":"2020-06-11T20:50:40.23Z[UTC]","updatedBy":"dpalermo","worklistStatus":"Processed"},{"additionalComments":"Re-activate Monte Email Acct","affiliateEmailRequest":"N","campusCode":"Mt. Vernon","companyCode":"Montefiore School of Nursing","createDate":"2020-06-11T20:50:39.277Z[UTC]","createdBy":"Job14161","dateOfBirth":"1987-04-11T04:00:00Z[UTC]","department":"Nursing","documentCount":0,"employeeSubGroup":"Student","endDate":"2020-12-21T05:00:00Z[UTC]","epcsHardTokenRequest":"N","epfRequest":"N","epicRequest":"N","firstName":"Kelly","gender":"F","homeDriveRequest":"N","id":{"worklistId":"wk.00010489","worklistSeqNum":6},"lastName":"Clarkson","managerEmail":"dpalermo@montefiore.org","managerPhone":"914-555-5555","managerSourceUniqueId":"202197","mmcEmailRequest":"Y","noSSN":"Y","nonMonteEmail":"kellyclarkson@agt.com","sourceSystem":"NonEmployee","sourceUniqueId":"C631659","startDate":"2020-06-15T04:00:00Z[UTC]","statusCode":"A","title":"Nursing Student","updateDate":"2020-06-11T20:50:40.337Z[UTC]","updatedBy":"dpalermo","worklistStatus":"Processed"}],"worklistId":"wk.00010489"}
