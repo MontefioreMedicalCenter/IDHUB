@@ -32,6 +32,11 @@ import CampusCode from '../../../container/views/itemRenderers/CampusCode';
 import Department from '../../../container/views/itemRenderers/Department';
 import EmployeeSubGroup from '../../../container/views/itemRenderers/EmployeeSubGroup';
 
+import StorageService from '../../../service/cfc/StorageService';
+import { showDelete, showUpload } from '../../../AppConfig/store/actions/documentLibrary';
+import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListSheet';
+import { useDispatch } from 'react-redux';
+import StorageServiceEvent from '../../../events/StorageServiceEvent';
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer);
 const ssnItemRenderer = new ClassFactory(SsnItemRender);
@@ -60,6 +65,8 @@ const styles = (theme) => ({
 });
 
 const CurrentRequest = (props) => {
+
+    const dispatch = useDispatch();
 
     const dataGridRef = useRef(null)
     const [gridData, setGridData] = useState([]);
@@ -93,6 +100,24 @@ const CurrentRequest = (props) => {
 
     const placeExpandCollapseIcon = (img) => { img.move(0, 0) };
 
+    const getDocumentLibrary = () => {
+        StorageService.getInstance().listDocumentLibraryFiles(
+            docLibrarySuccessResult,
+            MontefioreUtils.showError
+        )
+        onOpenDocument()
+    }
+
+    const docLibrarySuccessResult = ({ result }) => {
+
+        dispatch(showDelete(false));
+        dispatch(showUpload(false));
+
+        const StorageService = new StorageServiceEvent();
+        StorageService.data = camelizeKeys(result)
+
+        dispatch(setDocumentLibrary(StorageService.data))
+    }
 
 
     const isCellEditable = (cell) => {
@@ -197,7 +222,7 @@ const CurrentRequest = (props) => {
                     headerSortSeparatorRight={3}
                     selectionMode="none"
                     cellEditableFunction={isCellEditable}
-                    documentOpenFunction={onOpenDocument}
+                    documentOpenFunction={getDocumentLibrary}
                 >
                     <ReactDataGridColumnLevel
                         rowHeight={10}

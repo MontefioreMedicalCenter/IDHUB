@@ -11,6 +11,7 @@ const { findWorklist } = require('./response/findWorklistResponse')
 const findWorklistError = require('./error/findWorklistError')
 const lookuplistError = require('./error/lookuplistError')
 const lookuplistResponse = require('./response/lookuplistResponse')
+const listDocumentLibraryFiles = require('./response/listDocumentLibraryFiles')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -47,6 +48,9 @@ app.post('/IdentityHub/api/worklistsvc/findLookupListsReCache', (req, res) => {
     } else {
         sendResponse(res, 400, lookuplistError)
     }
+})
+app.get('/IdentityHub/api/storagesvc/listDocumentLibraryFiles', (req, res) => {
+    sendResponse(res, 200, listDocumentLibraryFiles)
 })
 
 app.use(require('express').static(path.join(__dirname, 'build')));

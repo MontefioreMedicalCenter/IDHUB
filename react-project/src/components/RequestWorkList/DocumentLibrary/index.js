@@ -23,12 +23,14 @@ const DocumentLibrary = () => {
     const documentLibrary = useSelector(state => state.workListState.documentLibrary)
     const documentLibraryState = useSelector(state => state.documentLibraryState)
 
-    console.log("documentLibraryState", documentLibraryState)
+    const showDocument = () => {
+        
+    }
 
     const baseNamerenderer = (props) => {
         const row = props.row.getData();
         return (
-            <span >{row.baseName || "..."}</span>
+            <span onClick={showDocument} className="document-file-name" >{row.baseName || "..."}</span>
         )
     }
 
@@ -47,7 +49,7 @@ const DocumentLibrary = () => {
                 <DataGrid
                     ref={dataGridRef}
                     textAlign={"center"}
-                    height={"90%"}
+                    height={"100%"}
                     width={"100%"}
                     id="Document_Library_Grid"
                     dataProvider={documentLibrary}

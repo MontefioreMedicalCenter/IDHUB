@@ -31,3 +31,14 @@
         color: grey;
     }
 }
+.document-file-name{
+    height: 100%;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    padding-left: 10px;
+}
+.document-file-name:hover{
+    color: blue;
+    text-decoration: underline;
+}

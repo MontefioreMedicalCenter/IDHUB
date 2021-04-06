@@ -47,7 +47,20 @@ const Login = () => {
 
             dispatch(saveLoginModel(loginModel))
             findLookupLists();
+            initialRedirect(loginModel)
+        }
+    }
+
+    const initialRedirect = (loginModel) => {
+        const isAdmin = loginModel.user.hasRole("Admin");
+        const isRequestor = loginModel.user.hasRole("Requestor")
+        const isReviewer = loginModel.user.hasRole("Reviewer");
+        if (isAdmin) {
             history.push('/main/worklist')
+        } else if (isRequestor) {
+            history.push('/main/worklist')
+        } else if (isReviewer) {
+            history.push('/main/reviewer')
         }
     }
 
