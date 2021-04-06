@@ -10,7 +10,7 @@ const EpfRequestRenderer = (props) => {
         } else {
             rowData.epfRequest = "Y"
         }
-        props.grid.refreshGrid();
+        props.cell.refreshCell();
     }
     return (
         <div>

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from "@material-ui/core/styles";
 import MenuItem from "@material-ui/core/MenuItem";
 // import FormHelperText from '@material-ui/core/FormHelperText';
@@ -17,11 +17,12 @@ const useStyles = makeStyles((theme) => ({
 
 const Gender = (props) => {
     const classes = useStyles();
-    const [gender, setGender] = useState(props.row.rowPositionInfo.rowData.gender);
+    const gender = props.row.rowPositionInfo.rowData.gender
+
 
     const handleChange = (event) => {
-        setGender(event.target.value);
-        props.grid.refreshGrid();
+        props.row.rowPositionInfo.rowData.gender = event.target.value;
+        props.cell.refreshCell();
     };
 
     return (

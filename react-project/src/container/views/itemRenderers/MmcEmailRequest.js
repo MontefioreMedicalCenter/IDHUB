@@ -9,7 +9,7 @@ const MmcEmailRequest = (props) => {
         } else {
             rowData.mmcEmailRequest = "Y"
         }
-        props.grid.refreshGrid();
+        props.cell.refreshCell();
     }
     return (
         <div>

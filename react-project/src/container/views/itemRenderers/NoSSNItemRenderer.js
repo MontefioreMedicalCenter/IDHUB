@@ -9,7 +9,7 @@ const NoSSNItemRenderer = (props) => {
         } else {
             rowData.noSsn = "Y"
         }
-        props.grid.refreshGrid();
+        props.cell.refreshCell();
     }
 
     return (

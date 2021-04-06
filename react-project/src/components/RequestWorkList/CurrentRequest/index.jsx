@@ -27,6 +27,11 @@ import Submit from '../../../container/views/itemRenderers/Submit'
 import Gender from '../../../container/views/itemRenderers/Gender'
 import DocumentLibrary from '../DocumentLibrary';
 import IdWorklist from '../../../vo/worklist/IdWorklist';
+import Title from '../../../container/views/itemRenderers/Title';
+import CampusCode from '../../../container/views/itemRenderers/CampusCode';
+import Department from '../../../container/views/itemRenderers/Department';
+import EmployeeSubGroup from '../../../container/views/itemRenderers/EmployeeSubGroup';
+
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer);
 const ssnItemRenderer = new ClassFactory(SsnItemRender);
@@ -41,6 +46,10 @@ const remove = new ClassFactory(Remove)
 const submit = new ClassFactory(Submit)
 const worklistStatusRenderer = new ClassFactory(WorklistStatusRenderer)
 const gender = new ClassFactory(Gender)
+const title = new ClassFactory(Title)
+const campusCode = new ClassFactory(CampusCode)
+const department = new ClassFactory(Department)
+const employeeSubGroup = new ClassFactory(EmployeeSubGroup)
 
 const styles = (theme) => ({
     gridHeader: {
@@ -370,16 +379,17 @@ const CurrentRequest = (props) => {
                                 filterWaterMark="Contains"
                                 enableRecursiveSearch={true}
                                 headerWordWrap={true}
-                                editable={true}
+                                editable={false}
                                 itemEditorApplyOnValueCommit={false}
                                 enableCellClickRowSelect={false}
                                 itemEditorManagesPersistence={true}
+                                itemRenderer={employeeSubGroup}
                             />
                             <ReactDataGridColumn
                                 dataField="companyCode"
                                 headerText="Vendor Consultant Company"
 
-                                width={100}
+                                width={150}
                                 filterControl="TextInput"
                                 filterOperation="Contains"
                                 filterWaterMark="Contains"
@@ -403,6 +413,8 @@ const CurrentRequest = (props) => {
                                 itemEditorApplyOnValueCommit={false}
                                 enableCellClickRowSelect={false}
                                 itemEditorManagesPersistence={true}
+                                itemRenderer={campusCode}
+                                editable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="title"
@@ -417,6 +429,8 @@ const CurrentRequest = (props) => {
                                 itemEditorApplyOnValueCommit={false}
                                 enableCellClickRowSelect={false}
                                 itemEditorManagesPersistence={true}
+                                itemRenderer={title}
+                                editable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="department"
@@ -431,6 +445,8 @@ const CurrentRequest = (props) => {
                                 itemEditorApplyOnValueCommit={false}
                                 enableCellClickRowSelect={false}
                                 itemEditorManagesPersistence={true}
+                                itemRenderer={department}
+                                editable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="startDate"

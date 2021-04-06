@@ -9,7 +9,7 @@ const EpcsHardTokenRequest = (props) => {
         } else {
             rowData.epcsHardTokenRequest = "Y"
         }
-        props.grid.refreshGrid();
+        props.cell.refreshCell();
     }
     return (
         <div>

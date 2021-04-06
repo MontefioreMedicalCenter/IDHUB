@@ -10,7 +10,7 @@ const EpicRequestRenderer = (props) => {
         } else {
             rowData.epicRequest = "Y"
         }
-        props.grid.refreshGrid();
+        props.cell.refreshCell();
     }
 
     return (
