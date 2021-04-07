@@ -12,6 +12,7 @@ const SsnItemRender = (props) => {
                 text={props.row.rowPositionInfo.rowData.ssn}
                 type="text"
                 maxlength="10"
+                style={{ height: "35px", width: "100%", textAlign: "center" }}
             />
 
         </div>

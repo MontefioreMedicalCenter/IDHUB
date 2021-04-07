@@ -31,6 +31,10 @@ import Title from '../../../container/views/itemRenderers/Title';
 import CampusCode from '../../../container/views/itemRenderers/CampusCode';
 import Department from '../../../container/views/itemRenderers/Department';
 import EmployeeSubGroup from '../../../container/views/itemRenderers/EmployeeSubGroup';
+import CreateDateRenderer from '../../../container/views/itemRenderers/CreateDateRenderer';
+import StartDateRenderer from '../../../container/views/itemRenderers/StartDateRenderer';
+import EndDateRenderer from '../../../container/views/itemRenderers/EndDateRenderer';
+import DateOfBirthRenderer from '../../../container/views/itemRenderers/DateOfBirthRenderer';
 
 import StorageService from '../../../service/cfc/StorageService';
 import { showDelete, showUpload } from '../../../AppConfig/store/actions/documentLibrary';
@@ -55,6 +59,10 @@ const title = new ClassFactory(Title)
 const campusCode = new ClassFactory(CampusCode)
 const department = new ClassFactory(Department)
 const employeeSubGroup = new ClassFactory(EmployeeSubGroup)
+const createDateRenderer = new ClassFactory(CreateDateRenderer)
+const startDateRenderer = new ClassFactory(StartDateRenderer)
+const endDateRenderer = new ClassFactory(EndDateRenderer)
+const dateOfBirthRenderer = new ClassFactory(DateOfBirthRenderer)
 
 const styles = (theme) => ({
     gridHeader: {
@@ -352,7 +360,7 @@ const CurrentRequest = (props) => {
                                 dataField="dateOfBirth"
                                 headerText="DOB"
 
-                                width={100}
+                                width={150}
                                 editorDataField="selectedDate"
                                 filterControl="DateComboBox"
                                 enableRecursiveSearch={true}
@@ -362,6 +370,8 @@ const CurrentRequest = (props) => {
                                 enableCellClickRowSelect={false}
                                 //  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}" 
                                 sortable={false}
+                                itemRenderer={dateOfBirthRenderer}
+                                editable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="gender"
@@ -477,7 +487,7 @@ const CurrentRequest = (props) => {
                                 dataField="startDate"
                                 headerText="Start date"
 
-                                width={100}
+                                width={150}
                                 editorDataField="selectedDate"
                                 filterControl="DateComboBox"
                                 enableRecursiveSearch={true}
@@ -487,12 +497,14 @@ const CurrentRequest = (props) => {
                                 itemEditorApplyOnValueCommit={true}
                                 enableCellClickRowSelect={false}
                                 labelFunction={MontefioreUtils.dateFormatter2}
+                                itemRenderer={startDateRenderer}
+                                editable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="endDate"
                                 headerText="End Date"
 
-                                width={100}
+                                width={150}
                                 editorDataField="selectedDate"
                                 filterControl="DateComboBox"
                                 enableRecursiveSearch={true}
@@ -500,6 +512,8 @@ const CurrentRequest = (props) => {
                                 itemEditorApplyOnValueCommit={true}
                                 enableCellClickRowSelect={false}
                                 labelFunction={MontefioreUtils.dateFormatter2}
+                                itemRenderer={endDateRenderer}
+                                editable={false}
                             />
                             <ReactDataGridColumn
                                 dataField="managerSourceUniqueId"
@@ -650,7 +664,7 @@ const CurrentRequest = (props) => {
                                 dataField="createDate"
                                 headerText="Create Date"
 
-                                width={100}
+                                width={150}
                                 filterControl="DateComboBox"
                                 enableRecursiveSearch={true}
                                 headerWordWrap={false}
@@ -659,6 +673,7 @@ const CurrentRequest = (props) => {
                                 enableCellClickRowSelect={false}
                                 //  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}" 
                                 sortable={false}
+                                itemRenderer={createDateRenderer}
                             />
                         </ReactDataGridColumnGroup>
                         <ReactDataGridColumn

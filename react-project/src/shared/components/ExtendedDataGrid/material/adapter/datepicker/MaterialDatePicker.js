@@ -121,6 +121,7 @@ class MaterialDatePicker extends React.PureComponent<Props> {
             [classes.primaryScheme]: color === "primary",
             [classes.contrastScheme]: color === "contrast",
           })}
+          key={this.props.key}
           color="primary"
           label={label}
           value={selected}
