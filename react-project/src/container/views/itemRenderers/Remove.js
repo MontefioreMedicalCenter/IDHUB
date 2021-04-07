@@ -2,9 +2,14 @@ import React from 'react'
 import { Button } from "@material-ui/core"
 import DeleteIcon from '@material-ui/icons/Delete';
 
-const Remove = () => {
+const Remove = (props) => {
+
+    const onDelete = () => {
+        props.column.handleDelete(props)
+    }
+
     return (
-        <Button>
+        <Button onClick={onDelete}>
             <DeleteIcon fontSize="small" />
         </Button>
     )

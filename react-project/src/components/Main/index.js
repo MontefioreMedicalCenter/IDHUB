@@ -7,11 +7,15 @@ import { tabList, tabStyles } from './content';
 import moment from 'moment';
 import Montefiore from "../../assets/images/Doing-More-Logo.jpg";
 import LoginService from '../../service/cfc/LoginService';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import AlertDialog from '../../shared/components/AlertDialog';
+import { removeMessage } from '../../AppConfig/store/actions/homeAction';
 
 const Main = () => {
     const history = useHistory();
+    const dispatch = useDispatch()
     const loginModel = useSelector(state => state.loginState.loginModel)
+    const alertData = useSelector(state => state.homeState.alertPopup)
     const [tabValue, handleTabChange] = useState(0);
     const dateString = `${moment().format("MM/DD/YYYY")}`;
     const timeString = `${moment().format("HH:mm:ss")}`;
@@ -95,6 +99,12 @@ const Main = () => {
                     })}
                 </Switch>
             </div>
+            <AlertDialog
+                {...alertData}
+                onClose={
+                    () => dispatch(removeMessage())
+                }
+            />
         </div>
     )
 }

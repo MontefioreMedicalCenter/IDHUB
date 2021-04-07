@@ -41,6 +41,7 @@ import { showDelete, showUpload } from '../../../AppConfig/store/actions/documen
 import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListSheet';
 import { useDispatch } from 'react-redux';
 import StorageServiceEvent from '../../../events/StorageServiceEvent';
+import { showMessage } from '../../../AppConfig/store/actions/homeAction';
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer);
 const ssnItemRenderer = new ClassFactory(SsnItemRender);
@@ -187,6 +188,53 @@ const CurrentRequest = (props) => {
         }
         return 0xffffff
     };
+
+
+    const onHandleDelete = (props) => {
+        const rowData = props.row.getData();
+        let selectedGroup = {};
+        let selectedRequest = {};
+        const level = props.cell.getNestDepth()
+        let isnotsave = false;
+        const isWorklistGroup = rowData.constructor.name === "IdWorklistGroup"
+        if (isWorklistGroup) {
+            selectedGroup = rowData
+        } else {
+            selectedRequest = rowData
+        }
+        const isWorklistChild = Object.keys(selectedRequest).length !== 0 && level === 2
+
+        var deleteid = "";
+
+        if (selectedGroup.worklistId != null || selectedRequest.worklistId != null) {
+            deleteid = (isWorklistGroup ? selectedGroup.worklistId : (selectedRequest.worklistId + "." + selectedRequest.id.worklistSeqNum));
+        }
+        else {
+            isnotsave = true
+        }
+
+        dispatch(showMessage(
+            "Confirm Delete",
+            "Are you sure you want to delete request " + deleteid,
+            "Confirm_Cancel",
+            () => {
+                if (isnotsave) {
+                    // gridDP.removeItemAt(index);
+                }
+                else if (isWorklistChild && selectedGroup.workLists.length > 1) {
+                    // wlservice.deleteWorkListSingle(selectedRequest)
+                    console.log("deleteWorkListSingle")
+                }
+                else {
+                    // wlservice.deleteWorkListGroup(selectedGroup)
+                    console.log("deleteWorkListGroup")
+
+                }
+            },
+            () => { },
+        ))
+    }
+
 
     return (
         <div className="grid-container">
@@ -745,6 +793,7 @@ const CurrentRequest = (props) => {
                             columnWidthMode="fixed"
                             iconLeft="20"
                             sortable={false}
+                            onHandleDelete={onHandleDelete}
                         />
                         <ReactDataGridColumn
                             dataField="Submit"
