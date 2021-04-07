@@ -1,15 +1,19 @@
+POST http://localhost:8080/IdentityHub/api/storagesvc/storeWorklistDocument
+200
+534 ms
+Network
 Request Headers
 User-Agent: PostmanRuntime/7.26.1
 Accept: */*
-Postman-Token: cbabdcc9-2a45-41bd-b6fe-72b1edfa29e6
+Postman-Token: 5626a19b-3c73-45ac-a9e3-ac19c3271476
 Host: localhost:8080
 Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
 Content-Type: application/x-www-form-urlencoded
-Content-Length: 214
+Content-Length: 246
 Request Body
-worklistId: "wk.10101012"
-dirListEntry: "{"baseName": "TestFileConfAgree.pdf", "fileContents": [68,101,102,97,117,108,116,32,99,111,110,116,101,110,116,115]}"
+worklistId: "wk.10101099"
+dirListEntry: "{"baseName": "TestFileConfAgree.pdf", "fileContents": [68, 68, 68, 68, 68,101,102,97,117,108,116,32,99,111,110,116,101,110,116,115]}"
 Response Headers
 Connection: keep-alive
 Access-Control-Allow-Origin: *
@@ -17,6 +21,6 @@ Access-Control-Allow-Headers: *
 Content-Type: application/json
 Content-Length: 451
 Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
-Date: Mon, 05 Apr 2021 14:39:45 GMT
+Date: Wed, 07 Apr 2021 14:33:07 GMT
 Response Body
-[{"baseName":"TestFileConfAgree.pdf","directory":false,"fileModificationDate":"2021-04-05 02:39 PM","fileName":"C:\\IDHub\\FileStore\\wk.10101012\\TestFileConfAgree.pdf","fileSize":16,"fileURL":"http://ODCFSVVWD01:8080/IdhubDocumentLibrary/IDHub/FileStore/wk.10101012/TestFileConfAgree.pdf","parentDir":"C:\\IDHub\\FileStore\\wk.10101012\\TestFileConfAgree.pdf","parentURL":"http://ODCFSVVWD01:8080/IdhubDocumentLibrary/IDHub/FileStore/wk.10101012/"}]
+[{"baseName":"TestFileConfAgree.pdf","directory":false,"fileModificationDate":"2021-04-07 02:33 PM","fileName":"C:\\IDHub\\FileStore\\wk.10101099\\TestFileConfAgree.pdf","fileSize":20,"fileURL":"http://ODCFSVVWD01:8080/IdhubDocumentLibrary/IDHub/FileStore/wk.10101099/TestFileConfAgree.pdf","parentDir":"C:\\IDHub\\FileStore\\wk.10101099\\TestFileConfAgree.pdf","parentURL":"http://ODCFSVVWD01:8080/IdhubDocumentLibrary/IDHub/FileStore/wk.10101099/"}]
