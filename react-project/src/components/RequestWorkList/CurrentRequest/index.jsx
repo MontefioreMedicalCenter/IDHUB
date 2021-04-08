@@ -203,7 +203,7 @@ const CurrentRequest = props => {
 		return 0xffffff
 	}
 
-	const onHandleDelete = props => {
+	const iconClick = props => {
 		const rowData = props.row.getData()
 		let selectedGroup = {}
 		let selectedRequest = {}
@@ -220,36 +220,50 @@ const CurrentRequest = props => {
 
 		var deleteid = ''
 
-		if (
-			selectedGroup.worklistId != null ||
-			selectedRequest.worklistId != null
-		) {
-			deleteid = isWorklistGroup
-				? selectedGroup.worklistId
-				: selectedRequest.worklistId + '.' + selectedRequest.id.worklistSeqNum
-		} else {
-			isnotsave = true
-		}
+		if (props.cell.getColumn() !== null) {
+			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
+			} else if (props.cell.getColumn().getHeaderText() === 'Submit') {
+			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
+			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
+			} else if (props.cell.getColumn().getHeaderText() === 'Delete') {
+				if (
+					selectedGroup.worklistId != null ||
+					selectedRequest.worklistId != null
+				) {
+					deleteid = isWorklistGroup
+						? selectedGroup.worklistId
+						: selectedRequest.worklistId +
+						  '.' +
+						  selectedRequest.id.worklistSeqNum
+				} else {
+					isnotsave = true
+				}
 
-		dispatch(
-			showMessage(
-				'Confirm Delete',
-				'Are you sure you want to delete request ' + deleteid,
-				'Confirm_Cancel',
-				() => {
-					if (isnotsave) {
-						// gridDP.removeItemAt(index);
-					} else if (isWorklistChild && selectedGroup.workLists.length > 1) {
-						// wlservice.deleteWorkListSingle(selectedRequest)
-						console.log('deleteWorkListSingle')
-					} else {
-						// wlservice.deleteWorkListGroup(selectedGroup)
-						console.log('deleteWorkListGroup')
-					}
-				},
-				() => {}
-			)
-		)
+				dispatch(
+					showMessage(
+						'Confirm Delete',
+						'Are you sure you want to delete request ' + deleteid,
+						'Confirm_Cancel',
+						() => {
+							if (isnotsave) {
+								// gridDP.removeItemAt(index);
+							} else if (
+								isWorklistChild &&
+								selectedGroup.workLists.length > 1
+							) {
+								// wlservice.deleteWorkListSingle(selectedRequest)
+								console.log('deleteWorkListSingle')
+							} else {
+								// wlservice.deleteWorkListGroup(selectedGroup)
+								console.log('deleteWorkListGroup')
+							}
+						},
+						() => {}
+					)
+				)
+			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
+			}
+		}
 	}
 
 	return (
@@ -770,7 +784,7 @@ const CurrentRequest = props => {
 							columnWidthMode="fixed"
 							iconLeft="20"
 							sortable={false}
-							onHandleDelete={onHandleDelete}
+							onHandleDelete={iconClick}
 						/>
 						<ReactDataGridColumn
 							dataField="Submit"
