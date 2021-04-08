@@ -1,5 +1,5 @@
 import ServiceProxyBase from './ServiceProxyBase'
-
+import qs from 'qs'
 export default class WorklistService extends ServiceProxyBase {
 	constructor(props) {
 		super(props)
@@ -41,6 +41,22 @@ export default class WorklistService extends ServiceProxyBase {
 			faultHandler,
 			null,
 			headerData
+		)
+	}
+
+	saveWorklists(worklist, resultHandler, faultHandler) {
+		if (typeof faultHandler == 'undefined') faultHandler = null
+		var bodyFormData = qs.stringify({
+			worklist: worklist
+		})
+		return this.callServiceMethod(
+			'post',
+			'IdentityHub/api/worklistsvc/saveWorklist',
+			bodyFormData,
+			null,
+			resultHandler,
+			faultHandler,
+			'form'
 		)
 	}
 }

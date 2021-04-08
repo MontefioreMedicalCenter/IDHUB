@@ -11,6 +11,7 @@ const { findWorklist } = require('./response/findWorklistResponse')
 const findWorklistError = require('./error/findWorklistError')
 const lookuplistError = require('./error/lookuplistError')
 const lookuplistResponse = require('./response/lookuplistResponse')
+const saveWorklistResponse = require('./response/saveWorklistResponse')
 const listDocumentLibraryFiles = require('./response/listDocumentLibraryFiles')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -39,6 +40,14 @@ app.post('/IdentityHub/api/worklistsvc/findWorklistGroups', (req, res) => {
         sendResponse(res, 200, findWorklist)
     } else {
         sendResponse(res, 400, findWorklistError)
+    }
+})
+
+app.post('/IdentityHub/api/worklistsvc/saveWorklist', (req, res) => {
+    if (req.body.worklist) {
+        sendResponse(res, 200, saveWorklistResponse)
+    } else {
+        sendResponse(res, 400)
     }
 })
 

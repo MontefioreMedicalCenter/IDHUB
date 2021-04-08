@@ -50,6 +50,7 @@ import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListShe
 import { useDispatch } from 'react-redux'
 import StorageServiceEvent from '../../../events/StorageServiceEvent'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
+import WorkListEvent from '../../../events/WorkListEvent'
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer)
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
@@ -106,11 +107,15 @@ const CurrentRequest = props => {
 	}
 
 	useEffect(() => {
+		findWorklist()
+	}, [])
+
+	const findWorklist = () => {
 		WorklistService.getInstance().findWorklistGroups(
 			worklistResultHandler,
 			MontefioreUtils.showError
 		)
-	}, [])
+	}
 
 	const placeExpandCollapseIcon = img => {
 		img.move(0, 0)
@@ -207,14 +212,17 @@ const CurrentRequest = props => {
 		const rowData = props.row.getData()
 		let selectedGroup = {}
 		let selectedRequest = {}
-		const level = props.cell.getNestDepth()
-		let isnotsave = false
 		const isWorklistGroup = rowData.constructor.name === 'IdWorklistGroup'
 		if (isWorklistGroup) {
 			selectedGroup = rowData
 		} else {
 			selectedRequest = rowData
 		}
+		const level = props.cell.getNestDepth()
+		let isnotsave = false
+		const isWorklist = Object.keys(selectedRequest).length !== 0 && level === 1
+
+		const selectedobj = isWorklistGroup ? selectedGroup : selectedRequest
 		const isWorklistChild =
 			Object.keys(selectedRequest).length !== 0 && level === 2
 
@@ -224,7 +232,68 @@ const CurrentRequest = props => {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
 			} else if (props.cell.getColumn().getHeaderText() === 'Submit') {
 			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
+				if (isWorklistGroup) {
+					selectedGroup.edit = false
+					// wlservice.saveWorkGroup(selectedGroup)
+				} else if (isWorklist || isWorklistChild) {
+					selectedRequest.edit = false
+					/*	if (workList.worklistStatus == 'Processed')
+                        {
+                            workList.worklistStatus="Accepted"
+                        }*/
+					// wlservice.saveWorkListSingle(selectedRequest)
+				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
+				if (selectedobj.edit) {
+					const vpos = props.grid.getVerticalScrollPosition()
+					dispatch(
+						showMessage(
+							'Confirm Edit',
+							'Are you sure you want to cancel changes',
+							'Confirm_Cancel',
+							() => {
+								selectedobj.edit = false
+								if (valueOfTab === 0) {
+									findWorklist()
+									props.cell.refreshCell()
+									props.grid.gotoVerticalPosition(vpos)
+								} else {
+									//return empty
+								}
+							},
+							() => {}
+						)
+					)
+				} else {
+					if (isWorklistGroup) {
+						if (!selectedGroup.edit) {
+							selectedGroup.edit = true
+							// props.grid.cellEditableFunction = isCellEditable
+							props.cell.refreshCell()
+						} else {
+							selectedGroup.edit = false
+							props.cell.refreshCell()
+						}
+					} else if (isWorklistChild) {
+						if (!selectedRequest.edit) {
+							selectedRequest.edit = true
+							// props.cellEditableFunction = isCellEditable
+							props.cell.refreshCell()
+						} else {
+							selectedRequest.edit = false
+							props.cell.refreshCell()
+						}
+					} else if (isWorklist) {
+						if (!selectedRequest.edit) {
+							selectedRequest.edit = true
+							// props.cellEditableFunction = isCellEditable
+							props.cell.refreshCell()
+						} else {
+							selectedRequest.edit = false
+							props.cell.refreshCell()
+						}
+					}
+				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Delete') {
 				if (
 					selectedGroup.worklistId != null ||
@@ -752,6 +821,7 @@ const CurrentRequest = props => {
 							columnWidthMode="fixed"
 							iconLeft="20"
 							sortable={false}
+							onHandleSave={iconClick}
 						/>
 						<ReactDataGridColumn
 							dataField="Edit"
@@ -768,6 +838,7 @@ const CurrentRequest = props => {
 							columnWidthMode="fixed"
 							iconLeft="20"
 							sortable={false}
+							onHandleEdit={iconClick}
 						/>
 						<ReactDataGridColumn
 							dataField="Delete"
