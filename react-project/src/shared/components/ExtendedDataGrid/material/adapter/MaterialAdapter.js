@@ -1,104 +1,102 @@
 /* eslint-disable no-unused-vars */
 
-import { DialogActions, Dialog, Button } from "@material-ui/core";
-import React from "react";
-import MaterialDatePicker from "./datepicker/MaterialDatePicker";
-import { UIUtils, ClassFactory } from "../../../../../flexicious";
+import { DialogActions, Dialog, Button } from '@material-ui/core'
+import React from 'react'
+import MaterialDatePicker from './datepicker/MaterialDatePicker'
+import { UIUtils, ClassFactory } from '../../../../../flexicious'
 // import MaterialDialog from "./dialog/MaterialDialog"
-import MaterialSettingsPopup from "./MaterialSettingsPopup";
-import MaterialSaveSettingsPopup from "./MaterialSaveSettingsPopup";
-import MaterialExportOptionsView from "./MaterialExportOptionsView";
-import MaterialContextMenu from "./MaterialContextMenu";
+import MaterialSettingsPopup from './MaterialSettingsPopup'
+import MaterialSaveSettingsPopup from './MaterialSaveSettingsPopup'
+import MaterialExportOptionsView from './MaterialExportOptionsView'
+import MaterialContextMenu from './MaterialContextMenu'
 
 class MaterialModal extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      open: true,
-    };
-    this.runAction = (action) => {
-      if (action.closeDialog) {
-        // eslint-disable-next-line react/no-string-refs
-        const result = action.callback(this.refs["child0"]);
+	constructor() {
+		super()
+		this.state = {
+			open: true
+		}
+		this.runAction = action => {
+			if (action.closeDialog) {
+				// eslint-disable-next-line react/no-string-refs
+				const result = action.callback(this.refs['child0'])
 
-        if (result === true || result === undefined) {
-          this.setState({ open: false });
-        }
-      }
-    };
-  }
+				if (result === true || result === undefined) {
+					this.setState({ open: false })
+				}
+			}
+		}
+	}
 
-  render() {
-    const children = React.Children.map(this.props.children, function(
-      child,
-      index,
-    ) {
-      return React.cloneElement(child, {
-        ref: "child" + index++,
-        key: "child" + index,
-      });
-    });
+	render() {
+		const children = React.Children.map(this.props.children, function(
+			child,
+			index
+		) {
+			return React.cloneElement(child, {
+				ref: 'child' + index++,
+				key: 'child' + index
+			})
+		})
 
-    const actions = this.props.actions.map((action, index) => {
-      return (
-        <ParameterizedFlatButton
-          key={"actionButton" + index}
-          arg={action}
-          callback={this.runAction}
-          label={action.name}
-          primary={true}
-        />
-      );
-    });
+		const actions = this.props.actions.map((action, index) => {
+			return (
+				<ParameterizedFlatButton
+					key={'actionButton' + index}
+					arg={action}
+					callback={this.runAction}
+					label={action.name}
+					primary={true}
+				/>
+			)
+		})
 
-    return (
-      <div key="dialogDiv">
-        <Dialog
-          key="dialog"
-          actions={actions}
-          maxWidth="md"
-          open={this.state.open}
-          title={this.props.title}
-        >
-          {children}
+		return (
+			<div key="dialogDiv">
+				<Dialog
+					key="dialog"
+					actions={actions}
+					maxWidth="md"
+					open={this.state.open}
+					title={this.props.title}>
+					{children}
 
-          <DialogActions>{actions}</DialogActions>
-        </Dialog>
-      </div>
-    );
-  }
+					<DialogActions>{actions}</DialogActions>
+				</Dialog>
+			</div>
+		)
+	}
 }
 
 const ParameterizedFlatButton = ({ label, callback, arg }) => {
-  return (
-    <Button
-      onClick={() => {
-        callback(arg);
-      }}
-    >
-      {label}
-    </Button>
-  );
-};
+	return (
+		<Button
+			onClick={() => {
+				callback(arg)
+			}}>
+			{label}
+		</Button>
+	)
+}
 
 class MaterialDatePickerWrapper extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      selectedDate: null,
-    };
-    this.onDateChange = this.onDateChange.bind(this);
-  }
-  onDateChange(newDate) {
-    this.setState({
-      selectedDate: newDate,
-    });
-  }
-  render() {
-    return (
-      <MaterialDatePicker {...this.props} onDateChange={this.onDateChange} />
-    );
-  }
+	constructor() {
+		super()
+		this.state = {
+			selectedDate: null
+		}
+		this.onDateChange = this.onDateChange.bind(this)
+	}
+	onDateChange(newDate) {
+		this.setState({
+			selectedDate: newDate
+		})
+	}
+	render() {
+		return (
+			<MaterialDatePicker {...this.props} onDateChange={this.onDateChange} />
+		)
+	}
 }
 
 /**
@@ -107,96 +105,95 @@ class MaterialDatePickerWrapper extends React.Component {
  * @namespace com.flexicious.adapters
  */
 export default class MaterialAdapter {
-  getClassNames() {
-    //for support of "is" keyword
-    return ["TypedObject", this.typeName];
-  }
+	getClassNames() {
+		//for support of "is" keyword
+		return ['TypedObject', this.typeName]
+	}
 
-  setupInputMask(input, options) {
-    //todo implement
-  }
-  showDialog(elem, parent, modal, w, h, title, actions) {
-    return (
-      <MaterialModal
-        key="modayDialog"
-        actions={actions}
-        height={h}
-        modal={modal}
-        title={title}
-        width={w}
-      >
-        {elem}
-      </MaterialModal>
-    );
-  }
+	setupInputMask(input, options) {
+		//todo implement
+	}
+	showDialog(elem, parent, modal, w, h, title, actions) {
+		return (
+			<MaterialModal
+				key="modayDialog"
+				actions={actions}
+				height={h}
+				modal={modal}
+				title={title}
+				width={w}>
+				{elem}
+			</MaterialModal>
+		)
+	}
 
-  createSettingsPopup() {
-    return new ClassFactory(MaterialSettingsPopup);
-  }
-  createSaveSettingsPopup() {
-    return new ClassFactory(MaterialSaveSettingsPopup);
-  }
-  createExportPopup() {
-    return new ClassFactory(MaterialExportOptionsView);
-  }
+	createSettingsPopup() {
+		return new ClassFactory(MaterialSettingsPopup)
+	}
+	createSaveSettingsPopup() {
+		return new ClassFactory(MaterialSaveSettingsPopup)
+	}
+	createExportPopup() {
+		return new ClassFactory(MaterialExportOptionsView)
+	}
 
-  createContextMenuPopup() {
-    return new ClassFactory(MaterialContextMenu);
-  }
+	createContextMenuPopup() {
+		return new ClassFactory(MaterialContextMenu)
+	}
 
-  createDateTimePicker(dateFormat, dflt, hintText, ref, onChangeCallBack) {
-    return (
-      <MaterialDatePickerWrapper
-        key={ref}
-        ref={ref}
-        autoOk={true}
-        container="inline"
-        label={hintText}
-        selectedDate={dflt}
-      />
-    );
-  }
-  getDateFromPicker(picker) {
-    return picker.state.selectedDate || picker.props.selectedDate;
-  }
+	createDateTimePicker(dateFormat, dflt, hintText, ref, onChangeCallBack) {
+		return (
+			<MaterialDatePickerWrapper
+				key={ref}
+				ref={ref}
+				autoOk={true}
+				container="inline"
+				label={hintText}
+				selectedDate={dflt}
+			/>
+		)
+	}
+	getDateFromPicker(picker) {
+		return picker.state.selectedDate || picker.props.selectedDate
+	}
 
-  showMessage(msg) {
-    //alert(msg);//todo - make a better notification popup
-    const toaster = new Android_Toast({ content: msg, position: "top" });
+	showMessage(msg) {
+		//alert(msg);//todo - make a better notification popup
+		const toaster = new Android_Toast({ content: msg, position: 'top' })
 
-    toaster.show();
-  }
+		toaster.show()
+	}
 
-  showTooltip(
-    relativeTo,
-    tooltip,
-    dataContext,
-    point,
-    leftOffset,
-    topOffset,
-    offScreenMath,
-    where,
-    container,
-    bounds,
-  ) {}
+	showTooltip(
+		relativeTo,
+		tooltip,
+		dataContext,
+		point,
+		leftOffset,
+		topOffset,
+		offScreenMath,
+		where,
+		container,
+		bounds
+	) {}
 
-  showToaster(
-    message,
-    title,
-    type = "info",
-    toasterPosition = "left",
-    animationDuration = 1000,
-    visibleDuration = 5000,
-    moveAnimate = false,
-    fadeAnimate = false,
-  ) {}
+	showToaster(
+		message,
+		title,
+		type = 'info',
+		toasterPosition = 'left',
+		animationDuration = 1000,
+		visibleDuration = 5000,
+		moveAnimate = false,
+		fadeAnimate = false
+	) {}
 }
 
 MaterialAdapter.prototype.typeName = MaterialAdapter.typeName =
-  "MaterialAdapter"; //for quick inspection
-MaterialAdapter.prototype.ieVersion = -1;
-MaterialAdapter.toastCount = 0;
-UIUtils.adapter = new MaterialAdapter();
+	'MaterialAdapter' //for quick inspection
+MaterialAdapter.prototype.ieVersion = -1
+MaterialAdapter.toastCount = 0
+UIUtils.adapter = new MaterialAdapter()
 
 /*
 Copyright (c) 2013 Jad Joubran
@@ -227,100 +224,98 @@ Android-Toast
 */
 
 class Android_Toast {
-  constructor(options) {
-    let position;
+	constructor(options) {
+		let position
 
-    this.timeout_id = null;
-    this.duration = 3000;
-    this.content = "";
-    this.position = "bottom";
+		this.timeout_id = null
+		this.duration = 3000
+		this.content = ''
+		this.position = 'bottom'
 
-    if (!options || typeof options != "object") {
-      return false;
-    }
+		if (!options || typeof options != 'object') {
+			return false
+		}
 
-    if (options.duration) {
-      this.duration = parseFloat(options.duration);
-    }
-    if (options.content) {
-      this.content = options.content;
-    }
+		if (options.duration) {
+			this.duration = parseFloat(options.duration)
+		}
+		if (options.content) {
+			this.content = options.content
+		}
 
-    if (options.position) {
-      position = options.position.toLowerCase();
-      if (position === "top" || position === "bottom") {
-        this.position = position;
-      } else {
-        this.position = "bottom";
-      }
-    }
-    this.show();
-  }
+		if (options.position) {
+			position = options.position.toLowerCase()
+			if (position === 'top' || position === 'bottom') {
+				this.position = position
+			} else {
+				this.position = 'bottom'
+			}
+		}
+		this.show()
+	}
 
-  show() {
-    if (!this.content) {
-      return false;
-    }
-    clearTimeout(this.timeout_id);
+	show() {
+		if (!this.content) {
+			return false
+		}
+		clearTimeout(this.timeout_id)
 
-    const body = document.getElementsByTagName("body")[0];
+		const body = document.getElementsByTagName('body')[0]
 
-    const previous_toast = document.getElementById("android_toast_container");
+		const previous_toast = document.getElementById('android_toast_container')
 
-    if (previous_toast) {
-      body.removeChild(previous_toast);
-    }
+		if (previous_toast) {
+			body.removeChild(previous_toast)
+		}
 
-    let classes = "android_toast_fadein";
+		let classes = 'android_toast_fadein'
 
-    if (this.position === "top") {
-      classes = "android_toast_fadein android_toast_top";
-    }
+		if (this.position === 'top') {
+			classes = 'android_toast_fadein android_toast_top'
+		}
 
-    const toast_container = document.createElement("div");
+		const toast_container = document.createElement('div')
 
-    toast_container.setAttribute("id", "android_toast_container");
-    toast_container.setAttribute("class", classes);
-    body.appendChild(toast_container);
+		toast_container.setAttribute('id', 'android_toast_container')
+		toast_container.setAttribute('class', classes)
+		body.appendChild(toast_container)
 
-    const toast = document.createElement("div");
+		const toast = document.createElement('div')
 
-    toast.setAttribute("id", "android_toast");
-    toast.innerHTML = this.content;
-    toast_container.appendChild(toast);
+		toast.setAttribute('id', 'android_toast')
+		toast.innerHTML = this.content
+		toast_container.appendChild(toast)
 
-    this.timeout_id = setTimeout(this.hide, this.duration);
+		this.timeout_id = setTimeout(this.hide, this.duration)
 
-    return true;
-  }
+		return true
+	}
 
-  hide() {
-    const toast_container = document.getElementById("android_toast_container");
+	hide() {
+		const toast_container = document.getElementById('android_toast_container')
 
-    if (!toast_container) {
-      return false;
-    }
+		if (!toast_container) {
+			return false
+		}
 
-    clearTimeout(this.timeout_id);
+		clearTimeout(this.timeout_id)
 
-    toast_container.className += " android_toast_fadeout";
+		toast_container.className += ' android_toast_fadeout'
 
-    function remove_toast() {
-      const toast_container = document.getElementById(
-        "android_toast_container",
-      );
+		function remove_toast() {
+			const toast_container = document.getElementById('android_toast_container')
 
-      if (!toast_container) {
-        return false;
-      }
-      toast_container.parentNode.removeChild(toast_container);
-    }
+			if (!toast_container) {
+				return false
+			}
+			toast_container.parentNode.removeChild(toast_container)
+		}
 
-    toast_container.addEventListener("webkitAnimationEnd", remove_toast);
-    toast_container.addEventListener("animationEnd", remove_toast);
-    toast_container.addEventListener("msAnimationEnd", remove_toast);
-    toast_container.addEventListener("oAnimationEnd", remove_toast);
+		toast_container.addEventListener('webkitAnimationEnd', remove_toast)
+		toast_container.addEventListener('animationEnd', remove_toast)
+		toast_container.addEventListener('msAnimationEnd', remove_toast)
+		toast_container.addEventListener('oAnimationEnd', remove_toast)
 
-    return true;
-  }
+		return true
+	}
 }

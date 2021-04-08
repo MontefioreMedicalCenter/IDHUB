@@ -1,112 +1,108 @@
-import React, { useEffect, useState } from 'react';
-import './main.style.scss';
-import { Route, Switch, useHistory } from 'react-router';
-import { PRIVATE_ROUTES } from '../../AppConfig/AppRouter/constant';
+import React, { useEffect, useState } from 'react'
+import './main.style.scss'
+import { Route, Switch, useHistory } from 'react-router'
+import { PRIVATE_ROUTES } from '../../AppConfig/AppRouter/constant'
 import CustomizedTabs from '../../shared/components/Tabs'
-import { tabList, tabStyles } from './content';
-import moment from 'moment';
-import Montefiore from "../../assets/images/Doing-More-Logo.jpg";
-import LoginService from '../../service/cfc/LoginService';
-import { useDispatch, useSelector } from 'react-redux';
-import AlertDialog from '../../shared/components/AlertDialog';
-import { removeMessage } from '../../AppConfig/store/actions/homeAction';
+import { tabList, tabStyles } from './content'
+import moment from 'moment'
+import Montefiore from '../../assets/images/Doing-More-Logo.jpg'
+import LoginService from '../../service/cfc/LoginService'
+import { useDispatch, useSelector } from 'react-redux'
+import AlertDialog from '../../shared/components/AlertDialog'
+import { removeMessage } from '../../AppConfig/store/actions/homeAction'
 
 const Main = () => {
-    const history = useHistory();
-    const dispatch = useDispatch()
-    const loginModel = useSelector(state => state.loginState.loginModel)
-    const alertData = useSelector(state => state.homeState.alertPopup)
-    const [tabValue, handleTabChange] = useState(0);
-    const dateString = `${moment().format("MM/DD/YYYY")}`;
-    const timeString = `${moment().format("HH:mm:ss")}`;
-    const [mainTabData, setTabData] = useState([])
+	const history = useHistory()
+	const dispatch = useDispatch()
+	const loginModel = useSelector(state => state.loginState.loginModel)
+	const alertData = useSelector(state => state.homeState.alertPopup)
+	const [tabValue, handleTabChange] = useState(0)
+	const dateString = `${moment().format('MM/DD/YYYY')}`
+	const timeString = `${moment().format('HH:mm:ss')}`
+	const [mainTabData, setTabData] = useState([])
 
-    useEffect(() => {
-        if (Object.keys(loginModel).length) {
-            const isAdmin = loginModel.user.hasRole("Admin");
-            // const isAdminRequestor = loginModel.user.hasRole("AdminRequestor")
-            const isRequestor = loginModel.user.hasRole("Requestor")
-            const isReviewer = loginModel.user.hasRole("Reviewer");
+	useEffect(() => {
+		if (Object.keys(loginModel).length) {
+			const isAdmin = loginModel.user.hasRole('Admin')
+			// const isAdminRequestor = loginModel.user.hasRole("AdminRequestor")
+			const isRequestor = loginModel.user.hasRole('Requestor')
+			const isReviewer = loginModel.user.hasRole('Reviewer')
 
-            let tabData = []
-            if (isRequestor || isAdmin) {
-                tabData.push(tabList[0])
-            }
-            if (isReviewer || isAdmin) {
-                tabData.push(tabList[1])
-            }
-            if (isReviewer || isAdmin) {
-                tabData.push(tabList[2])
-            }
-            if (isAdmin) {
-                tabData.push(tabList[3])
-            }
-            setTabData(tabData)
-        } else {
-            history.push('/')
-        }
+			let tabData = []
+			if (isRequestor || isAdmin) {
+				tabData.push(tabList[0])
+			}
+			if (isReviewer || isAdmin) {
+				tabData.push(tabList[1])
+			}
+			if (isReviewer || isAdmin) {
+				tabData.push(tabList[2])
+			}
+			if (isAdmin) {
+				tabData.push(tabList[3])
+			}
+			setTabData(tabData)
+		} else {
+			history.push('/')
+		}
+	}, [loginModel, history])
 
-    }, [loginModel, history])
+	const onSuccessLogout = () => {
+		localStorage.clear()
+		history.push('/')
+	}
+	const onLogoutFail = err => {
+		console.log('Logout Failed!', err)
+	}
 
-    const onSuccessLogout = () => {
-        localStorage.clear()
-        history.push('/')
-    }
-    const onLogoutFail = (err) => {
-        console.log('Logout Failed!', err)
-    }
+	const handleLogout = () => {
+		LoginService.getInstance().logout(onSuccessLogout, onLogoutFail)
+	}
 
-    const handleLogout = () => {
-        LoginService.getInstance().logout(
-            onSuccessLogout,
-            onLogoutFail
-        )
-    }
-
-    return (
-        <div className="main-container">
-            <div className="title">
-                <div className="title-logo">
-                    <img
-                        id="montefiore"
-                        alt="Montefiorelogo"
-                        src={Montefiore}
-                        style={{ height: "30px" }}
-                    />
-                </div>
-                <div className="title-content">
-                    {dateString} -&nbsp;
-                    {timeString} |&nbsp;
-                    {loginModel && loginModel.user ? loginModel.user.userId : ""} |&nbsp;
-                    <span className="logout-btn" onClick={handleLogout}>logout</span>
-                </div>
-            </div>
-            <CustomizedTabs
-                customStyle={tabStyles}
-                setTabValue={handleTabChange}
-                tabValue={tabValue}
-                tabList={mainTabData}
-            />
-            <div className="container-main-view">
-                <Switch>
-                    {PRIVATE_ROUTES.map((route, idx) => {
-                        return route.component ? (
-                            <Route key={idx} path={route.url} exact={route.exact} name={route.name}
-                                render={props => (
-                                    <route.component {...props} />
-                                )} />)
-                            : (null)
-                    })}
-                </Switch>
-            </div>
-            <AlertDialog
-                {...alertData}
-                onClose={
-                    () => dispatch(removeMessage())
-                }
-            />
-        </div>
-    )
+	return (
+		<div className="main-container">
+			<div className="title">
+				<div className="title-logo">
+					<img
+						id="montefiore"
+						alt="Montefiorelogo"
+						src={Montefiore}
+						style={{ height: '30px' }}
+					/>
+				</div>
+				<div className="title-content">
+					{dateString} -&nbsp;
+					{timeString} |&nbsp;
+					{loginModel && loginModel.user ? loginModel.user.userId : ''} |&nbsp;
+					<span className="logout-btn" onClick={handleLogout}>
+						logout
+					</span>
+				</div>
+			</div>
+			<CustomizedTabs
+				customStyle={tabStyles}
+				setTabValue={handleTabChange}
+				tabValue={tabValue}
+				tabList={mainTabData}
+			/>
+			<div className="container-main-view">
+				<Switch>
+					{PRIVATE_ROUTES.map((route, idx) => {
+						return route.component ? (
+							<Route
+								key={idx}
+								path={route.url}
+								exact={route.exact}
+								name={route.name}
+								render={props => <route.component {...props} />}
+							/>
+						) : null
+					})}
+				</Switch>
+			</div>
+			<AlertDialog {...alertData} onClose={() => dispatch(removeMessage())} />
+		</div>
+	)
 }
 
-export default Main;
+export default Main

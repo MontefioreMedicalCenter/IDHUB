@@ -1,7 +1,5 @@
-
-
-export default class PhoneFormatter  {
-    format(val){
-        return val;
-    }
+export default class PhoneFormatter {
+	format(val) {
+		return val
+	}
 }

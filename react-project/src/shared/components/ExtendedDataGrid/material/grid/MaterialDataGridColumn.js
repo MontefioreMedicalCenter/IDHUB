@@ -1,7 +1,7 @@
-import { ReactDataGridColumn } from "../../../../../flexicious";
+import { ReactDataGridColumn } from '../../../../../flexicious'
 
 export default class MaterialDataGridColumn extends ReactDataGridColumn {
-  getClassNames() {
-    return ["MaterialDataGridColumn", ...super.getClassNames()];
-  }
+	getClassNames() {
+		return ['MaterialDataGridColumn', ...super.getClassNames()]
+	}
 }

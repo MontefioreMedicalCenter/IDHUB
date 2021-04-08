@@ -1,4 +1,3 @@
-import DirectoryListEntryBase from "./DirectoryListEntryBase";
+import DirectoryListEntryBase from './DirectoryListEntryBase'
 
-export default class DirectoryListEntry extends DirectoryListEntryBase {
-}
+export default class DirectoryListEntry extends DirectoryListEntryBase {}
