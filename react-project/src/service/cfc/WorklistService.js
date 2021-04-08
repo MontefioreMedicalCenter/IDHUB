@@ -43,6 +43,22 @@ export default class WorklistService extends ServiceProxyBase {
 			headerData
 		)
 	}
+	deleteWorkListSingle(workList, resultHandler, faultHandler) {
+		if (typeof faultHandler == 'undefined') faultHandler = null
+		var bodyFormData = qs.stringify({
+			worklist: workList
+		})
+
+		return this.callServiceMethod(
+			'post',
+			'IdentityHub/api/worklistsvc/deleteWorklist',
+			bodyFormData,
+			null,
+			resultHandler,
+			faultHandler,
+			'form'
+		)
+	}
 
 	saveWorklists(worklist, resultHandler, faultHandler) {
 		if (typeof faultHandler == 'undefined') faultHandler = null

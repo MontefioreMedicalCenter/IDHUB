@@ -13,6 +13,7 @@ const lookuplistError = require('./error/lookuplistError')
 const lookuplistResponse = require('./response/lookuplistResponse')
 const saveWorklistResponse = require('./response/saveWorklistResponse')
 const listDocumentLibraryFiles = require('./response/listDocumentLibraryFiles')
+const deleteWorklist = require('./response/deleteWorklist')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
@@ -56,6 +57,20 @@ app.post('/IdentityHub/api/worklistsvc/findLookupListsReCache', (req, res) => {
         sendResponse(res, 200, lookuplistResponse)
     } else {
         sendResponse(res, 400, lookuplistError)
+    }
+})
+app.post('/IdentityHub/api/worklistsvc/deleteWorklist', (req, res) => {
+    if (req.body.worklist) {
+        sendResponse(res, 200, deleteWorklist)
+    } else {
+        sendResponse(res, 400)
+    }
+})
+app.post('/IdentityHub/api/storagesvc/deleteWorklistDocument', (req, res) => {
+    if (req.body.worklistId && req.body.dirListEntry) {
+        sendResponse(res, 200, [])
+    } else {
+        sendResponse(res, 400)
     }
 })
 app.get('/IdentityHub/api/storagesvc/listDocumentLibraryFiles', (req, res) => {

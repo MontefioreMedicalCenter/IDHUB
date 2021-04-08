@@ -6,12 +6,21 @@ import DialogContent from '@material-ui/core/DialogContent'
 import DialogContentText from '@material-ui/core/DialogContentText'
 import DialogTitle from '@material-ui/core/DialogTitle'
 import Slide from '@material-ui/core/Slide'
+import { makeStyles } from '@material-ui/core'
+
+const useStyles = makeStyles(theme => ({
+	root: {
+		zIndex: '999999 !important'
+	}
+}))
 
 const Transition = React.forwardRef(function Transition(props, ref) {
 	return <Slide direction="up" ref={ref} {...props} />
 })
 
 export default function AlertDialog(props) {
+	const classes = useStyles()
+
 	const handleClickCancel = () => {
 		props.onCancel()
 		props.onClose()
@@ -28,6 +37,9 @@ export default function AlertDialog(props) {
 			<Dialog
 				open={props.onOk ? true : false}
 				TransitionComponent={Transition}
+				classes={{
+					root: classes.root
+				}}
 				keepMounted
 				onClose={props.onClose}
 				aria-labelledby="alert-dialog-slide-title"

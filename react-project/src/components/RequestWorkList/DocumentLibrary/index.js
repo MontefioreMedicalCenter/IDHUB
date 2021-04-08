@@ -4,8 +4,12 @@ import './DocumentLibrary.style.scss'
 import DataGrid from '../../../shared/components/ExtendedDataGrid'
 import { ReactDataGridColumn, ClassFactory } from '../../../flexicious'
 import Back from '../../../assets/images/back_2.png'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Remove from '../../../container/views/itemRenderers/Remove'
+import { showMessage } from '../../../AppConfig/store/actions/homeAction'
+import StorageService from '../../../service/cfc/StorageService'
+import MontefioreUtils from '../../../service/utils/MontefioreUtils'
+import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListSheet'
 
 const styles = theme => ({
 	gridHeader: {
@@ -17,7 +21,8 @@ const styles = theme => ({
 
 const remove = new ClassFactory(Remove)
 
-const DocumentLibrary = () => {
+const DocumentLibrary = ({ worklist }) => {
+	const dispatch = useDispatch()
 	const dataGridRef = useRef(null)
 	const documentLibrary = useSelector(
 		state => state.workListState.documentLibrary
@@ -42,6 +47,32 @@ const DocumentLibrary = () => {
 			//   ele.onchange = (e) => this.handleOnLocateAvatar(e, idString);
 			ele.click()
 		}
+	}
+
+	const deleteWorklistDocument = e => {
+		const dirListEntry = JSON.stringify({
+			baseName: e.row.getData().baseName || ''
+		})
+		dispatch(
+			showMessage(
+				'Confirm Delete',
+				'Are you sure you wish to delete this Document? ',
+				'OK_CANCEL',
+				() => {
+					console.log(worklist, e)
+					StorageService.getInstance().deleteWorklistDocument(
+						worklist.worklistId,
+						dirListEntry,
+						docLibrarySuccessResultEvent,
+						MontefioreUtils.showError
+					)
+				},
+				() => {}
+			)
+		)
+	}
+	const docLibrarySuccessResultEvent = resp => {
+		dispatch(setDocumentLibrary(resp.result))
 	}
 
 	return (
@@ -71,6 +102,7 @@ const DocumentLibrary = () => {
 					<ReactDataGridColumn
 						textAlign="right"
 						paddingRight={20}
+						onHandleDelete={deleteWorklistDocument}
 						itemRenderer={
 							Boolean(documentLibraryState.showDelete) ? remove : () => null
 						}

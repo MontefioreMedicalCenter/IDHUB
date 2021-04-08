@@ -1,4 +1,5 @@
 import ServiceProxyBase from './ServiceProxyBase'
+import qs from 'qs'
 
 export default class StorageService extends ServiceProxyBase {
 	constructor(props) {
@@ -16,6 +17,24 @@ export default class StorageService extends ServiceProxyBase {
 			null,
 			resultHandler,
 			faultHandler
+		)
+	}
+
+	deleteWorklistDocument(workListId, dirListFile, resultHandler, faultHandler) {
+		if (typeof faultHandler == 'undefined') faultHandler = null
+		var bodyFormData = qs.stringify({
+			worklistId: workListId,
+			dirListEntry: dirListFile
+		})
+
+		return this.callServiceMethod(
+			'post',
+			'IdentityHub/api/storagesvc/deleteWorklistDocument',
+			bodyFormData,
+			null,
+			resultHandler,
+			faultHandler,
+			'form'
 		)
 	}
 }

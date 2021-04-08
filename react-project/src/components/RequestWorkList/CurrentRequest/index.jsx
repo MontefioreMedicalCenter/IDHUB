@@ -87,6 +87,7 @@ const CurrentRequest = props => {
 
 	const dataGridRef = useRef(null)
 	const [gridData, setGridData] = useState([])
+	const [worklist, setWorklist] = useState(null)
 	const [openModal, setOpenModal] = useState(false)
 	const [openDocumentLibrary, setDocumentLibraryModal] = useState(false)
 	const [valueOfTab] = useState(props.tabValue)
@@ -344,7 +345,7 @@ const CurrentRequest = props => {
 				<DataGrid
 					ref={dataGridRef}
 					textAlign={'center'}
-					height={'90%'}
+					height={'100%'}
 					width={'100%'}
 					id="Requestor_WorkList_Grid"
 					alternatingItemColors={[0xffffff, 0xffffff]}
@@ -797,9 +798,10 @@ const CurrentRequest = props => {
 							editable={false}
 							hideText={true}
 							headerWordWrap={true}
-							onDocumentClick={onOpenDocument}
-							//  enableIcon={true}
-							//  iconFunction="dynamicIconFunctionUpload"
+							onDocumentClick={e => {
+								setWorklist(e.row.getData())
+								onOpenDocument()
+							}}
 							iconToolTip="View/Upload Request Document"
 							iconHandCursor={true}
 							columnWidthMode="fixed"
@@ -899,7 +901,7 @@ const CurrentRequest = props => {
 				open={openDocumentLibrary}
 				handleClose={onOpenDocument}
 				headerTitle="Document Library"
-				bodyRenderer={<DocumentLibrary />}
+				bodyRenderer={<DocumentLibrary worklist={worklist} />}
 			/>
 		</div>
 	)
