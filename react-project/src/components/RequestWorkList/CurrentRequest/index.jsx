@@ -35,7 +35,7 @@ import CreateDateRenderer from '../../../container/views/itemRenderers/CreateDat
 import StartDateRenderer from '../../../container/views/itemRenderers/StartDateRenderer'
 import EndDateRenderer from '../../../container/views/itemRenderers/EndDateRenderer'
 import DateOfBirthRenderer from '../../../container/views/itemRenderers/DateOfBirthRenderer'
-import ExampleUtils from "../../../utils/ExampleUtils"
+import ExampleUtils from '../../../utils/ExampleUtils'
 import StorageService from '../../../service/cfc/StorageService'
 import {
 	showDelete,
@@ -59,10 +59,18 @@ const titleEditorWrapper = new ClassFactory(Title.editorWrapper)
 const campusCodeEditorWrapper = new ClassFactory(CampusCode.editorWrapper)
 const departmenteEditorWrapper = new ClassFactory(Department.editorWrapper)
 const employeeSubGroup = new ClassFactory(EmployeeSubGroup)
-const createDateRendererEditorWrapper = new ClassFactory(CreateDateRenderer.editorWrapper)
-const startDateRendererEditorWrapper = new ClassFactory(StartDateRenderer.editorWrapper)
-const endDateRendererEditorWrapper = new ClassFactory(EndDateRenderer.editorWrapper)
-const dateOfBirthRendererEditorWrapper = new ClassFactory(DateOfBirthRenderer.editorWrapper)
+const createDateRendererEditorWrapper = new ClassFactory(
+	CreateDateRenderer.editorWrapper
+)
+const startDateRendererEditorWrapper = new ClassFactory(
+	StartDateRenderer.editorWrapper
+)
+const endDateRendererEditorWrapper = new ClassFactory(
+	EndDateRenderer.editorWrapper
+)
+const dateOfBirthRendererEditorWrapper = new ClassFactory(
+	DateOfBirthRenderer.editorWrapper
+)
 const checkBoxItemRenderer = new ClassFactory(CheckBoxItemRenderer)
 const styles = theme => ({
 	gridHeader: {
@@ -201,25 +209,37 @@ const CurrentRequest = props => {
 		return 0xffffff
 	}
 
+
+	var index = -1;
+	var isWorklist = false
 	const iconClick = props => {
-		const rowData = props.row.getData()
+		const selectedItem = props.row.getData()
 		let selectedGroup = {}
 		let selectedRequest = {}
-		const isWorklistGroup = rowData.constructor.name === 'IdWorklistGroup'
+		const isWorklistGroup = selectedItem.constructor.name === 'IdWorklistGroup'
 		if (isWorklistGroup) {
-			selectedGroup = rowData
+			selectedGroup = selectedItem
 		} else {
-			selectedRequest = rowData
+			selectedRequest = selectedItem
 		}
 		const level = props.cell.getNestDepth()
 		let isnotsave = false
-		const isWorklist = Object.keys(selectedRequest).length !== 0 && level === 1
+		isWorklist = Object.keys(selectedRequest).length !== 0 && level === 1
 
 		const selectedobj = isWorklistGroup ? selectedGroup : selectedRequest
+
 		const isWorklistChild =
 			Object.keys(selectedRequest).length !== 0 && level === 2
-
+		if (isWorklist || isWorklistChild) {
+			selectedGroup = selectedItem.worklistGroup
+		}
 		var deleteid = ''
+
+		var gridDP=props.grid.getDataProvider() 
+
+		index=gridDP.getItemIndex(selectedItem)
+		if (index == -1)
+			index=gridDP.getItemIndex(selectedGroup)
 
 		if (props.cell.getColumn() !== null) {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
@@ -313,7 +333,21 @@ const CurrentRequest = props => {
 								isWorklistChild &&
 								selectedGroup.workLists.length > 1
 							) {
-								// wlservice.deleteWorkListSingle(selectedRequest)
+								const data = JSON.stringify(selectedRequest, function(
+									key,
+									value
+								) {
+									if (key == '_worklistGroup') {
+										return value.worklistId
+									} else {
+										return value
+									}
+								})
+								WorklistService.getInstance().deleteWorkListSingle(
+									data,
+									updateWorkList,
+									MontefioreUtils.showError
+								)
 								console.log('deleteWorkListSingle')
 							} else {
 								// wlservice.deleteWorkListGroup(selectedGroup)
@@ -326,6 +360,20 @@ const CurrentRequest = props => {
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
 			}
 		}
+	}
+
+	const updateWorkList = resp => {
+		var vpos = dataGridRef.current.verticalScrollPosition
+		var gridDP = dataGridRef.current.getDataProvider()
+		gridDP.removeItemAt(index)
+
+		// let workGroup = new IdWorklistGroup()
+		// workGroup.fromJson(camelizeKeys(resp.result))
+		// if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), index)
+		// else gridDP.addItemAt(workGroup, index)
+		// dataGridRef.current.expandAll()
+		// dataGridRef.current.validateNow()
+		// dataGridRef.current.gotoVerticalPosition(vpos)
 	}
 
 	return (
