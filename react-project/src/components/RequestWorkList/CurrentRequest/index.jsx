@@ -59,9 +59,9 @@ const title = new ClassFactory(Title)
 const campusCode = new ClassFactory(CampusCode)
 const department = new ClassFactory(Department)
 const employeeSubGroup = new ClassFactory(EmployeeSubGroup)
-const createDateRenderer = new ClassFactory(CreateDateRenderer)
+const createDateRendererEditorWrapper = new ClassFactory(CreateDateRenderer.editorWrapper)
 const startDateRendererEditorWrapper = new ClassFactory(StartDateRenderer.editorWrapper)
-const endDateRenderer = new ClassFactory(EndDateRenderer)
+const endDateRendererEditorWrapper = new ClassFactory(EndDateRenderer.editorWrapper)
 const dateOfBirthRendererEditorWrapper = new ClassFactory(DateOfBirthRenderer.editorWrapper)
 const checkBoxItemRenderer = new ClassFactory(CheckBoxItemRenderer)
 const styles = theme => ({
@@ -626,9 +626,9 @@ const CurrentRequest = props => {
 									headerWordWrap={false}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									labelFunction={MontefioreUtils.dateFormatter2}
-									itemRenderer={endDateRenderer}
-									editable={false}
+									formatter={ExampleUtils.dateFormatter2}
+									// labelFunction={MontefioreUtils.dateFormatter2}
+									itemEditor={endDateRendererEditorWrapper}
 								/>
 								<ReactDataGridColumn
 									dataField="managerSourceUniqueId"
@@ -771,12 +771,12 @@ const CurrentRequest = props => {
 									filterControl="DateComboBox"
 									enableRecursiveSearch={true}
 									headerWordWrap={false}
-									//  formatter="{ExampleUtils.dateFormatter3}"
-									editable={false}
+									// editable={false}
+									formatter={ExampleUtils.dateFormatter3}
 									enableCellClickRowSelect={false}
-									//  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
 									sortable={false}
-									itemRenderer={createDateRenderer}
+									//  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
+									itemEditor={createDateRendererEditorWrapper}
 								/>
 							</ReactDataGridColumnGroup>
 							<ReactDataGridColumn
