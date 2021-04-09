@@ -54,10 +54,10 @@ const edit = new ClassFactory(Edit)
 const remove = new ClassFactory(Remove)
 const submit = new ClassFactory(Submit)
 const worklistStatusRenderer = new ClassFactory(WorklistStatusRenderer)
-const gender = new ClassFactory(Gender)
-const title = new ClassFactory(Title)
-const campusCode = new ClassFactory(CampusCode)
-const department = new ClassFactory(Department)
+const genderEditorWrapper = new ClassFactory(Gender.editorWrapper)
+const titleEditorWrapper = new ClassFactory(Title.editorWrapper)
+const campusCodeEditorWrapper = new ClassFactory(CampusCode.editorWrapper)
+const departmenteEditorWrapper = new ClassFactory(Department.editorWrapper)
 const employeeSubGroup = new ClassFactory(EmployeeSubGroup)
 const createDateRendererEditorWrapper = new ClassFactory(CreateDateRenderer.editorWrapper)
 const startDateRendererEditorWrapper = new ClassFactory(StartDateRenderer.editorWrapper)
@@ -511,8 +511,7 @@ const CurrentRequest = props => {
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									itemRenderer={gender}
-									editable={false}
+									itemEditor={genderEditorWrapper}
 								/>
 								<ReactDataGridColumn
 									dataField="nonMonteEmail"
@@ -569,8 +568,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={false}
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
-									itemRenderer={campusCode}
-									editable={false}
+									itemEditor={campusCodeEditorWrapper}
 								/>
 								<ReactDataGridColumn
 									dataField="title"
@@ -584,8 +582,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={false}
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
-									itemRenderer={title}
-									editable={false}
+									itemEditor={titleEditorWrapper}
 								/>
 								<ReactDataGridColumn
 									dataField="department"
@@ -599,8 +596,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={false}
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
-									itemRenderer={department}
-									editable={false}
+									itemEditor={departmenteEditorWrapper}
 								/>
 								<ReactDataGridColumn
 									dataField="startDate"

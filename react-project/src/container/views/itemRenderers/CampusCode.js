@@ -1,5 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
+import { UIComponent } from '../../../flexicious'
 import ComboBox from '../../../shared/components/ComboBox'
 
 const CampusCode = props => {
@@ -11,6 +12,10 @@ const CampusCode = props => {
 	const handleOnChange = event => {
 		props.row.rowPositionInfo.rowData.campusCode = event.target.value
 		props.cell.refreshCell()
+		const container = props.cell.getGrid().getBodyContainer()
+		if (container._inEdit) {
+			container.endEdit(container.getEditor())
+		}
 	}
 
 	return (
@@ -25,5 +30,14 @@ const CampusCode = props => {
 		</div>
 	)
 }
+class EditorWrapper extends UIComponent {
+	render() {
+		const cell = this.cell;
+		const cellProps = { cell: cell, row: cell.rowInfo, column: cell._column, level: cell.level, grid: cell.level.grid }
+		this.children = [<CampusCode {...cellProps} />];
+		return super.render();
+	}
+}
+CampusCode.editorWrapper = EditorWrapper;
 
 export default CampusCode
