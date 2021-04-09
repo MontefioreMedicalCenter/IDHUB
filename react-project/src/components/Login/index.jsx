@@ -74,7 +74,7 @@ const Login = () => {
 	const lookupListsResultHandler = resp => {
 		const workListModel = new WorkListModel()
 		//confirm with Mittul that the lookup list reponse is an array of 1 object?
-		workListModel.fromJson({ lookupLists: camelizeKeys(resp.result[0]) })
+		workListModel.fromJson({ lookupLists: camelizeKeys(resp.result) })
 		dispatch(saveLookupData(workListModel))
 	}
 
