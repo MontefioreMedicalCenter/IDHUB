@@ -15,14 +15,9 @@ import ArrayCollection from '../../../vo/ArrayCollection'
 import { camelizeKeys } from '../../../shared/utils'
 import BulkFileUpload from '../../../shared/components/BulkFileUpload'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
-import NoSSNItemRenderer from '../../../container/views/itemRenderers/NoSSNItemRenderer'
 import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
-import EpicRequestRenderer from '../../../container/views/itemRenderers/EpicRequestRenderer'
 import AdvanceDialog from '../../../shared/components/AdvanceDialog'
 import RequestDocument from '../RequestDocument'
-import EpfRequestRenderer from '../../../container/views/itemRenderers/EpfRequestRenderer'
-import EpcsHardTokenRequest from '../../../container/views/itemRenderers/EpcsHardTokenRequest'
-import MmcEmailRequest from '../../../container/views/itemRenderers/MmcEmailRequest'
 import UploadOrViewFile from '../../../container/views/itemRenderers/UploadOrViewFile'
 import WorklistStatusRenderer from '../../../container/views/itemRenderers/WorklistStatusRenderer'
 import Save from '../../../container/views/itemRenderers/Save'
@@ -50,13 +45,9 @@ import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListShe
 import { useDispatch } from 'react-redux'
 import StorageServiceEvent from '../../../events/StorageServiceEvent'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
+import CheckBoxItemRenderer from '../../../container/views/itemRenderers/CheckBoxItemRenderer'
 
-const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer)
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
-const epicRequestRenderer = new ClassFactory(EpicRequestRenderer)
-const epfRequestRenderer = new ClassFactory(EpfRequestRenderer)
-const epcsHardTokenRequest = new ClassFactory(EpcsHardTokenRequest)
-const mmcEmailRequest = new ClassFactory(MmcEmailRequest)
 const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
 const save = new ClassFactory(Save)
 const edit = new ClassFactory(Edit)
@@ -72,7 +63,7 @@ const createDateRenderer = new ClassFactory(CreateDateRenderer)
 const startDateRenderer = new ClassFactory(StartDateRenderer)
 const endDateRenderer = new ClassFactory(EndDateRenderer)
 const dateOfBirthRenderer = new ClassFactory(DateOfBirthRenderer)
-
+const checkBoxItemRenderer = new ClassFactory(CheckBoxItemRenderer)
 const styles = theme => ({
 	gridHeader: {
 		color: `${theme.palette.primary.contrastText}`,
@@ -481,7 +472,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
-									itemRenderer={noSSNItemRenderer}
+									itemRenderer={checkBoxItemRenderer}
 								/>
 								<ReactDataGridColumn
 									width={90}
@@ -693,7 +684,7 @@ const CurrentRequest = props => {
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									itemRenderer={epicRequestRenderer}
+									itemRenderer={checkBoxItemRenderer}
 								/>
 								<ReactDataGridColumn
 									dataField="epfRequest"
@@ -707,7 +698,7 @@ const CurrentRequest = props => {
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									itemRenderer={epfRequestRenderer}
+									itemRenderer={checkBoxItemRenderer}
 								/>
 								<ReactDataGridColumn
 									dataField="epcsHardTokenRequest"
@@ -721,7 +712,7 @@ const CurrentRequest = props => {
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									itemRenderer={epcsHardTokenRequest}
+									itemRenderer={checkBoxItemRenderer}
 								/>
 								<ReactDataGridColumn
 									dataField="mmcEmailRequest"
@@ -735,7 +726,7 @@ const CurrentRequest = props => {
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									itemRenderer={mmcEmailRequest}
+									itemRenderer={checkBoxItemRenderer}
 								/>
 								<ReactDataGridColumn
 									dataField="additionalComments"
