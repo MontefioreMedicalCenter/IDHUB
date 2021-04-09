@@ -35,7 +35,7 @@ import CreateDateRenderer from '../../../container/views/itemRenderers/CreateDat
 import StartDateRenderer from '../../../container/views/itemRenderers/StartDateRenderer'
 import EndDateRenderer from '../../../container/views/itemRenderers/EndDateRenderer'
 import DateOfBirthRenderer from '../../../container/views/itemRenderers/DateOfBirthRenderer'
-
+import ExampleUtils from "../../../utils/ExampleUtils"
 import StorageService from '../../../service/cfc/StorageService'
 import {
 	showDelete,
@@ -60,9 +60,9 @@ const campusCode = new ClassFactory(CampusCode)
 const department = new ClassFactory(Department)
 const employeeSubGroup = new ClassFactory(EmployeeSubGroup)
 const createDateRenderer = new ClassFactory(CreateDateRenderer)
-const startDateRenderer = new ClassFactory(StartDateRenderer)
+const startDateRendererEditorWrapper = new ClassFactory(StartDateRenderer.editorWrapper)
 const endDateRenderer = new ClassFactory(EndDateRenderer)
-const dateOfBirthRenderer = new ClassFactory(DateOfBirthRenderer)
+const dateOfBirthRendererEditorWrapper = new ClassFactory(DateOfBirthRenderer.editorWrapper)
 const checkBoxItemRenderer = new ClassFactory(CheckBoxItemRenderer)
 const styles = theme => ({
 	gridHeader: {
@@ -493,14 +493,13 @@ const CurrentRequest = props => {
 									editorDataField="selectedDate"
 									filterControl="DateComboBox"
 									enableRecursiveSearch={true}
-									//  formatter={ExampleUtils.dateFormatter3}
+									formatter={ExampleUtils.dateFormatter3}
 									//  itemEditorValidatorFunction="validateDOB"
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									//  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
 									sortable={false}
-									itemRenderer={dateOfBirthRenderer}
-									editable={false}
+									itemEditor={dateOfBirthRendererEditorWrapper}
 								/>
 								<ReactDataGridColumn
 									dataField="gender"
@@ -611,13 +610,11 @@ const CurrentRequest = props => {
 									filterControl="DateComboBox"
 									enableRecursiveSearch={true}
 									headerWordWrap={false}
-									//  formatter="{ExampleUtils.dateFormatter3}"
+									formatter={ExampleUtils.dateFormatter3}
 									//  itemEditorValidatorFunction="validateStartDate"
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									labelFunction={MontefioreUtils.dateFormatter2}
-									itemRenderer={startDateRenderer}
-									editable={false}
+									itemEditor={startDateRendererEditorWrapper}
 								/>
 								<ReactDataGridColumn
 									dataField="endDate"
