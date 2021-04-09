@@ -50,7 +50,6 @@ import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListShe
 import { useDispatch } from 'react-redux'
 import StorageServiceEvent from '../../../events/StorageServiceEvent'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
-import WorkListEvent from '../../../events/WorkListEvent'
 
 const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer)
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
@@ -106,10 +105,12 @@ const CurrentRequest = props => {
 		workListGroupArr.addAll(workListArr)
 		setGridData(workListGroupArr)
 	}
-
+	//this is how Facebook recommends we run code on mount. Stupid ESlint does not like it.
+	/* eslint-disable*/
 	useEffect(() => {
 		findWorklist()
 	}, [])
+	/* eslint-disable*/
 
 	const findWorklist = () => {
 		WorklistService.getInstance().findWorklistGroups(
