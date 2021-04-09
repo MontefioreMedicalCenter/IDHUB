@@ -4,18 +4,18 @@ import { UIComponent } from '../../../flexicious'
 
 const CheckBoxItemRenderer = props => {
 	const handleChangeData = () => {
-		const rowData = props.row.getData();
-		const dataField = props.column.getDataField();
+		const rowData = props.row.getData()
+		const dataField = props.column.getDataField()
 		if (rowData[dataField] === 'Y') {
-			rowData[dataField]  = 'N'
+			rowData[dataField] = 'N'
 		} else {
-			rowData[dataField]  = 'Y'
+			rowData[dataField] = 'Y'
 		}
-		
-		props.cell.refreshCell();
-		const container=props.cell.getGrid().getBodyContainer();
-		if(container._inEdit){
-			container.endEdit(container.getEditor());
+
+		props.cell.refreshCell()
+		const container = props.cell.getGrid().getBodyContainer()
+		if (container._inEdit) {
+			container.endEdit(container.getEditor())
 		}
 	}
 
@@ -24,7 +24,9 @@ const CheckBoxItemRenderer = props => {
 			<Checkbox
 				id="ChkBox"
 				disabled={props.column.valueOfTab !== 0}
-				checked={Boolean(props.row.rowPositionInfo.rowData[props.column.getDataField()]  === 'Y')}
+				checked={Boolean(
+					props.row.rowPositionInfo.rowData[props.column.getDataField()] === 'Y'
+				)}
 				onClick={handleChangeData}
 			/>
 		</div>
@@ -32,12 +34,18 @@ const CheckBoxItemRenderer = props => {
 }
 
 class EditorWrapper extends UIComponent {
-	render(){
-		const cell = this.cell;
-		const cellProps = { cell: cell, row: cell.rowInfo, column: cell._column, level: cell.level, grid: cell.level.grid }
-		this.children = [<CheckBoxItemRenderer {...cellProps}/>];
-		return super.render();
+	render() {
+		const cell = this.cell
+		const cellProps = {
+			cell: cell,
+			row: cell.rowInfo,
+			column: cell._column,
+			level: cell.level,
+			grid: cell.level.grid
+		}
+		this.children = [<CheckBoxItemRenderer {...cellProps} />]
+		return super.render()
 	}
 }
-CheckBoxItemRenderer.editorWrapper = EditorWrapper;
+CheckBoxItemRenderer.editorWrapper = EditorWrapper
 export default CheckBoxItemRenderer
