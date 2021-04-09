@@ -132,7 +132,7 @@ export default class ServiceProxyBase extends TypedObject {
 					let result
 					try {
 						result =
-							typeof response.data == 'string'
+							typeof response.data == 'string' && response.data.length > 0 
 								? JSON.parse(response.data)
 								: response.data
 						resultFunction({ result })
