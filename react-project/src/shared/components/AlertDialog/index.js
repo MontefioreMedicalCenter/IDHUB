@@ -55,10 +55,12 @@ export default function AlertDialog(props) {
 						{' '}
 						{action.split('_')[0]}{' '}
 					</Button>
-					<Button onClick={handleClickCancel} color="primary">
-						{' '}
-						{action.split('_')[1]}{' '}
-					</Button>
+					{action.split('_')[1] && (
+						<Button onClick={handleClickCancel} color="primary">
+							{' '}
+							{action.split('_')[1]}{' '}
+						</Button>
+					)}
 				</DialogActions>
 			</Dialog>
 		</div>

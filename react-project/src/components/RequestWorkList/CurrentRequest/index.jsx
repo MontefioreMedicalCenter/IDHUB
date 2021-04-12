@@ -13,7 +13,6 @@ import WorklistService from '../../../service/cfc/WorklistService'
 import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup'
 import ArrayCollection from '../../../vo/ArrayCollection'
 import { camelizeKeys } from '../../../shared/utils'
-import BulkFileUpload from '../../../shared/components/BulkFileUpload'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
 import AdvanceDialog from '../../../shared/components/AdvanceDialog'
@@ -46,6 +45,7 @@ import { useDispatch } from 'react-redux'
 import StorageServiceEvent from '../../../events/StorageServiceEvent'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 import CheckBoxItemRenderer from '../../../container/views/itemRenderers/CheckBoxItemRenderer'
+import RequestorSearch from '../RequestorSearch'
 
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
 const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
@@ -377,9 +377,7 @@ const CurrentRequest = props => {
 	return (
 		<div className="grid-container">
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
-				<div className="header-field">
-					<BulkFileUpload />
-				</div>
+				<RequestorSearch />
 				<div style={{ height: 'calc(100% - 40px)' }}>
 					<DataGrid
 						ref={dataGridRef}
