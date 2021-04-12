@@ -38,10 +38,10 @@ const DateOfBirthRenderer = props => {
 }
 
 class EditorWrapper extends UIComponent {
-	render(){
+	render() {
 		const cell = this.cell;
 		const cellProps = { cell: cell, row: cell.rowInfo, column: cell._column, level: cell.level, grid: cell.level.grid }
-		this.children = [<DateOfBirthRenderer {...cellProps}/>];
+		this.children = [<DateOfBirthRenderer {...cellProps} />];
 		return super.render();
 	}
 }

@@ -6,7 +6,8 @@ import {
 	ReactDataGridColumn,
 	ReactDataGridColumnGroup,
 	ReactDataGridColumnLevel,
-	ClassFactory
+	ClassFactory,
+	DateRange
 } from '../../../flexicious'
 import { Paper, withStyles } from '@material-ui/core'
 import WorklistService from '../../../service/cfc/WorklistService'
@@ -46,6 +47,7 @@ import StorageServiceEvent from '../../../events/StorageServiceEvent'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 import CheckBoxItemRenderer from '../../../container/views/itemRenderers/CheckBoxItemRenderer'
 import RequestorSearch from '../RequestorSearch'
+import moment from 'moment'
 
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
 const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
@@ -58,7 +60,7 @@ const genderEditorWrapper = new ClassFactory(Gender.editorWrapper)
 const titleEditorWrapper = new ClassFactory(Title.editorWrapper)
 const campusCodeEditorWrapper = new ClassFactory(CampusCode.editorWrapper)
 const departmenteEditorWrapper = new ClassFactory(Department.editorWrapper)
-const employeeSubGroup = new ClassFactory(EmployeeSubGroup)
+const employeeSubGroupEditorWrapper = new ClassFactory(EmployeeSubGroup.editorWrapper)
 const createDateRendererEditorWrapper = new ClassFactory(
 	CreateDateRenderer.editorWrapper
 )
@@ -89,6 +91,7 @@ const CurrentRequest = props => {
 	const [openModal, setOpenModal] = useState(false)
 	const [openDocumentLibrary, setDocumentLibraryModal] = useState(false)
 	const [valueOfTab] = useState(props.tabValue)
+	var numb_regex = /[0-9]/
 
 	const worklistResultHandler = resp => {
 		var workListGroupArr = new ArrayCollection()
@@ -374,6 +377,252 @@ const CurrentRequest = props => {
 		dataGridRef.current.gotoVerticalPosition(vpos)
 	}
 
+
+	const validateDOB = editor => {
+		var valSuccess = true;
+		var dateFormat = 'MM-DD-YY';
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var grid = dataGridRef.current;
+		var dataField = editor
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
+		var now = new Date()
+		var tenyeardt = new Date(now.getFullYear() - 10, now.getMonth(), now.getDate());
+		var hundyeardt = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
+
+		if (!valResult) {
+			console.log("Invalid format")
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid DOB date");
+		}
+		if (dataField.selectedDate > tenyeardt || dataField.selectedDate < hundyeardt) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid DOB date");
+		}
+		else {
+			grid.clearErrorByObject(cell.rowInfo.data);
+		}
+		return valSuccess
+	}
+
+	const validateStartDate = (editor) => {
+		var valSuccess = true;
+		var dateFormat = 'MM/DD/YY';
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var dataField = editor
+		var grid = dataGridRef.current;
+		if (cell == null || dataField.selectedDate == null) {
+			return valSuccess;
+		}
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		if (dataGridRef.current.getCurrentEditCell().rowInfo.getData().endDate != null) {
+			var enddt = dataGridRef.current.getCurrentEditCell().rowInfo.getData().endDate
+		}
+		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
+		if (!valResult) {
+			console.log("Invalid format")
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid Start date");
+		}
+		if (enddt != null && enddt < editor.selectedDate) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Start date");
+		}
+		else {
+			grid.clearErrorByObject(cell.rowInfo.data);
+		}
+		return valSuccess
+	}
+	const validateEndDate = (editor) => {
+		var valSuccess = true;
+		var dateFormat = 'MM/DD/YY';
+		var grid = dataGridRef.current;
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var dataField = editor
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
+		var startdt = dataGridRef.current.getCurrentEditCell().rowInfo.getData().startDate
+		var enddt = dataField.selectedDate
+		if (startdt == null) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid end date");
+			valSuccess = false
+			return valSuccess
+		}
+		else {
+			var now = new Date()
+			var nowMMDDYYY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+			var nextyeardt = new Date(now.getFullYear() + 5, now.getMonth(), now.getDate());
+		}
+		if (valResult == 'invalid') {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid end date");
+		}
+		if (enddt < nowMMDDYYY) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid End date");
+		}
+		if (startdt > enddt) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid End date");
+		}
+		else if (enddt > nextyeardt) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid End date");
+		}
+		else {
+			grid.clearErrorByObject(cell.rowInfo.getData());
+		}
+		return valSuccess
+	}
+
+	const validateLname = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		var lname_re = /[a-zA-Z]/;
+		if (txt.getText().length < 1) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : Last name");
+			valSuccess = false;
+		}
+		else if (numb_regex.test(txt.getText())) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Last name");
+			valSuccess = false;
+		}
+		else if (txt.getText().length > 35) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Last Name is 35 characters");
+			valSuccess = false;
+		}
+		return valSuccess
+	}
+
+	const validateFname = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		if (txt.getText().length < 1) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : First name");
+			valSuccess = false;
+		}
+		else if (numb_regex.test(txt.getText())) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid First name");
+			valSuccess = false;
+		}
+		else if (txt.getText().length > 35) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for First Name is 35 characters");
+			valSuccess = false;
+		}
+		return valSuccess
+	}
+
+	const validateInitial = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		if (numb_regex.test(txt.text) || txt.getText().length > 1) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Initial");
+			valSuccess = false;
+		}
+		//If you return true, the grid will highlight the error in red and move on to the next row. 
+		//If you return false, the edit box would stay in place and not let the user move forward 
+		//unless the error is corrected.
+		return valSuccess;
+	}
+
+	const validateSSN = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor
+		// 		var valResult = ValidationResultEvent;
+		// var ssnVal = new SocialSecurityValidator();
+		// 		ssnVal.source=txt;
+		// 		ssnVal.property="text";
+		// 		grid.clearErrorByObject(cell.rowInfo.data);
+		// 		valResult=ssnVal.validate();
+		// 		if (grid.getCurrentEditingCell().rowInfo.data.noSSN == 'Y')
+		// 		{
+		// 			return valSuccess;
+		// 		}
+		// 		else if (txt.text.length < 4)
+		// 		{
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
+		// 		}
+		// 		else if (txt.text.length < 4 && isNaN(Number(txt.text)))
+		// 		{
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
+		// 		}
+		// 		else if (txt.text.length == 4 && isNaN(Number(txt.text)))
+		// 		{
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
+		// 		}
+		// 		else if (txt.text.length > 4 && valResult.type == "invalid")
+		// 		{
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
+		// 		}
+		// 		//If you return true, the grid will highlight the error in red and move on to the next row. 
+		// 		//If you return false, the edit box would stay in place and not let the user move forward 
+		// 		//unless the error is corrected.
+		// 		return valSuccess;
+	}
+
+	const validatePersonEmail = (editor) => {
+		var valSuccess = true;
+		var grid = dataGridRef.current;
+		var colheader = grid.getCurrentEditCell()._column._headerText
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor
+		// var valResult = ValidationResultEvent
+		// 		var emailVal:EmailValidator=new EmailValidator();
+		// 		emailVal.source=txt;
+		// 		emailVal.property="text";
+		// 		valResult=emailVal.validate();
+		// 		grid.clearErrorByObject(cell.rowInfo.data);
+		// 		if ((colheader == "Personal or Business Email" && valResult.type == "invalid" && txt.text.length > 0 ) || (colheader == "MHS         Manager       Email" && (txt.text.length < 1 || valResult.type == "invalid")))
+		// 		{
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid Email");
+		// 		}
+		// 		else if (txt.text.length > 200){
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Maximum Length for Email is 200 characters");
+		// 		}
+
+		// 		return valSuccess
+	}
+
+	const validateCompanyCode = (editor) => {
+		var valSuccess = true;
+		var grid = dataGridRef.current;
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		if (txt.getText().length < 1) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : Vendor Consultant Company Name");
+		}
+		else if (txt.getText().length > 50) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Vendor Consultant Company Name is 50 characters");
+		}
+		return valSuccess
+	}
+
 	return (
 		<div className="grid-container">
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
@@ -440,7 +689,7 @@ const CurrentRequest = props => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-									// filterWaterMark={"Contains"}
+								// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"
@@ -479,9 +728,9 @@ const CurrentRequest = props => {
 									filterWaterMark="Contains"
 									headerWordWrap={true}
 									enableRecursiveSearch={true}
-									//  itemEditorValidatorFunction="validateLname"
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
+									itemEditorValidatorFunction={validateLname}
 								/>
 								<ReactDataGridColumn
 									dataField="firstName"
@@ -492,19 +741,19 @@ const CurrentRequest = props => {
 									filterWaterMark="Contains"
 									headerWordWrap={true}
 									enableRecursiveSearch={true}
-									//  temEditorValidatorFunction="validateFname"
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
+									itemEditorValidatorFunction={validateFname}
 								/>
 								<ReactDataGridColumn
 									dataField="middleNameOrInitial"
 									headerText="Init"
 									width={100}
 									headerWordWrap={true}
-									//  itemEditorValidatorFunction="validateInitial"
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
+									itemEditorValidatorFunction={validateInitial}
 								/>
 								<ReactDataGridColumn
 									dataField="noSSN"
@@ -524,11 +773,11 @@ const CurrentRequest = props => {
 									headerText="SSN"
 									editable={false}
 									headerWordWrap={true}
-									//  itemEditorValidatorFunction="validateSSN"
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
 									itemRenderer={ssnItemRenderer}
+								// itemEditorValidatorFunction={validateSSN}
 								/>
 								<ReactDataGridColumn
 									dataField="dateOfBirth"
@@ -538,12 +787,12 @@ const CurrentRequest = props => {
 									filterControl="DateComboBox"
 									enableRecursiveSearch={true}
 									formatter={ExampleUtils.dateFormatter3}
-									//  itemEditorValidatorFunction="validateDOB"
+									itemEditorValidatorFunction={validateDOB}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									//  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
 									sortable={false}
 									itemEditor={dateOfBirthRendererEditorWrapper}
+									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 								/>
 								<ReactDataGridColumn
 									dataField="gender"
@@ -562,7 +811,7 @@ const CurrentRequest = props => {
 									headerText="Personal or Business Email"
 									width={120}
 									headerWordWrap={true}
-									//  itemEditorValidatorFunction="validatePersonEmail"
+									// itemEditorValidatorFunction={validatePersonEmail}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
@@ -580,11 +829,11 @@ const CurrentRequest = props => {
 									filterWaterMark="Contains"
 									enableRecursiveSearch={true}
 									headerWordWrap={true}
-									editable={false}
+									editable={true}
 									itemEditorApplyOnValueCommit={false}
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
-									itemRenderer={employeeSubGroup}
+									itemEditor={employeeSubGroupEditorWrapper}
 								/>
 								<ReactDataGridColumn
 									dataField="companyCode"
@@ -595,7 +844,7 @@ const CurrentRequest = props => {
 									filterWaterMark="Contains"
 									enableRecursiveSearch={true}
 									headerWordWrap="True"
-									//  itemEditorValidatorFunction="validateCompanyCode"
+									itemEditorValidatorFunction={validateCompanyCode}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
@@ -651,10 +900,11 @@ const CurrentRequest = props => {
 									enableRecursiveSearch={true}
 									headerWordWrap={false}
 									formatter={ExampleUtils.dateFormatter3}
-									//  itemEditorValidatorFunction="validateStartDate"
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemEditor={startDateRendererEditorWrapper}
+									itemEditorValidatorFunction={validateStartDate}
+									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 								/>
 								<ReactDataGridColumn
 									dataField="endDate"
@@ -669,6 +919,8 @@ const CurrentRequest = props => {
 									formatter={ExampleUtils.dateFormatter2}
 									// labelFunction={MontefioreUtils.dateFormatter2}
 									itemEditor={endDateRendererEditorWrapper}
+									itemEditorValidatorFunction={validateEndDate}
+									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 								/>
 								<ReactDataGridColumn
 									dataField="managerSourceUniqueId"
@@ -777,7 +1029,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
-									//  itemEditorValidatorFunction="validateAdditionalComment"
+								//  itemEditorValidatorFunction="validateAdditionalComment"
 								/>
 								<ReactDataGridColumn
 									dataField="requestorFullName"
@@ -815,7 +1067,7 @@ const CurrentRequest = props => {
 									formatter={ExampleUtils.dateFormatter3}
 									enableCellClickRowSelect={false}
 									sortable={false}
-									//  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
+									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 									itemEditor={createDateRendererEditorWrapper}
 								/>
 							</ReactDataGridColumnGroup>
