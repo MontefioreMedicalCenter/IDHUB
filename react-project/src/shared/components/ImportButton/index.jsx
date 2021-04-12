@@ -8,7 +8,7 @@ const ImportButton = props => {
 			color="primary"
 			onClick={props.onClick}
 			size="small"
-			style={{ maxWidth: '30px', height: '15px', fontSize: 'xx-small' }}>
+			style={{ maxWidth: '30px', height: '20px', fontSize: 'xx-small' }}>
 			import
 		</Button>
 	)

@@ -59,7 +59,6 @@ const DocumentLibrary = ({ worklist }) => {
 				'Are you sure you wish to delete this Document? ',
 				'OK_CANCEL',
 				() => {
-					console.log(worklist, e)
 					StorageService.getInstance().deleteWorklistDocument(
 						worklist.worklistId,
 						dirListEntry,
@@ -117,7 +116,7 @@ const DocumentLibrary = ({ worklist }) => {
 					</div>
 					<input
 						id="uploaderDocs"
-						accept={'.doc, .docx, .pdf, .ppt, .pptx, .xls, .xlsx'}
+						accept={'.xls, .xlsx'}
 						style={{ display: 'none' }}
 						type="file"
 					/>
