@@ -209,8 +209,7 @@ const CurrentRequest = props => {
 		return 0xffffff
 	}
 
-
-	var index = -1;
+	var index = -1
 	var isWorklist = false
 	const iconClick = props => {
 		const selectedItem = props.row.getData()
@@ -235,11 +234,10 @@ const CurrentRequest = props => {
 		}
 		var deleteid = ''
 
-		var gridDP=props.grid.getDataProvider() 
+		var gridDP = props.grid.getDataProvider()
 
-		index=gridDP.getItemIndex(selectedItem)
-		if (index == -1)
-			index=gridDP.getItemIndex(selectedGroup)
+		index = gridDP.getItemIndex(selectedItem)
+		if (index == -1) index = gridDP.getItemIndex(selectedGroup)
 
 		if (props.cell.getColumn() !== null) {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
@@ -363,17 +361,17 @@ const CurrentRequest = props => {
 	}
 
 	const updateWorkList = resp => {
-		var vpos = dataGridRef.current.verticalScrollPosition
+		var vpos = dataGridRef.current.getVerticalScrollPosition()
 		var gridDP = dataGridRef.current.getDataProvider()
 		gridDP.removeItemAt(index)
 
-		// let workGroup = new IdWorklistGroup()
-		// workGroup.fromJson(camelizeKeys(resp.result))
-		// if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), index)
-		// else gridDP.addItemAt(workGroup, index)
-		// dataGridRef.current.expandAll()
-		// dataGridRef.current.validateNow()
-		// dataGridRef.current.gotoVerticalPosition(vpos)
+		let workGroup = new IdWorklistGroup()
+		workGroup.fromJson(camelizeKeys(resp.result))
+		if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), index)
+		else gridDP.addItemAt(workGroup, index)
+		dataGridRef.current.expandAll()
+		dataGridRef.current.validateNow()
+		dataGridRef.current.gotoVerticalPosition(vpos)
 	}
 
 	return (

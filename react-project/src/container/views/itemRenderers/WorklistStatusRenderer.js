@@ -23,7 +23,7 @@ const WorklistStatusRenderer = props => {
 				</div>
 			)
 		} else {
-			return statusList
+			return <div>{statusList}</div>
 		}
 	}
 	return null
