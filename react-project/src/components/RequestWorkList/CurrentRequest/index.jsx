@@ -48,6 +48,8 @@ import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 import CheckBoxItemRenderer from '../../../container/views/itemRenderers/CheckBoxItemRenderer'
 import RequestorSearch from '../RequestorSearch'
 import moment from 'moment'
+import { isValidPhoneNumber } from 'react-phone-number-input';
+import { isValid } from 'ssn-validator'
 
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
 const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
@@ -92,6 +94,7 @@ const CurrentRequest = props => {
 	const [openDocumentLibrary, setDocumentLibraryModal] = useState(false)
 	const [valueOfTab] = useState(props.tabValue)
 	var numb_regex = /[0-9]/
+	var numb_errregex = /[.+-]/;
 
 	const worklistResultHandler = resp => {
 		var workListGroupArr = new ArrayCollection()
@@ -545,40 +548,34 @@ const CurrentRequest = props => {
 		var valSuccess = true;
 		var cell = dataGridRef.current.getCurrentEditCell();
 		var txt = editor
-		// 		var valResult = ValidationResultEvent;
-		// var ssnVal = new SocialSecurityValidator();
-		// 		ssnVal.source=txt;
-		// 		ssnVal.property="text";
-		// 		grid.clearErrorByObject(cell.rowInfo.data);
-		// 		valResult=ssnVal.validate();
-		// 		if (grid.getCurrentEditingCell().rowInfo.data.noSSN == 'Y')
-		// 		{
-		// 			return valSuccess;
-		// 		}
-		// 		else if (txt.text.length < 4)
-		// 		{
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
-		// 		}
-		// 		else if (txt.text.length < 4 && isNaN(Number(txt.text)))
-		// 		{
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
-		// 		}
-		// 		else if (txt.text.length == 4 && isNaN(Number(txt.text)))
-		// 		{
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
-		// 		}
-		// 		else if (txt.text.length > 4 && valResult.type == "invalid")
-		// 		{
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
-		// 		}
-		// 		//If you return true, the grid will highlight the error in red and move on to the next row. 
-		// 		//If you return false, the edit box would stay in place and not let the user move forward 
-		// 		//unless the error is corrected.
-		// 		return valSuccess;
+
+		var valResult = isValid(txt.getText());
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+
+		if (grid.getCurrentEditCell().rowInfo.getData().noSSN == 'Y') {
+			return valSuccess;
+		}
+		else if (txt.getText().length < 4) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid SSN");
+		}
+		else if (txt.getText().length < 4 && isNaN(Number(txt.getText()))) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid SSN");
+		}
+		else if (txt.getText().length == 4 && isNaN(Number(txt.getText()))) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid SSN");
+		}
+		else if (txt.getText().length > 4 && !valResult) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid SSN");
+		}
+		//If you return true, the grid will highlight the error in red and move on to the next row. 
+		//If you return false, the edit box would stay in place and not let the user move forward 
+		//unless the error is corrected.
+		return valSuccess;
 	}
 
 	const validatePersonEmail = (editor) => {
@@ -587,23 +584,19 @@ const CurrentRequest = props => {
 		var colheader = grid.getCurrentEditCell()._column._headerText
 		var cell = dataGridRef.current.getCurrentEditCell();
 		var txt = editor
-		// var valResult = ValidationResultEvent
-		// 		var emailVal:EmailValidator=new EmailValidator();
-		// 		emailVal.source=txt;
-		// 		emailVal.property="text";
-		// 		valResult=emailVal.validate();
-		// 		grid.clearErrorByObject(cell.rowInfo.data);
-		// 		if ((colheader == "Personal or Business Email" && valResult.type == "invalid" && txt.text.length > 0 ) || (colheader == "MHS         Manager       Email" && (txt.text.length < 1 || valResult.type == "invalid")))
-		// 		{
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid Email");
-		// 		}
-		// 		else if (txt.text.length > 200){
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Maximum Length for Email is 200 characters");
-		// 		}
 
-		// 		return valSuccess
+		var emailVal = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g);
+		var valResult = emailVal.test(txt.getText())
+		grid.clearErrorByObject(cell.rowInfo.getData());
+		if ((colheader === "Personal or Business Email" && !valResult && txt.getText().length > 0) || (colheader === "MHS Manager Email" && (txt.getText().length < 1 || !valResult))) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Email");
+		}
+		else if (txt.getText().length > 200) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Email is 200 characters");
+		}
+		return valSuccess
 	}
 
 	const validateCompanyCode = (editor) => {
@@ -619,6 +612,96 @@ const CurrentRequest = props => {
 		else if (txt.getText().length > 50) {
 			valSuccess = false
 			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Vendor Consultant Company Name is 50 characters");
+		}
+		return valSuccess
+	}
+
+	const validatesmanagersource = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor;
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		//if(!((txt.text.length ==4) ||(txt.text.length ==6) || (txt.text.length ==9)) || (isNaN(Number(txt.text))) ||Number(txt.text)<0 || txt.text.search(' ')>=0 || txt.text.search('+')>=0 || txt.text.search('.')>=0){
+		if (txt.getText().length < 4 || txt.getText().length > 10) {
+			valSuccess = false
+		}
+		else if (!numb_regex.test(txt.getText())) {
+			valSuccess = false
+		}
+		else if (numb_errregex.test(txt.getText()) || (isNaN(Number(txt.getText())))) {
+			valSuccess = false
+		}
+		if (!valSuccess) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid MHS Manager ID - must be number between 4 & 10 digits long");
+		}
+		return valSuccess
+	}
+
+	const validatePhone = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor;
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+
+
+		const number = `+1${txt.getText()}`
+		const valResult = isValidPhoneNumber(number)
+		if (txt.getText().length > 0 && !valResult == 'invalid') {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Phone");
+		}
+		if (txt.getText().length > 0 && txt.getText().replaceAll("-", "").length < 10 && !valResult == 'valid') {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Phone");
+		}
+		if (txt.getText().replaceAll("-", "").length > 12) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid phone");
+		}
+		if (txt.getText().length > 10 && txt.getText().replaceAll("-", "").length <= 12 && txt.getText().charAt(3) != '-') {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Phone");
+		}
+		return valSuccess
+	}
+
+	const validateExt = editor => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor;
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		var managerph = grid.getCurrentEditCell().rowInfo.getData().managerExt
+		if (managerph !== null) {
+			if (managerph.length < 1 && txt.getText().length > 1) {
+				valSuccess = false
+				grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Ext");
+			}
+		}
+		if (managerph === null && txt.getText().length > 1) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Ext");
+		}
+		var valResult = Number(txt.getText()) !== NaN
+		if (txt.getText().length > 0 && !valResult) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Ext");
+			valSuccess = false;
+		}
+		return valSuccess;
+	}
+
+	const validateAdditionalComment = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor;
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+
+		if (txt.getText().length > 250) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Requestor Comment is 250 characters ");
 		}
 		return valSuccess
 	}
@@ -771,13 +854,13 @@ const CurrentRequest = props => {
 									width={90}
 									dataField="ssn"
 									headerText="SSN"
-									editable={false}
+									editable={true}
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
 									itemRenderer={ssnItemRenderer}
-								// itemEditorValidatorFunction={validateSSN}
+									itemEditorValidatorFunction={validateSSN}
 								/>
 								<ReactDataGridColumn
 									dataField="dateOfBirth"
@@ -811,7 +894,7 @@ const CurrentRequest = props => {
 									headerText="Personal or Business Email"
 									width={120}
 									headerWordWrap={true}
-									// itemEditorValidatorFunction={validatePersonEmail}
+									itemEditorValidatorFunction={validatePersonEmail}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
@@ -933,7 +1016,7 @@ const CurrentRequest = props => {
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									//  itemEditorValidatorFunction="validatesmanagersource"
+									itemEditorValidatorFunction={validatesmanagersource}
 									sortable={false}
 								/>
 								<ReactDataGridColumn
@@ -943,20 +1026,25 @@ const CurrentRequest = props => {
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									//  itemEditorValidatorFunction="validatePhone"
+									itemEditorValidatorFunction={validatePhone}
 									sortable={false}
 								/>
 								<ReactDataGridColumn
 									dataField="managerExt"
 									headerText="MHS Manager Ext"
 									width={100}
+									itemEditorValidatorFunction={validateExt}
+									headerWordWrap={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
 								/>
 								<ReactDataGridColumn
 									dataField="managerEmail"
 									headerText="MHS Manager Email"
 									width={100}
 									headerWordWrap={true}
-									//  itemEditorValidatorFunction="validatePersonEmail"
+									itemEditorValidatorFunction={validatePersonEmail}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
@@ -1029,7 +1117,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
-								//  itemEditorValidatorFunction="validateAdditionalComment"
+									itemEditorValidatorFunction={validateAdditionalComment}
 								/>
 								<ReactDataGridColumn
 									dataField="requestorFullName"
