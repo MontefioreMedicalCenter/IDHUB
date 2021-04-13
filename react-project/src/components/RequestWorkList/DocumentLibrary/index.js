@@ -10,6 +10,7 @@ import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 import StorageService from '../../../service/cfc/StorageService'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListSheet'
+import moment from 'moment'
 
 const styles = theme => ({
 	gridHeader: {
@@ -24,10 +25,13 @@ const remove = new ClassFactory(Remove)
 const DocumentLibrary = ({ worklist }) => {
 	const dispatch = useDispatch()
 	const dataGridRef = useRef(null)
+	const fileName = useRef(null)
 	const documentLibrary = useSelector(
 		state => state.workListState.documentLibrary
 	)
 	const documentLibraryState = useSelector(state => state.documentLibraryState)
+
+	var file = null
 
 	const showDocument = () => {}
 
@@ -40,13 +44,23 @@ const DocumentLibrary = ({ worklist }) => {
 		)
 	}
 
-	const locateImage = () => {
+	const LocateFile = () => {
 		const ele = document.getElementById('uploaderDocs')
 
 		if (ele) {
-			//   ele.onchange = (e) => this.handleOnLocateAvatar(e, idString);
+			ele.onchange = e => onFileSelect(e)
 			ele.click()
 		}
+	}
+
+	const onFileSelect = event => {
+		file = event.target
+		fileName.current.innerText =
+			worklist.worklistId +
+			'_' +
+			moment(new Date()).format('YYYYMMDD') +
+			'_' +
+			file.files[0].name
 	}
 
 	const deleteWorklistDocument = e => {
@@ -70,6 +84,33 @@ const DocumentLibrary = ({ worklist }) => {
 			)
 		)
 	}
+
+	const uploadFile = () => {
+		dispatch(
+			showMessage(
+				'Confirm Upload',
+				'Are you sure you want to upload this file?',
+				'YES_NO',
+				onConfirm,
+				() => {}
+			)
+		)
+	}
+
+	const onConfirm = () => {
+		storeWorklistDocument()
+		fileName.current.innerText = 'browse..'
+	}
+
+	const storeWorklistDocument = () => {
+		StorageService.getInstance().storeWorklistDocument(
+			worklist.worklistId,
+			file.files,
+			docLibrarySuccessResultEvent,
+			MontefioreUtils.showError
+		)
+	}
+
 	const docLibrarySuccessResultEvent = resp => {
 		dispatch(setDocumentLibrary(resp.result))
 	}
@@ -109,10 +150,10 @@ const DocumentLibrary = ({ worklist }) => {
 				</DataGrid>
 			</Paper>
 			{Boolean(documentLibraryState.showUpload) && (
-				<div className="upload-container">
+				<div className="upload-doc-container">
 					<span className="upload-text">Upload File:</span>
-					<div className="upload-file-name" onClick={locateImage}>
-						browse...
+					<div ref={fileName} className="upload-file-name" onClick={LocateFile}>
+						<span>browse...</span>
 					</div>
 					<input
 						id="uploaderDocs"
@@ -124,6 +165,7 @@ const DocumentLibrary = ({ worklist }) => {
 						variant="contained"
 						color="primary"
 						size="large"
+						onClick={uploadFile}
 						startIcon={<img src={Back} alt="no-img" />}>
 						{' '}
 						Upload{' '}

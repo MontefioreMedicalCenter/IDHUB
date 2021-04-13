@@ -626,8 +626,8 @@ const CurrentRequest = props => {
 	return (
 		<div className="grid-container">
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
-				<RequestorSearch />
-				<div style={{ height: 'calc(100% - 40px)' }}>
+				<RequestorSearch findWorklist={findWorklist} />
+				<div style={{ height: 'calc(100% - 65px)' }}>
 					<DataGrid
 						ref={dataGridRef}
 						textAlign={'center'}
