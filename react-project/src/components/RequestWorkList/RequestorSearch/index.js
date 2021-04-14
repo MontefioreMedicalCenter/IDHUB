@@ -61,7 +61,7 @@ const RequestorSearch = ({ findWorklist }) => {
 
 	const onConfirm = () => {
 		setErrorTxt("")
-		if (file.files) {
+		if (file && file.files) {
 			WorklistService.getInstance().loadWorklistFromSpreadsheet(
 				file.files,
 				groupCheckbox,

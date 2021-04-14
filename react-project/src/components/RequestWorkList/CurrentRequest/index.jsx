@@ -17,7 +17,7 @@ import { camelizeKeys } from '../../../shared/utils'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
 import AdvanceDialog from '../../../shared/components/AdvanceDialog'
-import RequestDocument from '../RequestDocument'
+import DocumentViewer from '../DocumentViewer'
 import UploadOrViewFile from '../../../container/views/itemRenderers/UploadOrViewFile'
 import WorklistStatusRenderer from '../../../container/views/itemRenderers/WorklistStatusRenderer'
 import Save from '../../../container/views/itemRenderers/Save'
@@ -48,7 +48,7 @@ import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 import CheckBoxItemRenderer from '../../../container/views/itemRenderers/CheckBoxItemRenderer'
 import RequestorSearch from '../RequestorSearch'
 import moment from 'moment'
-import { isValidPhoneNumber } from 'react-phone-number-input';
+import { isValidPhoneNumber } from 'react-phone-number-input'
 import { isValid } from 'ssn-validator'
 
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
@@ -62,7 +62,9 @@ const genderEditorWrapper = new ClassFactory(Gender.editorWrapper)
 const titleEditorWrapper = new ClassFactory(Title.editorWrapper)
 const campusCodeEditorWrapper = new ClassFactory(CampusCode.editorWrapper)
 const departmenteEditorWrapper = new ClassFactory(Department.editorWrapper)
-const employeeSubGroupEditorWrapper = new ClassFactory(EmployeeSubGroup.editorWrapper)
+const employeeSubGroupEditorWrapper = new ClassFactory(
+	EmployeeSubGroup.editorWrapper
+)
 const createDateRendererEditorWrapper = new ClassFactory(
 	CreateDateRenderer.editorWrapper
 )
@@ -88,13 +90,13 @@ const CurrentRequest = props => {
 	const dispatch = useDispatch()
 
 	const dataGridRef = useRef(null)
-	const [gridData, setGridData] = useState([])
 	const [worklist, setWorklist] = useState(null)
 	const [openModal, setOpenModal] = useState(false)
 	const [openDocumentLibrary, setDocumentLibraryModal] = useState(false)
+	const [documentFileUrl, setDocumentFileUrl] = useState('')
 	const [valueOfTab] = useState(props.tabValue)
 	var numb_regex = /[0-9]/
-	var numb_errregex = /[.+-]/;
+	var numb_errregex = /[.+-]/
 
 	const worklistResultHandler = resp => {
 		var workListGroupArr = new ArrayCollection()
@@ -108,7 +110,7 @@ const CurrentRequest = props => {
 			else workListGroupArr.addItem(workGroup)
 		})
 		workListGroupArr.addAll(workListArr)
-		setGridData(workListGroupArr)
+		dataGridRef.current && dataGridRef.current.setDataProvider(workListGroupArr)
 	}
 	//this is how Facebook recommends we run code on mount. Stupid ESlint does not like it.
 	/* eslint-disable*/
@@ -128,12 +130,47 @@ const CurrentRequest = props => {
 		img.move(0, 0)
 	}
 
-	const getDocumentLibrary = () => {
-		StorageService.getInstance().listDocumentLibraryFiles(
-			docLibrarySuccessResult,
-			MontefioreUtils.showError
-		)
-		onOpenDocument()
+	const onExecuteToolbarAction = action => {
+		if (action.code == 'Add Employee') {
+			var grid = dataGridRef.current
+			
+			var gridDP=grid.getDataProvider();
+			var wkg=new IdWorklistGroup();
+			var wk =new IdWorklist();
+			wkg.workLists=new ArrayCollection();
+			wkg.workLists.addItemAt(wk, 0);
+			wkg.worklistStatus="OnHold"
+			wk.worklistStatus="OnHold"
+			wk.edit=true
+			wk.worklistGroup=wkg
+			console.log('Add Employee')
+			if(grid.getCurrentSorts().length>0)
+			{
+				grid.removeAllSorts();
+				gridDP.addItemAt(wk, 0);
+				gridDP.sort=null
+				gridDP.refresh()
+			}
+			else{
+				gridDP.addItemAt(wk, 0);
+			}
+			grid.cellEditableFunction=isCellEditable;
+			grid.refreshGrid();
+		} else if (action.code == 'Refresh') {
+			// dispatchEvent(new WorkListEvent(WorkListEvent.GET_WORK_LIST));
+		} else if (action.code == 'SubmitAll') {
+		} else if (action.code == 'Document Library') {
+			StorageService.getInstance().listDocumentLibraryFiles(
+				docLibrarySuccessResult,
+				MontefioreUtils.showError
+			)
+			onOpenDocument()
+		}
+	}
+
+	const onShowDocument = fileData => {
+		setDocumentFileUrl(fileData)
+		setOpenModal(true)
 	}
 
 	const docLibrarySuccessResult = ({ result }) => {
@@ -718,7 +755,6 @@ const CurrentRequest = props => {
 						width={'100%'}
 						id="Requestor_WorkList_Grid"
 						alternatingItemColors={[0xffffff, 0xffffff]}
-						dataProvider={gridData}
 						enablePrint
 						enablePreferencePersistence
 						enableDrag
@@ -737,7 +773,6 @@ const CurrentRequest = props => {
 						//  alternatingItemColors="[0xffffff,0xffffff]"
 						enableToolbarActions
 						styleName="gridStyle"
-						// toolbarActionExecutedFunction={onExecuteToolbarAction}
 						editable
 						enableDrillDown
 						filterVisible={false}
@@ -746,8 +781,8 @@ const CurrentRequest = props => {
 						enableDefaultDisclosureIcon={false}
 						headerSortSeparatorRight={3}
 						selectionMode="none"
-						cellEditableFunction={isCellEditable}
-						documentOpenFunction={getDocumentLibrary}>
+						toolbarActionExecutedFunction={onExecuteToolbarAction}
+						cellEditableFunction={isCellEditable}>
 						<ReactDataGridColumnLevel
 							rowHeight={10}
 							enablePaging={true}
@@ -772,7 +807,7 @@ const CurrentRequest = props => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-								// filterWaterMark={"Contains"}
+									// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"
@@ -1266,13 +1301,18 @@ const CurrentRequest = props => {
 				open={openModal}
 				handleClose={() => setOpenModal(false)}
 				headerTitle="Request Documents"
-				bodyRenderer={<RequestDocument />}
+				bodyRenderer={<DocumentViewer documentFileUrl={documentFileUrl} />}
 			/>
 			<AdvanceDialog
 				open={openDocumentLibrary}
 				handleClose={onOpenDocument}
 				headerTitle="Document Library"
-				bodyRenderer={<DocumentLibrary worklist={worklist} />}
+				bodyRenderer={
+					<DocumentLibrary
+						worklist={worklist}
+						onShowDocument={onShowDocument}
+					/>
+				}
 			/>
 		</div>
 	)

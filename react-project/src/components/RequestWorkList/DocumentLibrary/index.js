@@ -22,7 +22,7 @@ const styles = theme => ({
 
 const remove = new ClassFactory(Remove)
 
-const DocumentLibrary = ({ worklist }) => {
+const DocumentLibrary = ({ worklist, onShowDocument }) => {
 	const dispatch = useDispatch()
 	const dataGridRef = useRef(null)
 	const fileName = useRef(null)
@@ -33,12 +33,14 @@ const DocumentLibrary = ({ worklist }) => {
 
 	var file = null
 
-	const showDocument = () => {}
+	const showDocument = (file) => {
+		onShowDocument(file)
+	}
 
 	const baseNamerenderer = props => {
 		const row = props.row.getData()
 		return (
-			<span onClick={showDocument} className="document-file-name">
+			<span onClick={() => showDocument(props.row.getData().fileUrl)} className="document-file-name">
 				{row.baseName || '...'}
 			</span>
 		)
