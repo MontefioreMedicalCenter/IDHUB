@@ -1,19 +1,32 @@
 // import { TextField } from "@material-ui/core";
-import React from 'react'
+import React/* , { useState }  */ from 'react'
 
 const SsnItemRender = props => {
-	return props.row.rowPositionInfo.rowData.workLists ? (
-		<div></div>
-	) : (
+	// const [displayAsPassword, setDisplayAsPassword] = useState(true)
+
+	const data = props.row.rowPositionInfo.rowData;
+
+	// const handleOnFocus = (e) => {
+	// 	setDisplayAsPassword(!displayAsPassword)
+	// }
+	return (
 		<div>
 			<input
-				value={props.row.rowPositionInfo.rowData.ssn}
-				displayAsPassword={true}
+				value={data.ssn}
+				// type={data.constructor.name !== "IdWorklist" ? "hidden" : (displayAsPassword ? "password" : "text")}
+				type={data.constructor.name !== "IdWorklist" ? "hidden" : "password"}
 				editable={false}
-				text={props.row.rowPositionInfo.rowData.ssn}
-				type="text"
-				maxlength="10"
-				style={{ height: '35px', width: '100%', textAlign: 'center' }}
+				key={data.ssn}
+				text={data.ssn}
+				maxlength={10}
+				style={{
+					height: '35px', width: '100%', textAlign: 'center',
+					backgroundColor: (data.worklistGroup && data.worklistGroup.workLists.length === 1) ? "#e1eef7" : "#ffffff"
+				}}
+				maxChars={11}
+				restrict="0-9"
+			// onFocus={handleOnFocus}
+			// onfocusout={handleOnFocus}
 			/>
 		</div>
 	)

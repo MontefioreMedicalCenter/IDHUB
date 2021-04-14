@@ -133,28 +133,27 @@ const CurrentRequest = props => {
 	const onExecuteToolbarAction = action => {
 		if (action.code == 'Add Employee') {
 			var grid = dataGridRef.current
-			
-			var gridDP=grid.getDataProvider();
-			var wkg=new IdWorklistGroup();
-			var wk =new IdWorklist();
-			wkg.workLists=new ArrayCollection();
+
+			var gridDP = grid.getDataProvider();
+			var wkg = new IdWorklistGroup();
+			var wk = new IdWorklist();
+			wkg.workLists = new ArrayCollection();
 			wkg.workLists.addItemAt(wk, 0);
-			wkg.worklistStatus="OnHold"
-			wk.worklistStatus="OnHold"
-			wk.edit=true
-			wk.worklistGroup=wkg
+			wkg.worklistStatus = "OnHold"
+			wk.worklistStatus = "OnHold"
+			wk.edit = true
+			wk.worklistGroup = wkg
 			console.log('Add Employee')
-			if(grid.getCurrentSorts().length>0)
-			{
+			if (grid.getCurrentSorts().length > 0) {
 				grid.removeAllSorts();
 				gridDP.addItemAt(wk, 0);
-				gridDP.sort=null
+				gridDP.sort = null
 				gridDP.refresh()
 			}
-			else{
+			else {
 				gridDP.addItemAt(wk, 0);
 			}
-			grid.cellEditableFunction=isCellEditable;
+			grid.cellEditableFunction = isCellEditable;
 			grid.refreshGrid();
 		} else if (action.code == 'Refresh') {
 			// dispatchEvent(new WorkListEvent(WorkListEvent.GET_WORK_LIST));
@@ -254,6 +253,7 @@ const CurrentRequest = props => {
 
 	var index = -1
 	var isWorklist = false
+
 	const iconClick = props => {
 		const selectedItem = props.row.getData()
 		let selectedGroup = {}
@@ -285,17 +285,102 @@ const CurrentRequest = props => {
 		if (props.cell.getColumn() !== null) {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
 			} else if (props.cell.getColumn().getHeaderText() === 'Submit') {
+				// var alertId = isWorklistGroup ? selectedGroup.worklistId : selectedRequest.worklistId
+				if (selectedItem.worklistStatus == "Ready" || selectedItem.worklistStatus == "Rejected" || selectedItem.worklistStatus == "Processed") { //selectedItem.worklistStatus
+					dispatch(
+						showMessage(
+							'Confirm',
+							'Are you sure you want to Submit',
+							'YES_NO',
+							() => {
+								if (isWorklistGroup) {
+
+									// var test = selectedobj
+									selectedGroup.edit = false
+									var worklistGroup = selectedGroup
+
+									if (worklistGroup.worklistStatus === "Processed") {
+										worklistGroup.worklistStatus = "Accepted"
+										worklistGroup.requesterUserId = localStorage.getItem('user-id')
+										worklistGroup.workLists.forEach(x => {
+											x.worklistStatus = "Accepted"
+										});
+									} else {
+										worklistGroup.worklistStatus = "Submitted"
+										worklistGroup.requesterUserId = localStorage.getItem('user-id')
+										worklistGroup.submitDate = new Date()
+										worklistGroup.workLists.forEach(x1 => {
+											x1.worklistStatus = "Submitted"
+										});
+									}
+									// wlservice.saveWorkGroup(worklistGroup)
+									props.cell.refreshCell()
+								}
+								if (isWorklistChild) {
+									selectedRequest.edit = false
+									props.cell.refreshCell()
+									selectedRequest.worklistStatus = "Submitted"
+
+									const data = JSON.stringify(selectedRequest, function (key, value) {
+										if (key == '_worklistGroup') {
+											return value.worklistId;
+										} else {
+											return value;
+										};
+									});
+
+									WorklistService.getInstance().saveWorklists(
+										data,
+										updateWorkList,
+										() => { }
+									)
+
+								}
+								if (isWorklist) { //single child
+									selectedRequest.edit = false
+									if (selectedGroup.worklistStatus == "Processed") {
+										selectedGroup.worklistStatus = "Accepted"
+										selectedRequest.worklistStatus = "Accepted"
+									}
+									else {
+										selectedGroup.worklistStatus = "Submitted"
+										selectedRequest.worklistStatus = "Submitted"
+										selectedGroup.submitDate = new Date()
+									}
+									// wlservice.saveWorkGroup(selectedGroup)
+									//wlservice.saveWorkListSingle(selectedRequest)
+									props.cell.refreshCell()
+								}
+							},
+							() => { }
+						)
+					)
+				}
+
 			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
 				if (isWorklistGroup) {
+
 					selectedGroup.edit = false
 					// wlservice.saveWorkGroup(selectedGroup)
+
 				} else if (isWorklist || isWorklistChild) {
+
 					selectedRequest.edit = false
-					/*	if (workList.worklistStatus == 'Processed')
-                        {
-                            workList.worklistStatus="Accepted"
-                        }*/
-					// wlservice.saveWorkListSingle(selectedRequest)
+
+					const data = JSON.stringify(selectedRequest, function (key, value) {
+						if (key == '_worklistGroup') {
+							return value.worklistId;
+						} else {
+							return value;
+						};
+					});
+
+					WorklistService.getInstance().saveWorklists(
+						data,
+						updateWorkList,
+						() => { }
+					)
+
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
 				if (selectedobj.edit) {
@@ -315,7 +400,7 @@ const CurrentRequest = props => {
 									//return empty
 								}
 							},
-							() => {}
+							() => { }
 						)
 					)
 				} else {
@@ -356,8 +441,8 @@ const CurrentRequest = props => {
 					deleteid = isWorklistGroup
 						? selectedGroup.worklistId
 						: selectedRequest.worklistId +
-						  '.' +
-						  selectedRequest.id.worklistSeqNum
+						'.' +
+						selectedRequest.id.worklistSeqNum
 				} else {
 					isnotsave = true
 				}
@@ -374,7 +459,7 @@ const CurrentRequest = props => {
 								isWorklistChild &&
 								selectedGroup.workLists.length > 1
 							) {
-								const data = JSON.stringify(selectedRequest, function(
+								const data = JSON.stringify(selectedRequest, function (
 									key,
 									value
 								) {
@@ -392,10 +477,10 @@ const CurrentRequest = props => {
 								console.log('deleteWorkListSingle')
 							} else {
 								// wlservice.deleteWorkListGroup(selectedGroup)
-								console.log('deleteWorkListGroup')
+								// console.log('deleteWorkListGroup')
 							}
 						},
-						() => {}
+						() => { }
 					)
 				)
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
@@ -807,7 +892,7 @@ const CurrentRequest = props => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-									// filterWaterMark={"Contains"}
+								// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"
@@ -1256,7 +1341,7 @@ const CurrentRequest = props => {
 								editable={false}
 								hideText={true}
 								//  enableIcon="{this.searchTb.viewStack.selectedIndex==0}"
-								//  iconFunction="dynamicIconFunctionDelete"
+								iconHandCursor={true}
 								iconToolTip="Delete Request"
 								iconHandCursor={true}
 								columnWidthMode="fixed"
@@ -1280,6 +1365,7 @@ const CurrentRequest = props => {
 								columnWidthMode="fixed"
 								iconLeft="20"
 								sortable={false}
+								handleSubmit={iconClick}
 							/>
 							<ReactDataGridColumnLevel
 								enableFooters

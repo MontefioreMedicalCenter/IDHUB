@@ -7,11 +7,15 @@ const Remove = props => {
 		props.column.handleDelete(props)
 	}
 
-	return (
-		<Button onClick={onDelete}>
-			<DeleteIcon fontSize="small" />
-		</Button>
-	)
+	if (props.cell.rowInfo.getIsDataRow()) {
+		return (
+			<Button onClick={onDelete}>
+				<DeleteIcon fontSize="small" />
+			</Button>
+		)
+	} else {
+		return (<div />)
+	}
 }
 
 export default Remove
