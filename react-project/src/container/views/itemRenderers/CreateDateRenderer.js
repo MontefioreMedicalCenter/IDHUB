@@ -38,12 +38,18 @@ const CreateDateRenderer = props => {
 }
 class EditorWrapper extends UIComponent {
 	render() {
-		const cell = this.cell;
-		const cellProps = { cell: cell, row: cell.rowInfo, column: cell._column, level: cell.level, grid: cell.level.grid }
-		this.children = [<CreateDateRenderer {...cellProps} />];
-		return super.render();
+		const cell = this.cell
+		const cellProps = {
+			cell: cell,
+			row: cell.rowInfo,
+			column: cell._column,
+			level: cell.level,
+			grid: cell.level.grid
+		}
+		this.children = [<CreateDateRenderer {...cellProps} />]
+		return super.render()
 	}
 }
-CreateDateRenderer.editorWrapper = EditorWrapper;
+CreateDateRenderer.editorWrapper = EditorWrapper
 
 export default CreateDateRenderer

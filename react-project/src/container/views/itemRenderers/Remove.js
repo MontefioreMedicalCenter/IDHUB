@@ -14,7 +14,7 @@ const Remove = props => {
 			</Button>
 		)
 	} else {
-		return (<div />)
+		return <div />
 	}
 }
 

@@ -33,14 +33,16 @@ const DocumentLibrary = ({ worklist, onShowDocument }) => {
 
 	var file = null
 
-	const showDocument = (file) => {
+	const showDocument = file => {
 		onShowDocument(file)
 	}
 
 	const baseNamerenderer = props => {
 		const row = props.row.getData()
 		return (
-			<span onClick={() => showDocument(props.row.getData().fileUrl)} className="document-file-name">
+			<span
+				onClick={() => showDocument(props.row.getData().fileUrl)}
+				className="document-file-name">
 				{row.baseName || '...'}
 			</span>
 		)

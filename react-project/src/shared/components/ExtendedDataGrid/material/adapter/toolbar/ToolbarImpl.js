@@ -832,6 +832,7 @@ export default class ToolbarImpl extends React.Component {
 		const data = e
 		e.code = code
 		const grid = this.props.pager.grid
-		grid.toolbarActionExecutedFunction && grid.toolbarActionExecutedFunction(data)
+		grid.toolbarActionExecutedFunction &&
+			grid.toolbarActionExecutedFunction(data)
 	}
 }

@@ -34,12 +34,18 @@ const EmployeeSubGroup = props => {
 class EditorWrapper extends UIComponent {
 	render() {
 		const cell = this.cell
-		const cellProps = { cell: cell, row: cell.rowInfo, coloumn: cell._coloumn, level: cell.level, grid: cell.level.grid }
-		this.children = [<EmployeeSubGroup {...cellProps} />];
-		return super.render();
+		const cellProps = {
+			cell: cell,
+			row: cell.rowInfo,
+			coloumn: cell._coloumn,
+			level: cell.level,
+			grid: cell.level.grid
+		}
+		this.children = [<EmployeeSubGroup {...cellProps} />]
+		return super.render()
 	}
 }
 
-EmployeeSubGroup.editorWrapper = EditorWrapper;
+EmployeeSubGroup.editorWrapper = EditorWrapper
 
 export default EmployeeSubGroup

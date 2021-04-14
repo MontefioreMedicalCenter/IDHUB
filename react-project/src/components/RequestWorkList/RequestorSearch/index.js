@@ -10,7 +10,7 @@ const RequestorSearch = ({ findWorklist }) => {
 	const dispatch = useDispatch()
 	const fileName = useRef(null)
 	const [groupCheckbox, setGroupCheckbox] = useState(true)
-	const [errorTxt, setErrorTxt] = useState("")
+	const [errorTxt, setErrorTxt] = useState('')
 
 	var file = null
 
@@ -60,7 +60,7 @@ const RequestorSearch = ({ findWorklist }) => {
 	}
 
 	const onConfirm = () => {
-		setErrorTxt("")
+		setErrorTxt('')
 		if (file && file.files) {
 			WorklistService.getInstance().loadWorklistFromSpreadsheet(
 				file.files,

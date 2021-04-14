@@ -5,7 +5,6 @@ import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 import { UIComponent } from '../../../flexicious'
 
 const CheckBoxItemRenderer = props => {
-
 	const dispatch = useDispatch()
 	const handleChangeData = () => {
 		const rowData = props.row.getData()
@@ -16,15 +15,18 @@ const CheckBoxItemRenderer = props => {
 			rowData[dataField] = 'Y'
 		}
 
-		if (dataField === "epicRequest") {
-			if (rowData[dataField] === 'N' && rowData.employeeSubGroup === 'Volunteer') {
+		if (dataField === 'epicRequest') {
+			if (
+				rowData[dataField] === 'N' &&
+				rowData.employeeSubGroup === 'Volunteer'
+			) {
 				dispatch(
 					showMessage(
 						'',
 						'For EPIC access, contact Sherri Oustalet at soustale@montefiore.org',
 						'OK',
-						() => { },
-						() => { }
+						() => {},
+						() => {}
 					)
 				)
 				rowData[dataField] = 'Y'

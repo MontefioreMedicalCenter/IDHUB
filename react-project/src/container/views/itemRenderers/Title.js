@@ -32,12 +32,18 @@ const Title = props => {
 }
 class EditorWrapper extends UIComponent {
 	render() {
-		const cell = this.cell;
-		const cellProps = { cell: cell, row: cell.rowInfo, column: cell._column, level: cell.level, grid: cell.level.grid }
-		this.children = [<Title {...cellProps} />];
-		return super.render();
+		const cell = this.cell
+		const cellProps = {
+			cell: cell,
+			row: cell.rowInfo,
+			column: cell._column,
+			level: cell.level,
+			grid: cell.level.grid
+		}
+		this.children = [<Title {...cellProps} />]
+		return super.render()
 	}
 }
-Title.editorWrapper = EditorWrapper;
+Title.editorWrapper = EditorWrapper
 
 export default Title

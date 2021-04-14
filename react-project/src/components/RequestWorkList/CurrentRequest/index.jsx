@@ -134,27 +134,26 @@ const CurrentRequest = props => {
 		if (action.code == 'Add Employee') {
 			var grid = dataGridRef.current
 
-			var gridDP = grid.getDataProvider();
-			var wkg = new IdWorklistGroup();
-			var wk = new IdWorklist();
-			wkg.workLists = new ArrayCollection();
-			wkg.workLists.addItemAt(wk, 0);
-			wkg.worklistStatus = "OnHold"
-			wk.worklistStatus = "OnHold"
+			var gridDP = grid.getDataProvider()
+			var wkg = new IdWorklistGroup()
+			var wk = new IdWorklist()
+			wkg.workLists = new ArrayCollection()
+			wkg.workLists.addItemAt(wk, 0)
+			wkg.worklistStatus = 'OnHold'
+			wk.worklistStatus = 'OnHold'
 			wk.edit = true
 			wk.worklistGroup = wkg
 			console.log('Add Employee')
 			if (grid.getCurrentSorts().length > 0) {
-				grid.removeAllSorts();
-				gridDP.addItemAt(wk, 0);
+				grid.removeAllSorts()
+				gridDP.addItemAt(wk, 0)
 				gridDP.sort = null
 				gridDP.refresh()
+			} else {
+				gridDP.addItemAt(wk, 0)
 			}
-			else {
-				gridDP.addItemAt(wk, 0);
-			}
-			grid.cellEditableFunction = isCellEditable;
-			grid.refreshGrid();
+			grid.cellEditableFunction = isCellEditable
+			grid.refreshGrid()
 		} else if (action.code == 'Refresh') {
 			// dispatchEvent(new WorkListEvent(WorkListEvent.GET_WORK_LIST));
 		} else if (action.code == 'SubmitAll') {
@@ -286,7 +285,12 @@ const CurrentRequest = props => {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
 			} else if (props.cell.getColumn().getHeaderText() === 'Submit') {
 				// var alertId = isWorklistGroup ? selectedGroup.worklistId : selectedRequest.worklistId
-				if (selectedItem.worklistStatus == "Ready" || selectedItem.worklistStatus == "Rejected" || selectedItem.worklistStatus == "Processed") { //selectedItem.worklistStatus
+				if (
+					selectedItem.worklistStatus == 'Ready' ||
+					selectedItem.worklistStatus == 'Rejected' ||
+					selectedItem.worklistStatus == 'Processed'
+				) {
+					//selectedItem.worklistStatus
 					dispatch(
 						showMessage(
 							'Confirm',
@@ -294,24 +298,27 @@ const CurrentRequest = props => {
 							'YES_NO',
 							() => {
 								if (isWorklistGroup) {
-
 									// var test = selectedobj
 									selectedGroup.edit = false
 									var worklistGroup = selectedGroup
 
-									if (worklistGroup.worklistStatus === "Processed") {
-										worklistGroup.worklistStatus = "Accepted"
-										worklistGroup.requesterUserId = localStorage.getItem('user-id')
+									if (worklistGroup.worklistStatus === 'Processed') {
+										worklistGroup.worklistStatus = 'Accepted'
+										worklistGroup.requesterUserId = localStorage.getItem(
+											'user-id'
+										)
 										worklistGroup.workLists.forEach(x => {
-											x.worklistStatus = "Accepted"
-										});
+											x.worklistStatus = 'Accepted'
+										})
 									} else {
-										worklistGroup.worklistStatus = "Submitted"
-										worklistGroup.requesterUserId = localStorage.getItem('user-id')
+										worklistGroup.worklistStatus = 'Submitted'
+										worklistGroup.requesterUserId = localStorage.getItem(
+											'user-id'
+										)
 										worklistGroup.submitDate = new Date()
 										worklistGroup.workLists.forEach(x1 => {
-											x1.worklistStatus = "Submitted"
-										});
+											x1.worklistStatus = 'Submitted'
+										})
 									}
 									// wlservice.saveWorkGroup(worklistGroup)
 									props.cell.refreshCell()
@@ -319,32 +326,34 @@ const CurrentRequest = props => {
 								if (isWorklistChild) {
 									selectedRequest.edit = false
 									props.cell.refreshCell()
-									selectedRequest.worklistStatus = "Submitted"
+									selectedRequest.worklistStatus = 'Submitted'
 
-									const data = JSON.stringify(selectedRequest, function (key, value) {
+									const data = JSON.stringify(selectedRequest, function(
+										key,
+										value
+									) {
 										if (key == '_worklistGroup') {
-											return value.worklistId;
+											return value.worklistId
 										} else {
-											return value;
-										};
-									});
+											return value
+										}
+									})
 
 									WorklistService.getInstance().saveWorklists(
 										data,
 										updateWorkList,
-										() => { }
+										() => {}
 									)
-
 								}
-								if (isWorklist) { //single child
+								if (isWorklist) {
+									//single child
 									selectedRequest.edit = false
-									if (selectedGroup.worklistStatus == "Processed") {
-										selectedGroup.worklistStatus = "Accepted"
-										selectedRequest.worklistStatus = "Accepted"
-									}
-									else {
-										selectedGroup.worklistStatus = "Submitted"
-										selectedRequest.worklistStatus = "Submitted"
+									if (selectedGroup.worklistStatus == 'Processed') {
+										selectedGroup.worklistStatus = 'Accepted'
+										selectedRequest.worklistStatus = 'Accepted'
+									} else {
+										selectedGroup.worklistStatus = 'Submitted'
+										selectedRequest.worklistStatus = 'Submitted'
 										selectedGroup.submitDate = new Date()
 									}
 									// wlservice.saveWorkGroup(selectedGroup)
@@ -352,35 +361,30 @@ const CurrentRequest = props => {
 									props.cell.refreshCell()
 								}
 							},
-							() => { }
+							() => {}
 						)
 					)
 				}
-
 			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
 				if (isWorklistGroup) {
-
 					selectedGroup.edit = false
 					// wlservice.saveWorkGroup(selectedGroup)
-
 				} else if (isWorklist || isWorklistChild) {
-
 					selectedRequest.edit = false
 
-					const data = JSON.stringify(selectedRequest, function (key, value) {
+					const data = JSON.stringify(selectedRequest, function(key, value) {
 						if (key == '_worklistGroup') {
-							return value.worklistId;
+							return value.worklistId
 						} else {
-							return value;
-						};
-					});
+							return value
+						}
+					})
 
 					WorklistService.getInstance().saveWorklists(
 						data,
 						updateWorkList,
-						() => { }
+						() => {}
 					)
-
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
 				if (selectedobj.edit) {
@@ -400,7 +404,7 @@ const CurrentRequest = props => {
 									//return empty
 								}
 							},
-							() => { }
+							() => {}
 						)
 					)
 				} else {
@@ -441,8 +445,8 @@ const CurrentRequest = props => {
 					deleteid = isWorklistGroup
 						? selectedGroup.worklistId
 						: selectedRequest.worklistId +
-						'.' +
-						selectedRequest.id.worklistSeqNum
+						  '.' +
+						  selectedRequest.id.worklistSeqNum
 				} else {
 					isnotsave = true
 				}
@@ -459,7 +463,7 @@ const CurrentRequest = props => {
 								isWorklistChild &&
 								selectedGroup.workLists.length > 1
 							) {
-								const data = JSON.stringify(selectedRequest, function (
+								const data = JSON.stringify(selectedRequest, function(
 									key,
 									value
 								) {
@@ -480,7 +484,7 @@ const CurrentRequest = props => {
 								// console.log('deleteWorkListGroup')
 							}
 						},
-						() => { }
+						() => {}
 					)
 				)
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
@@ -502,328 +506,486 @@ const CurrentRequest = props => {
 		dataGridRef.current.gotoVerticalPosition(vpos)
 	}
 
-
 	const validateDOB = editor => {
-		var valSuccess = true;
-		var dateFormat = 'MM-DD-YY';
+		var valSuccess = true
+		var dateFormat = 'MM-DD-YY'
 		var cell = dataGridRef.current.getCurrentEditCell()
-		var grid = dataGridRef.current;
+		var grid = dataGridRef.current
 		var dataField = editor
 		grid.clearErrorByObject(cell.rowInfo.getData())
-		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
+		var valResult = moment(
+			moment(editor.selectedDate).format(dateFormat),
+			dateFormat,
+			true
+		).isValid()
 		var now = new Date()
-		var tenyeardt = new Date(now.getFullYear() - 10, now.getMonth(), now.getDate());
-		var hundyeardt = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
+		var tenyeardt = new Date(
+			now.getFullYear() - 10,
+			now.getMonth(),
+			now.getDate()
+		)
+		var hundyeardt = new Date(
+			now.getFullYear() - 100,
+			now.getMonth(),
+			now.getDate()
+		)
 
 		if (!valResult) {
-			console.log("Invalid format")
+			console.log('Invalid format')
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid DOB date");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid DOB date'
+			)
 		}
-		if (dataField.selectedDate > tenyeardt || dataField.selectedDate < hundyeardt) {
+		if (
+			dataField.selectedDate > tenyeardt ||
+			dataField.selectedDate < hundyeardt
+		) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid DOB date");
-		}
-		else {
-			grid.clearErrorByObject(cell.rowInfo.data);
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid DOB date'
+			)
+		} else {
+			grid.clearErrorByObject(cell.rowInfo.data)
 		}
 		return valSuccess
 	}
 
-	const validateStartDate = (editor) => {
-		var valSuccess = true;
-		var dateFormat = 'MM/DD/YY';
+	const validateStartDate = editor => {
+		var valSuccess = true
+		var dateFormat = 'MM/DD/YY'
 		var cell = dataGridRef.current.getCurrentEditCell()
 		var dataField = editor
-		var grid = dataGridRef.current;
+		var grid = dataGridRef.current
 		if (cell == null || dataField.selectedDate == null) {
-			return valSuccess;
+			return valSuccess
 		}
 		grid.clearErrorByObject(cell.rowInfo.getData())
-		if (dataGridRef.current.getCurrentEditCell().rowInfo.getData().endDate != null) {
-			var enddt = dataGridRef.current.getCurrentEditCell().rowInfo.getData().endDate
+		if (
+			dataGridRef.current.getCurrentEditCell().rowInfo.getData().endDate != null
+		) {
+			var enddt = dataGridRef.current.getCurrentEditCell().rowInfo.getData()
+				.endDate
 		}
-		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
+		var valResult = moment(
+			moment(editor.selectedDate).format(dateFormat),
+			dateFormat,
+			true
+		).isValid()
 		if (!valResult) {
-			console.log("Invalid format")
+			console.log('Invalid format')
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid Start date");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Start date'
+			)
 		}
 		if (enddt != null && enddt < editor.selectedDate) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Start date");
-		}
-		else {
-			grid.clearErrorByObject(cell.rowInfo.data);
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Start date'
+			)
+		} else {
+			grid.clearErrorByObject(cell.rowInfo.data)
 		}
 		return valSuccess
 	}
-	const validateEndDate = (editor) => {
-		var valSuccess = true;
-		var dateFormat = 'MM/DD/YY';
-		var grid = dataGridRef.current;
+	const validateEndDate = editor => {
+		var valSuccess = true
+		var dateFormat = 'MM/DD/YY'
+		var grid = dataGridRef.current
 		var cell = dataGridRef.current.getCurrentEditCell()
 		var dataField = editor
 		grid.clearErrorByObject(cell.rowInfo.getData())
-		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
-		var startdt = dataGridRef.current.getCurrentEditCell().rowInfo.getData().startDate
+		var valResult = moment(
+			moment(editor.selectedDate).format(dateFormat),
+			dateFormat,
+			true
+		).isValid()
+		var startdt = dataGridRef.current.getCurrentEditCell().rowInfo.getData()
+			.startDate
 		var enddt = dataField.selectedDate
 		if (startdt == null) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid end date");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid end date'
+			)
 			valSuccess = false
 			return valSuccess
-		}
-		else {
+		} else {
 			var now = new Date()
-			var nowMMDDYYY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-			var nextyeardt = new Date(now.getFullYear() + 5, now.getMonth(), now.getDate());
+			var nowMMDDYYY = new Date(
+				now.getFullYear(),
+				now.getMonth(),
+				now.getDate()
+			)
+			var nextyeardt = new Date(
+				now.getFullYear() + 5,
+				now.getMonth(),
+				now.getDate()
+			)
 		}
 		if (valResult == 'invalid') {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid end date");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid end date'
+			)
 		}
 		if (enddt < nowMMDDYYY) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid End date");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid End date'
+			)
 		}
 		if (startdt > enddt) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid End date");
-		}
-		else if (enddt > nextyeardt) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid End date'
+			)
+		} else if (enddt > nextyeardt) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid End date");
-		}
-		else {
-			grid.clearErrorByObject(cell.rowInfo.getData());
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid End date'
+			)
+		} else {
+			grid.clearErrorByObject(cell.rowInfo.getData())
 		}
 		return valSuccess
 	}
 
-	const validateLname = (editor) => {
-		var valSuccess = true;
+	const validateLname = editor => {
+		var valSuccess = true
 		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
-		var grid = dataGridRef.current;
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
-		var lname_re = /[a-zA-Z]/;
+		var lname_re = /[a-zA-Z]/
 		if (txt.getText().length < 1) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : Last name");
-			valSuccess = false;
-		}
-		else if (numb_regex.test(txt.getText())) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Last name");
-			valSuccess = false;
-		}
-		else if (txt.getText().length > 35) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Last Name is 35 characters");
-			valSuccess = false;
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Missing required field : Last name'
+			)
+			valSuccess = false
+		} else if (numb_regex.test(txt.getText())) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Last name'
+			)
+			valSuccess = false
+		} else if (txt.getText().length > 35) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Maximum Length for Last Name is 35 characters'
+			)
+			valSuccess = false
 		}
 		return valSuccess
 	}
 
-	const validateFname = (editor) => {
-		var valSuccess = true;
+	const validateFname = editor => {
+		var valSuccess = true
 		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
-		var grid = dataGridRef.current;
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		if (txt.getText().length < 1) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : First name");
-			valSuccess = false;
-		}
-		else if (numb_regex.test(txt.getText())) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid First name");
-			valSuccess = false;
-		}
-		else if (txt.getText().length > 35) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for First Name is 35 characters");
-			valSuccess = false;
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Missing required field : First name'
+			)
+			valSuccess = false
+		} else if (numb_regex.test(txt.getText())) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid First name'
+			)
+			valSuccess = false
+		} else if (txt.getText().length > 35) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Maximum Length for First Name is 35 characters'
+			)
+			valSuccess = false
 		}
 		return valSuccess
 	}
 
-	const validateInitial = (editor) => {
-		var valSuccess = true;
-		var cell = dataGridRef.current.getCurrentEditCell();
+	const validateInitial = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
-		var grid = dataGridRef.current;
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		if (numb_regex.test(txt.text) || txt.getText().length > 1) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Initial");
-			valSuccess = false;
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Initial'
+			)
+			valSuccess = false
 		}
-		//If you return true, the grid will highlight the error in red and move on to the next row. 
-		//If you return false, the edit box would stay in place and not let the user move forward 
+		//If you return true, the grid will highlight the error in red and move on to the next row.
+		//If you return false, the edit box would stay in place and not let the user move forward
 		//unless the error is corrected.
-		return valSuccess;
+		return valSuccess
 	}
 
-	const validateSSN = (editor) => {
-		var valSuccess = true;
-		var cell = dataGridRef.current.getCurrentEditCell();
+	const validateSSN = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
 
-		var valResult = isValid(txt.getText());
-		var grid = dataGridRef.current;
+		var valResult = isValid(txt.getText())
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 
 		if (grid.getCurrentEditCell().rowInfo.getData().noSSN == 'Y') {
-			return valSuccess;
-		}
-		else if (txt.getText().length < 4) {
+			return valSuccess
+		} else if (txt.getText().length < 4) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid SSN");
-		}
-		else if (txt.getText().length < 4 && isNaN(Number(txt.getText()))) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid SSN'
+			)
+		} else if (txt.getText().length < 4 && isNaN(Number(txt.getText()))) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid SSN");
-		}
-		else if (txt.getText().length == 4 && isNaN(Number(txt.getText()))) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid SSN'
+			)
+		} else if (txt.getText().length == 4 && isNaN(Number(txt.getText()))) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid SSN");
-		}
-		else if (txt.getText().length > 4 && !valResult) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid SSN'
+			)
+		} else if (txt.getText().length > 4 && !valResult) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid SSN");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid SSN'
+			)
 		}
-		//If you return true, the grid will highlight the error in red and move on to the next row. 
-		//If you return false, the edit box would stay in place and not let the user move forward 
+		//If you return true, the grid will highlight the error in red and move on to the next row.
+		//If you return false, the edit box would stay in place and not let the user move forward
 		//unless the error is corrected.
-		return valSuccess;
+		return valSuccess
 	}
 
-	const validatePersonEmail = (editor) => {
-		var valSuccess = true;
-		var grid = dataGridRef.current;
+	const validatePersonEmail = editor => {
+		var valSuccess = true
+		var grid = dataGridRef.current
 		var colheader = grid.getCurrentEditCell()._column._headerText
-		var cell = dataGridRef.current.getCurrentEditCell();
+		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
 
-		var emailVal = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g);
+		var emailVal = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g)
 		var valResult = emailVal.test(txt.getText())
-		grid.clearErrorByObject(cell.rowInfo.getData());
-		if ((colheader === "Personal or Business Email" && !valResult && txt.getText().length > 0) || (colheader === "MHS Manager Email" && (txt.getText().length < 1 || !valResult))) {
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		if (
+			(colheader === 'Personal or Business Email' &&
+				!valResult &&
+				txt.getText().length > 0) ||
+			(colheader === 'MHS Manager Email' &&
+				(txt.getText().length < 1 || !valResult))
+		) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Email");
-		}
-		else if (txt.getText().length > 200) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Email'
+			)
+		} else if (txt.getText().length > 200) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Email is 200 characters");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Maximum Length for Email is 200 characters'
+			)
 		}
 		return valSuccess
 	}
 
-	const validateCompanyCode = (editor) => {
-		var valSuccess = true;
-		var grid = dataGridRef.current;
-		var cell = dataGridRef.current.getCurrentEditCell();
+	const validateCompanyCode = editor => {
+		var valSuccess = true
+		var grid = dataGridRef.current
+		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		if (txt.getText().length < 1) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : Vendor Consultant Company Name");
-		}
-		else if (txt.getText().length > 50) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Missing required field : Vendor Consultant Company Name'
+			)
+		} else if (txt.getText().length > 50) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Vendor Consultant Company Name is 50 characters");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Maximum Length for Vendor Consultant Company Name is 50 characters'
+			)
 		}
 		return valSuccess
 	}
 
-	const validatesmanagersource = (editor) => {
-		var valSuccess = true;
-		var cell = dataGridRef.current.getCurrentEditCell();
-		var txt = editor;
-		var grid = dataGridRef.current;
+	const validatesmanagersource = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		//if(!((txt.text.length ==4) ||(txt.text.length ==6) || (txt.text.length ==9)) || (isNaN(Number(txt.text))) ||Number(txt.text)<0 || txt.text.search(' ')>=0 || txt.text.search('+')>=0 || txt.text.search('.')>=0){
 		if (txt.getText().length < 4 || txt.getText().length > 10) {
 			valSuccess = false
-		}
-		else if (!numb_regex.test(txt.getText())) {
+		} else if (!numb_regex.test(txt.getText())) {
 			valSuccess = false
-		}
-		else if (numb_errregex.test(txt.getText()) || (isNaN(Number(txt.getText())))) {
+		} else if (
+			numb_errregex.test(txt.getText()) ||
+			isNaN(Number(txt.getText()))
+		) {
 			valSuccess = false
 		}
 		if (!valSuccess) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid MHS Manager ID - must be number between 4 & 10 digits long");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid MHS Manager ID - must be number between 4 & 10 digits long'
+			)
 		}
 		return valSuccess
 	}
 
-	const validatePhone = (editor) => {
-		var valSuccess = true;
-		var cell = dataGridRef.current.getCurrentEditCell();
-		var txt = editor;
-		var grid = dataGridRef.current;
+	const validatePhone = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
-
 
 		const number = `+1${txt.getText()}`
 		const valResult = isValidPhoneNumber(number)
 		if (txt.getText().length > 0 && !valResult == 'invalid') {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Phone");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Phone'
+			)
 		}
-		if (txt.getText().length > 0 && txt.getText().replaceAll("-", "").length < 10 && !valResult == 'valid') {
+		if (
+			txt.getText().length > 0 &&
+			txt.getText().replaceAll('-', '').length < 10 &&
+			!valResult == 'valid'
+		) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Phone");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Phone'
+			)
 		}
-		if (txt.getText().replaceAll("-", "").length > 12) {
+		if (txt.getText().replaceAll('-', '').length > 12) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid phone");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid phone'
+			)
 		}
-		if (txt.getText().length > 10 && txt.getText().replaceAll("-", "").length <= 12 && txt.getText().charAt(3) != '-') {
+		if (
+			txt.getText().length > 10 &&
+			txt.getText().replaceAll('-', '').length <= 12 &&
+			txt.getText().charAt(3) != '-'
+		) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Phone");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Phone'
+			)
 		}
 		return valSuccess
 	}
 
 	const validateExt = editor => {
-		var valSuccess = true;
-		var cell = dataGridRef.current.getCurrentEditCell();
-		var txt = editor;
-		var grid = dataGridRef.current;
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		var managerph = grid.getCurrentEditCell().rowInfo.getData().managerExt
 		if (managerph !== null) {
 			if (managerph.length < 1 && txt.getText().length > 1) {
 				valSuccess = false
-				grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Ext");
+				grid.setErrorByObject(
+					cell.rowInfo.getData(),
+					cell.getColumn().dataField,
+					'Invalid Ext'
+				)
 			}
 		}
 		if (managerph === null && txt.getText().length > 1) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Ext");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Ext'
+			)
 		}
 		var valResult = Number(txt.getText()) !== NaN
 		if (txt.getText().length > 0 && !valResult) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Ext");
-			valSuccess = false;
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Ext'
+			)
+			valSuccess = false
 		}
-		return valSuccess;
+		return valSuccess
 	}
 
-	const validateAdditionalComment = (editor) => {
-		var valSuccess = true;
-		var cell = dataGridRef.current.getCurrentEditCell();
-		var txt = editor;
-		var grid = dataGridRef.current;
+	const validateAdditionalComment = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 
 		if (txt.getText().length > 250) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Requestor Comment is 250 characters ");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Maximum Length for Requestor Comment is 250 characters '
+			)
 		}
 		return valSuccess
 	}
@@ -892,7 +1054,7 @@ const CurrentRequest = props => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-								// filterWaterMark={"Contains"}
+									// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"

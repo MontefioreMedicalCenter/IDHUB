@@ -64,7 +64,6 @@ export default class StorageService extends ServiceProxyBase {
 			null,
 			headerData
 		)
-
 	}
 }
 

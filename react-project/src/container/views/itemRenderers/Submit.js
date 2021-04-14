@@ -4,7 +4,6 @@ import dropbox from '../../../assets/images/dropbox.png'
 import accept from '../../../assets/images/accept.png'
 
 const Submit = props => {
-
 	const onSubmit = () => {
 		props.column.handleSubmit(props)
 	}
