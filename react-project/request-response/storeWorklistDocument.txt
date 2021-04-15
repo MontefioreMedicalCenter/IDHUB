@@ -1,26 +1,26 @@
 POST http://localhost:8080/IdentityHub/api/storagesvc/storeWorklistDocument
 200
-534 ms
-Network
-Request Headers
+3.41 s
+POST /IdentityHub/api/storagesvc/storeWorklistDocument HTTP/1.1
 User-Agent: PostmanRuntime/7.26.1
 Accept: */*
-Postman-Token: 5626a19b-3c73-45ac-a9e3-ac19c3271476
+Postman-Token: 6e50b4be-5f94-40b8-8d66-05ed88d2d2d5
 Host: localhost:8080
 Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
-Content-Type: application/x-www-form-urlencoded
-Content-Length: 246
-Request Body
-worklistId: "wk.10101099"
-dirListEntry: "{"baseName": "TestFileConfAgree.pdf", "fileContents": [68, 68, 68, 68, 68,101,102,97,117,108,116,32,99,111,110,116,101,110,116,115]}"
-Response Headers
-Connection: keep-alive
-Access-Control-Allow-Origin: *
-Access-Control-Allow-Headers: *
-Content-Type: application/json
-Content-Length: 451
-Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
-Date: Wed, 07 Apr 2021 14:33:07 GMT
-Response Body
-[{"baseName":"TestFileConfAgree.pdf","directory":false,"fileModificationDate":"2021-04-07 02:33 PM","fileName":"C:\\IDHub\\FileStore\\wk.10101099\\TestFileConfAgree.pdf","fileSize":20,"fileURL":"http://ODCFSVVWD01:8080/IdhubDocumentLibrary/IDHub/FileStore/wk.10101099/TestFileConfAgree.pdf","parentDir":"C:\\IDHub\\FileStore\\wk.10101099\\TestFileConfAgree.pdf","parentURL":"http://ODCFSVVWD01:8080/IdhubDocumentLibrary/IDHub/FileStore/wk.10101099/"}]
+Content-Type: multipart/form-data; boundary=--------------------------886832780280021398199987
+Content-Length: 32318
+----------------------------886832780280021398199987
+Content-Disposition: form-data; name="worklistId"
+
+wk.10109999
+----------------------------886832780280021398199987
+Content-Disposition: form-data; name="fileName"
+
+wk.10109999_testfile_ConfAgree.pdf
+----------------------------886832780280021398199987
+Content-Disposition: form-data; name="dirListEntryContent"; filename="wk.10109999_20181029_ConfAgree.pdf"
+
+<wk.10109999_20181029_ConfAgree.pdf>
+----------------------------886832780280021398199987--
+HTTP/1.1 200 OK

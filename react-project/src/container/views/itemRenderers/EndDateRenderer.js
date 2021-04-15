@@ -1,10 +1,15 @@
 import React from 'react'
+import { UIComponent } from '../../../flexicious'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
 
 const EndDateRenderer = props => {
 	const handleDateChange = date => {
 		props.row.rowPositionInfo.rowData.endDate = date
 		props.cell.refreshCell()
+		const container = props.cell.getGrid().getBodyContainer()
+		if (container._inEdit) {
+			container.endEdit(container.getEditor())
+		}
 	}
 
 	return (
@@ -31,5 +36,15 @@ const EndDateRenderer = props => {
 		/>
 	)
 }
+
+class EditorWrapper extends UIComponent {
+	render() {
+		const cell = this.cell;
+		const cellProps = { cell: cell, row: cell.rowInfo, column: cell._column, level: cell.level, grid: cell.level.grid }
+		this.children = [<EndDateRenderer {...cellProps} />];
+		return super.render();
+	}
+}
+EndDateRenderer.editorWrapper = EditorWrapper;
 
 export default EndDateRenderer

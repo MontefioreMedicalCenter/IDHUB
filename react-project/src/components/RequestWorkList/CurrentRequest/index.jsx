@@ -6,23 +6,18 @@ import {
 	ReactDataGridColumn,
 	ReactDataGridColumnGroup,
 	ReactDataGridColumnLevel,
-	ClassFactory
+	ClassFactory,
+	DateRange
 } from '../../../flexicious'
 import { Paper, withStyles } from '@material-ui/core'
 import WorklistService from '../../../service/cfc/WorklistService'
 import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup'
 import ArrayCollection from '../../../vo/ArrayCollection'
 import { camelizeKeys } from '../../../shared/utils'
-import BulkFileUpload from '../../../shared/components/BulkFileUpload'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
-import NoSSNItemRenderer from '../../../container/views/itemRenderers/NoSSNItemRenderer'
 import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
-import EpicRequestRenderer from '../../../container/views/itemRenderers/EpicRequestRenderer'
 import AdvanceDialog from '../../../shared/components/AdvanceDialog'
 import RequestDocument from '../RequestDocument'
-import EpfRequestRenderer from '../../../container/views/itemRenderers/EpfRequestRenderer'
-import EpcsHardTokenRequest from '../../../container/views/itemRenderers/EpcsHardTokenRequest'
-import MmcEmailRequest from '../../../container/views/itemRenderers/MmcEmailRequest'
 import UploadOrViewFile from '../../../container/views/itemRenderers/UploadOrViewFile'
 import WorklistStatusRenderer from '../../../container/views/itemRenderers/WorklistStatusRenderer'
 import Save from '../../../container/views/itemRenderers/Save'
@@ -40,7 +35,7 @@ import CreateDateRenderer from '../../../container/views/itemRenderers/CreateDat
 import StartDateRenderer from '../../../container/views/itemRenderers/StartDateRenderer'
 import EndDateRenderer from '../../../container/views/itemRenderers/EndDateRenderer'
 import DateOfBirthRenderer from '../../../container/views/itemRenderers/DateOfBirthRenderer'
-
+import ExampleUtils from '../../../utils/ExampleUtils'
 import StorageService from '../../../service/cfc/StorageService'
 import {
 	showDelete,
@@ -50,30 +45,35 @@ import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListShe
 import { useDispatch } from 'react-redux'
 import StorageServiceEvent from '../../../events/StorageServiceEvent'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
-import WorkListEvent from '../../../events/WorkListEvent'
+import CheckBoxItemRenderer from '../../../container/views/itemRenderers/CheckBoxItemRenderer'
+import RequestorSearch from '../RequestorSearch'
+import moment from 'moment'
 
-const noSSNItemRenderer = new ClassFactory(NoSSNItemRenderer)
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
-const epicRequestRenderer = new ClassFactory(EpicRequestRenderer)
-const epfRequestRenderer = new ClassFactory(EpfRequestRenderer)
-const epcsHardTokenRequest = new ClassFactory(EpcsHardTokenRequest)
-const mmcEmailRequest = new ClassFactory(MmcEmailRequest)
 const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
 const save = new ClassFactory(Save)
 const edit = new ClassFactory(Edit)
 const remove = new ClassFactory(Remove)
 const submit = new ClassFactory(Submit)
 const worklistStatusRenderer = new ClassFactory(WorklistStatusRenderer)
-const gender = new ClassFactory(Gender)
-const title = new ClassFactory(Title)
-const campusCode = new ClassFactory(CampusCode)
-const department = new ClassFactory(Department)
-const employeeSubGroup = new ClassFactory(EmployeeSubGroup)
-const createDateRenderer = new ClassFactory(CreateDateRenderer)
-const startDateRenderer = new ClassFactory(StartDateRenderer)
-const endDateRenderer = new ClassFactory(EndDateRenderer)
-const dateOfBirthRenderer = new ClassFactory(DateOfBirthRenderer)
-
+const genderEditorWrapper = new ClassFactory(Gender.editorWrapper)
+const titleEditorWrapper = new ClassFactory(Title.editorWrapper)
+const campusCodeEditorWrapper = new ClassFactory(CampusCode.editorWrapper)
+const departmenteEditorWrapper = new ClassFactory(Department.editorWrapper)
+const employeeSubGroupEditorWrapper = new ClassFactory(EmployeeSubGroup.editorWrapper)
+const createDateRendererEditorWrapper = new ClassFactory(
+	CreateDateRenderer.editorWrapper
+)
+const startDateRendererEditorWrapper = new ClassFactory(
+	StartDateRenderer.editorWrapper
+)
+const endDateRendererEditorWrapper = new ClassFactory(
+	EndDateRenderer.editorWrapper
+)
+const dateOfBirthRendererEditorWrapper = new ClassFactory(
+	DateOfBirthRenderer.editorWrapper
+)
+const checkBoxItemRenderer = new ClassFactory(CheckBoxItemRenderer)
 const styles = theme => ({
 	gridHeader: {
 		color: `${theme.palette.primary.contrastText}`,
@@ -91,6 +91,7 @@ const CurrentRequest = props => {
 	const [openModal, setOpenModal] = useState(false)
 	const [openDocumentLibrary, setDocumentLibraryModal] = useState(false)
 	const [valueOfTab] = useState(props.tabValue)
+	var numb_regex = /[0-9]/
 
 	const worklistResultHandler = resp => {
 		var workListGroupArr = new ArrayCollection()
@@ -106,10 +107,12 @@ const CurrentRequest = props => {
 		workListGroupArr.addAll(workListArr)
 		setGridData(workListGroupArr)
 	}
-
+	//this is how Facebook recommends we run code on mount. Stupid ESlint does not like it.
+	/* eslint-disable*/
 	useEffect(() => {
 		findWorklist()
 	}, [])
+	/* eslint-disable*/
 
 	const findWorklist = () => {
 		WorklistService.getInstance().findWorklistGroups(
@@ -209,25 +212,35 @@ const CurrentRequest = props => {
 		return 0xffffff
 	}
 
+	var index = -1
+	var isWorklist = false
 	const iconClick = props => {
-		const rowData = props.row.getData()
+		const selectedItem = props.row.getData()
 		let selectedGroup = {}
 		let selectedRequest = {}
-		const isWorklistGroup = rowData.constructor.name === 'IdWorklistGroup'
+		const isWorklistGroup = selectedItem.constructor.name === 'IdWorklistGroup'
 		if (isWorklistGroup) {
-			selectedGroup = rowData
+			selectedGroup = selectedItem
 		} else {
-			selectedRequest = rowData
+			selectedRequest = selectedItem
 		}
 		const level = props.cell.getNestDepth()
 		let isnotsave = false
-		const isWorklist = Object.keys(selectedRequest).length !== 0 && level === 1
+		isWorklist = Object.keys(selectedRequest).length !== 0 && level === 1
 
 		const selectedobj = isWorklistGroup ? selectedGroup : selectedRequest
+
 		const isWorklistChild =
 			Object.keys(selectedRequest).length !== 0 && level === 2
-
+		if (isWorklist || isWorklistChild) {
+			selectedGroup = selectedItem.worklistGroup
+		}
 		var deleteid = ''
+
+		var gridDP = props.grid.getDataProvider()
+
+		index = gridDP.getItemIndex(selectedItem)
+		if (index == -1) index = gridDP.getItemIndex(selectedGroup)
 
 		if (props.cell.getColumn() !== null) {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
@@ -321,7 +334,21 @@ const CurrentRequest = props => {
 								isWorklistChild &&
 								selectedGroup.workLists.length > 1
 							) {
-								// wlservice.deleteWorkListSingle(selectedRequest)
+								const data = JSON.stringify(selectedRequest, function(
+									key,
+									value
+								) {
+									if (key == '_worklistGroup') {
+										return value.worklistId
+									} else {
+										return value
+									}
+								})
+								WorklistService.getInstance().deleteWorkListSingle(
+									data,
+									updateWorkList,
+									MontefioreUtils.showError
+								)
 								console.log('deleteWorkListSingle')
 							} else {
 								// wlservice.deleteWorkListGroup(selectedGroup)
@@ -336,560 +363,816 @@ const CurrentRequest = props => {
 		}
 	}
 
+	const updateWorkList = resp => {
+		var vpos = dataGridRef.current.getVerticalScrollPosition()
+		var gridDP = dataGridRef.current.getDataProvider()
+		gridDP.removeItemAt(index)
+
+		let workGroup = new IdWorklistGroup()
+		workGroup.fromJson(camelizeKeys(resp.result))
+		if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), index)
+		else gridDP.addItemAt(workGroup, index)
+		dataGridRef.current.expandAll()
+		dataGridRef.current.validateNow()
+		dataGridRef.current.gotoVerticalPosition(vpos)
+	}
+
+
+	const validateDOB = editor => {
+		var valSuccess = true;
+		var dateFormat = 'MM-DD-YY';
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var grid = dataGridRef.current;
+		var dataField = editor
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
+		var now = new Date()
+		var tenyeardt = new Date(now.getFullYear() - 10, now.getMonth(), now.getDate());
+		var hundyeardt = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
+
+		if (!valResult) {
+			console.log("Invalid format")
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid DOB date");
+		}
+		if (dataField.selectedDate > tenyeardt || dataField.selectedDate < hundyeardt) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid DOB date");
+		}
+		else {
+			grid.clearErrorByObject(cell.rowInfo.data);
+		}
+		return valSuccess
+	}
+
+	const validateStartDate = (editor) => {
+		var valSuccess = true;
+		var dateFormat = 'MM/DD/YY';
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var dataField = editor
+		var grid = dataGridRef.current;
+		if (cell == null || dataField.selectedDate == null) {
+			return valSuccess;
+		}
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		if (dataGridRef.current.getCurrentEditCell().rowInfo.getData().endDate != null) {
+			var enddt = dataGridRef.current.getCurrentEditCell().rowInfo.getData().endDate
+		}
+		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
+		if (!valResult) {
+			console.log("Invalid format")
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid Start date");
+		}
+		if (enddt != null && enddt < editor.selectedDate) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Start date");
+		}
+		else {
+			grid.clearErrorByObject(cell.rowInfo.data);
+		}
+		return valSuccess
+	}
+	const validateEndDate = (editor) => {
+		var valSuccess = true;
+		var dateFormat = 'MM/DD/YY';
+		var grid = dataGridRef.current;
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var dataField = editor
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
+		var startdt = dataGridRef.current.getCurrentEditCell().rowInfo.getData().startDate
+		var enddt = dataField.selectedDate
+		if (startdt == null) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid end date");
+			valSuccess = false
+			return valSuccess
+		}
+		else {
+			var now = new Date()
+			var nowMMDDYYY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+			var nextyeardt = new Date(now.getFullYear() + 5, now.getMonth(), now.getDate());
+		}
+		if (valResult == 'invalid') {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid end date");
+		}
+		if (enddt < nowMMDDYYY) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid End date");
+		}
+		if (startdt > enddt) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
+				, "Invalid End date");
+		}
+		else if (enddt > nextyeardt) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid End date");
+		}
+		else {
+			grid.clearErrorByObject(cell.rowInfo.getData());
+		}
+		return valSuccess
+	}
+
+	const validateLname = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		var lname_re = /[a-zA-Z]/;
+		if (txt.getText().length < 1) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : Last name");
+			valSuccess = false;
+		}
+		else if (numb_regex.test(txt.getText())) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Last name");
+			valSuccess = false;
+		}
+		else if (txt.getText().length > 35) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Last Name is 35 characters");
+			valSuccess = false;
+		}
+		return valSuccess
+	}
+
+	const validateFname = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		if (txt.getText().length < 1) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : First name");
+			valSuccess = false;
+		}
+		else if (numb_regex.test(txt.getText())) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid First name");
+			valSuccess = false;
+		}
+		else if (txt.getText().length > 35) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for First Name is 35 characters");
+			valSuccess = false;
+		}
+		return valSuccess
+	}
+
+	const validateInitial = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor
+		var grid = dataGridRef.current;
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		if (numb_regex.test(txt.text) || txt.getText().length > 1) {
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Initial");
+			valSuccess = false;
+		}
+		//If you return true, the grid will highlight the error in red and move on to the next row. 
+		//If you return false, the edit box would stay in place and not let the user move forward 
+		//unless the error is corrected.
+		return valSuccess;
+	}
+
+	const validateSSN = (editor) => {
+		var valSuccess = true;
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor
+		// 		var valResult = ValidationResultEvent;
+		// var ssnVal = new SocialSecurityValidator();
+		// 		ssnVal.source=txt;
+		// 		ssnVal.property="text";
+		// 		grid.clearErrorByObject(cell.rowInfo.data);
+		// 		valResult=ssnVal.validate();
+		// 		if (grid.getCurrentEditingCell().rowInfo.data.noSSN == 'Y')
+		// 		{
+		// 			return valSuccess;
+		// 		}
+		// 		else if (txt.text.length < 4)
+		// 		{
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
+		// 		}
+		// 		else if (txt.text.length < 4 && isNaN(Number(txt.text)))
+		// 		{
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
+		// 		}
+		// 		else if (txt.text.length == 4 && isNaN(Number(txt.text)))
+		// 		{
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
+		// 		}
+		// 		else if (txt.text.length > 4 && valResult.type == "invalid")
+		// 		{
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
+		// 		}
+		// 		//If you return true, the grid will highlight the error in red and move on to the next row. 
+		// 		//If you return false, the edit box would stay in place and not let the user move forward 
+		// 		//unless the error is corrected.
+		// 		return valSuccess;
+	}
+
+	const validatePersonEmail = (editor) => {
+		var valSuccess = true;
+		var grid = dataGridRef.current;
+		var colheader = grid.getCurrentEditCell()._column._headerText
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor
+		// var valResult = ValidationResultEvent
+		// 		var emailVal:EmailValidator=new EmailValidator();
+		// 		emailVal.source=txt;
+		// 		emailVal.property="text";
+		// 		valResult=emailVal.validate();
+		// 		grid.clearErrorByObject(cell.rowInfo.data);
+		// 		if ((colheader == "Personal or Business Email" && valResult.type == "invalid" && txt.text.length > 0 ) || (colheader == "MHS         Manager       Email" && (txt.text.length < 1 || valResult.type == "invalid")))
+		// 		{
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid Email");
+		// 		}
+		// 		else if (txt.text.length > 200){
+		// 			valSuccess=false
+		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Maximum Length for Email is 200 characters");
+		// 		}
+
+		// 		return valSuccess
+	}
+
+	const validateCompanyCode = (editor) => {
+		var valSuccess = true;
+		var grid = dataGridRef.current;
+		var cell = dataGridRef.current.getCurrentEditCell();
+		var txt = editor
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		if (txt.getText().length < 1) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : Vendor Consultant Company Name");
+		}
+		else if (txt.getText().length > 50) {
+			valSuccess = false
+			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Vendor Consultant Company Name is 50 characters");
+		}
+		return valSuccess
+	}
+
 	return (
 		<div className="grid-container">
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
-				<div className="header-field">
-					<BulkFileUpload />
-				</div>
-				<DataGrid
-					ref={dataGridRef}
-					textAlign={'center'}
-					height={'100%'}
-					width={'100%'}
-					id="Requestor_WorkList_Grid"
-					alternatingItemColors={[0xffffff, 0xffffff]}
-					dataProvider={gridData}
-					enablePrint
-					enablePreferencePersistence
-					enableDrag
-					showSpinnerOnFilterPageSort
-					enableEagerDraw
-					enableDrop
-					enableExport
-					enableCopy
-					preferencePersistenceKey={'simpleGrid'}
-					enableMultiColumnSort
-					useCompactPreferences
-					horizontalScrollPolicy={'auto'}
-					footerDrawTopBorder
-					enablePdf
-					// cellBackgroundColorFunction="getColor"
-					//  alternatingItemColors="[0xffffff,0xffffff]"
-					enableToolbarActions
-					styleName="gridStyle"
-					// toolbarActionExecutedFunction={onExecuteToolbarAction}
-					editable
-					enableDrillDown
-					filterVisible={false}
-					headerWordWrap
-					headerHeight={60}
-					enableDefaultDisclosureIcon={false}
-					headerSortSeparatorRight={3}
-					selectionMode="none"
-					cellEditableFunction={isCellEditable}
-					documentOpenFunction={getDocumentLibrary}>
-					<ReactDataGridColumnLevel
-						rowHeight={10}
-						enablePaging={true}
-						horizontalGridLines={true}
-						pageSize={10000}
-						childrenField="_workLists"
-						alternatingItemColors={[0xe1eef7, 0xe1eef7]}
-						enableFilters={true}
-						horizontalGridLineColor={0x99bbe8}
-						horizontalGridLineThickness={1}>
-						<ReactDataGridColumnGroup headerText="ID">
-							<ReactDataGridColumn
-								dataField="worklistId"
-								headerText="Worklist #"
-								width={150}
-								columnLockMode={'left'}
-								enableCellClickRowSelect={false}
-								editable={false}
-								filterControl="TextInput"
-								filterOperation="Contains"
-								filterWaterMark="Contains"
-								enableExpandCollapseIcon
-								enableHierarchicalNestIndent
-								expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-								// filterWaterMark={"Contains"}
-							/>
-							<ReactDataGridColumn
-								dataField="id.worklistSeqNum"
-								headerText="Seq"
-								width={50}
-								columnLockMode={'left'}
-								editable={false}
-								enableCellClickRowSelect={false}
-								filterControl="TextInput"
-								filterOperation="Contains"
-								filterWaterMark="Contains"
-							/>
-						</ReactDataGridColumnGroup>
-						<ReactDataGridColumn
-							headerText="Status"
-							dataField="worklistStatus"
-							width={80}
-							columnLockMode={'left'}
-							enableCellClickRowSelect={false}
-							editable={false}
-							filterComboBoxBuildFromGrid={true}
-							filterControl="MultiSelectComboBox"
-							paddingRight="20"
-							itemRenderer={worklistStatusRenderer}
-							cellBackgroundColorFunction={getCellBackgroundColor}
-						/>
-						<ReactDataGridColumnGroup
-							headerText="Personal"
-							dataField="requester-user-id">
-							<ReactDataGridColumn
-								dataField="lastName"
-								headerText="Last name"
-								width={100}
-								filterControl="TextInput"
-								filterOperation="Contains"
-								filterWaterMark="Contains"
-								headerWordWrap={true}
-								enableRecursiveSearch={true}
-								//  itemEditorValidatorFunction="validateLname"
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-							/>
-							<ReactDataGridColumn
-								dataField="firstName"
-								headerText="First Name"
-								width={100}
-								filterControl="TextInput"
-								filterOperation="Contains"
-								filterWaterMark="Contains"
-								headerWordWrap={true}
-								enableRecursiveSearch={true}
-								//  temEditorValidatorFunction="validateFname"
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-							/>
-							<ReactDataGridColumn
-								dataField="middleNameOrInitial"
-								headerText="Init"
-								width={100}
-								headerWordWrap={true}
-								//  itemEditorValidatorFunction="validateInitial"
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								sortable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="noSSN"
-								headerText="No SSN"
-								valueOfTab={valueOfTab}
-								width={100}
-								headerWordWrap={true}
-								editable={false}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								sortable={false}
-								itemRenderer={noSSNItemRenderer}
-							/>
-							<ReactDataGridColumn
-								width={90}
-								dataField="ssn"
-								headerText="SSN"
-								editable={false}
-								headerWordWrap={true}
-								//  itemEditorValidatorFunction="validateSSN"
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								sortable={false}
-								itemRenderer={ssnItemRenderer}
-							/>
-							<ReactDataGridColumn
-								dataField="dateOfBirth"
-								headerText="DOB"
-								width={150}
-								editorDataField="selectedDate"
-								filterControl="DateComboBox"
-								enableRecursiveSearch={true}
-								//  formatter={ExampleUtils.dateFormatter3}
-								//  itemEditorValidatorFunction="validateDOB"
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								//  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
-								sortable={false}
-								itemRenderer={dateOfBirthRenderer}
-								editable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="gender"
-								headerText="Gender"
-								width={100}
-								headerWordWrap={true}
-								filterControl="MultiSelectComboBox"
-								//  filterComboBoxDataProvider="{combogenderDP}"
-								enableRecursiveSearch={true}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								itemRenderer={gender}
-								editable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="nonMonteEmail"
-								headerText="Personal or Business Email"
-								width={120}
-								headerWordWrap={true}
-								//  itemEditorValidatorFunction="validatePersonEmail"
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								sortable={false}
-							/>
-						</ReactDataGridColumnGroup>
-						<ReactDataGridColumnGroup
-							headerText="Official Details"
-							dataField="requester-user-id">
-							<ReactDataGridColumn
-								dataField="employeeSubGroup"
-								headerText="User Type"
-								width={140}
-								filterControl="TextInput"
-								filterOperation="Contains"
-								filterWaterMark="Contains"
-								enableRecursiveSearch={true}
-								headerWordWrap={true}
-								editable={false}
-								itemEditorApplyOnValueCommit={false}
-								enableCellClickRowSelect={false}
-								itemEditorManagesPersistence={true}
-								itemRenderer={employeeSubGroup}
-							/>
-							<ReactDataGridColumn
-								dataField="companyCode"
-								headerText="Vendor Consultant Company"
-								width={150}
-								filterControl="TextInput"
-								filterOperation="Contains"
-								filterWaterMark="Contains"
-								enableRecursiveSearch={true}
-								headerWordWrap="True"
-								//  itemEditorValidatorFunction="validateCompanyCode"
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								sortable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="campusCode"
-								headerText="Location"
-								width={100}
-								filterControl="TextInput"
-								filterOperation="Contains"
-								filterWaterMark="Contains"
-								enableRecursiveSearch={true}
-								headerWordWrap={true}
-								itemEditorApplyOnValueCommit={false}
-								enableCellClickRowSelect={false}
-								itemEditorManagesPersistence={true}
-								itemRenderer={campusCode}
-								editable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="title"
-								headerText="Title"
-								width={100}
-								filterControl="TextInput"
-								filterOperation="Contains"
-								filterWaterMark="Contains"
-								enableRecursiveSearch={true}
-								headerWordWrap={true}
-								itemEditorApplyOnValueCommit={false}
-								enableCellClickRowSelect={false}
-								itemEditorManagesPersistence={true}
-								itemRenderer={title}
-								editable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="department"
-								headerText="Department"
-								width={100}
-								filterControl="TextInput"
-								filterOperation="Contains"
-								filterWaterMark="Contains"
-								enableRecursiveSearch={true}
-								headerWordWrap={true}
-								itemEditorApplyOnValueCommit={false}
-								enableCellClickRowSelect={false}
-								itemEditorManagesPersistence={true}
-								itemRenderer={department}
-								editable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="startDate"
-								headerText="Start date"
-								width={150}
-								editorDataField="selectedDate"
-								filterControl="DateComboBox"
-								enableRecursiveSearch={true}
-								headerWordWrap={false}
-								//  formatter="{ExampleUtils.dateFormatter3}"
-								//  itemEditorValidatorFunction="validateStartDate"
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								labelFunction={MontefioreUtils.dateFormatter2}
-								itemRenderer={startDateRenderer}
-								editable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="endDate"
-								headerText="End Date"
-								width={150}
-								editorDataField="selectedDate"
-								filterControl="DateComboBox"
-								enableRecursiveSearch={true}
-								headerWordWrap={false}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								labelFunction={MontefioreUtils.dateFormatter2}
-								itemRenderer={endDateRenderer}
-								editable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="managerSourceUniqueId"
-								headerText="MHS Manager ID"
-								width={100}
-								filterControl="TextInput"
-								filterOperation="Contains"
-								filterWaterMark="Contains"
-								enableRecursiveSearch={true}
-								headerWordWrap={true}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								//  itemEditorValidatorFunction="validatesmanagersource"
-								sortable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="managerPh"
-								headerText="MHS Manager Phone"
-								width={100}
-								headerWordWrap={true}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								//  itemEditorValidatorFunction="validatePhone"
-								sortable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="managerExt"
-								headerText="MHS Manager Ext"
-								width={100}
-							/>
-							<ReactDataGridColumn
-								dataField="managerEmail"
-								headerText="MHS Manager Email"
-								width={100}
-								headerWordWrap={true}
-								//  itemEditorValidatorFunction="validatePersonEmail"
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								sortable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="epicRequest"
-								headerText="EPIC"
-								width={100}
-								headerWordWrap={true}
-								filterControl="MultiSelectComboBox"
-								valueOfTab={valueOfTab}
-								//  filterComboBoxDataProvider="{comboDP}"
-								editable={false}
-								enableRecursiveSearch={true}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								itemRenderer={epicRequestRenderer}
-							/>
-							<ReactDataGridColumn
-								dataField="epfRequest"
-								headerText="EPF"
-								width={100}
-								headerWordWrap={true}
-								valueOfTab={valueOfTab}
-								filterControl="MultiSelectComboBox"
-								//  filterComboBoxDataProvider="{comboDP}"
-								editable={false}
-								enableRecursiveSearch={true}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								itemRenderer={epfRequestRenderer}
-							/>
-							<ReactDataGridColumn
-								dataField="epcsHardTokenRequest"
-								headerText="EPCS Hard Token"
-								width={100}
-								headerWordWrap={true}
-								filterControl="MultiSelectComboBox"
-								valueOfTab={valueOfTab}
-								//  filterComboBoxDataProvider="{comboDP}"
-								editable={false}
-								enableRecursiveSearch={true}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								itemRenderer={epcsHardTokenRequest}
-							/>
-							<ReactDataGridColumn
-								dataField="mmcEmailRequest"
-								headerText="MMC Email"
-								width={100}
-								headerWordWrap={true}
-								filterControl="MultiSelectComboBox"
-								valueOfTab={valueOfTab}
-								//  filterComboBoxDataProvider="{comboDP}"
-								editable={false}
-								enableRecursiveSearch={true}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								itemRenderer={mmcEmailRequest}
-							/>
-							<ReactDataGridColumn
-								dataField="additionalComments"
-								headerText="Requestors Comment"
-								width={100}
-								filterControl="TextInput"
-								filterWaterMark="Contains"
-								filterOperation="Contains"
-								headerWordWrap={true}
-								enableRecursiveSearch={true}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								sortable={false}
-								//  itemEditorValidatorFunction="validateAdditionalComment"
-							/>
-							<ReactDataGridColumn
-								dataField="requestorFullName"
-								headerText="Requestor"
-								width={100}
-								columnWidthMode="fixed"
-								enableCellClickRowSelect={false}
-								filterControl="MultiSelectComboBox"
-								filterComboBoxBuildFromGrid={true}
-								useHandCursor={true}
-								editable={false}
-								sortable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="reviewerComments"
-								headerText="Reject Reason"
-								width={100}
-								filterControl="TextInput"
-								filterWaterMark="Contains"
-								filterOperation="Contains"
-								enableRecursiveSearch={true}
-								headerWordWrap={true}
-								itemEditorApplyOnValueCommit={true}
-								enableCellClickRowSelect={false}
-								sortable={false}
-							/>
-							<ReactDataGridColumn
-								dataField="createDate"
-								headerText="Create Date"
-								width={150}
-								filterControl="DateComboBox"
-								enableRecursiveSearch={true}
-								headerWordWrap={false}
-								//  formatter="{ExampleUtils.dateFormatter3}"
-								editable={false}
-								enableCellClickRowSelect={false}
-								//  filterDateRangeOptions="{[DateRange.DATE_RANGE_CUSTOM]}"
-								sortable={false}
-								itemRenderer={createDateRenderer}
-							/>
-						</ReactDataGridColumnGroup>
-						<ReactDataGridColumn
-							dataField="uploadDocs"
-							headerText="Upload or view Docs"
-							width={60}
-							columnLockMode={'right'}
-							itemRenderer={uploadOrViewFile}
-							editable={false}
-							hideText={true}
-							headerWordWrap={true}
-							onDocumentClick={e => {
-								setWorklist(e.row.getData())
-								onOpenDocument()
-							}}
-							iconToolTip="View/Upload Request Document"
-							iconHandCursor={true}
-							columnWidthMode="fixed"
-							iconLeft="25"
-							sortable={false}
-						/>
-						<ReactDataGridColumn
-							dataField="Save"
-							headerText="Save"
-							width={60}
-							columnLockMode={'right'}
-							itemRenderer={save}
-							editable={false}
-							hideText={true}
-							//  enableIcon={true}
-							//  iconFunction="dynamicIconFunctionSave"
-							iconToolTip="Save Request"
-							iconHandCursor={true}
-							columnWidthMode="fixed"
-							iconLeft="20"
-							sortable={false}
-							onHandleSave={iconClick}
-						/>
-						<ReactDataGridColumn
-							dataField="Edit"
-							headerText="Edit"
-							width={60}
-							columnLockMode={'right'}
-							itemRenderer={edit}
-							editable={false}
-							hideText={true}
-							//  enableIcon={true}
-							//  iconFunction="dynamicIconFunctionEdit"
-							iconToolTip="Edit Request"
-							iconHandCursor={true}
-							columnWidthMode="fixed"
-							iconLeft="20"
-							sortable={false}
-							onHandleEdit={iconClick}
-						/>
-						<ReactDataGridColumn
-							dataField="Delete"
-							headerText="Delete"
-							width={60}
-							columnLockMode={'right'}
-							itemRenderer={remove}
-							editable={false}
-							hideText={true}
-							//  enableIcon="{this.searchTb.viewStack.selectedIndex==0}"
-							//  iconFunction="dynamicIconFunctionDelete"
-							iconToolTip="Delete Request"
-							iconHandCursor={true}
-							columnWidthMode="fixed"
-							iconLeft="20"
-							sortable={false}
-							onHandleDelete={iconClick}
-						/>
-						<ReactDataGridColumn
-							dataField="Submit"
-							headerText="Submit"
-							width={60}
-							columnLockMode={'right'}
-							itemRenderer={submit}
-							editable={false}
-							hideText={true}
-							headerWordWrap={true}
-							//  enableIcon={true}
-							//  iconFunction="dynamicIconFunctionSubmit"
-							iconToolTip="Submit/Accept Request"
-							iconHandCursor={true}
-							columnWidthMode="fixed"
-							iconLeft="20"
-							sortable={false}
-						/>
+				<RequestorSearch />
+				<div style={{ height: 'calc(100% - 40px)' }}>
+					<DataGrid
+						ref={dataGridRef}
+						textAlign={'center'}
+						height={'100%'}
+						width={'100%'}
+						id="Requestor_WorkList_Grid"
+						alternatingItemColors={[0xffffff, 0xffffff]}
+						dataProvider={gridData}
+						enablePrint
+						enablePreferencePersistence
+						enableDrag
+						showSpinnerOnFilterPageSort
+						enableEagerDraw
+						enableDrop
+						enableExport
+						enableCopy
+						preferencePersistenceKey={'simpleGrid'}
+						enableMultiColumnSort
+						useCompactPreferences
+						horizontalScrollPolicy={'auto'}
+						footerDrawTopBorder
+						enablePdf
+						// cellBackgroundColorFunction="getColor"
+						//  alternatingItemColors="[0xffffff,0xffffff]"
+						enableToolbarActions
+						styleName="gridStyle"
+						// toolbarActionExecutedFunction={onExecuteToolbarAction}
+						editable
+						enableDrillDown
+						filterVisible={false}
+						headerWordWrap
+						headerHeight={60}
+						enableDefaultDisclosureIcon={false}
+						headerSortSeparatorRight={3}
+						selectionMode="none"
+						cellEditableFunction={isCellEditable}
+						documentOpenFunction={getDocumentLibrary}>
 						<ReactDataGridColumnLevel
-							enableFooters
-							selectedKeyField={'id'}
-							parentField={'invoice'}
-							horizontalGridLines={false}
-							horizontalGridLineColor="0xffffff"
-							horizontalGridLineThickness="0"
-							rowHeight="23"
-							reusePreviousLevelColumns={true}
-							alternatingItemColors={[0xffffff, 0xffffff]}
-							initialSortField="id.worklistSeqNum"
-						/>
-					</ReactDataGridColumnLevel>
-				</DataGrid>
+							rowHeight={10}
+							enablePaging={true}
+							horizontalGridLines={true}
+							pageSize={10000}
+							childrenField="_workLists"
+							alternatingItemColors={[0xe1eef7, 0xe1eef7]}
+							enableFilters={true}
+							horizontalGridLineColor={0x99bbe8}
+							horizontalGridLineThickness={1}>
+							<ReactDataGridColumnGroup headerText="ID">
+								<ReactDataGridColumn
+									dataField="worklistId"
+									headerText="Worklist #"
+									width={150}
+									columnLockMode={'left'}
+									enableCellClickRowSelect={false}
+									editable={false}
+									filterControl="TextInput"
+									filterOperation="Contains"
+									filterWaterMark="Contains"
+									enableExpandCollapseIcon
+									enableHierarchicalNestIndent
+									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
+								// filterWaterMark={"Contains"}
+								/>
+								<ReactDataGridColumn
+									dataField="id.worklistSeqNum"
+									headerText="Seq"
+									width={50}
+									columnLockMode={'left'}
+									editable={false}
+									enableCellClickRowSelect={false}
+									filterControl="TextInput"
+									filterOperation="Contains"
+									filterWaterMark="Contains"
+								/>
+							</ReactDataGridColumnGroup>
+							<ReactDataGridColumn
+								headerText="Status"
+								dataField="worklistStatus"
+								width={80}
+								columnLockMode={'left'}
+								enableCellClickRowSelect={false}
+								editable={false}
+								filterComboBoxBuildFromGrid={true}
+								filterControl="MultiSelectComboBox"
+								paddingRight="20"
+								itemRenderer={worklistStatusRenderer}
+								cellBackgroundColorFunction={getCellBackgroundColor}
+							/>
+							<ReactDataGridColumnGroup
+								headerText="Personal"
+								dataField="requester-user-id">
+								<ReactDataGridColumn
+									dataField="lastName"
+									headerText="Last name"
+									width={100}
+									filterControl="TextInput"
+									filterOperation="Contains"
+									filterWaterMark="Contains"
+									headerWordWrap={true}
+									enableRecursiveSearch={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									itemEditorValidatorFunction={validateLname}
+								/>
+								<ReactDataGridColumn
+									dataField="firstName"
+									headerText="First Name"
+									width={100}
+									filterControl="TextInput"
+									filterOperation="Contains"
+									filterWaterMark="Contains"
+									headerWordWrap={true}
+									enableRecursiveSearch={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									itemEditorValidatorFunction={validateFname}
+								/>
+								<ReactDataGridColumn
+									dataField="middleNameOrInitial"
+									headerText="Init"
+									width={100}
+									headerWordWrap={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
+									itemEditorValidatorFunction={validateInitial}
+								/>
+								<ReactDataGridColumn
+									dataField="noSSN"
+									headerText="No SSN"
+									valueOfTab={valueOfTab}
+									width={100}
+									headerWordWrap={true}
+									editable={false}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
+									itemRenderer={checkBoxItemRenderer}
+								/>
+								<ReactDataGridColumn
+									width={90}
+									dataField="ssn"
+									headerText="SSN"
+									editable={false}
+									headerWordWrap={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
+									itemRenderer={ssnItemRenderer}
+								// itemEditorValidatorFunction={validateSSN}
+								/>
+								<ReactDataGridColumn
+									dataField="dateOfBirth"
+									headerText="DOB"
+									width={150}
+									editorDataField="selectedDate"
+									filterControl="DateComboBox"
+									enableRecursiveSearch={true}
+									formatter={ExampleUtils.dateFormatter3}
+									itemEditorValidatorFunction={validateDOB}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
+									itemEditor={dateOfBirthRendererEditorWrapper}
+									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
+								/>
+								<ReactDataGridColumn
+									dataField="gender"
+									headerText="Gender"
+									width={100}
+									headerWordWrap={true}
+									filterControl="MultiSelectComboBox"
+									//  filterComboBoxDataProvider="{combogenderDP}"
+									enableRecursiveSearch={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									itemEditor={genderEditorWrapper}
+								/>
+								<ReactDataGridColumn
+									dataField="nonMonteEmail"
+									headerText="Personal or Business Email"
+									width={120}
+									headerWordWrap={true}
+									// itemEditorValidatorFunction={validatePersonEmail}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
+								/>
+							</ReactDataGridColumnGroup>
+							<ReactDataGridColumnGroup
+								headerText="Official Details"
+								dataField="requester-user-id">
+								<ReactDataGridColumn
+									dataField="employeeSubGroup"
+									headerText="User Type"
+									width={140}
+									filterControl="TextInput"
+									filterOperation="Contains"
+									filterWaterMark="Contains"
+									enableRecursiveSearch={true}
+									headerWordWrap={true}
+									editable={true}
+									itemEditorApplyOnValueCommit={false}
+									enableCellClickRowSelect={false}
+									itemEditorManagesPersistence={true}
+									itemEditor={employeeSubGroupEditorWrapper}
+								/>
+								<ReactDataGridColumn
+									dataField="companyCode"
+									headerText="Vendor Consultant Company"
+									width={150}
+									filterControl="TextInput"
+									filterOperation="Contains"
+									filterWaterMark="Contains"
+									enableRecursiveSearch={true}
+									headerWordWrap="True"
+									itemEditorValidatorFunction={validateCompanyCode}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
+								/>
+								<ReactDataGridColumn
+									dataField="campusCode"
+									headerText="Location"
+									width={100}
+									filterControl="TextInput"
+									filterOperation="Contains"
+									filterWaterMark="Contains"
+									enableRecursiveSearch={true}
+									headerWordWrap={true}
+									itemEditorApplyOnValueCommit={false}
+									enableCellClickRowSelect={false}
+									itemEditorManagesPersistence={true}
+									itemEditor={campusCodeEditorWrapper}
+								/>
+								<ReactDataGridColumn
+									dataField="title"
+									headerText="Title"
+									width={100}
+									filterControl="TextInput"
+									filterOperation="Contains"
+									filterWaterMark="Contains"
+									enableRecursiveSearch={true}
+									headerWordWrap={true}
+									itemEditorApplyOnValueCommit={false}
+									enableCellClickRowSelect={false}
+									itemEditorManagesPersistence={true}
+									itemEditor={titleEditorWrapper}
+								/>
+								<ReactDataGridColumn
+									dataField="department"
+									headerText="Department"
+									width={100}
+									filterControl="TextInput"
+									filterOperation="Contains"
+									filterWaterMark="Contains"
+									enableRecursiveSearch={true}
+									headerWordWrap={true}
+									itemEditorApplyOnValueCommit={false}
+									enableCellClickRowSelect={false}
+									itemEditorManagesPersistence={true}
+									itemEditor={departmenteEditorWrapper}
+								/>
+								<ReactDataGridColumn
+									dataField="startDate"
+									headerText="Start date"
+									width={150}
+									editorDataField="selectedDate"
+									filterControl="DateComboBox"
+									enableRecursiveSearch={true}
+									headerWordWrap={false}
+									formatter={ExampleUtils.dateFormatter3}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									itemEditor={startDateRendererEditorWrapper}
+									itemEditorValidatorFunction={validateStartDate}
+									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
+								/>
+								<ReactDataGridColumn
+									dataField="endDate"
+									headerText="End Date"
+									width={150}
+									editorDataField="selectedDate"
+									filterControl="DateComboBox"
+									enableRecursiveSearch={true}
+									headerWordWrap={false}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									formatter={ExampleUtils.dateFormatter2}
+									// labelFunction={MontefioreUtils.dateFormatter2}
+									itemEditor={endDateRendererEditorWrapper}
+									itemEditorValidatorFunction={validateEndDate}
+									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
+								/>
+								<ReactDataGridColumn
+									dataField="managerSourceUniqueId"
+									headerText="MHS Manager ID"
+									width={100}
+									filterControl="TextInput"
+									filterOperation="Contains"
+									filterWaterMark="Contains"
+									enableRecursiveSearch={true}
+									headerWordWrap={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									//  itemEditorValidatorFunction="validatesmanagersource"
+									sortable={false}
+								/>
+								<ReactDataGridColumn
+									dataField="managerPh"
+									headerText="MHS Manager Phone"
+									width={100}
+									headerWordWrap={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									//  itemEditorValidatorFunction="validatePhone"
+									sortable={false}
+								/>
+								<ReactDataGridColumn
+									dataField="managerExt"
+									headerText="MHS Manager Ext"
+									width={100}
+								/>
+								<ReactDataGridColumn
+									dataField="managerEmail"
+									headerText="MHS Manager Email"
+									width={100}
+									headerWordWrap={true}
+									//  itemEditorValidatorFunction="validatePersonEmail"
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
+								/>
+								<ReactDataGridColumn
+									dataField="epicRequest"
+									headerText="EPIC"
+									width={100}
+									headerWordWrap={true}
+									filterControl="MultiSelectComboBox"
+									valueOfTab={valueOfTab}
+									//  filterComboBoxDataProvider="{comboDP}"
+									editable={false}
+									enableRecursiveSearch={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									itemRenderer={checkBoxItemRenderer}
+								/>
+								<ReactDataGridColumn
+									dataField="epfRequest"
+									headerText="EPF"
+									width={100}
+									headerWordWrap={true}
+									valueOfTab={valueOfTab}
+									filterControl="MultiSelectComboBox"
+									//  filterComboBoxDataProvider="{comboDP}"
+									editable={false}
+									enableRecursiveSearch={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									itemRenderer={checkBoxItemRenderer}
+								/>
+								<ReactDataGridColumn
+									dataField="epcsHardTokenRequest"
+									headerText="EPCS Hard Token"
+									width={100}
+									headerWordWrap={true}
+									filterControl="MultiSelectComboBox"
+									valueOfTab={valueOfTab}
+									//  filterComboBoxDataProvider="{comboDP}"
+									editable={false}
+									enableRecursiveSearch={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									itemRenderer={checkBoxItemRenderer}
+								/>
+								<ReactDataGridColumn
+									dataField="mmcEmailRequest"
+									headerText="MMC Email"
+									width={100}
+									headerWordWrap={true}
+									filterControl="MultiSelectComboBox"
+									valueOfTab={valueOfTab}
+									//  filterComboBoxDataProvider="{comboDP}"
+									editable={false}
+									enableRecursiveSearch={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									itemRenderer={checkBoxItemRenderer}
+								/>
+								<ReactDataGridColumn
+									dataField="additionalComments"
+									headerText="Requestors Comment"
+									width={100}
+									filterControl="TextInput"
+									filterWaterMark="Contains"
+									filterOperation="Contains"
+									headerWordWrap={true}
+									enableRecursiveSearch={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
+								//  itemEditorValidatorFunction="validateAdditionalComment"
+								/>
+								<ReactDataGridColumn
+									dataField="requestorFullName"
+									headerText="Requestor"
+									width={100}
+									columnWidthMode="fixed"
+									enableCellClickRowSelect={false}
+									filterControl="MultiSelectComboBox"
+									filterComboBoxBuildFromGrid={true}
+									useHandCursor={true}
+									editable={false}
+									sortable={false}
+								/>
+								<ReactDataGridColumn
+									dataField="reviewerComments"
+									headerText="Reject Reason"
+									width={100}
+									filterControl="TextInput"
+									filterWaterMark="Contains"
+									filterOperation="Contains"
+									enableRecursiveSearch={true}
+									headerWordWrap={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
+								/>
+								<ReactDataGridColumn
+									dataField="createDate"
+									headerText="Create Date"
+									width={150}
+									filterControl="DateComboBox"
+									enableRecursiveSearch={true}
+									headerWordWrap={false}
+									// editable={false}
+									formatter={ExampleUtils.dateFormatter3}
+									enableCellClickRowSelect={false}
+									sortable={false}
+									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
+									itemEditor={createDateRendererEditorWrapper}
+								/>
+							</ReactDataGridColumnGroup>
+							<ReactDataGridColumn
+								dataField="uploadDocs"
+								headerText="Upload or view Docs"
+								width={60}
+								columnLockMode={'right'}
+								itemRenderer={uploadOrViewFile}
+								editable={false}
+								hideText={true}
+								headerWordWrap={true}
+								onDocumentClick={e => {
+									setWorklist(e.row.getData())
+									onOpenDocument()
+								}}
+								iconToolTip="View/Upload Request Document"
+								iconHandCursor={true}
+								columnWidthMode="fixed"
+								iconLeft="25"
+								sortable={false}
+							/>
+							<ReactDataGridColumn
+								dataField="Save"
+								headerText="Save"
+								width={60}
+								columnLockMode={'right'}
+								itemRenderer={save}
+								editable={false}
+								hideText={true}
+								//  enableIcon={true}
+								//  iconFunction="dynamicIconFunctionSave"
+								iconToolTip="Save Request"
+								iconHandCursor={true}
+								columnWidthMode="fixed"
+								iconLeft="20"
+								sortable={false}
+								onHandleSave={iconClick}
+							/>
+							<ReactDataGridColumn
+								dataField="Edit"
+								headerText="Edit"
+								width={60}
+								columnLockMode={'right'}
+								itemRenderer={edit}
+								editable={false}
+								hideText={true}
+								//  enableIcon={true}
+								//  iconFunction="dynamicIconFunctionEdit"
+								iconToolTip="Edit Request"
+								iconHandCursor={true}
+								columnWidthMode="fixed"
+								iconLeft="20"
+								sortable={false}
+								onHandleEdit={iconClick}
+							/>
+							<ReactDataGridColumn
+								dataField="Delete"
+								headerText="Delete"
+								width={60}
+								columnLockMode={'right'}
+								itemRenderer={remove}
+								editable={false}
+								hideText={true}
+								//  enableIcon="{this.searchTb.viewStack.selectedIndex==0}"
+								//  iconFunction="dynamicIconFunctionDelete"
+								iconToolTip="Delete Request"
+								iconHandCursor={true}
+								columnWidthMode="fixed"
+								iconLeft="20"
+								sortable={false}
+								onHandleDelete={iconClick}
+							/>
+							<ReactDataGridColumn
+								dataField="Submit"
+								headerText="Submit"
+								width={60}
+								columnLockMode={'right'}
+								itemRenderer={submit}
+								editable={false}
+								hideText={true}
+								headerWordWrap={true}
+								//  enableIcon={true}
+								//  iconFunction="dynamicIconFunctionSubmit"
+								iconToolTip="Submit/Accept Request"
+								iconHandCursor={true}
+								columnWidthMode="fixed"
+								iconLeft="20"
+								sortable={false}
+							/>
+							<ReactDataGridColumnLevel
+								enableFooters
+								selectedKeyField={'id'}
+								parentField={'invoice'}
+								horizontalGridLines={false}
+								horizontalGridLineColor="0xffffff"
+								horizontalGridLineThickness="0"
+								rowHeight="23"
+								reusePreviousLevelColumns={true}
+								alternatingItemColors={[0xffffff, 0xffffff]}
+								initialSortField="id.worklistSeqNum"
+							/>
+						</ReactDataGridColumnLevel>
+					</DataGrid>
+				</div>
 			</Paper>
 			<AdvanceDialog
 				open={openModal}

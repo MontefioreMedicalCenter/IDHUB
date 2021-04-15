@@ -5,6 +5,8 @@ const bodyParser = require('body-parser')
 const sendResponse = require('./sendResponse')
 const path = require('path')
 const loginResponse = require('./response/loginResponse')
+const loginResponseRequestor = require('./response/loginResponseRequestor')
+const loginResponseReviewer = require('./response/loginResponseReviewer')
 const loginError = require('./error/loginError')
 const { findWorklist } = require('./response/findWorklistResponse')
 
@@ -23,6 +25,10 @@ app.use(bodyParser.json());
 app.post('/IdentityHub/api/authenticationsvc/authenticateUser', (req, res) => {
     if (req.body.userName === 'flexicious' && req.body.password === 'support') {
         sendResponse(res, 200, loginResponse)
+    } else if (req.body.userName === 'requestor' && req.body.password === 'support') {
+        sendResponse(res, 200, loginResponseRequestor)
+    } else if (req.body.userName === 'reviewer' && req.body.password === 'support') {
+        sendResponse(res, 200, loginResponseReviewer)
     } else {
         sendResponse(res, 400, loginError)
     }
