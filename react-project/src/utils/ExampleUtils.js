@@ -9,7 +9,6 @@ class MontefioreDateFormatter extends DateFormatter {
 		if (value instanceof String)
 			result = super.format(new Date(parseFloat(value)))
 		else result = super.format(value)
-		console.log(value + ':' + result)
 		return result
 	}
 }
