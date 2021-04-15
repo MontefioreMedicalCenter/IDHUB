@@ -1,0 +1,15 @@
+POST http://localhost:8080/IdentityHub/api/boxsvc/uploadFile
+
+Request Body
+worklistId: "wk.00011881"
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: *
+Content-Type: application/json
+Content-Length: 11
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Tue, 13 Apr 2021 21:16:13 GMT
+
+Response Body
+wk.00011881
