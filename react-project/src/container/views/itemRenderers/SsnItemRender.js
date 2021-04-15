@@ -12,13 +12,12 @@ const SsnItemRender = props => {
 	return (
 		<div>
 			<input
-				value={data.ssn}
+				defaultValue={data.ssn || ""}
 				// type={data.constructor.name !== "IdWorklist" ? "hidden" : (displayAsPassword ? "password" : "text")}
 				type={data.constructor.name !== 'IdWorklist' ? 'hidden' : 'password'}
-				editable={false}
+				editable={"false"}
 				key={data.ssn}
 				text={data.ssn}
-				maxlength={10}
 				style={{
 					height: '35px',
 					width: '100%',
@@ -28,7 +27,7 @@ const SsnItemRender = props => {
 							? '#e1eef7'
 							: '#ffffff'
 				}}
-				maxChars={11}
+				maxLength={11}
 				restrict="0-9"
 				// onFocus={handleOnFocus}
 				// onfocusout={handleOnFocus}

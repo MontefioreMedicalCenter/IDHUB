@@ -5,7 +5,7 @@ import { Cancel } from '@material-ui/icons'
 
 const styles = theme => ({
 	dialogContent: {
-		margin: theme.spacing.unit * 0.5,
+		margin: theme.spacing(0.5),
 		height: '100%'
 	},
 	dialogActionsRoot: {
@@ -23,7 +23,7 @@ const styles = theme => ({
 		}
 	},
 	borderAround: {
-		border: `${theme.spacing.unit * 0.1}px solid grey`
+		border: `${theme.spacing(0.1)}px solid grey`
 	},
 	modal: {
 		display: 'flex',
