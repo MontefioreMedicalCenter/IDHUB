@@ -17,7 +17,7 @@ import { camelizeKeys } from '../../../shared/utils'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
 import AdvanceDialog from '../../../shared/components/AdvanceDialog'
-import RequestDocument from '../RequestDocument'
+import DocumentViewer from '../DocumentViewer'
 import UploadOrViewFile from '../../../container/views/itemRenderers/UploadOrViewFile'
 import WorklistStatusRenderer from '../../../container/views/itemRenderers/WorklistStatusRenderer'
 import Save from '../../../container/views/itemRenderers/Save'
@@ -48,6 +48,8 @@ import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 import CheckBoxItemRenderer from '../../../container/views/itemRenderers/CheckBoxItemRenderer'
 import RequestorSearch from '../RequestorSearch'
 import moment from 'moment'
+import { isValidPhoneNumber } from 'react-phone-number-input'
+import { isValid } from 'ssn-validator'
 
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
 const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
@@ -60,7 +62,9 @@ const genderEditorWrapper = new ClassFactory(Gender.editorWrapper)
 const titleEditorWrapper = new ClassFactory(Title.editorWrapper)
 const campusCodeEditorWrapper = new ClassFactory(CampusCode.editorWrapper)
 const departmenteEditorWrapper = new ClassFactory(Department.editorWrapper)
-const employeeSubGroupEditorWrapper = new ClassFactory(EmployeeSubGroup.editorWrapper)
+const employeeSubGroupEditorWrapper = new ClassFactory(
+	EmployeeSubGroup.editorWrapper
+)
 const createDateRendererEditorWrapper = new ClassFactory(
 	CreateDateRenderer.editorWrapper
 )
@@ -86,12 +90,13 @@ const CurrentRequest = props => {
 	const dispatch = useDispatch()
 
 	const dataGridRef = useRef(null)
-	const [gridData, setGridData] = useState([])
 	const [worklist, setWorklist] = useState(null)
 	const [openModal, setOpenModal] = useState(false)
 	const [openDocumentLibrary, setDocumentLibraryModal] = useState(false)
+	const [documentFileUrl, setDocumentFileUrl] = useState('')
 	const [valueOfTab] = useState(props.tabValue)
 	var numb_regex = /[0-9]/
+	var numb_errregex = /[.+-]/
 
 	const worklistResultHandler = resp => {
 		var workListGroupArr = new ArrayCollection()
@@ -105,7 +110,7 @@ const CurrentRequest = props => {
 			else workListGroupArr.addItem(workGroup)
 		})
 		workListGroupArr.addAll(workListArr)
-		setGridData(workListGroupArr)
+		dataGridRef.current && dataGridRef.current.setDataProvider(workListGroupArr)
 	}
 	//this is how Facebook recommends we run code on mount. Stupid ESlint does not like it.
 	/* eslint-disable*/
@@ -125,12 +130,45 @@ const CurrentRequest = props => {
 		img.move(0, 0)
 	}
 
-	const getDocumentLibrary = () => {
-		StorageService.getInstance().listDocumentLibraryFiles(
-			docLibrarySuccessResult,
-			MontefioreUtils.showError
-		)
-		onOpenDocument()
+	const onExecuteToolbarAction = action => {
+		if (action.code == 'Add Employee') {
+			var grid = dataGridRef.current
+
+			var gridDP = grid.getDataProvider()
+			var wkg = new IdWorklistGroup()
+			var wk = new IdWorklist()
+			wkg.workLists = new ArrayCollection()
+			wkg.workLists.addItemAt(wk, 0)
+			wkg.worklistStatus = 'OnHold'
+			wk.worklistStatus = 'OnHold'
+			wk.edit = true
+			wk.worklistGroup = wkg
+			console.log('Add Employee')
+			if (grid.getCurrentSorts().length > 0) {
+				grid.removeAllSorts()
+				gridDP.addItemAt(wk, 0)
+				gridDP.sort = null
+				gridDP.refresh()
+			} else {
+				gridDP.addItemAt(wk, 0)
+			}
+			grid.cellEditableFunction = isCellEditable
+			grid.refreshGrid()
+		} else if (action.code == 'Refresh') {
+			// dispatchEvent(new WorkListEvent(WorkListEvent.GET_WORK_LIST));
+		} else if (action.code == 'SubmitAll') {
+		} else if (action.code == 'Document Library') {
+			StorageService.getInstance().listDocumentLibraryFiles(
+				docLibrarySuccessResult,
+				MontefioreUtils.showError
+			)
+			onOpenDocument()
+		}
+	}
+
+	const onShowDocument = fileData => {
+		setDocumentFileUrl(fileData)
+		setOpenModal(true)
 	}
 
 	const docLibrarySuccessResult = ({ result }) => {
@@ -214,6 +252,7 @@ const CurrentRequest = props => {
 
 	var index = -1
 	var isWorklist = false
+
 	const iconClick = props => {
 		const selectedItem = props.row.getData()
 		let selectedGroup = {}
@@ -245,17 +284,107 @@ const CurrentRequest = props => {
 		if (props.cell.getColumn() !== null) {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
 			} else if (props.cell.getColumn().getHeaderText() === 'Submit') {
+				// var alertId = isWorklistGroup ? selectedGroup.worklistId : selectedRequest.worklistId
+				if (
+					selectedItem.worklistStatus == 'Ready' ||
+					selectedItem.worklistStatus == 'Rejected' ||
+					selectedItem.worklistStatus == 'Processed'
+				) {
+					//selectedItem.worklistStatus
+					dispatch(
+						showMessage(
+							'Confirm',
+							'Are you sure you want to Submit',
+							'YES_NO',
+							() => {
+								if (isWorklistGroup) {
+									// var test = selectedobj
+									selectedGroup.edit = false
+									var worklistGroup = selectedGroup
+
+									if (worklistGroup.worklistStatus === 'Processed') {
+										worklistGroup.worklistStatus = 'Accepted'
+										worklistGroup.requesterUserId = localStorage.getItem(
+											'user-id'
+										)
+										worklistGroup.workLists.forEach(x => {
+											x.worklistStatus = 'Accepted'
+										})
+									} else {
+										worklistGroup.worklistStatus = 'Submitted'
+										worklistGroup.requesterUserId = localStorage.getItem(
+											'user-id'
+										)
+										worklistGroup.submitDate = new Date()
+										worklistGroup.workLists.forEach(x1 => {
+											x1.worklistStatus = 'Submitted'
+										})
+									}
+									// wlservice.saveWorkGroup(worklistGroup)
+									props.cell.refreshCell()
+								}
+								if (isWorklistChild) {
+									selectedRequest.edit = false
+									props.cell.refreshCell()
+									selectedRequest.worklistStatus = 'Submitted'
+
+									const data = JSON.stringify(selectedRequest, function(
+										key,
+										value
+									) {
+										if (key == '_worklistGroup') {
+											return value.worklistId
+										} else {
+											return value
+										}
+									})
+
+									WorklistService.getInstance().saveWorklists(
+										data,
+										updateWorkList,
+										() => {}
+									)
+								}
+								if (isWorklist) {
+									//single child
+									selectedRequest.edit = false
+									if (selectedGroup.worklistStatus == 'Processed') {
+										selectedGroup.worklistStatus = 'Accepted'
+										selectedRequest.worklistStatus = 'Accepted'
+									} else {
+										selectedGroup.worklistStatus = 'Submitted'
+										selectedRequest.worklistStatus = 'Submitted'
+										selectedGroup.submitDate = new Date()
+									}
+									// wlservice.saveWorkGroup(selectedGroup)
+									//wlservice.saveWorkListSingle(selectedRequest)
+									props.cell.refreshCell()
+								}
+							},
+							() => {}
+						)
+					)
+				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
 				if (isWorklistGroup) {
 					selectedGroup.edit = false
 					// wlservice.saveWorkGroup(selectedGroup)
 				} else if (isWorklist || isWorklistChild) {
 					selectedRequest.edit = false
-					/*	if (workList.worklistStatus == 'Processed')
-                        {
-                            workList.worklistStatus="Accepted"
-                        }*/
-					// wlservice.saveWorkListSingle(selectedRequest)
+
+					const data = JSON.stringify(selectedRequest, function(key, value) {
+						if (key == '_worklistGroup') {
+							return value.worklistId
+						} else {
+							return value
+						}
+					})
+
+					WorklistService.getInstance().saveWorklists(
+						data,
+						updateWorkList,
+						() => {}
+					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
 				if (selectedobj.edit) {
@@ -352,7 +481,7 @@ const CurrentRequest = props => {
 								console.log('deleteWorkListSingle')
 							} else {
 								// wlservice.deleteWorkListGroup(selectedGroup)
-								console.log('deleteWorkListGroup')
+								// console.log('deleteWorkListGroup')
 							}
 						},
 						() => {}
@@ -377,248 +506,486 @@ const CurrentRequest = props => {
 		dataGridRef.current.gotoVerticalPosition(vpos)
 	}
 
-
 	const validateDOB = editor => {
-		var valSuccess = true;
-		var dateFormat = 'MM-DD-YY';
+		var valSuccess = true
+		var dateFormat = 'MM-DD-YY'
 		var cell = dataGridRef.current.getCurrentEditCell()
-		var grid = dataGridRef.current;
+		var grid = dataGridRef.current
 		var dataField = editor
 		grid.clearErrorByObject(cell.rowInfo.getData())
-		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
+		var valResult = moment(
+			moment(editor.selectedDate).format(dateFormat),
+			dateFormat,
+			true
+		).isValid()
 		var now = new Date()
-		var tenyeardt = new Date(now.getFullYear() - 10, now.getMonth(), now.getDate());
-		var hundyeardt = new Date(now.getFullYear() - 100, now.getMonth(), now.getDate());
+		var tenyeardt = new Date(
+			now.getFullYear() - 10,
+			now.getMonth(),
+			now.getDate()
+		)
+		var hundyeardt = new Date(
+			now.getFullYear() - 100,
+			now.getMonth(),
+			now.getDate()
+		)
 
 		if (!valResult) {
-			console.log("Invalid format")
+			console.log('Invalid format')
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid DOB date");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid DOB date'
+			)
 		}
-		if (dataField.selectedDate > tenyeardt || dataField.selectedDate < hundyeardt) {
+		if (
+			dataField.selectedDate > tenyeardt ||
+			dataField.selectedDate < hundyeardt
+		) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid DOB date");
-		}
-		else {
-			grid.clearErrorByObject(cell.rowInfo.data);
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid DOB date'
+			)
+		} else {
+			grid.clearErrorByObject(cell.rowInfo.data)
 		}
 		return valSuccess
 	}
 
-	const validateStartDate = (editor) => {
-		var valSuccess = true;
-		var dateFormat = 'MM/DD/YY';
+	const validateStartDate = editor => {
+		var valSuccess = true
+		var dateFormat = 'MM/DD/YY'
 		var cell = dataGridRef.current.getCurrentEditCell()
 		var dataField = editor
-		var grid = dataGridRef.current;
+		var grid = dataGridRef.current
 		if (cell == null || dataField.selectedDate == null) {
-			return valSuccess;
+			return valSuccess
 		}
 		grid.clearErrorByObject(cell.rowInfo.getData())
-		if (dataGridRef.current.getCurrentEditCell().rowInfo.getData().endDate != null) {
-			var enddt = dataGridRef.current.getCurrentEditCell().rowInfo.getData().endDate
+		if (
+			dataGridRef.current.getCurrentEditCell().rowInfo.getData().endDate != null
+		) {
+			var enddt = dataGridRef.current.getCurrentEditCell().rowInfo.getData()
+				.endDate
 		}
-		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
+		var valResult = moment(
+			moment(editor.selectedDate).format(dateFormat),
+			dateFormat,
+			true
+		).isValid()
 		if (!valResult) {
-			console.log("Invalid format")
+			console.log('Invalid format')
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid Start date");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Start date'
+			)
 		}
 		if (enddt != null && enddt < editor.selectedDate) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Start date");
-		}
-		else {
-			grid.clearErrorByObject(cell.rowInfo.data);
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Start date'
+			)
+		} else {
+			grid.clearErrorByObject(cell.rowInfo.data)
 		}
 		return valSuccess
 	}
-	const validateEndDate = (editor) => {
-		var valSuccess = true;
-		var dateFormat = 'MM/DD/YY';
-		var grid = dataGridRef.current;
+	const validateEndDate = editor => {
+		var valSuccess = true
+		var dateFormat = 'MM/DD/YY'
+		var grid = dataGridRef.current
 		var cell = dataGridRef.current.getCurrentEditCell()
 		var dataField = editor
 		grid.clearErrorByObject(cell.rowInfo.getData())
-		var valResult = moment(moment(editor.selectedDate).format(dateFormat), dateFormat, true).isValid()
-		var startdt = dataGridRef.current.getCurrentEditCell().rowInfo.getData().startDate
+		var valResult = moment(
+			moment(editor.selectedDate).format(dateFormat),
+			dateFormat,
+			true
+		).isValid()
+		var startdt = dataGridRef.current.getCurrentEditCell().rowInfo.getData()
+			.startDate
 		var enddt = dataField.selectedDate
 		if (startdt == null) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid end date");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid end date'
+			)
 			valSuccess = false
 			return valSuccess
-		}
-		else {
+		} else {
 			var now = new Date()
-			var nowMMDDYYY = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-			var nextyeardt = new Date(now.getFullYear() + 5, now.getMonth(), now.getDate());
+			var nowMMDDYYY = new Date(
+				now.getFullYear(),
+				now.getMonth(),
+				now.getDate()
+			)
+			var nextyeardt = new Date(
+				now.getFullYear() + 5,
+				now.getMonth(),
+				now.getDate()
+			)
 		}
 		if (valResult == 'invalid') {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid end date");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid end date'
+			)
 		}
 		if (enddt < nowMMDDYYY) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid End date");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid End date'
+			)
 		}
 		if (startdt > enddt) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField
-				, "Invalid End date");
-		}
-		else if (enddt > nextyeardt) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid End date'
+			)
+		} else if (enddt > nextyeardt) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid End date");
-		}
-		else {
-			grid.clearErrorByObject(cell.rowInfo.getData());
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid End date'
+			)
+		} else {
+			grid.clearErrorByObject(cell.rowInfo.getData())
 		}
 		return valSuccess
 	}
 
-	const validateLname = (editor) => {
-		var valSuccess = true;
+	const validateLname = editor => {
+		var valSuccess = true
 		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
-		var grid = dataGridRef.current;
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
-		var lname_re = /[a-zA-Z]/;
+		var lname_re = /[a-zA-Z]/
 		if (txt.getText().length < 1) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : Last name");
-			valSuccess = false;
-		}
-		else if (numb_regex.test(txt.getText())) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Last name");
-			valSuccess = false;
-		}
-		else if (txt.getText().length > 35) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Last Name is 35 characters");
-			valSuccess = false;
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Missing required field : Last name'
+			)
+			valSuccess = false
+		} else if (numb_regex.test(txt.getText())) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Last name'
+			)
+			valSuccess = false
+		} else if (txt.getText().length > 35) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Maximum Length for Last Name is 35 characters'
+			)
+			valSuccess = false
 		}
 		return valSuccess
 	}
 
-	const validateFname = (editor) => {
-		var valSuccess = true;
+	const validateFname = editor => {
+		var valSuccess = true
 		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
-		var grid = dataGridRef.current;
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		if (txt.getText().length < 1) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : First name");
-			valSuccess = false;
-		}
-		else if (numb_regex.test(txt.getText())) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid First name");
-			valSuccess = false;
-		}
-		else if (txt.getText().length > 35) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for First Name is 35 characters");
-			valSuccess = false;
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Missing required field : First name'
+			)
+			valSuccess = false
+		} else if (numb_regex.test(txt.getText())) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid First name'
+			)
+			valSuccess = false
+		} else if (txt.getText().length > 35) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Maximum Length for First Name is 35 characters'
+			)
+			valSuccess = false
 		}
 		return valSuccess
 	}
 
-	const validateInitial = (editor) => {
-		var valSuccess = true;
-		var cell = dataGridRef.current.getCurrentEditCell();
+	const validateInitial = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
-		var grid = dataGridRef.current;
+		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		if (numb_regex.test(txt.text) || txt.getText().length > 1) {
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Invalid Initial");
-			valSuccess = false;
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Initial'
+			)
+			valSuccess = false
 		}
-		//If you return true, the grid will highlight the error in red and move on to the next row. 
-		//If you return false, the edit box would stay in place and not let the user move forward 
+		//If you return true, the grid will highlight the error in red and move on to the next row.
+		//If you return false, the edit box would stay in place and not let the user move forward
 		//unless the error is corrected.
-		return valSuccess;
+		return valSuccess
 	}
 
-	const validateSSN = (editor) => {
-		var valSuccess = true;
-		var cell = dataGridRef.current.getCurrentEditCell();
+	const validateSSN = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
-		// 		var valResult = ValidationResultEvent;
-		// var ssnVal = new SocialSecurityValidator();
-		// 		ssnVal.source=txt;
-		// 		ssnVal.property="text";
-		// 		grid.clearErrorByObject(cell.rowInfo.data);
-		// 		valResult=ssnVal.validate();
-		// 		if (grid.getCurrentEditingCell().rowInfo.data.noSSN == 'Y')
-		// 		{
-		// 			return valSuccess;
-		// 		}
-		// 		else if (txt.text.length < 4)
-		// 		{
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
-		// 		}
-		// 		else if (txt.text.length < 4 && isNaN(Number(txt.text)))
-		// 		{
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
-		// 		}
-		// 		else if (txt.text.length == 4 && isNaN(Number(txt.text)))
-		// 		{
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
-		// 		}
-		// 		else if (txt.text.length > 4 && valResult.type == "invalid")
-		// 		{
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid SSN");
-		// 		}
-		// 		//If you return true, the grid will highlight the error in red and move on to the next row. 
-		// 		//If you return false, the edit box would stay in place and not let the user move forward 
-		// 		//unless the error is corrected.
-		// 		return valSuccess;
+
+		var valResult = isValid(txt.getText())
+		var grid = dataGridRef.current
+		grid.clearErrorByObject(cell.rowInfo.getData())
+
+		if (grid.getCurrentEditCell().rowInfo.getData().noSSN == 'Y') {
+			return valSuccess
+		} else if (txt.getText().length < 4) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid SSN'
+			)
+		} else if (txt.getText().length < 4 && isNaN(Number(txt.getText()))) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid SSN'
+			)
+		} else if (txt.getText().length == 4 && isNaN(Number(txt.getText()))) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid SSN'
+			)
+		} else if (txt.getText().length > 4 && !valResult) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid SSN'
+			)
+		}
+		//If you return true, the grid will highlight the error in red and move on to the next row.
+		//If you return false, the edit box would stay in place and not let the user move forward
+		//unless the error is corrected.
+		return valSuccess
 	}
 
-	const validatePersonEmail = (editor) => {
-		var valSuccess = true;
-		var grid = dataGridRef.current;
+	const validatePersonEmail = editor => {
+		var valSuccess = true
+		var grid = dataGridRef.current
 		var colheader = grid.getCurrentEditCell()._column._headerText
-		var cell = dataGridRef.current.getCurrentEditCell();
+		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
-		// var valResult = ValidationResultEvent
-		// 		var emailVal:EmailValidator=new EmailValidator();
-		// 		emailVal.source=txt;
-		// 		emailVal.property="text";
-		// 		valResult=emailVal.validate();
-		// 		grid.clearErrorByObject(cell.rowInfo.data);
-		// 		if ((colheader == "Personal or Business Email" && valResult.type == "invalid" && txt.text.length > 0 ) || (colheader == "MHS         Manager       Email" && (txt.text.length < 1 || valResult.type == "invalid")))
-		// 		{
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Invalid Email");
-		// 		}
-		// 		else if (txt.text.length > 200){
-		// 			valSuccess=false
-		// 			grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Maximum Length for Email is 200 characters");
-		// 		}
 
-		// 		return valSuccess
+		var emailVal = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g)
+		var valResult = emailVal.test(txt.getText())
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		if (
+			(colheader === 'Personal or Business Email' &&
+				!valResult &&
+				txt.getText().length > 0) ||
+			(colheader === 'MHS Manager Email' &&
+				(txt.getText().length < 1 || !valResult))
+		) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Email'
+			)
+		} else if (txt.getText().length > 200) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Maximum Length for Email is 200 characters'
+			)
+		}
+		return valSuccess
 	}
 
-	const validateCompanyCode = (editor) => {
-		var valSuccess = true;
-		var grid = dataGridRef.current;
-		var cell = dataGridRef.current.getCurrentEditCell();
+	const validateCompanyCode = editor => {
+		var valSuccess = true
+		var grid = dataGridRef.current
+		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		if (txt.getText().length < 1) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field : Vendor Consultant Company Name");
-		}
-		else if (txt.getText().length > 50) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Missing required field : Vendor Consultant Company Name'
+			)
+		} else if (txt.getText().length > 50) {
 			valSuccess = false
-			grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Vendor Consultant Company Name is 50 characters");
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Maximum Length for Vendor Consultant Company Name is 50 characters'
+			)
+		}
+		return valSuccess
+	}
+
+	const validatesmanagersource = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		//if(!((txt.text.length ==4) ||(txt.text.length ==6) || (txt.text.length ==9)) || (isNaN(Number(txt.text))) ||Number(txt.text)<0 || txt.text.search(' ')>=0 || txt.text.search('+')>=0 || txt.text.search('.')>=0){
+		if (txt.getText().length < 4 || txt.getText().length > 10) {
+			valSuccess = false
+		} else if (!numb_regex.test(txt.getText())) {
+			valSuccess = false
+		} else if (
+			numb_errregex.test(txt.getText()) ||
+			isNaN(Number(txt.getText()))
+		) {
+			valSuccess = false
+		}
+		if (!valSuccess) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid MHS Manager ID - must be number between 4 & 10 digits long'
+			)
+		}
+		return valSuccess
+	}
+
+	const validatePhone = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current
+		grid.clearErrorByObject(cell.rowInfo.getData())
+
+		const number = `+1${txt.getText()}`
+		const valResult = isValidPhoneNumber(number)
+		if (txt.getText().length > 0 && !valResult == 'invalid') {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Phone'
+			)
+		}
+		if (
+			txt.getText().length > 0 &&
+			txt.getText().replaceAll('-', '').length < 10 &&
+			!valResult == 'valid'
+		) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Phone'
+			)
+		}
+		if (txt.getText().replaceAll('-', '').length > 12) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid phone'
+			)
+		}
+		if (
+			txt.getText().length > 10 &&
+			txt.getText().replaceAll('-', '').length <= 12 &&
+			txt.getText().charAt(3) != '-'
+		) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Phone'
+			)
+		}
+		return valSuccess
+	}
+
+	const validateExt = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current
+		grid.clearErrorByObject(cell.rowInfo.getData())
+		var managerph = grid.getCurrentEditCell().rowInfo.getData().managerExt
+		if (managerph !== null) {
+			if (managerph.length < 1 && txt.getText().length > 1) {
+				valSuccess = false
+				grid.setErrorByObject(
+					cell.rowInfo.getData(),
+					cell.getColumn().dataField,
+					'Invalid Ext'
+				)
+			}
+		}
+		if (managerph === null && txt.getText().length > 1) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Ext'
+			)
+		}
+		var valResult = Number(txt.getText()) !== NaN
+		if (txt.getText().length > 0 && !valResult) {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Ext'
+			)
+			valSuccess = false
+		}
+		return valSuccess
+	}
+
+	const validateAdditionalComment = editor => {
+		var valSuccess = true
+		var cell = dataGridRef.current.getCurrentEditCell()
+		var txt = editor
+		var grid = dataGridRef.current
+		grid.clearErrorByObject(cell.rowInfo.getData())
+
+		if (txt.getText().length > 250) {
+			valSuccess = false
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Maximum Length for Requestor Comment is 250 characters '
+			)
 		}
 		return valSuccess
 	}
@@ -626,8 +993,8 @@ const CurrentRequest = props => {
 	return (
 		<div className="grid-container">
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
-				<RequestorSearch />
-				<div style={{ height: 'calc(100% - 40px)' }}>
+				<RequestorSearch findWorklist={findWorklist} />
+				<div style={{ height: 'calc(100% - 65px)' }}>
 					<DataGrid
 						ref={dataGridRef}
 						textAlign={'center'}
@@ -635,7 +1002,6 @@ const CurrentRequest = props => {
 						width={'100%'}
 						id="Requestor_WorkList_Grid"
 						alternatingItemColors={[0xffffff, 0xffffff]}
-						dataProvider={gridData}
 						enablePrint
 						enablePreferencePersistence
 						enableDrag
@@ -654,7 +1020,6 @@ const CurrentRequest = props => {
 						//  alternatingItemColors="[0xffffff,0xffffff]"
 						enableToolbarActions
 						styleName="gridStyle"
-						// toolbarActionExecutedFunction={onExecuteToolbarAction}
 						editable
 						enableDrillDown
 						filterVisible={false}
@@ -663,8 +1028,8 @@ const CurrentRequest = props => {
 						enableDefaultDisclosureIcon={false}
 						headerSortSeparatorRight={3}
 						selectionMode="none"
-						cellEditableFunction={isCellEditable}
-						documentOpenFunction={getDocumentLibrary}>
+						toolbarActionExecutedFunction={onExecuteToolbarAction}
+						cellEditableFunction={isCellEditable}>
 						<ReactDataGridColumnLevel
 							rowHeight={10}
 							enablePaging={true}
@@ -689,7 +1054,7 @@ const CurrentRequest = props => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-								// filterWaterMark={"Contains"}
+									// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"
@@ -771,13 +1136,13 @@ const CurrentRequest = props => {
 									width={90}
 									dataField="ssn"
 									headerText="SSN"
-									editable={false}
+									editable={true}
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
 									itemRenderer={ssnItemRenderer}
-								// itemEditorValidatorFunction={validateSSN}
+									itemEditorValidatorFunction={validateSSN}
 								/>
 								<ReactDataGridColumn
 									dataField="dateOfBirth"
@@ -811,7 +1176,7 @@ const CurrentRequest = props => {
 									headerText="Personal or Business Email"
 									width={120}
 									headerWordWrap={true}
-									// itemEditorValidatorFunction={validatePersonEmail}
+									itemEditorValidatorFunction={validatePersonEmail}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
@@ -933,7 +1298,7 @@ const CurrentRequest = props => {
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									//  itemEditorValidatorFunction="validatesmanagersource"
+									itemEditorValidatorFunction={validatesmanagersource}
 									sortable={false}
 								/>
 								<ReactDataGridColumn
@@ -943,20 +1308,25 @@ const CurrentRequest = props => {
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									//  itemEditorValidatorFunction="validatePhone"
+									itemEditorValidatorFunction={validatePhone}
 									sortable={false}
 								/>
 								<ReactDataGridColumn
 									dataField="managerExt"
 									headerText="MHS Manager Ext"
 									width={100}
+									itemEditorValidatorFunction={validateExt}
+									headerWordWrap={true}
+									itemEditorApplyOnValueCommit={true}
+									enableCellClickRowSelect={false}
+									sortable={false}
 								/>
 								<ReactDataGridColumn
 									dataField="managerEmail"
 									headerText="MHS Manager Email"
 									width={100}
 									headerWordWrap={true}
-									//  itemEditorValidatorFunction="validatePersonEmail"
+									itemEditorValidatorFunction={validatePersonEmail}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
@@ -1029,7 +1399,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
-								//  itemEditorValidatorFunction="validateAdditionalComment"
+									itemEditorValidatorFunction={validateAdditionalComment}
 								/>
 								<ReactDataGridColumn
 									dataField="requestorFullName"
@@ -1133,7 +1503,7 @@ const CurrentRequest = props => {
 								editable={false}
 								hideText={true}
 								//  enableIcon="{this.searchTb.viewStack.selectedIndex==0}"
-								//  iconFunction="dynamicIconFunctionDelete"
+								iconHandCursor={true}
 								iconToolTip="Delete Request"
 								iconHandCursor={true}
 								columnWidthMode="fixed"
@@ -1157,6 +1527,7 @@ const CurrentRequest = props => {
 								columnWidthMode="fixed"
 								iconLeft="20"
 								sortable={false}
+								handleSubmit={iconClick}
 							/>
 							<ReactDataGridColumnLevel
 								enableFooters
@@ -1178,13 +1549,18 @@ const CurrentRequest = props => {
 				open={openModal}
 				handleClose={() => setOpenModal(false)}
 				headerTitle="Request Documents"
-				bodyRenderer={<RequestDocument />}
+				bodyRenderer={<DocumentViewer documentFileUrl={documentFileUrl} />}
 			/>
 			<AdvanceDialog
 				open={openDocumentLibrary}
 				handleClose={onOpenDocument}
 				headerTitle="Document Library"
-				bodyRenderer={<DocumentLibrary worklist={worklist} />}
+				bodyRenderer={
+					<DocumentLibrary
+						worklist={worklist}
+						onShowDocument={onShowDocument}
+					/>
+				}
 			/>
 		</div>
 	)

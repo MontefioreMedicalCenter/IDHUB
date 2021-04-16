@@ -37,6 +37,34 @@ export default class StorageService extends ServiceProxyBase {
 			'form'
 		)
 	}
+
+	storeWorklistDocument(workListId, dirListFile, resultHandler, faultHandler) {
+		if (typeof faultHandler == 'undefined') faultHandler = null
+		const formData = new FormData()
+
+		if (dirListFile && dirListFile.length) {
+			for (let loop = 0; loop < dirListFile.length; loop++) {
+				formData.append('dirListEntry', dirListFile[loop])
+				formData.append('worklistId', String(workListId))
+			}
+		}
+
+		var headerData = {
+			userName: localStorage.getItem('user-id'),
+			'Content-Type': 'application/json'
+		}
+
+		return this.callServiceMethod(
+			'post',
+			'IdentityHub/api/storagesvc/storeWorklistDocument',
+			formData,
+			null,
+			resultHandler,
+			faultHandler,
+			null,
+			headerData
+		)
+	}
 }
 
 StorageService.prototype.typeName = StorageService.typeName = 'StorageService' //for quick inspection

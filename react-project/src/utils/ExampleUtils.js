@@ -5,13 +5,11 @@ import {
 } from '../flexicious'
 class MontefioreDateFormatter extends DateFormatter {
 	format(value) {
-		let result = null;
+		let result = null
 		if (value instanceof String)
-			result= super.format(new Date(parseFloat(value)));
-		else
-			result= super.format(value);
-		console.log(value + ":" + result);
-		return result;
+			result = super.format(new Date(parseFloat(value)))
+		else result = super.format(value)
+		return result
 	}
 }
 export default class ExampleUtils {

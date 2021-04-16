@@ -21,13 +21,17 @@ const StyledTabs = withStyles({
 	root: {
 		minHeight: 'unset'
 	}
-})(props => (
-	<Tabs
-		{...props}
-		textColor="primary"
-		TabIndicatorProps={{ children: <div /> }}
-	/>
-))
+})((props) => {
+	const { customStyle, ...rest } = props;
+	return (
+		<Tabs
+			{...rest}
+			textColor="primary"
+			TabIndicatorProps={{ children: <div /> }}
+		/>
+	)
+}
+)
 
 const StyledTab = withStyles(theme => ({
 	root: {
@@ -41,7 +45,12 @@ const StyledTab = withStyles(theme => ({
 			opacity: 1
 		}
 	}
-}))(props => <Tab style={{ outline: 0 }} disableRipple {...props} />)
+}))(
+	(props) => {
+		const { customStyle, ...rest } = props;
+		return <Tab style={{ outline: 0 }} disableRipple {...rest} />;
+	}
+)
 
 const useStyles = makeStyles(theme => ({
 	root: {

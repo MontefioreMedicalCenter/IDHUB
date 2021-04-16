@@ -5,7 +5,7 @@ import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/mate
 const StartDateRenderer = props => {
 	const handleDateChange = date => {
 		props.row.rowPositionInfo.rowData.dateOfBirth = date
-		props.cell.refreshCell();
+		props.cell.refreshCell()
 		const container = props.cell.getGrid().getBodyContainer()
 		if (container._inEdit) {
 			container.endEdit(container.getEditor())
@@ -39,12 +39,18 @@ const StartDateRenderer = props => {
 }
 
 class EditorWrapper extends UIComponent {
-	render(){
-		const cell = this.cell;
-		const cellProps = { cell: cell, row: cell.rowInfo, column: cell._column, level: cell.level, grid: cell.level.grid }
-		this.children = [<StartDateRenderer {...cellProps}/>];
-		return super.render();
+	render() {
+		const cell = this.cell
+		const cellProps = {
+			cell: cell,
+			row: cell.rowInfo,
+			column: cell._column,
+			level: cell.level,
+			grid: cell.level.grid
+		}
+		this.children = [<StartDateRenderer {...cellProps} />]
+		return super.render()
 	}
 }
-StartDateRenderer.editorWrapper = EditorWrapper;
+StartDateRenderer.editorWrapper = EditorWrapper
 export default StartDateRenderer

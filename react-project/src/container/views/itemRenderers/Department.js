@@ -33,12 +33,18 @@ const Department = props => {
 
 class EditorWrapper extends UIComponent {
 	render() {
-		const cell = this.cell;
-		const cellProps = { cell: cell, row: cell.rowInfo, column: cell._column, level: cell.level, grid: cell.level.grid }
-		this.children = [<Department {...cellProps} />];
-		return super.render();
+		const cell = this.cell
+		const cellProps = {
+			cell: cell,
+			row: cell.rowInfo,
+			column: cell._column,
+			level: cell.level,
+			grid: cell.level.grid
+		}
+		this.children = [<Department {...cellProps} />]
+		return super.render()
 	}
 }
-Department.editorWrapper = EditorWrapper;
+Department.editorWrapper = EditorWrapper
 
 export default Department

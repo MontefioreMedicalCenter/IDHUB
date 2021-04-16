@@ -5,6 +5,7 @@
 import { MenuItem, Select } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import {
+	Add,
 	ArrowLeft,
 	ArrowRight,
 	ClearAll,
@@ -302,14 +303,27 @@ export default class ToolbarImpl extends React.Component {
 				topLevelToolbarButtons.push(
 					<span key="1">
 						<span
+							key={gridId + 'btnAddEmployee'}
+							className={'pagerDiv  iconCell'}
+							id={gridId + 'btnAddEmployee'}
+							onClick={this.executeToolbarAction.bind(this, 'Add Employee')}>
+							<IconButton className={'imageButtonSize'}>
+								<Add fontSize="large" />
+							</IconButton>
+						</span>
+						<span
 							key={gridId + 'btnAddDocument'}
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnAddDocument'}
-							onClick={this.addDocument.bind(this)}>
+							onClick={this.executeToolbarAction.bind(
+								this,
+								'Document Library'
+							)}>
 							<IconButton className={'imageButtonSize'}>
 								<FolderIcon fontSize="large" />
 							</IconButton>
 						</span>
+						<span className={'pagerDiv lineSep'}>&nbsp;</span>
 						<span
 							key={gridId + 'btnCollapseOne'}
 							className={'pagerDiv  iconCell'}
@@ -814,8 +828,11 @@ export default class ToolbarImpl extends React.Component {
 		grid.multiColumnSortShowPopup()
 	}
 
-	addDocument() {
+	executeToolbarAction(code, e) {
+		const data = e
+		e.code = code
 		const grid = this.props.pager.grid
-		grid.documentOpenFunction && grid.documentOpenFunction()
+		grid.toolbarActionExecutedFunction &&
+			grid.toolbarActionExecutedFunction(data)
 	}
 }
