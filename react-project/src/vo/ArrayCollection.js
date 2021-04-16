@@ -13,7 +13,8 @@ export default class ArrayCollection extends Array {
 		this.push(item)
 	}
 	addItemAt(item, index) {
-		return this.push(item)
+		// return this.push(item)
+		return this.splice(index, 0, item)
 	}
 	contains(item) {
 		this.push(item)

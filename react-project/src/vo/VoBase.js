@@ -36,7 +36,7 @@ export default class VoBase {
 		}
 	}
 	getComplexProperty(key) {
-		if (key.endsWith('Date') || key==="dateOfBirth") {
+		if (key.endsWith('Date') || key === 'dateOfBirth') {
 			return this.dateProxy()
 		}
 		return null
@@ -45,8 +45,8 @@ export default class VoBase {
 	dateProxy() {
 		return {
 			fromJson: dateVal => {
-				const result = new Date(Date.parse(dateVal));
-				return result;
+				const result = new Date(Date.parse(dateVal))
+				return result
 			}
 		}
 	}

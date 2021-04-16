@@ -50,12 +50,18 @@ const Gender = props => {
 }
 class EditorWrapper extends UIComponent {
 	render() {
-		const cell = this.cell;
-		const cellProps = { cell: cell, row: cell.rowInfo, column: cell._column, level: cell.level, grid: cell.level.grid }
-		this.children = [<Gender {...cellProps} />];
-		return super.render();
+		const cell = this.cell
+		const cellProps = {
+			cell: cell,
+			row: cell.rowInfo,
+			column: cell._column,
+			level: cell.level,
+			grid: cell.level.grid
+		}
+		this.children = [<Gender {...cellProps} />]
+		return super.render()
 	}
 }
-Gender.editorWrapper = EditorWrapper;
+Gender.editorWrapper = EditorWrapper
 
 export default Gender

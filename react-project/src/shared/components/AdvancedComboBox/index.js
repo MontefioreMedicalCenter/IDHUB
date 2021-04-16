@@ -32,7 +32,7 @@ type OutlinedComponentType = {
 
 const OutlinedComponent = withStyles(theme => ({
 	outlined: {
-		padding: theme.spacing.unit * 0.5,
+		padding: theme.spacing(0.5),
 		borderRadius: 3
 		// margin: `${theme.spacing.unit * 0.5}px ${theme.spacing.unit * 0.75}px`,
 	},

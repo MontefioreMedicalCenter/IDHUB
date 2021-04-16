@@ -80,7 +80,7 @@ const Main = () => {
 				</div>
 			</div>
 			<CustomizedTabs
-				customStyle={tabStyles}
+				customstyle={tabStyles}
 				setTabValue={handleTabChange}
 				tabValue={tabValue}
 				tabList={mainTabData}

@@ -5,11 +5,13 @@
 import { MenuItem, Select } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import {
+	Add,
 	ArrowLeft,
 	ArrowRight,
 	ClearAll,
 	FilterList,
 	GetApp,
+	Refresh,
 	Settings,
 	SettingsApplications,
 	SkipNext,
@@ -302,14 +304,39 @@ export default class ToolbarImpl extends React.Component {
 				topLevelToolbarButtons.push(
 					<span key="1">
 						<span
+							key={gridId + 'btnAddEmployee'}
+							className={'pagerDiv  iconCell'}
+							id={gridId + 'btnAddEmployee'}
+							onClick={this.executeToolbarAction.bind(this, 'Add Employee')}>
+							<IconButton className={'imageButtonSize'}>
+								<Add fontSize="large" />
+							</IconButton>
+						</span>
+						<span
 							key={gridId + 'btnAddDocument'}
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnAddDocument'}
-							onClick={this.addDocument.bind(this)}>
+							onClick={this.executeToolbarAction.bind(
+								this,
+								'Document Library'
+							)}>
 							<IconButton className={'imageButtonSize'}>
 								<FolderIcon fontSize="large" />
 							</IconButton>
 						</span>
+						<span
+							key={gridId + 'btnAddRefresh'}
+							className={'pagerDiv  iconCell'}
+							id={gridId + 'btnAddRefresh'}
+							onClick={this.executeToolbarAction.bind(
+								this,
+								'Refresh'
+							)}>
+							<IconButton className={'imageButtonSize'}>
+								<Refresh fontSize="large" />
+							</IconButton>
+						</span>
+						<span className={'pagerDiv lineSep'}>&nbsp;</span>
 						<span
 							key={gridId + 'btnCollapseOne'}
 							className={'pagerDiv  iconCell'}
@@ -421,7 +448,7 @@ export default class ToolbarImpl extends React.Component {
 							<IconButton
 								style={{ width: '40px', height: '40px' }}
 								title={Constants.PGR_BTN_SETTINGS_TOOLTIP}>
-								<Settings className={'imageButtonSettings'}>{}</Settings>
+								<Settings className={'imageButtonSettings'}>{ }</Settings>
 								{/* <img tabIndex={0} src={grid.getThemeToolbarIconFolder() + "/settings.png"} 
                             className={"imageButtonSettings"}
                                 alt={Constants.PGR_BTN_SETTINGS_TOOLTIP} title={Constants.PGR_BTN_SETTINGS_TOOLTIP} /> */}
@@ -440,7 +467,7 @@ export default class ToolbarImpl extends React.Component {
 								<IconButton
 									style={{ width: '40px', height: '40px' }}
 									title={Constants.PGR_BTN_OPEN_SETTINGS_TOOLTIP}>
-									<Settings className={'imageButtonOpenSettings'}>{}</Settings>
+									<Settings className={'imageButtonOpenSettings'}>{ }</Settings>
 								</IconButton>
 							</span>
 						</span>
@@ -458,7 +485,7 @@ export default class ToolbarImpl extends React.Component {
 								style={{ width: '40px', height: '40px' }}
 								title={Constants.PGR_BTN_SAVE_SETTINGS_TOOLTIP}>
 								<SettingsApplications className={'imageButtonSaveSettings'}>
-									{}
+									{ }
 								</SettingsApplications>
 							</IconButton>
 						</span>
@@ -629,15 +656,11 @@ export default class ToolbarImpl extends React.Component {
 					{this.props.pager.level.enablePaging ? (
 						<span key="pageInfo" className={'pagerDiv pageInfo'}>
 							{' '}
-							{`${Constants.PGR_ITEMS} ${this.getPageStart()} ${
-								Constants.PGR_TO
-							} ${this.getPageEnd()} ${
-								Constants.PGR_OF
-							} ${this.getTotalRecords()}. ${
-								Constants.PGR_PAGE
-							} ${this.getPageIndex() + 1} ${
-								Constants.PGR_OF
-							} ${this.getPageCount()} `}
+							{`${Constants.PGR_ITEMS} ${this.getPageStart()} ${Constants.PGR_TO
+								} ${this.getPageEnd()} ${Constants.PGR_OF
+								} ${this.getTotalRecords()}. ${Constants.PGR_PAGE
+								} ${this.getPageIndex() + 1} ${Constants.PGR_OF
+								} ${this.getPageCount()} `}
 						</span>
 					) : null}
 
@@ -814,8 +837,11 @@ export default class ToolbarImpl extends React.Component {
 		grid.multiColumnSortShowPopup()
 	}
 
-	addDocument() {
+	executeToolbarAction(code, e) {
+		const data = e
+		e.code = code
 		const grid = this.props.pager.grid
-		grid.documentOpenFunction && grid.documentOpenFunction()
+		grid.toolbarActionExecutedFunction &&
+			grid.toolbarActionExecutedFunction(data)
 	}
 }

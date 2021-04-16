@@ -19,6 +19,18 @@
 	justify-content: center;
 	margin-top: 10px;
 	font-size: small;
+	flex-direction: column;
+	padding: 5px;
+	min-height: 55px;
+	.upload-inner-container{
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+	.error-txt {
+		color: red;
+	
+	}
 	.upload-text {
 		margin-right: 10px;
 	}
