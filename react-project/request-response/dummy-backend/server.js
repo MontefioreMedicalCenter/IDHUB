@@ -4,6 +4,7 @@ const cors = require('cors')
 const bodyParser = require('body-parser')
 const sendResponse = require('./sendResponse')
 const path = require('path')
+const multer = require('multer')
 const loginResponse = require('./response/loginResponse')
 const loginResponseRequestor = require('./response/loginResponseRequestor')
 const loginResponseReviewer = require('./response/loginResponseReviewer')
@@ -16,8 +17,8 @@ const lookuplistResponse = require('./response/lookuplistResponse')
 const saveWorklistResponse = require('./response/saveWorklistResponse')
 const listDocumentLibraryFiles = require('./response/listDocumentLibraryFiles')
 const deleteWorklist = require('./response/deleteWorklist')
-const multer = require('multer')
 const storeWorklistDocument = require('./response/storeWorklistDocument')
+const saveWorkGroupResponse = require('./response/saveWorkGroupResponse')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -59,8 +60,16 @@ app.post('/IdentityHub/api/worklistsvc/findWorklistGroups', (req, res) => {
 })
 
 app.post('/IdentityHub/api/worklistsvc/saveWorklist', (req, res) => {
-	if (req.body.worklist) {
+	if (req.headers.username === 'mmishra' && req.body.worklist) {
 		sendResponse(res, 200, saveWorklistResponse)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+
+app.post('/IdentityHub/api/worklistsvc/saveWorkGroup', (req, res) => {
+	if (req.headers.username === 'mmishra' && req.body.worklistGroup) {
+		sendResponse(res, 200, saveWorkGroupResponse)
 	} else {
 		sendResponse(res, 400)
 	}
@@ -123,7 +132,7 @@ app.get('/IdentityHub/api/storagesvc/listDocumentLibraryFiles', (req, res) => {
 
 app.use(require('express').static(path.join(__dirname, 'build')))
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
 	res.sendFile(path.join(__dirname, 'build', 'index.html'))
 })
 

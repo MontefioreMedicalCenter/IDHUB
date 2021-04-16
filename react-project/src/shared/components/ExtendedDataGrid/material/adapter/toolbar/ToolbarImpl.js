@@ -448,7 +448,7 @@ export default class ToolbarImpl extends React.Component {
 							<IconButton
 								style={{ width: '40px', height: '40px' }}
 								title={Constants.PGR_BTN_SETTINGS_TOOLTIP}>
-								<Settings className={'imageButtonSettings'}>{}</Settings>
+								<Settings className={'imageButtonSettings'}>{ }</Settings>
 								{/* <img tabIndex={0} src={grid.getThemeToolbarIconFolder() + "/settings.png"} 
                             className={"imageButtonSettings"}
                                 alt={Constants.PGR_BTN_SETTINGS_TOOLTIP} title={Constants.PGR_BTN_SETTINGS_TOOLTIP} /> */}
@@ -467,7 +467,7 @@ export default class ToolbarImpl extends React.Component {
 								<IconButton
 									style={{ width: '40px', height: '40px' }}
 									title={Constants.PGR_BTN_OPEN_SETTINGS_TOOLTIP}>
-									<Settings className={'imageButtonOpenSettings'}>{}</Settings>
+									<Settings className={'imageButtonOpenSettings'}>{ }</Settings>
 								</IconButton>
 							</span>
 						</span>
@@ -485,7 +485,7 @@ export default class ToolbarImpl extends React.Component {
 								style={{ width: '40px', height: '40px' }}
 								title={Constants.PGR_BTN_SAVE_SETTINGS_TOOLTIP}>
 								<SettingsApplications className={'imageButtonSaveSettings'}>
-									{}
+									{ }
 								</SettingsApplications>
 							</IconButton>
 						</span>
@@ -656,15 +656,11 @@ export default class ToolbarImpl extends React.Component {
 					{this.props.pager.level.enablePaging ? (
 						<span key="pageInfo" className={'pagerDiv pageInfo'}>
 							{' '}
-							{`${Constants.PGR_ITEMS} ${this.getPageStart()} ${
-								Constants.PGR_TO
-							} ${this.getPageEnd()} ${
-								Constants.PGR_OF
-							} ${this.getTotalRecords()}. ${
-								Constants.PGR_PAGE
-							} ${this.getPageIndex() + 1} ${
-								Constants.PGR_OF
-							} ${this.getPageCount()} `}
+							{`${Constants.PGR_ITEMS} ${this.getPageStart()} ${Constants.PGR_TO
+								} ${this.getPageEnd()} ${Constants.PGR_OF
+								} ${this.getTotalRecords()}. ${Constants.PGR_PAGE
+								} ${this.getPageIndex() + 1} ${Constants.PGR_OF
+								} ${this.getPageCount()} `}
 						</span>
 					) : null}
 

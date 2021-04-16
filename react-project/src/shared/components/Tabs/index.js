@@ -8,13 +8,13 @@ import { useHistory } from 'react-router-dom'
 
 const StyledTabs = withStyles({
 	indicator: {
-		height: props => props.customStyle.indicatorHeight,
+		height: props => props.customstyle.indicatorHeight,
 		borderTopLeftRadius: 3,
 		borderTopRightRadius: 3,
-		backgroundColor: props => props.customStyle.indicatorColor
+		backgroundColor: props => props.customstyle.indicatorColor
 	},
 	flexContainer: {
-		width: props => (props.customStyle.centered ? 'fit-content' : '100%'),
+		width: props => (props.customstyle.centered ? 'fit-content' : '100%'),
 		marginLeft: 'auto',
 		marginRight: 'auto'
 	},
@@ -35,8 +35,8 @@ const StyledTabs = withStyles({
 
 const StyledTab = withStyles(theme => ({
 	root: {
-		textTransform: props => props.customStyle.textTransform,
-		color: props => props.customStyle.tabColor,
+		textTransform: props => props.customstyle.textTransform,
+		color: props => props.customstyle.tabColor,
 		fontWeight: theme.typography.fontWeightRegular,
 		width: '25%',
 		minHeight: '35px',
@@ -60,9 +60,9 @@ const useStyles = makeStyles(theme => ({
 		padding: theme.spacing(0)
 	},
 	demo: {
-		backgroundColor: props => props.customStyle.backgroundColor,
-		boxShadow: props => props.customStyle.boxShadow,
-		width: props => (props.customStyle.centered ? 'fit-content' : '100%'),
+		backgroundColor: props => props.customstyle.backgroundColor,
+		boxShadow: props => props.customstyle.boxShadow,
+		width: props => (props.customstyle.centered ? 'fit-content' : '100%'),
 		marginLeft: 'auto',
 		marginRight: 'auto'
 	}
@@ -81,38 +81,38 @@ function CustomizedTabs(props) {
 			<div className={classes.demo}>
 				<StyledTabs
 					variant={props.variant}
-					customStyle={{
-						indicatorHeight: props.customStyle.indicatorHeight,
-						centered: props.customStyle.centered,
-						containerPadding: props.customStyle.containerPadding,
-						indicatorColor: props.customStyle.indicatorColor
+					customstyle={{
+						indicatorHeight: props.customstyle.indicatorHeight,
+						centered: props.customstyle.centered,
+						containerPadding: props.customstyle.containerPadding,
+						indicatorColor: props.customstyle.indicatorColor
 					}}
 					value={history.location.pathname}
 					onChange={handleCallToRouter}
 					aria-label="styled tabs example">
 					{props.tabList
 						? props.tabList.map((tab, index) => (
-								<StyledTab
-									key={index}
-									customStyle={{
-										tabColor: props.customStyle.tabColor,
-										textTransform: props.customStyle.textTransform
-									}}
-									label={
-										tab.badge ? (
-											<Badge
-												invisible={!tab.badge.active}
-												badgeContent={'!'}
-												color="secondary"
-												variant="dot">
-												{tab.label}
-											</Badge>
-										) : (
-											tab.label
-										)
-									}
-									value={tab.path}></StyledTab>
-						  ))
+							<StyledTab
+								key={index}
+								customstyle={{
+									tabColor: props.customstyle.tabColor,
+									textTransform: props.customstyle.textTransform
+								}}
+								label={
+									tab.badge ? (
+										<Badge
+											invisible={!tab.badge.active}
+											badgeContent={'!'}
+											color="secondary"
+											variant="dot">
+											{tab.label}
+										</Badge>
+									) : (
+										tab.label
+									)
+								}
+								value={tab.path}></StyledTab>
+						))
 						: ''}
 				</StyledTabs>
 				<Typography className={classes.padding} />

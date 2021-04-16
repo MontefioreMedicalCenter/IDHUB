@@ -76,6 +76,27 @@ export default class WorklistService extends ServiceProxyBase {
 		)
 	}
 
+	saveWorkGroup(worklistGroup, resultHandler, faultHandler) {
+		if (typeof faultHandler == 'undefined') faultHandler = null
+		var bodyFormData = qs.stringify({
+			worklistGroup: worklistGroup
+		})
+		var headerData = {
+			userName: localStorage.getItem('user-id'),
+			'content-Type': 'application/x-www-form-urlencoded'
+		}
+		return this.callServiceMethod(
+			'post',
+			'IdentityHub/api/worklistsvc/saveWorkGroup',
+			bodyFormData,
+			null,
+			resultHandler,
+			faultHandler,
+			'form',
+			headerData
+		)
+	}
+
 	loadWorklistFromSpreadsheet(
 		content,
 		isSelected,

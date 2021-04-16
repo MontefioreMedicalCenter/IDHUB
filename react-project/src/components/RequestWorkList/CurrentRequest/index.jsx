@@ -228,6 +228,11 @@ const CurrentRequest = props => {
 		setDocumentLibraryModal(!openDocumentLibrary)
 	}
 
+	const findSSNLabel = (item) => {
+		if (item.ssn && item.ssn.length) return "****"
+		else return ""
+	}
+
 	const getCellBackgroundColor = cell => {
 		if (cell._column.dataField === 'worklistStatus') {
 			const txtstatus = cell.rowInfo.getData().worklistStatus
@@ -294,11 +299,10 @@ const CurrentRequest = props => {
 					dispatch(
 						showMessage(
 							'Confirm',
-							'Are you sure you want to Submit',
+							'Are you sure you want to Submit ' + selectedItem.worklistId,
 							'YES_NO',
 							() => {
 								if (isWorklistGroup) {
-									// var test = selectedobj
 									selectedGroup.edit = false
 									var worklistGroup = selectedGroup
 
@@ -320,7 +324,18 @@ const CurrentRequest = props => {
 											x1.worklistStatus = 'Submitted'
 										})
 									}
-									// wlservice.saveWorkGroup(worklistGroup)
+									const wlGroup = JSON.stringify(selectedGroup, function (key, value) {
+										if (key == '_worklistGroup') {
+											return value.worklistId
+										} else {
+											return value
+										}
+									})
+									WorklistService.getInstance().saveWorkGroup(
+										wlGroup,
+										updateWorkList,
+										MontefioreUtils.showError
+									)
 									props.cell.refreshCell()
 								}
 								if (isWorklistChild) {
@@ -328,7 +343,7 @@ const CurrentRequest = props => {
 									props.cell.refreshCell()
 									selectedRequest.worklistStatus = 'Submitted'
 
-									const data = JSON.stringify(selectedRequest, function(
+									const data = JSON.stringify(selectedRequest, function (
 										key,
 										value
 									) {
@@ -342,12 +357,10 @@ const CurrentRequest = props => {
 									WorklistService.getInstance().saveWorklists(
 										data,
 										updateWorkList,
-										() => {}
+										() => { }
 									)
 								}
 								if (isWorklist) {
-									//single child
-									selectedRequest.edit = false
 									if (selectedGroup.worklistStatus == 'Processed') {
 										selectedGroup.worklistStatus = 'Accepted'
 										selectedRequest.worklistStatus = 'Accepted'
@@ -356,23 +369,44 @@ const CurrentRequest = props => {
 										selectedRequest.worklistStatus = 'Submitted'
 										selectedGroup.submitDate = new Date()
 									}
-									// wlservice.saveWorkGroup(selectedGroup)
-									//wlservice.saveWorkListSingle(selectedRequest)
+									const wlselectedGroup = JSON.stringify(selectedGroup, function (key, value) {
+										if (key == '_worklistGroup') {
+											return value.worklistId
+										} else {
+											return value
+										}
+									})
+									WorklistService.getInstance().saveWorkGroup(
+										wlselectedGroup,
+										updateWorkList,
+										MontefioreUtils.showError
+									)
 									props.cell.refreshCell()
 								}
 							},
-							() => {}
+							() => { }
 						)
 					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
 				if (isWorklistGroup) {
 					selectedGroup.edit = false
-					// wlservice.saveWorkGroup(selectedGroup)
+					const wlselectedgroup = JSON.stringify(selectedGroup, function (key, value) {
+						if (key == '_worklistGroup') {
+							return value.worklistId
+						} else {
+							return value
+						}
+					})
+					WorklistService.getInstance().saveWorkGroup(
+						wlselectedgroup,
+						updateWorkList,
+						MontefioreUtils.showError
+					)
 				} else if (isWorklist || isWorklistChild) {
 					selectedRequest.edit = false
 
-					const data = JSON.stringify(selectedRequest, function(key, value) {
+					const data = JSON.stringify(selectedRequest, function (key, value) {
 						if (key == '_worklistGroup') {
 							return value.worklistId
 						} else {
@@ -383,7 +417,7 @@ const CurrentRequest = props => {
 					WorklistService.getInstance().saveWorklists(
 						data,
 						updateWorkList,
-						() => {}
+						() => { }
 					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
@@ -400,11 +434,9 @@ const CurrentRequest = props => {
 									findWorklist()
 									props.cell.refreshCell()
 									props.grid.gotoVerticalPosition(vpos)
-								} else {
-									//return empty
 								}
 							},
-							() => {}
+							() => { }
 						)
 					)
 				} else {
@@ -445,8 +477,8 @@ const CurrentRequest = props => {
 					deleteid = isWorklistGroup
 						? selectedGroup.worklistId
 						: selectedRequest.worklistId +
-						  '.' +
-						  selectedRequest.id.worklistSeqNum
+						'.' +
+						selectedRequest.id.worklistSeqNum
 				} else {
 					isnotsave = true
 				}
@@ -463,7 +495,7 @@ const CurrentRequest = props => {
 								isWorklistChild &&
 								selectedGroup.workLists.length > 1
 							) {
-								const data = JSON.stringify(selectedRequest, function(
+								const data = JSON.stringify(selectedRequest, function (
 									key,
 									value
 								) {
@@ -484,7 +516,7 @@ const CurrentRequest = props => {
 								// console.log('deleteWorkListGroup')
 							}
 						},
-						() => {}
+						() => { }
 					)
 				)
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
@@ -499,6 +531,7 @@ const CurrentRequest = props => {
 
 		let workGroup = new IdWorklistGroup()
 		workGroup.fromJson(camelizeKeys(resp.result))
+		workGroup.workLists.forEach(wl => (wl.worklistGroup = workGroup))
 		if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), index)
 		else gridDP.addItemAt(workGroup, index)
 		dataGridRef.current.expandAll()
@@ -1054,7 +1087,7 @@ const CurrentRequest = props => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-									// filterWaterMark={"Contains"}
+								// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"
@@ -1135,12 +1168,13 @@ const CurrentRequest = props => {
 									width={90}
 									dataField="ssn"
 									headerText="SSN"
-									editable={true}
+									// editable={true}
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
 									itemRenderer={ssnItemRenderer}
+									// labelFunction={findSSNLabel}
 									itemEditorValidatorFunction={validateSSN}
 								/>
 								<ReactDataGridColumn
