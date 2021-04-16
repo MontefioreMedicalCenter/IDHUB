@@ -38,20 +38,20 @@ export default class StorageService extends ServiceProxyBase {
 		)
 	}
 
-	storeWorklistDocument(workListId, dirListFile, resultHandler, faultHandler) {
+	storeWorklistDocument(workListId, fileName, dirListFile, resultHandler, faultHandler) {
 		if (typeof faultHandler == 'undefined') faultHandler = null
 		const formData = new FormData()
 
 		if (dirListFile && dirListFile.length) {
 			for (let loop = 0; loop < dirListFile.length; loop++) {
-				formData.append('dirListEntry', dirListFile[loop])
+				formData.append('dirListEntryContent', dirListFile[loop])
 				formData.append('worklistId', String(workListId))
+				formData.append('fileName', String(fileName))
 			}
 		}
 
 		var headerData = {
-			userName: localStorage.getItem('user-id'),
-			'Content-Type': 'application/json'
+			'Content-Type': 'multipart/form-data'
 		}
 
 		return this.callServiceMethod(

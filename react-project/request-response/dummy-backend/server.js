@@ -113,9 +113,9 @@ app.post(
 )
 app.post(
 	'/IdentityHub/api/storagesvc/storeWorklistDocument',
-	upload.single('dirListEntry'),
+	upload.single('dirListEntryContent'),
 	(req, res) => {
-		if (req.headers.username === 'mmishra' && req.body.worklistId && req.file) {
+		if (req.body.worklistId && req.body.fileName && req.file) {
 			sendResponse(
 				res,
 				200,
