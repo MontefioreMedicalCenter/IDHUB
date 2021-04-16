@@ -109,6 +109,7 @@ const DocumentLibrary = ({ worklist, onShowDocument }) => {
 	const storeWorklistDocument = () => {
 		StorageService.getInstance().storeWorklistDocument(
 			worklist.worklistId,
+			fileName.current.innerText,
 			file.files,
 			docLibrarySuccessResultEvent,
 			MontefioreUtils.showError
