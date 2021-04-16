@@ -155,7 +155,7 @@ const CurrentRequest = props => {
 			grid.cellEditableFunction = isCellEditable
 			grid.refreshGrid()
 		} else if (action.code == 'Refresh') {
-			// dispatchEvent(new WorkListEvent(WorkListEvent.GET_WORK_LIST));
+			findWorklist();
 		} else if (action.code == 'SubmitAll') {
 		} else if (action.code == 'Document Library') {
 			StorageService.getInstance().listDocumentLibraryFiles(
@@ -1071,13 +1071,12 @@ const CurrentRequest = props => {
 							<ReactDataGridColumn
 								headerText="Status"
 								dataField="worklistStatus"
-								width={80}
+								width={100}
 								columnLockMode={'left'}
 								enableCellClickRowSelect={false}
 								editable={false}
 								filterComboBoxBuildFromGrid={true}
 								filterControl="MultiSelectComboBox"
-								paddingRight="20"
 								itemRenderer={worklistStatusRenderer}
 								cellBackgroundColorFunction={getCellBackgroundColor}
 							/>

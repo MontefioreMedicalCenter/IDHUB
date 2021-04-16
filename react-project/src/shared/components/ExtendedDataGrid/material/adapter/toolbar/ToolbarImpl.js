@@ -11,6 +11,7 @@ import {
 	ClearAll,
 	FilterList,
 	GetApp,
+	Refresh,
 	Settings,
 	SettingsApplications,
 	SkipNext,
@@ -321,6 +322,18 @@ export default class ToolbarImpl extends React.Component {
 							)}>
 							<IconButton className={'imageButtonSize'}>
 								<FolderIcon fontSize="large" />
+							</IconButton>
+						</span>
+						<span
+							key={gridId + 'btnAddRefresh'}
+							className={'pagerDiv  iconCell'}
+							id={gridId + 'btnAddRefresh'}
+							onClick={this.executeToolbarAction.bind(
+								this,
+								'Refresh'
+							)}>
+							<IconButton className={'imageButtonSize'}>
+								<Refresh fontSize="large" />
 							</IconButton>
 						</span>
 						<span className={'pagerDiv lineSep'}>&nbsp;</span>
