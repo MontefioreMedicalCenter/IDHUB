@@ -4,23 +4,24 @@ Request Headers
 username: whussain
 User-Agent: PostmanRuntime/7.26.10
 Accept: */*
-Postman-Token: eb155135-41ca-4817-8c62-ac92fe5452a6
+Postman-Token: 42a913b1-e59c-44d5-9e9d-090b445d2d7c
 Host: localhost:8080
 Accept-Encoding: gzip, deflate, br
 Connection: keep-alive
-Content-Type: multipart/form-data; boundary=--------------------------416187671184490385952324
+Content-Type: multipart/form-data; boundary=--------------------------133059071204177035798139
 Content-Length: 203488
 
 Request Body
-
+groupFlag: "false"
+content: undefined
 Response Headers
 Connection: keep-alive
 Access-Control-Allow-Origin: *
 Access-Control-Allow-Headers: *
 Content-Type: application/json
-Content-Length: 97
+Content-Length: 109
 Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
-Date: Thu, 15 Apr 2021 14:20:29 GMT
+Date: Fri, 16 Apr 2021 15:25:54 GMT
 
 Response Body
-"Completed - Loaded 3 worklist items with Worklist IDs from 'wk.00010559' through 'wk.00010561'."
+{"message":"Completed - Loaded 3 worklist items with Worklist IDs from 'wk.00010579' through 'wk.00010581'."}
