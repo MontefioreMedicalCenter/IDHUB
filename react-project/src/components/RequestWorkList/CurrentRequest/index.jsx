@@ -354,7 +354,7 @@ const CurrentRequest = props => {
 										}
 									})
 
-									WorklistService.getInstance().saveWorklists(
+									WorklistService.getInstance().saveWorklist(
 										data,
 										updateWorkList,
 										() => { }
@@ -414,7 +414,7 @@ const CurrentRequest = props => {
 						}
 					})
 
-					WorklistService.getInstance().saveWorklists(
+					WorklistService.getInstance().saveWorklist(
 						data,
 						updateWorkList,
 						() => { }
