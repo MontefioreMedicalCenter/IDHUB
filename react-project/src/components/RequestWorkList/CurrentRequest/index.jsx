@@ -91,12 +91,24 @@ const CurrentRequest = props => {
 
 	const dataGridRef = useRef(null)
 	const [worklist, setWorklist] = useState(null)
+	const [documentlibraryTitle, setDocumentlibraryTitle] = useState(
+		'Document Library'
+	)
 	const [openModal, setOpenModal] = useState(false)
 	const [openDocumentLibrary, setDocumentLibraryModal] = useState(false)
 	const [documentFileUrl, setDocumentFileUrl] = useState('')
 	const [valueOfTab] = useState(props.tabValue)
 	var numb_regex = /[0-9]/
 	var numb_errregex = /[.+-]/
+
+	const comboDP = [
+		{ label: 'N', data: 'N' },
+		{ label: 'Y', data: 'Y' }
+	]
+	const combogenderDP = [
+		{ label: 'M', data: 'M' },
+		{ label: 'F', data: 'F' }
+	]
 
 	const worklistResultHandler = resp => {
 		var workListGroupArr = new ArrayCollection()
@@ -228,9 +240,9 @@ const CurrentRequest = props => {
 		setDocumentLibraryModal(!openDocumentLibrary)
 	}
 
-	const findSSNLabel = (item) => {
-		if (item.ssn && item.ssn.length) return "****"
-		else return ""
+	const findSSNLabel = item => {
+		if (item.ssn && item.ssn.length) return '****'
+		else return ''
 	}
 
 	const getCellBackgroundColor = cell => {
@@ -979,6 +991,30 @@ const CurrentRequest = props => {
 		return valSuccess
 	}
 
+	const textFilterFunction = (item, filter) => {
+		if (typeof filter.expression === 'string') {
+			return (
+				item[filter.columnName]
+					.toString()
+					.toLowerCase()
+					.indexOf(filter.expression.toLowerCase()) !== -1
+			)
+		} 
+		// else if (
+		// 	typeof filter.expression === 'object' &&
+		// 	filter.expression.length > 0
+		// ) {
+		// 	filter.expression.map(data => {
+		// 		return (
+		// 			item[filter.columnName]
+		// 				.toString()
+		// 				.toLowerCase()
+		// 				.indexOf(data.toLowerCase()) !== -1
+		// 		)
+		// 	})
+		// }
+	}
+
 	return (
 		<div className="grid-container">
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
@@ -1043,7 +1079,7 @@ const CurrentRequest = props => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-								// filterWaterMark={"Contains"}
+									// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"
@@ -1084,6 +1120,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemEditorValidatorFunction={validateLname}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="firstName"
@@ -1097,6 +1134,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemEditorValidatorFunction={validateFname}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="middleNameOrInitial"
@@ -1142,6 +1180,7 @@ const CurrentRequest = props => {
 									enableRecursiveSearch={true}
 									formatter={ExampleUtils.dateFormatter3}
 									itemEditorValidatorFunction={validateDOB}
+									// filterCompareFunction={textFilterFunction}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
@@ -1154,9 +1193,10 @@ const CurrentRequest = props => {
 									width={100}
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
-									//  filterComboBoxDataProvider="{combogenderDP}"
+									filterComboBoxDataProvider={combogenderDP}
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
+									// filterCompareFunction={textFilterFunction}
 									enableCellClickRowSelect={false}
 									itemEditor={genderEditorWrapper}
 								/>
@@ -1188,6 +1228,7 @@ const CurrentRequest = props => {
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
 									itemEditor={employeeSubGroupEditorWrapper}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="companyCode"
@@ -1202,6 +1243,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="campusCode"
@@ -1216,6 +1258,7 @@ const CurrentRequest = props => {
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
 									itemEditor={campusCodeEditorWrapper}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="title"
@@ -1230,6 +1273,7 @@ const CurrentRequest = props => {
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
 									itemEditor={titleEditorWrapper}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="department"
@@ -1244,6 +1288,7 @@ const CurrentRequest = props => {
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
 									itemEditor={departmenteEditorWrapper}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="startDate"
@@ -1259,6 +1304,7 @@ const CurrentRequest = props => {
 									itemEditor={startDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateStartDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
+									// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="endDate"
@@ -1275,6 +1321,7 @@ const CurrentRequest = props => {
 									itemEditor={endDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateEndDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
+									// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="managerSourceUniqueId"
@@ -1289,6 +1336,7 @@ const CurrentRequest = props => {
 									enableCellClickRowSelect={false}
 									itemEditorValidatorFunction={validatesmanagersource}
 									sortable={false}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="managerPh"
@@ -1327,12 +1375,13 @@ const CurrentRequest = props => {
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
 									valueOfTab={valueOfTab}
-									//  filterComboBoxDataProvider="{comboDP}"
+									filterComboBoxDataProvider={comboDP}
 									editable={false}
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
+									// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="epfRequest"
@@ -1341,12 +1390,13 @@ const CurrentRequest = props => {
 									headerWordWrap={true}
 									valueOfTab={valueOfTab}
 									filterControl="MultiSelectComboBox"
-									//  filterComboBoxDataProvider="{comboDP}"
+									filterComboBoxDataProvider={comboDP}
 									editable={false}
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
+									// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="epcsHardTokenRequest"
@@ -1355,12 +1405,13 @@ const CurrentRequest = props => {
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
 									valueOfTab={valueOfTab}
-									//  filterComboBoxDataProvider="{comboDP}"
+									filterComboBoxDataProvider={comboDP}
 									editable={false}
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
+									// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="mmcEmailRequest"
@@ -1369,12 +1420,13 @@ const CurrentRequest = props => {
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
 									valueOfTab={valueOfTab}
-									//  filterComboBoxDataProvider="{comboDP}"
+									filterComboBoxDataProvider={comboDP}
 									editable={false}
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
+									// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="additionalComments"
@@ -1389,6 +1441,7 @@ const CurrentRequest = props => {
 									enableCellClickRowSelect={false}
 									sortable={false}
 									itemEditorValidatorFunction={validateAdditionalComment}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="requestorFullName"
@@ -1401,6 +1454,7 @@ const CurrentRequest = props => {
 									useHandCursor={true}
 									editable={false}
 									sortable={false}
+									// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="reviewerComments"
@@ -1413,6 +1467,7 @@ const CurrentRequest = props => {
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
+									filterCompareFunction={textFilterFunction}
 									sortable={false}
 								/>
 								<ReactDataGridColumn
@@ -1428,6 +1483,7 @@ const CurrentRequest = props => {
 									sortable={false}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 									itemEditor={createDateRendererEditorWrapper}
+									// filterCompareFunction={textFilterFunction}
 								/>
 							</ReactDataGridColumnGroup>
 							<ReactDataGridColumn
@@ -1440,6 +1496,9 @@ const CurrentRequest = props => {
 								hideText={true}
 								headerWordWrap={true}
 								onDocumentClick={e => {
+									setDocumentlibraryTitle('Request Documents')
+									dispatch(showDelete(true))
+									dispatch(showUpload(true))
 									setWorklist(e.row.getData())
 									onOpenDocument()
 								}}
@@ -1543,7 +1602,7 @@ const CurrentRequest = props => {
 			<AdvanceDialog
 				open={openDocumentLibrary}
 				handleClose={onOpenDocument}
-				headerTitle="Document Library"
+				headerTitle={documentlibraryTitle}
 				bodyRenderer={
 					<DocumentLibrary
 						worklist={worklist}

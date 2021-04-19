@@ -491,6 +491,8 @@ body {
     border: solid 1px black;
     background: white;
     z-index: 1001;
+    display: flex;
+    flex-direction: column;
 }
 .flexiciousGrid .multiSelectComboBoxPopup .checkBoxRow{
     display: block;

@@ -388,7 +388,7 @@
 
 .flexiciousGrid .multiSelectComboBoxPopup {
   border: solid 1px black;
-  background: ;
+  /* background: ; */
   z-index: 1001;
 }
 .flexiciousGrid .multiSelectComboBoxPopup .checkBoxRow {
