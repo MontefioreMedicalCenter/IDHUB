@@ -155,13 +155,16 @@ const CurrentRequest = props => {
 			grid.cellEditableFunction = isCellEditable
 			grid.refreshGrid()
 		} else if (action.code == 'Refresh') {
-			findWorklist();
+			findWorklist()
 		} else if (action.code == 'SubmitAll') {
 		} else if (action.code == 'Document Library') {
 			StorageService.getInstance().listDocumentLibraryFiles(
 				docLibrarySuccessResult,
 				MontefioreUtils.showError
 			)
+			dispatch(showDelete(false))
+			dispatch(showUpload(false))
+			setDocumentlibraryTitle('Document Library')
 			onOpenDocument()
 		}
 	}
@@ -172,9 +175,6 @@ const CurrentRequest = props => {
 	}
 
 	const docLibrarySuccessResult = ({ result }) => {
-		dispatch(showDelete(false))
-		dispatch(showUpload(false))
-
 		const StorageService = new StorageServiceEvent()
 		StorageService.data = camelizeKeys(result)
 
