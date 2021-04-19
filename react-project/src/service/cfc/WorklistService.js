@@ -60,7 +60,11 @@ export default class WorklistService extends ServiceProxyBase {
 		)
 	}
 
-	saveWorklists(worklist, resultHandler, faultHandler) {
+	saveWorklist(worklist, resultHandler, faultHandler) {
+		var headerData = {
+			userName: localStorage.getItem('user-id'),
+			'content-Type': 'application/x-www-form-urlencoded'
+		}
 		if (typeof faultHandler == 'undefined') faultHandler = null
 		var bodyFormData = qs.stringify({
 			worklist: worklist
@@ -72,7 +76,8 @@ export default class WorklistService extends ServiceProxyBase {
 			null,
 			resultHandler,
 			faultHandler,
-			'form'
+			'form',
+			headerData
 		)
 	}
 
