@@ -13,7 +13,7 @@ import { Paper, withStyles } from '@material-ui/core'
 import WorklistService from '../../../service/cfc/WorklistService'
 import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup'
 import ArrayCollection from '../../../vo/ArrayCollection'
-import { camelizeKeys } from '../../../shared/utils'
+import { camelizeKeys, stringifyCircularObjectWithModifiedKeys } from '../../../shared/utils'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
 import AdvanceDialog from '../../../shared/components/AdvanceDialog'
@@ -324,13 +324,7 @@ const CurrentRequest = props => {
 											x1.worklistStatus = 'Submitted'
 										})
 									}
-									const wlGroup = JSON.stringify(selectedGroup, function (key, value) {
-										if (key == '_worklistGroup') {
-											return value.worklistId
-										} else {
-											return value
-										}
-									})
+									const wlGroup = stringifyCircularObjectWithModifiedKeys(selectedGroup)
 									WorklistService.getInstance().saveWorkGroup(
 										wlGroup,
 										updateWorkList,
@@ -343,21 +337,11 @@ const CurrentRequest = props => {
 									props.cell.refreshCell()
 									selectedRequest.worklistStatus = 'Submitted'
 
-									const data = JSON.stringify(selectedRequest, function (
-										key,
-										value
-									) {
-										if (key == '_worklistGroup') {
-											return value.worklistId
-										} else {
-											return value
-										}
-									})
-
+									const data = stringifyCircularObjectWithModifiedKeys(selectedRequest)
 									WorklistService.getInstance().saveWorklist(
 										data,
 										updateWorkList,
-										() => { }
+										() => {}
 									)
 								}
 								if (isWorklist) {
@@ -369,13 +353,7 @@ const CurrentRequest = props => {
 										selectedRequest.worklistStatus = 'Submitted'
 										selectedGroup.submitDate = new Date()
 									}
-									const wlselectedGroup = JSON.stringify(selectedGroup, function (key, value) {
-										if (key == '_worklistGroup') {
-											return value.worklistId
-										} else {
-											return value
-										}
-									})
+									const wlselectedGroup = stringifyCircularObjectWithModifiedKeys(selectedGroup)
 									WorklistService.getInstance().saveWorkGroup(
 										wlselectedGroup,
 										updateWorkList,
@@ -384,20 +362,14 @@ const CurrentRequest = props => {
 									props.cell.refreshCell()
 								}
 							},
-							() => { }
+							() => {}
 						)
 					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
 				if (isWorklistGroup) {
 					selectedGroup.edit = false
-					const wlselectedgroup = JSON.stringify(selectedGroup, function (key, value) {
-						if (key == '_worklistGroup') {
-							return value.worklistId
-						} else {
-							return value
-						}
-					})
+					const wlselectedgroup = stringifyCircularObjectWithModifiedKeys(selectedGroup)
 					WorklistService.getInstance().saveWorkGroup(
 						wlselectedgroup,
 						updateWorkList,
@@ -406,18 +378,11 @@ const CurrentRequest = props => {
 				} else if (isWorklist || isWorklistChild) {
 					selectedRequest.edit = false
 
-					const data = JSON.stringify(selectedRequest, function (key, value) {
-						if (key == '_worklistGroup') {
-							return value.worklistId
-						} else {
-							return value
-						}
-					})
-
+					const data = stringifyCircularObjectWithModifiedKeys(selectedRequest) 
 					WorklistService.getInstance().saveWorklist(
 						data,
 						updateWorkList,
-						() => { }
+						() => {}
 					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
@@ -436,7 +401,7 @@ const CurrentRequest = props => {
 									props.grid.gotoVerticalPosition(vpos)
 								}
 							},
-							() => { }
+							() => {}
 						)
 					)
 				} else {
@@ -477,8 +442,8 @@ const CurrentRequest = props => {
 					deleteid = isWorklistGroup
 						? selectedGroup.worklistId
 						: selectedRequest.worklistId +
-						'.' +
-						selectedRequest.id.worklistSeqNum
+						  '.' +
+						  selectedRequest.id.worklistSeqNum
 				} else {
 					isnotsave = true
 				}
@@ -495,16 +460,7 @@ const CurrentRequest = props => {
 								isWorklistChild &&
 								selectedGroup.workLists.length > 1
 							) {
-								const data = JSON.stringify(selectedRequest, function (
-									key,
-									value
-								) {
-									if (key == '_worklistGroup') {
-										return value.worklistId
-									} else {
-										return value
-									}
-								})
+								const data = stringifyCircularObjectWithModifiedKeys(selectedRequest)
 								WorklistService.getInstance().deleteWorkListSingle(
 									data,
 									updateWorkList,
@@ -516,7 +472,7 @@ const CurrentRequest = props => {
 								// console.log('deleteWorkListGroup')
 							}
 						},
-						() => { }
+						() => {}
 					)
 				)
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {

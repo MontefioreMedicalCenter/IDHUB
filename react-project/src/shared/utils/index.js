@@ -51,3 +51,35 @@ export const camelizeKeys = obj => {
 	}
 	return obj
 }
+
+export 	const modifyKeys = (obj) => {
+	Object.keys(obj).forEach(key => {
+		if(key.charAt(0) === "_") {
+			obj[`${key.substring(1)}`] = obj[key];
+			delete obj[key];
+			if(typeof obj[`${key.substring(1)}`] === "object" && obj[`${key.substring(1)}`]){
+				if(obj[`${key.substring(1)}`].length) {
+					obj[`${key.substring(1)}`].forEach((data) => {
+						modifyKeys(data);
+					})
+				} else modifyKeys(obj[`${key.substring(1)}`]);
+			}
+		}
+	});
+}
+
+export const stringifyCircularObjectWithModifiedKeys = (selectedRequest) => {
+
+	const data = JSON.parse(JSON.stringify(selectedRequest, function(
+		key,
+		value
+	) {
+		if (key === '_worklistGroup') {
+			return value.worklistId
+		} else {
+			return value
+		}
+	}))
+	modifyKeys(data)
+	return JSON.stringify(data)
+}
