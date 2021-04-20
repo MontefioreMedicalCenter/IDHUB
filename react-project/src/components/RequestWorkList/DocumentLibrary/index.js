@@ -11,6 +11,7 @@ import StorageService from '../../../service/cfc/StorageService'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListSheet'
 import moment from 'moment'
+import ArrayCollection from "../../../vo/ArrayCollection"
 
 const styles = theme => ({
 	gridHeader: {
@@ -117,6 +118,9 @@ const DocumentLibrary = ({ worklist, onShowDocument }) => {
 	}
 
 	const docLibrarySuccessResultEvent = resp => {
+		if(worklist != null) {
+			worklist.fileList = new ArrayCollection().concat(resp.result);
+		}
 		dispatch(setDocumentLibrary(resp.result))
 	}
 
