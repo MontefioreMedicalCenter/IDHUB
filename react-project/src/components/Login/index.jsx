@@ -17,6 +17,7 @@ import LoginModel from '../../vo/main/LoginModel'
 import WorklistService from '../../service/cfc/WorklistService'
 import WorkListModel from '../../vo/worklist/WorkListModel'
 import MontefioreUtils from '../../service/utils/MontefioreUtils'
+import preval from 'preval.macro'
 
 const Login = () => {
 	const dispatch = useDispatch()
@@ -145,6 +146,9 @@ const Login = () => {
 					<div className="button">
 						<ButtonComponent id={'loginBtn'} onClick={handleOnLogin} />
 					</div>
+					<p>
+					 	Version 2.0, Content © 2021, MIT .All rights reserved. Build Date: {preval`module.exports = new Date().toLocaleString();`}.
+          			</p>
 				</div>
 			</div>
 		</div>
