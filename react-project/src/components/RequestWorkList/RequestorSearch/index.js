@@ -86,7 +86,6 @@ const RequestorSearch = ({ findWorklist }) => {
 				</div>
 				<input
 					id="uploaderBulkDocs"
-					accept={'.xls, .xlsx'}
 					style={{ display: 'none' }}
 					type="file"
 				/>{' '}

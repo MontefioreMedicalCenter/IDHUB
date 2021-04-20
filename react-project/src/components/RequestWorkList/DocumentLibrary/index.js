@@ -162,7 +162,6 @@ const DocumentLibrary = ({ worklist, onShowDocument }) => {
 					</div>
 					<input
 						id="uploaderDocs"
-						accept={'.xls, .xlsx'}
 						style={{ display: 'none' }}
 						type="file"
 					/>
