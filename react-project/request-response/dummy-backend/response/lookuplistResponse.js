@@ -1,4 +1,4 @@
-module.exports = [{
+module.exports = {
     "campus-code-list": [
         {
             "active-flag": 1,
@@ -1205,4 +1205,3 @@ module.exports = [{
     ]
 }
 
-]

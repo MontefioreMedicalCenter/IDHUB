@@ -1,0 +1,4 @@
+GET /IdentityHub/api/adminsvc/getAllUsers HTTP/1.1
+Host: localhost:8080
+
+

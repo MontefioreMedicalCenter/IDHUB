@@ -1,4 +1,4 @@
-module.exports = [
+module.exports =  [
     {
         "baseName": "ConfAgree.pdf",
         "directory": false,

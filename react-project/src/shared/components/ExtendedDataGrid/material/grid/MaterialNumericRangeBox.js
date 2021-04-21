@@ -1,22 +1,22 @@
-import { NumericRangeBox } from "../../../../../flexicious";
-import MaterialTextInput from "./MaterialTextInput";
-import React from "react";
+import { NumericRangeBox } from '../../../../../flexicious'
+import MaterialTextInput from './MaterialTextInput'
+import React from 'react'
 
 export default class MaterialNumericRangeBox extends NumericRangeBox {
-  createTextBox() {
-    this.separatorText = "to ";
-    const mti = new MaterialTextInput();
+	createTextBox() {
+		this.separatorText = 'to '
+		const mti = new MaterialTextInput()
 
-    mti.percentWidth = "40%";
+		mti.percentWidth = '40%'
 
-    return mti;
-  }
+		return mti
+	}
 
-  createSeparator() {
-    return (
-      <span key="sep" style={{ padding: "10px" }}>
-        {"--"}
-      </span>
-    );
-  }
+	createSeparator() {
+		return (
+			<span key="sep" style={{ padding: '10px' }}>
+				{'--'}
+			</span>
+		)
+	}
 }

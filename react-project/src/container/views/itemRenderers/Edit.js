@@ -1,14 +1,28 @@
 import React from 'react'
-import { Button } from "@material-ui/core"
-import EditIcon from '@material-ui/icons/Edit';
+import { Button } from '@material-ui/core'
+import Edit from '../../../assets/images/Edit-active.png'
+import InActive from '../../../assets/images/Edit-inactive.png'
 
+const edit = props => {
+	const onEdit = () => {
+		props.column.handleEdit(props)
+	}
 
-const edit = () => {
-    return (
-        <Button>
-            <EditIcon fontSize="small" />
-        </Button>
-    )
+	if (props.cell) {
+		if (!props.cell.rowInfo.getIsDataRow()) {
+			return <div />
+		} else {
+			return (
+				<Button onClick={onEdit}>
+					<img
+						id="Edit"
+						alt="Edit"
+						src={props.cell.rowInfo.getData().edit ? Edit : InActive}
+					/>
+				</Button>
+			)
+		}
+	}
 }
 
 export default edit

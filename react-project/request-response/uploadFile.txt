@@ -1,0 +1,25 @@
+POST http://localhost:8080/IdentityHub/api/boxsvc/uploadFile
+
+Request Headers
+User-Agent: PostmanRuntime/7.26.10
+Accept: */*
+Postman-Token: 2cc7cb7e-039e-4af0-8bb1-e835b3afe70f
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 22
+
+Request Body
+worklistId: "wk.00011881"
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: *
+Content-Type: application/json
+Content-Length: 25
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Fri, 16 Apr 2021 15:29:18 GMT
+
+Response Body
+{"message":"wk.00011881"}

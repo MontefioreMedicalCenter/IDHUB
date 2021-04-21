@@ -1,10 +1,9 @@
-import IDRoleBase from "./IDRoleBase"
+import IDRoleBase from './IDRoleBase'
 export default class IDRole extends IDRoleBase {
-    
-    get edit() {
-        return this._edit;
-    }
-    set edit(value) {
-        this._edit = value;
-    }
+	get edit() {
+		return this._edit
+	}
+	set edit(value) {
+		this._edit = value
+	}
 }
