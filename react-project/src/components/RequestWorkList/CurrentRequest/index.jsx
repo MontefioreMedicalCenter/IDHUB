@@ -999,20 +999,23 @@ const CurrentRequest = props => {
 					.toLowerCase()
 					.indexOf(filter.expression.toLowerCase()) !== -1
 			)
-		} 
-		// else if (
-		// 	typeof filter.expression === 'object' &&
-		// 	filter.expression.length > 0
-		// ) {
-		// 	filter.expression.map(data => {
-		// 		return (
-		// 			item[filter.columnName]
-		// 				.toString()
-		// 				.toLowerCase()
-		// 				.indexOf(data.toLowerCase()) !== -1
-		// 		)
-		// 	})
-		// }
+		}
+		else if (
+			typeof filter.expression === 'object' &&
+			filter.expression.length > 0
+		) {
+			const filteredArr = filter.expression.map(data => {
+				const temp = item[filter.columnName]
+					.toString()
+					.toLowerCase()
+					.indexOf(data.toLowerCase()) !== -1;
+
+				if (temp)
+					return true;
+			})
+
+			return filteredArr && filteredArr.length && filteredArr[0];
+		}
 	}
 
 	return (
@@ -1104,6 +1107,7 @@ const CurrentRequest = props => {
 								filterControl="MultiSelectComboBox"
 								itemRenderer={worklistStatusRenderer}
 								cellBackgroundColorFunction={getCellBackgroundColor}
+								filterCompareFunction={textFilterFunction}
 							/>
 							<ReactDataGridColumnGroup
 								headerText="Personal"
@@ -1199,6 +1203,7 @@ const CurrentRequest = props => {
 									// filterCompareFunction={textFilterFunction}
 									enableCellClickRowSelect={false}
 									itemEditor={genderEditorWrapper}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="nonMonteEmail"
@@ -1381,7 +1386,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
-									// filterCompareFunction={textFilterFunction}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="epfRequest"
@@ -1396,7 +1401,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
-									// filterCompareFunction={textFilterFunction}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="epcsHardTokenRequest"
@@ -1411,7 +1416,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
-									// filterCompareFunction={textFilterFunction}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="mmcEmailRequest"
@@ -1426,7 +1431,7 @@ const CurrentRequest = props => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
-									// filterCompareFunction={textFilterFunction}
+									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="additionalComments"
@@ -1454,7 +1459,7 @@ const CurrentRequest = props => {
 									useHandCursor={true}
 									editable={false}
 									sortable={false}
-									// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="reviewerComments"

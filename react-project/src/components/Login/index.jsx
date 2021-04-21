@@ -146,8 +146,8 @@ const Login = () => {
 					<div className="button">
 						<ButtonComponent id={'loginBtn'} onClick={handleOnLogin} />
 					</div>
-					<p>
-					 	Version 2.0, Content © 2021, MIT .All rights reserved. Build Date: {preval`module.exports = new Date().toLocaleString();`}.
+					<p className="versionField">
+						Version 2.0, Content © 2021, MIT .All rights reserved. Build Date: {preval`module.exports = new Date().toLocaleString();`}.
           			</p>
 				</div>
 			</div>
