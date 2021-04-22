@@ -2,6 +2,15 @@ import React, { useEffect } from 'react';
 import './reviewWork.style.scss';
 import ExampleUtils from '../../utils/ExampleUtils'
 import DataGrid from '../../shared/components/ExtendedDataGrid'
+import uploadIcon from '../../assets/images/folder-documents-icon.png'
+
+import enableReview from "../../assets/images/binocular.png";
+import disableReview from "../../assets/images/magnifying_glass.png";
+
+import rejectIcon from "../../assets/images/cancel.png";
+import cancelRejectIcon from "../../assets/images/cancel-reject.png";
+import acceptIcon from "../../assets/images/dropbox.png";
+
 import {
     ReactDataGridColumn,
     ReactDataGridColumnGroup,
@@ -40,8 +49,6 @@ const getCellBackgroundColor = (cell/* :IFlexDataGridCell */) =>/* :uint */ {
 const getCellTextColor = (cell/* :IFlexDataGridDataCell */)/* :uint */ => {
     return 0x000080;
 }
-const enableReview = "org/monte/edi/idhub/assets/img/binocular.png";
-const disableReview = "org/monte/edi/idhub/assets/img/magnifying_glass.png";
 /* [Embed('org/monte/edi/idhub/assets/img/binocular.png')]
 private static var enableReview:Class;
 [Embed('org/monte/edi/idhub/assets/img/magnifying_glass.png')]
@@ -51,7 +58,7 @@ const dynamicIconFunction = (cell/* :IFlexDataGridCell */, state/* :String='' */
     /* var img  :Class ;
                 cell.rowInfo.getData() as IdWorklistGroup
  */
-    if (cell.rowInfo.isDataRow && cell.level.nestDepth === 1) {
+    if (cell.rowInfo.getIsDataRow() && cell.level.getNestDepth() === 1) {
         if ((cell.rowInfo.getData().constructor.name === "IdWorklistGroup"
             && cell.rowInfo.getData().worklistStatus === 'UnderReview')
             || (cell.rowInfo.getData().constructor.name === "IdWorklist"
@@ -64,19 +71,18 @@ const dynamicIconFunction = (cell/* :IFlexDataGridCell */, state/* :String='' */
 }
 
 const getColor = (cell/* :IFlexDataGridCell */) => {
-    if (cell.level.nestDepth === 1
+    if (cell.level.getNestDepth() === 1
         && cell.column && cell.column.dataField !== "worklistStatus"
-        && cell.rowInfo.isDataRow)
+        && cell.rowInfo.getIsDataRow())
         return null; //0xe1eef7;
     return null;
 }
 /* [Embed('org/monte/edi/idhub/assets/img/folder-documents-icon.png')]
 private static var uploadIcon:Class; */
-const uploadIcon = "org/monte/edi/idhub/assets/img/folder-documents-icon.png";
 
 const dynamicIconFunctionUpload = (cell/* :IFlexDataGridCell */, state/* :String=''*/) => {
     var img/* :Class=null; */
-    if (cell.rowInfo.isDataRow && cell.level.nestDepth === 1) {
+    if (cell.rowInfo.getIsDataRow() && cell.level.getNestDepth() === 1) {
         img = uploadIcon;
     }
     return img;
@@ -86,14 +92,12 @@ private static var rejectIcon:Class;
 [Embed('org/monte/edi/idhub/assets/img/cancel-reject.png')]
 private static var cancelRejectIcon:Class;
 */
-const rejectIcon = "org/monte/edi/idhub/assets/img/cancel.png";
-const cancelRejectIcon = "org/monte/edi/idhub/assets/img/cancel-reject.png";
 
 const dynamicIconFunctionReject = (cell/* :IFlexDataGridCell */, state/* :String='' */) => {
     var img
-    if (cell.rowInfo.isDataRow && (cell.level.nestDepth === 1 || cell.level.nestDepth === 2)) {
+    if (cell.rowInfo.getIsDataRow() && (cell.level.getNestDepth() === 1 || cell.level.getNestDepth() === 2)) {
         img = rejectIcon
-        if (cell.level.nestDepth === 2) {
+        if (cell.level.getNestDepth() === 2) {
             var idWorklist = cell.rowInfo.getData();
             if (idWorklist.worklistStatus === "Rejected")
                 img = cancelRejectIcon
@@ -103,12 +107,11 @@ const dynamicIconFunctionReject = (cell/* :IFlexDataGridCell */, state/* :String
 }
 /* [Embed('org/monte/edi/idhub/assets/img/dropbox.png')]
 private static var acceptIcon:Class; */
-const acceptIcon = "org/monte/edi/idhub/assets/img/dropbox.png";
 
 const dynamicIconFunctionAccept = (cell/* :IFlexDataGridCell */, state/* :String='' */) => {
     var img/* :Class=null; */
     var workListGroup/* :IdWorklistGroup */;
-    if (cell.rowInfo.isDataRow && cell.level.nestDepth === 1) {
+    if (cell.rowInfo.getIsDataRow() && cell.level.getNestDepth() === 1) {
         img = acceptIcon;
         workListGroup = cell.rowInfo.getData().constructor.name === "IdWorklistGroup" ?
             cell.rowInfo.getData() : null/*  as IdWorklistGroup */
