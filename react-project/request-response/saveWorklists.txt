@@ -1,0 +1,94 @@
+ 
+POST http://localhost:8080/IdentityHub/api/worklistsvc/saveWorklists
+200
+1 m 26.82 s
+Network
+Request Headers
+userName: mmishra
+User-Agent: PostmanRuntime/7.26.10
+Accept: */*
+Postman-Token: c9468911-5846-4605-97d8-f629bddb5a0d
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 5945
+Request Body
+worklists: "[
+            {
+                "IPPhone": null,
+                "additionalComments": "Department: Please extend user access again. Procurement Office - Purchasing Department. ",
+                "affiliateEmailRequest": "N",
+                "assignedMonteId": null,
+                "campusCode": "Tarrytown",
+                "companyCode": "Frontier Consulting Service",
+                "createDate": "2020-06-12 16:28:35",
+                "createdBy": "dpalermo",
+                "dateOfBirth": "1978-08-02 04:00:00",
+                "dateOfBirthStr": null,
+                "department": "Montefiore IT",
+                "division": null,
+                "documentCount": 0,
+                "employeeGroup": null,
+                "employeeSubGroup": "Non-clinical Consultant",
+                "endDate": "2021-01-08 05:00:00",
+                "endDateStr": null,
+                "epcsHardTokenRequest": "N",
+                "epfRequest": "N",
+                "epicRequest": "N",
+                "errorMessage": null,
+                "firstName": "Tom",
+                "firstNameCleaned": null,
+                "gender": "M",
+                "homeDriveRequest": "N",
+                "id": {
+                    "worklistId": "wk.00010496",
+                    "worklistSeqNum": 1
+                },
+                "jobControlNumber": null,
+                "lastName": "Thompson",
+                "lastNameCleaned": null,
+                "loaReturnDate": null,
+                "loaStartDate": null,
+                "managerEmail": "dpalermo@montefiore.org",
+                "managerPhone": "914-555-5555",
+                "managerSourceUniqueId": "015161",
+                "middleNameOrInitial": null,
+                "mmcEmailRequest": "Y",
+                "nameSuffix": null,
+                "noSSN": "Y",
+                "nonMonteEmail": "ttompson@gmail.com",
+                "officeAddress": null,
+                "officeCity": null,
+                "officePhone": null,
+                "officeState": null,
+                "officeZipCode": null,
+                "preHireFlag": null,
+                "preferredName": null,
+                "reviewerComments": "Form is invalid.  Must be signed within the last 30 days.",
+                "sourceSystem": "NonEmployee",
+                "sourceUniqueId": "C631666",
+                "ssn": null,
+                "ssn4": null,
+                "ssn4Hash": null,
+                "ssnHash": null,
+                "startDate": "2020-01-07 05:00:00",
+                "startDateStr": null,
+                "statusCode": null,
+                "title": "Data Management Analyst",
+                "udcid": null,
+                "updateDate": "2020-06-12 16:28:59",
+                "updatedBy": "dpalermo",
+                "worklistStatus": "Rejected"
+            }
+        ]"
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: *
+Transfer-Encoding: chunked
+Content-Type: application/json
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Thu, 22 Apr 2021 14:43:22 GMT
+Response Body
+The console only shows bodies smaller than 10 KB inline. To view the complete body, inspect it by clicking Open.
