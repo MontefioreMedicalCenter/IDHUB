@@ -1,5 +1,6 @@
 import ServiceProxyBase from './ServiceProxyBase'
 import qs from 'qs'
+import { stringifyCircularObjectWithModifiedKeys } from '../../shared/utils';
 export default class WorklistService extends ServiceProxyBase {
 	constructor(props) {
 		super(props)
@@ -135,6 +136,81 @@ export default class WorklistService extends ServiceProxyBase {
 			null,
 			headerData
 		)
+	}
+
+
+	
+	sendRejectMailToRequestor(workListGroup/* :IdWorklistGroup */)/* :void */
+	{
+		var bodyFormData = stringifyCircularObjectWithModifiedKeys(workListGroup);
+
+		return this.callServiceMethod(
+			'post',
+			'IdentityHub/api/worklistsvc/sendRejectMailToRequestor',
+			bodyFormData,
+			null,
+			this.sendRejectMailSuccessResult,
+			this.failureFaultEvent,
+			'form'
+		)
+	}
+
+	sendRejectMailSuccessResult(event)//:ResultEvent, token:Object=null):void
+	{
+		alert("Email sent to Requestor Sucessfully!"/* , "Requestor Email", Alert.OK */)
+	}
+
+	 sendAcceptMailToHelpDesk(workListGroup)//:IdWorklistGroup):void
+	{
+		var bodyFormData = stringifyCircularObjectWithModifiedKeys(workListGroup);
+
+		return this.callServiceMethod(
+			'post',
+			'IdentityHub/api/worklistsvc/sendAcceptMailToHelpDesk',
+			bodyFormData,
+			null,
+			this.sendAcceptMailSuccessResult,
+			this.failureFaultEvent,
+			'form'
+		)
+		//var rpcCall:AsyncToken=this.service.sendAcceptMailToHelpDesk(workListGroup);
+		//rpcCall.addResponder(new AsyncResponder(this.sendAcceptMailSuccessResult, this.failureFaultEvent));
+	}
+
+    sendAcceptMailSuccessResult(event)//:ResultEvent, token:Object=null):void
+	{
+		alert("Email sent to Help Desk Sucessfully!")//, "Help Desk Email sent", Alert.OK)
+	}
+
+	sendDocumentsToBox(workListId)//:string):void
+	{
+		return this.callServiceMethod(
+			'post',
+			'IdentityHub/api/worklistsvc/sendDocumentsToBox',
+			workListId,
+			null,
+			this.boxTransferSuccessResult,
+			this.failureFaultEvent,
+			'form'
+		)
+		//var rpcCall:AsyncToken=this.service.sendDocumentsToBox(workListId);
+		//rpcCall.addResponder(new AsyncResponder(this.boxTransferSuccessResult, this.failureFaultEvent));
+	}
+
+	boxTransferSuccessResult(event)//:ResultEvent, token:Object=null):void
+	{
+		alert("Files Trasferred to Box Sucessfully!")//, "Bos File Transfer", Alert.OK) 
+	}
+
+	failureFaultEvent(err)//:FaultEvent, token:Object=null):void
+	{
+		var msg=err.error ? err.error.message : err.toString();
+		if (msg.indexOf('Aborting findWorklistGroups() as userId is') > -1){
+			alert("logging out ")
+			this.loginService.logOut();
+		}
+		else
+			alert(msg)//.faultString, "Error Message", Alert.OK)
 	}
 }
 
