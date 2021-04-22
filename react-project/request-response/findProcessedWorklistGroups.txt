@@ -1,0 +1,30 @@
+
+POST http://localhost:8080/IdentityHub/api/worklistsvc/findProcessedWorklistGroups
+200
+37 ms
+Network
+Request Headers
+userName: mmishra
+User-Agent: PostmanRuntime/7.26.10
+Accept: */*
+Postman-Token: 0449956f-1b53-4ff9-977c-9423747dc3a2
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 88
+Request Body
+processedFromDate: "2021-03-01"
+processedToDate: "2021-04-10"
+firstName: "James"
+lastName: "Johnson"
+Response Headers
+Connection: keep-alive
+Access-Control-Allow-Origin: *
+Access-Control-Allow-Headers: *
+Content-Type: application/json
+Content-Length: 2300
+Access-Control-Allow-Methods: GET, OPTIONS, HEAD, PUT, POST
+Date: Tue, 20 Apr 2021 20:47:33 GMT
+Response Body
+[{"acceptDate":"2020-06-12 13:47:25","additionalComments":null,"createDate":"2020-06-12 13:39:36","createdBy":"mmishra","fileList":null,"processedDate":"2021-04-01 14:00:11","requesterUser":{"createDate":"2018-03-26 04:00:00","createdBy":"system","roleMap":[{"accessActiveFlag":1,"createdBy":"system","id":{"roleId":"Requestor","userId":"mmishra"},"updatedBy":"system"}],"updateDate":"2018-03-26 04:00:00","updatedBy":"system","userActiveFlag":1,"userEmail":"mmishra@montefiore.org","userFirstName":"Mittul","userId":"mmishra","userLastName":"Mishra","userPhone":"914-457-6018"},"requesterUserId":"mmishra","reviewerComments":null,"reviewerUserId":"dpalermo","submitDate":"2020-06-12 13:41:14","updateDate":"2021-04-01 20:12:29","updateRequestor":true,"updatedBy":"beweeks","workLists":[{"IPPhone":null,"additionalComments":null,"affiliateEmailRequest":"N","assignedMonteId":null,"campusCode":"Other","companyCode":"Receivable Solutions Inc. (RSI)","createDate":"2020-06-12 13:39:36","createdBy":"dpalermo","dateOfBirth":"1971-05-21 05:00:00","dateOfBirthStr":null,"department":"Patient Services","division":null,"documentCount":0,"employeeGroup":null,"employeeSubGroup":"Clinical Vendor","endDate":"2022-06-12 04:00:00","endDateStr":null,"epcsHardTokenRequest":"N","epfRequest":"Y","epicRequest":"Y","errorMessage":null,"firstName":"James","firstNameCleaned":null,"gender":"M","homeDriveRequest":"N","id":{"worklistId":"wk.00010490","worklistSeqNum":1},"jobControlNumber":null,"lastName":"Johnson","lastNameCleaned":null,"loaReturnDate":null,"loaStartDate":null,"managerEmail":"dpalermo@montefiore.org","managerPhone":"914-555-5555","managerSourceUniqueId":"11912","middleNameOrInitial":null,"mmcEmailRequest":"N","nameSuffix":null,"noSSN":"Y","nonMonteEmail":"james@abc.com","officeAddress":null,"officeCity":null,"officePhone":null,"officeState":null,"officeZipCode":null,"preHireFlag":null,"preferredName":null,"reviewerComments":null,"sourceSystem":"NonEmployee","sourceUniqueId":"C631660","ssn":null,"ssn4":null,"ssn4Hash":null,"ssnHash":null,"startDate":"2020-06-12 04:00:00","startDateStr":null,"statusCode":null,"title":"Secretary","udcid":null,"updateDate":"2021-04-01 20:12:29","updatedBy":"dpalermo","worklistStatus":"Processed"}],"worklistId":"wk.00010490","worklistStatus":"Processed"}]

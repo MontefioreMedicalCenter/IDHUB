@@ -551,7 +551,7 @@ const CurrentRequest = props => {
 				'Invalid DOB date'
 			)
 		} else {
-			grid.clearErrorByObject(cell.rowInfo.data)
+			grid.clearErrorByObject(cell.rowInfo.getData())
 		}
 		return valSuccess
 	}
@@ -594,7 +594,7 @@ const CurrentRequest = props => {
 				'Invalid Start date'
 			)
 		} else {
-			grid.clearErrorByObject(cell.rowInfo.data)
+			grid.clearErrorByObject(cell.rowInfo.getData())
 		}
 		return valSuccess
 	}

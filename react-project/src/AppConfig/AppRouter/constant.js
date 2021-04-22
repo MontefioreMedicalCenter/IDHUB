@@ -1,6 +1,7 @@
 import Login from '../../components/Login'
 import Main from '../../components/Main'
 import RequestWorkList from '../../components/RequestWorkList'
+import ReviewerWorkList from '../../components/ReviewerWorkList'
 
 const ROUTES = [
 	{ name: 'login', url: '/', private: false, component: Login, exact: true },
@@ -13,6 +14,12 @@ export const PRIVATE_ROUTES = [
 		url: '/main/worklist',
 		private: true,
 		component: RequestWorkList,
+		exact: true
+	},{
+		name: 'worklist',
+		url: '/main/reviewer',
+		private: true,
+		component: ReviewerWorkList,
 		exact: true
 	}
 ]
