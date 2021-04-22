@@ -12,7 +12,7 @@ import {
 } from '../../flexicious'
 import DataGrid from "../../shared/components/ExtendedDataGrid";
 import MontefioreUtils from "../../service/utils/MontefioreUtils";
-import { camelizeKeys } from "../../shared/utils";
+import { camelizeKeys, stringifyCircularObjectWithModifiedKeys } from "../../shared/utils";
 import GlobalEventDispatcher from "../../service/utils/GlobalEventDispatcher";
 
 
@@ -68,8 +68,9 @@ export default class ReviewerWorkListMediator {
     }
     //private log:ILogger=this.Log.getLogger("ReviewerWorkListMediator"); 
 
-    /*override*/ public onRegister(grid:DataGrid): ReviewerWorkListMediator {
+    /*override*/ public onRegister(grid:DataGrid, loginModel:LoginModel): ReviewerWorkListMediator {
         this.grid = grid;
+        this.loginModel = loginModel;
         this.grid.addEventListener(this, FlexDataGridEvent.ICON_CLICK,this.iconClick);
         this.grid.addEventListener(this, FlexDataGridEvent.ITEM_CLICK,this.itemClick);
         GlobalEventDispatcher.instance().addEventListener(this, WorkListEvent.REV_WORK_LIST, this.setWorkList);
@@ -155,9 +156,10 @@ export default class ReviewerWorkListMediator {
 
     private iconClick(event: FlexDataGridEvent): void {
         this.index = -1
-        var level: number = event.cell.nestDepth
-        this.selectedRequest = <IdWorklist>event.item
-        this.selectedGroup = <IdWorklistGroup>event.item
+        var level: number = event.cell.getNestDepth();
+        this.selectedRequest = event.item instanceof IdWorklist? event.item : null
+        this.selectedGroup = event.item instanceof IdWorklistGroup? event.item : null
+        
         this.selectedItem = event.cell.rowInfo.getData()
         this.isWorklistGroup = this.selectedGroup != null
         this.isWorklist = this.selectedRequest != null && level == 1
@@ -166,13 +168,13 @@ export default class ReviewerWorkListMediator {
         var msg: string = this.isWorklistGroup ? 'Group:' : 'Request:'
         if (this.isWorklist || this.isWorklistChild)
             this.selectedGroup = this.selectedItem.worklistGroup
-        var gridDP: ArrayCollection = <ArrayCollection>this.grid.getDataProvider();
+        var gridDP: ArrayCollection = this.grid.getDataProvider();
         this.index = gridDP.getItemIndex(this.selectedItem)
         if (this.index == -1)
             this.index = gridDP.getItemIndex(this.selectedGroup)
         this.selectedGroup.updateRequestor = false
-        if (event.cell instanceof FlexDataGridDataCell && event.cell.column != null) {
-            if (event.cell.column.headerText == 'View Docs') {
+        if (event.cell instanceof FlexDataGridDataCell && event.cell.getColumn() != null) {
+            if (event.cell.getColumn().getHeaderText() == 'View Docs') {
                 alert("Add DocumentLibrary based on code below")
                 // var worklistDocument:DocumentLibrary=new DocumentLibrary()
                 // worklistDocument.height=this.contextView.height - 200;
@@ -186,99 +188,82 @@ export default class ReviewerWorkListMediator {
                 // worklistDocument.grid.dataProvider=this.selectedItem.fileList
                 // worklistDocument.workList=this.selectedItem
             }
-            else if (event.cell.column.headerText == "Under Review") {
-                alert("implement code below")
-                // alertMsg=this.selectedGroup.worklistStatus != "UnderReview" ? "Are you sure you want to mark Request:" + this.selectedGroup.worklistId + " Under Review?" : "Are you sure you want to Cancel Review for Request:" + this.selectedGroup.worklistId + "?"
-                // Alert.show(alertMsg, "Confirm", Alert.OK | Alert.CANCEL, null, function(event:CloseEvent):void
-                // {
-                //     if (event.detail == Alert.OK)
-                //     {
-                //         var worklistGroup:IdWorklistGroup=this.selectedGroup
-                //         worklistGroup.worklistStatus=this.selectedItem.worklistStatus == "UnderReview" ? "Submitted" : "UnderReview"
-                //         worklistGroup.reviewerUserId=worklistGroup.worklistStatus == "UnderReview" ?  this.loginModel.user.userId : null
-                //         if (this.isWorklist)
-                //         {
-                //             this.selectedRequest.worklistStatus=worklistGroup.worklistStatus
-                //         }
-                //         this.wlservice.saveWorkGroup(worklistGroup)
-                //     }
-                // })
+            else if (event.cell.getColumn().getHeaderText() == "Under Review") {
+                alertMsg=this.selectedGroup.worklistStatus != "UnderReview" ? "Are you sure you want to mark Request:" + this.selectedGroup.worklistId + " Under Review?" : "Are you sure you want to Cancel Review for Request:" + this.selectedGroup.worklistId + "?"
+                if(confirm(alertMsg)){
+                    var worklistGroup:IdWorklistGroup=this.selectedGroup
+                    worklistGroup.worklistStatus=this.selectedItem.worklistStatus == "UnderReview" ? "Submitted" : "UnderReview"
+                    worklistGroup.reviewerUserId=worklistGroup.worklistStatus == "UnderReview" ?  this.loginModel.user.userId : null
+                    if (this.isWorklist)
+                    {
+                        this.selectedRequest.worklistStatus=worklistGroup.worklistStatus
+                    }
+                    const wlselectedgroup = stringifyCircularObjectWithModifiedKeys(worklistGroup)
+                    this.wlservice.saveWorkGroup(wlselectedgroup)
+                }
+
             }
-            else if (event.cell.column.headerText == "Reject") {
+            else if (event.cell.getColumn().getHeaderText() == "Reject") {
                 if (this.selectedItem != null && this.selectedItem.worklistStatus != "Rejected" && (this.selectedItem.reviewerComments == null || this.selectedItem.reviewerComments.length < 1)) {
                     alert("Please fill in a Reject Reason before Rejecting"/* , "Reject Reason" */)
                     return;
                 }
-                alert("implement code below")
-                // alertMsg=this.selectedItem.worklistStatus != "Rejected" ? "Are you sure you want to Reject " + msg + this.selectedGroup.worklistId + "?" : "Are you sure you want to cancel Rejection of " + msg + this.selectedGroup.worklistId + "?"
-                // Alert.show(alertMsg, "Confirm", Alert.OK | Alert.CANCEL, null, function(event:CloseEvent):void
-                // {
-                //     if (event.detail == Alert.OK)
-                //     {
-                //         if (!this.isWorklistChild)
-                //         {
-                //             var worklistGroup:IdWorklistGroup=this.selectedGroup
-                //             worklistGroup.worklistStatus=worklistGroup.worklistStatus != "Rejected" ? "Rejected" : "Submitted"
-                //             if (this.isWorklist)
-                //             {
-                //                 this.selectedRequest.worklistStatus=worklistGroup.worklistStatus
-                //                 worklistGroup.reviewerComments=this.selectedRequest.reviewerComments
-                //             }
-                //             this.wlservice.saveWorkGroup(worklistGroup)
-                //             this.wlservice.sendRejectMailToRequestor(<IdWorklistGroup>worklistGroup )
-                //             gridDP.setItemAt(worklistGroup,this.index)
+                alertMsg=this.selectedItem.worklistStatus != "Rejected" ? "Are you sure you want to Reject " + msg + this.selectedGroup.worklistId + "?" : "Are you sure you want to cancel Rejection of " + msg + this.selectedGroup.worklistId + "?"
+                if (window.confirm(alertMsg))
+                {
+                    if (!this.isWorklistChild)
+                        {
+                            var worklistGroup:IdWorklistGroup=this.selectedGroup
+                            worklistGroup.worklistStatus=worklistGroup.worklistStatus != "Rejected" ? "Rejected" : "Submitted"
+                            if (this.isWorklist)
+                            {
+                                this.selectedRequest.worklistStatus=worklistGroup.worklistStatus
+                                worklistGroup.reviewerComments=this.selectedRequest.reviewerComments
+                            }
+                            this.wlservice.saveWorkGroup(worklistGroup)
+                            this.wlservice.sendRejectMailToRequestor(<IdWorklistGroup>worklistGroup )
+                            gridDP.setItemAt(worklistGroup,this.index)
 
-                //         }
-                //         else if (this.isWorklistChild)
-                //         {
-                //             this.selectedItem.worklistStatus=this.selectedItem.worklistStatus != "Rejected" ? "Rejected" : "Submitted"
-                //             this.wlservice.saveWorkListSingle(this.selectedItem)
-                //             //CursorManager.removeBusyCursor()
-                //             gridDP.setItemAt(this.selectedItem,this.index)
+                        }
+                        else if (this.isWorklistChild)
+                        {
+                            this.selectedItem.worklistStatus=this.selectedItem.worklistStatus != "Rejected" ? "Rejected" : "Submitted"
+                            this.wlservice.saveWorkListSingle(this.selectedItem)
+                            //CursorManager.removeBusyCursor()
+                            gridDP.setItemAt(this.selectedItem,this.index)
 
-                //         }
-
-                //     }
-                // })
+                        }
+                }
             }
-            else if (event.cell.column.headerText == "Accept") {
-                alert("implement code below")
+            else if (event.cell.getColumn().getHeaderText() == "Accept") {
 
-                // Alert.show("Are you sure you want to Accept this " + msg + this.selectedGroup.worklistId + "?", "Confirm Accept", Alert.OK | Alert.CANCEL, null, function(event:CloseEvent):void
-                // {
-                //     if (event.detail == Alert.OK)
-                //     {
-                //         var worklistGroup:IdWorklistGroup=this.selectedGroup
-                //         worklistGroup.worklistStatus="Accepted"
-                //         worklistGroup.acceptDate= new Date()
+                if (window.confirm("Are you sure you want to Accept this " + msg + this.selectedGroup.worklistId + "?")) 
+                {
+                    var worklistGroup:IdWorklistGroup=this.selectedGroup
+                    worklistGroup.worklistStatus="Accepted"
+                    worklistGroup.acceptDate= new Date()
 
-                //         worklistGroup.reviewerUserId=this.loginModel.user.userId
-                //         for  (var x:IdWorklist of worklistGroup.workLists)
-                //         {
-                //             x.worklistStatus="Accepted"
-                //         }
-                //         if (worklistGroup.fileList != null && worklistGroup.fileList.length > 0)
-                //             this.bservice.sendDocumentsToBox(worklistGroup.worklistId) 
-                //         this.wlservice.saveWorkGroup(worklistGroup)
-                //         this.wlservice.sendAcceptMailToHelpDesk(this.selectedGroup)
-                //         gridDP.setItemAt(worklistGroup,this.index)
-                //     }
-                // })
+                    worklistGroup.reviewerUserId=this.loginModel.user.userId
+                    for  (var x of worklistGroup.workLists)
+                    {
+                        x.worklistStatus="Accepted"
+                    }
+                    if (worklistGroup.fileList != null && worklistGroup.fileList.length > 0)
+                        this.bservice.sendDocumentsToBox(worklistGroup.worklistId) 
+                    this.wlservice.saveWorkGroup(worklistGroup)
+                    this.wlservice.sendAcceptMailToHelpDesk(this.selectedGroup)
+                    gridDP.setItemAt(worklistGroup,this.index)
+                }
             }
         }
     }
 
     private itemClick(event: FlexDataGridEvent): void {
         if (event.cell instanceof FlexDataGridDataCell
-            && event.cell.column != null
-            && (event.cell.column.headerText == 'Email')) {
-            alert("Implement code below")
-            // var mailMsg:URLRequest=new URLRequest('mailto:' + event.cell.rowInfo.getData().worklistGroup.requesterUser.userEmail);
-            // var variables:URLVariables=new URLVariables();
-            // mailMsg.contentType='text/plain; charset=utf-8'
-            // mailMsg.data=variables;
-            // mailMsg.method=URLRequestMethod.GET;
-            // this.flash.net.navigateToURL(mailMsg, "_self");
+            && event.cell.getColumn() != null
+            && (event.cell.getColumn().getHeaderText() == 'Email')) {
+            window.location.href = 'mailto:' + event.cell.rowInfo.getData().worklistGroup.requesterUser.userEmail;
+
         }
     }
 

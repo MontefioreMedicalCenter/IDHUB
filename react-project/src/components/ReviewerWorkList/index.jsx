@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react';
+import { useSelector } from 'react-redux'
 import './reviewWork.style.scss';
 import ExampleUtils from '../../utils/ExampleUtils'
 import DataGrid from '../../shared/components/ExtendedDataGrid'
@@ -72,7 +73,7 @@ const dynamicIconFunction = (cell/* :IFlexDataGridCell */, state/* :String='' */
 
 const getColor = (cell/* :IFlexDataGridCell */) => {
     if (cell.level.getNestDepth() === 1
-        && cell.column && cell.column.dataField !== "worklistStatus"
+        && cell.getColumn() && cell.getColumn().dataField !== "worklistStatus"
         && cell.rowInfo.getIsDataRow())
         return null; //0xe1eef7;
     return null;
@@ -134,17 +135,20 @@ const validateReviewerComment = (editor/* :UIComponent */)/* :Boolean */ => {
     grid.clearErrorByObject(cell.rowInfo.getData());
     if (txt.text.length > 250) {
         valSuccess = false
-        grid.setErrorByObject(cell.rowInfo.getData(), cell.column.dataField, "Maximum Length for Reviewer Comment is 250 characters ");
+        grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Reviewer Comment is 250 characters ");
     }
     return valSuccess
 }
 
 const ReviewWorkList = () => {
+    const loginModel = useSelector(state => state.loginState.loginModel)
+
     useEffect(()=>{
-        const mediator = new ReviewerWorkListMediator().onRegister(grid);
+        const mediator = new ReviewerWorkListMediator().onRegister(grid,loginModel);
         return ()=>{
             mediator.onUnRegister();
         }
+        // eslint-disable-next-line
     },[])
 
 
