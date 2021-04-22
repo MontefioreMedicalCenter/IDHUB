@@ -1,5 +1,6 @@
 // add one more method to it (can do more)
 export default class ArrayCollection extends Array {
+	
 	isEmpty() {
 		return this.length === 0
 	}

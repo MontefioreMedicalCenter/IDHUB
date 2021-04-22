@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import './reviewWork.style.scss';
 import ExampleUtils from '../../utils/ExampleUtils'
 import DataGrid from '../../shared/components/ExtendedDataGrid'
@@ -9,6 +9,7 @@ import {
     ToolbarAction,
     DateRange
 } from '../../flexicious'
+import ReviewerWorkListMediator from './ReviewerWorkListMediator.ts';
 let grid;
 const vbox1_creationCompleteHandler = (event) => {
     grid.toolbarActions.addItem(new ToolbarAction("Refresh", 1, "", "Refresh Worklist", "org/monte/edi/idhub/assets/img/refresh.png", false, true));
@@ -22,7 +23,7 @@ const onExecuteToolbarAction = (action, currentTarget, extendedPager) => {
 }
 
 const getCellBackgroundColor = (cell/* :IFlexDataGridCell */) =>/* :uint */ {
-    var txtstatus/* :String */ = cell.rowInfo.data.worklistStatus
+    var txtstatus/* :String */ = cell.rowInfo.getData().worklistStatus
     if (txtstatus === "Submitted") {
         return 0xE6E6FA;
     }
@@ -48,13 +49,13 @@ private static var disableReview:Class; */
 
 const dynamicIconFunction = (cell/* :IFlexDataGridCell */, state/* :String='' */) => {
     /* var img  :Class ;
-                cell.rowInfo.data as IdWorklistGroup
+                cell.rowInfo.getData() as IdWorklistGroup
  */
     if (cell.rowInfo.isDataRow && cell.level.nestDepth === 1) {
-        if ((cell.rowInfo.data.constructor.name === "IdWorklistGroup"
-            && cell.rowInfo.data.worklistStatus === 'UnderReview')
-            || (cell.rowInfo.data.constructor.name === "IdWorklist"
-                && cell.rowInfo.data.worklistGroup.worklistStatus === 'UnderReview'))
+        if ((cell.rowInfo.getData().constructor.name === "IdWorklistGroup"
+            && cell.rowInfo.getData().worklistStatus === 'UnderReview')
+            || (cell.rowInfo.getData().constructor.name === "IdWorklist"
+                && cell.rowInfo.getData().worklistGroup.worklistStatus === 'UnderReview'))
             return enableReview;
         else
             return disableReview;
@@ -93,7 +94,7 @@ const dynamicIconFunctionReject = (cell/* :IFlexDataGridCell */, state/* :String
     if (cell.rowInfo.isDataRow && (cell.level.nestDepth === 1 || cell.level.nestDepth === 2)) {
         img = rejectIcon
         if (cell.level.nestDepth === 2) {
-            var idWorklist = cell.rowInfo.data;
+            var idWorklist = cell.rowInfo.getData();
             if (idWorklist.worklistStatus === "Rejected")
                 img = cancelRejectIcon
         }
@@ -109,8 +110,8 @@ const dynamicIconFunctionAccept = (cell/* :IFlexDataGridCell */, state/* :String
     var workListGroup/* :IdWorklistGroup */;
     if (cell.rowInfo.isDataRow && cell.level.nestDepth === 1) {
         img = acceptIcon;
-        workListGroup = cell.rowInfo.data.constructor.name === "IdWorklistGroup" ?
-            cell.rowInfo.data : null/*  as IdWorklistGroup */
+        workListGroup = cell.rowInfo.getData().constructor.name === "IdWorklistGroup" ?
+            cell.rowInfo.getData() : null/*  as IdWorklistGroup */
         if (workListGroup != null) {
             for (var worklist of workListGroup.workLists) {
                 if (worklist.worklistStatus !== "Submitted") {
@@ -127,15 +128,23 @@ const validateReviewerComment = (editor/* :UIComponent */)/* :Boolean */ => {
     var valSuccess/* :Boolean */ = true;
     var cell/* :IFlexDataGridCell */ = grid.getCurrentEditingCell();
     var txt/* :ITextInput */ = editor/*  as ITextInput */;
-    grid.clearErrorByObject(cell.rowInfo.data);
+    grid.clearErrorByObject(cell.rowInfo.getData());
     if (txt.text.length > 250) {
         valSuccess = false
-        grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Maximum Length for Reviewer Comment is 250 characters ");
+        grid.setErrorByObject(cell.rowInfo.getData(), cell.column.dataField, "Maximum Length for Reviewer Comment is 250 characters ");
     }
     return valSuccess
 }
 
 const ReviewWorkList = () => {
+    useEffect(()=>{
+        const mediator = new ReviewerWorkListMediator().onRegister(grid);
+        return ()=>{
+            mediator.onUnRegister();
+        }
+    },[])
+
+
     return (
         <div className="reviewWork-main-container">
                 <DataGrid dataProvider={[]} creationComplete={vbox1_creationCompleteHandler} ref={g => grid = g} width="100%" height="100%" editable enableCopy enablePaging enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={onExecuteToolbarAction} virtualScroll alternatingItemColors={[0xffffff, 0xffffff]} cellBackgroundColorFunction={getColor} horizontalScrollPolicy="auto" enableDrillDown >

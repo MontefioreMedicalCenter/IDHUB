@@ -10,14 +10,6 @@ export default class GlobalEventDispatcher extends EventDispatcher {
 	getClassNames = () => ['GlobalEventDispatcher', ...super.getClassNames()]
 }
 
-GlobalEventDispatcher.CONTACT_INFO_CHANGED = 'contactInfoChanged'
-GlobalEventDispatcher.Class_Name_CHANGED = 'classNameChanged'
-GlobalEventDispatcher.Students_Returned = 'studentsReturned'
-
-GlobalEventDispatcher.Classes_Returned = 'classesReturned'
-
-GlobalEventDispatcher.EVENT_STUDENT_GRID_SCROLL = 'EVENT_STUDENT_GRID_SCROLL'
-// flexiciousNmsp.GlobalEventDispatcher = GlobalEventDispatcher;
 GlobalEventDispatcher.prototype.typeName = GlobalEventDispatcher.typeName =
 	'GlobalEventDispatcher'
 

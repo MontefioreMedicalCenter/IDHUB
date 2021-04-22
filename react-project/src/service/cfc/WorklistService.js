@@ -5,7 +5,9 @@ export default class WorklistService extends ServiceProxyBase {
 		super(props)
 		this.source = ''
 	}
-
+	findRevWorklists(resultHandler, faultHandler) {
+		return this.findWorklistGroups(resultHandler, faultHandler);
+	}
 	findWorklistGroups(resultHandler, faultHandler) {
 		if (typeof faultHandler == 'undefined') faultHandler = null
 		var headerData = {
