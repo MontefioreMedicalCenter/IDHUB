@@ -12,7 +12,7 @@ import {
 } from '../../flexicious'
 import DataGrid from "../../shared/components/ExtendedDataGrid";
 import MontefioreUtils from "../../service/utils/MontefioreUtils";
-import { camelizeKeys, stringifyCircularObjectWithModifiedKeys } from "../../shared/utils";
+import { camelizeKeys } from "../../shared/utils";
 import GlobalEventDispatcher from "../../service/utils/GlobalEventDispatcher";
 
 
@@ -198,8 +198,7 @@ export default class ReviewerWorkListMediator {
                     {
                         this.selectedRequest.worklistStatus=worklistGroup.worklistStatus
                     }
-                    const wlselectedgroup = stringifyCircularObjectWithModifiedKeys(worklistGroup)
-                    this.wlservice.saveWorkGroup(wlselectedgroup)
+                    this.wlservice.saveWorkGroup(worklistGroup)
                 }
 
             }
@@ -250,7 +249,7 @@ export default class ReviewerWorkListMediator {
                     }
                     if (worklistGroup.fileList != null && worklistGroup.fileList.length > 0)
                         this.bservice.sendDocumentsToBox(worklistGroup.worklistId) 
-                    this.wlservice.saveWorkGroup(worklistGroup)
+                    this.wlservice.saveWorkGroup((worklistGroup))
                     this.wlservice.sendAcceptMailToHelpDesk(this.selectedGroup)
                     gridDP.setItemAt(worklistGroup,this.index)
                 }

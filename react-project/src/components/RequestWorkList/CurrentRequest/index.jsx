@@ -13,7 +13,7 @@ import { Paper, withStyles } from '@material-ui/core'
 import WorklistService from '../../../service/cfc/WorklistService'
 import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup'
 import ArrayCollection from '../../../vo/ArrayCollection'
-import { camelizeKeys, stringifyCircularObjectWithModifiedKeys } from '../../../shared/utils'
+import { camelizeKeys } from '../../../shared/utils'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
 import AdvanceDialog from '../../../shared/components/AdvanceDialog'
@@ -336,9 +336,8 @@ const CurrentRequest = props => {
 											x1.worklistStatus = 'Submitted'
 										})
 									}
-									const wlGroup = stringifyCircularObjectWithModifiedKeys(selectedGroup)
 									WorklistService.getInstance().saveWorkGroup(
-										wlGroup,
+										selectedGroup,
 										updateWorkList,
 										MontefioreUtils.showError
 									)
@@ -349,9 +348,8 @@ const CurrentRequest = props => {
 									props.cell.refreshCell()
 									selectedRequest.worklistStatus = 'Submitted'
 
-									const data = stringifyCircularObjectWithModifiedKeys(selectedRequest)
 									WorklistService.getInstance().saveWorklist(
-										data,
+										selectedRequest,
 										updateWorkList,
 										() => {
 											// resulthandler
@@ -367,9 +365,8 @@ const CurrentRequest = props => {
 										selectedRequest.worklistStatus = 'Submitted'
 										selectedGroup.submitDate = new Date()
 									}
-									const wlselectedGroup = stringifyCircularObjectWithModifiedKeys(selectedGroup)
 									WorklistService.getInstance().saveWorkGroup(
-										wlselectedGroup,
+										selectedGroup,
 										updateWorkList,
 										MontefioreUtils.showError
 									)
@@ -385,18 +382,16 @@ const CurrentRequest = props => {
 			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
 				if (isWorklistGroup) {
 					selectedGroup.edit = false
-					const wlselectedgroup = stringifyCircularObjectWithModifiedKeys(selectedGroup)
 					WorklistService.getInstance().saveWorkGroup(
-						wlselectedgroup,
+						selectedGroup,
 						updateWorkList,
 						MontefioreUtils.showError
 					)
 				} else if (isWorklist || isWorklistChild) {
 					selectedRequest.edit = false
 
-					const data = stringifyCircularObjectWithModifiedKeys(selectedRequest)
 					WorklistService.getInstance().saveWorklist(
-						data,
+						selectedRequest,
 						updateWorkList,
 						() => { }
 					)
@@ -476,9 +471,8 @@ const CurrentRequest = props => {
 								isWorklistChild &&
 								selectedGroup.workLists.length > 1
 							) {
-								const data = stringifyCircularObjectWithModifiedKeys(selectedRequest)
 								WorklistService.getInstance().deleteWorkListSingle(
-									data,
+									selectedRequest,
 									updateWorkList,
 									MontefioreUtils.showError
 								)

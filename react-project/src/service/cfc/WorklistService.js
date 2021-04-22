@@ -48,6 +48,7 @@ export default class WorklistService extends ServiceProxyBase {
 	}
 	deleteWorkListSingle(workList, resultHandler, faultHandler) {
 		if (typeof faultHandler == 'undefined') faultHandler = null
+		workList = stringifyCircularObjectWithModifiedKeys(workList);
 		var bodyFormData = qs.stringify({
 			worklist: workList
 		})
@@ -68,7 +69,9 @@ export default class WorklistService extends ServiceProxyBase {
 			userName: localStorage.getItem('user-id'),
 			'content-Type': 'application/x-www-form-urlencoded'
 		}
-		if (typeof faultHandler == 'undefined') faultHandler = null
+		if (typeof faultHandler == 'undefined') faultHandler = null;
+		worklist = stringifyCircularObjectWithModifiedKeys(worklist);
+
 		var bodyFormData = qs.stringify({
 			worklist: worklist
 		})
@@ -85,7 +88,9 @@ export default class WorklistService extends ServiceProxyBase {
 	}
 
 	saveWorkGroup(worklistGroup, resultHandler, faultHandler) {
-		if (typeof faultHandler == 'undefined') faultHandler = null
+		if (typeof faultHandler == 'undefined') faultHandler = null;
+		worklistGroup = stringifyCircularObjectWithModifiedKeys(worklistGroup);
+
 		var bodyFormData = qs.stringify({
 			worklistGroup: worklistGroup
 		})
