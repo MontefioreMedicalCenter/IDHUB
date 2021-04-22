@@ -353,7 +353,9 @@ const CurrentRequest = props => {
 									WorklistService.getInstance().saveWorklist(
 										data,
 										updateWorkList,
-										() => {}
+										() => {
+											// resulthandler
+										}
 									)
 								}
 								if (isWorklist) {
@@ -374,7 +376,9 @@ const CurrentRequest = props => {
 									props.cell.refreshCell()
 								}
 							},
-							() => {}
+							() => {
+								// No Handler 
+							}
 						)
 					)
 				}
@@ -390,11 +394,11 @@ const CurrentRequest = props => {
 				} else if (isWorklist || isWorklistChild) {
 					selectedRequest.edit = false
 
-					const data = stringifyCircularObjectWithModifiedKeys(selectedRequest) 
+					const data = stringifyCircularObjectWithModifiedKeys(selectedRequest)
 					WorklistService.getInstance().saveWorklist(
 						data,
 						updateWorkList,
-						() => {}
+						() => { }
 					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
@@ -413,7 +417,7 @@ const CurrentRequest = props => {
 									props.grid.gotoVerticalPosition(vpos)
 								}
 							},
-							() => {}
+							() => { }
 						)
 					)
 				} else {
@@ -454,8 +458,8 @@ const CurrentRequest = props => {
 					deleteid = isWorklistGroup
 						? selectedGroup.worklistId
 						: selectedRequest.worklistId +
-						  '.' +
-						  selectedRequest.id.worklistSeqNum
+						'.' +
+						selectedRequest.id.worklistSeqNum
 				} else {
 					isnotsave = true
 				}
@@ -484,7 +488,7 @@ const CurrentRequest = props => {
 								// console.log('deleteWorkListGroup')
 							}
 						},
-						() => {}
+						() => { }
 					)
 				)
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
@@ -1082,7 +1086,7 @@ const CurrentRequest = props => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-									// filterWaterMark={"Contains"}
+								// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"
@@ -1309,7 +1313,7 @@ const CurrentRequest = props => {
 									itemEditor={startDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateStartDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
-									// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="endDate"
@@ -1326,7 +1330,7 @@ const CurrentRequest = props => {
 									itemEditor={endDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateEndDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
-									// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="managerSourceUniqueId"
@@ -1488,7 +1492,7 @@ const CurrentRequest = props => {
 									sortable={false}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 									itemEditor={createDateRendererEditorWrapper}
-									// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={textFilterFunction}
 								/>
 							</ReactDataGridColumnGroup>
 							<ReactDataGridColumn

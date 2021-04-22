@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import './requestWork.style.scss'
 import { Paper, Tab, Tabs } from '@material-ui/core'
 import CurrentRequest from './CurrentRequest'
+import SearchRequest from './SearchRequest'
 
 const RequestWorkList = () => {
 	const [tab, setTab] = useState(0)
@@ -26,6 +27,7 @@ const RequestWorkList = () => {
 				</Paper>
 			</div>
 			{Boolean(tab === 0) && <CurrentRequest tabValue={tab} />}
+			{Boolean(tab === 1) && <SearchRequest tabValue={tab} />}
 		</div>
 	)
 }

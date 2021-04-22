@@ -19,6 +19,8 @@ const listDocumentLibraryFiles = require('./response/listDocumentLibraryFiles')
 const deleteWorklist = require('./response/deleteWorklist')
 const storeWorklistDocument = require('./response/storeWorklistDocument')
 const saveWorkGroupResponse = require('./response/saveWorkGroupResponse')
+const sendAcceptMailToHelpDeskResponse = require('./response/sendAcceptMailToHelpDeskResponse')
+const sendRejectMailToRequestorResponse = require('./response/sendRejectMailToRequestorResponse')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -70,6 +72,22 @@ app.post('/IdentityHub/api/worklistsvc/saveWorklist', (req, res) => {
 app.post('/IdentityHub/api/worklistsvc/saveWorkGroup', (req, res) => {
 	if (req.headers.username === 'mmishra' && req.body.worklistGroup) {
 		sendResponse(res, 200, saveWorkGroupResponse)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+
+app.post('/IdentityHub/api/worklistsvc/sendAcceptMailToHelpDesk', (req, res) => {
+	if (req.body.worklistGroup) {
+		sendResponse(res, 200, sendAcceptMailToHelpDeskResponse)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+
+app.post('/IdentityHub/api/worklistsvc/sendRejectMailToRequestor', (req, res) => {
+	if (req.body.worklistGroup) {
+		sendResponse(res, 200, sendRejectMailToRequestorResponse)
 	} else {
 		sendResponse(res, 400)
 	}

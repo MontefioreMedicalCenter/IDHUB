@@ -1,0 +1,18 @@
+.upload-container {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 10px;
+	font-size: small;
+	flex-direction: column;
+	padding: 5px;
+	min-height: 55px;
+	.upload-inner-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+}
+.button {
+	margin-top: 10px;
+}
