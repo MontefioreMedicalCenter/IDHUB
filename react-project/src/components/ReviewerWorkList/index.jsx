@@ -130,10 +130,10 @@ const dynamicIconFunctionAccept = (cell/* :IFlexDataGridCell */, state/* :String
 
 const validateReviewerComment = (editor/* :UIComponent */)/* :Boolean */ => {
     var valSuccess/* :Boolean */ = true;
-    var cell/* :IFlexDataGridCell */ = grid.getCurrentEditingCell();
+    var cell/* :IFlexDataGridCell */ = grid.getCurrentEditCell();
     var txt/* :ITextInput */ = editor/*  as ITextInput */;
     grid.clearErrorByObject(cell.rowInfo.getData());
-    if (txt.text.length > 250) {
+    if (txt.getValue().length > 250) {
         valSuccess = false
         grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Maximum Length for Reviewer Comment is 250 characters ");
     }
