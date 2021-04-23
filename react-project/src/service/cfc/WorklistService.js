@@ -144,15 +144,18 @@ export default class WorklistService extends ServiceProxyBase {
 	}
 
 
-	
-	sendRejectMailToRequestor(workListGroup/* :IdWorklistGroup */)/* :void */
-	{
+
+	sendRejectMailToRequestor(workListGroup/* :IdWorklistGroup */)/* :void */ {
 		var bodyFormData = stringifyCircularObjectWithModifiedKeys(workListGroup);
+
+		var worklistGroup = qs.stringify({
+			worklistGroup: bodyFormData
+		})
 
 		return this.callServiceMethod(
 			'post',
 			'IdentityHub/api/worklistsvc/sendRejectMailToRequestor',
-			bodyFormData,
+			worklistGroup,
 			null,
 			this.sendRejectMailSuccessResult,
 			this.failureFaultEvent,
@@ -165,14 +168,17 @@ export default class WorklistService extends ServiceProxyBase {
 		alert("Email sent to Requestor Sucessfully!"/* , "Requestor Email", Alert.OK */)
 	}
 
-	 sendAcceptMailToHelpDesk(workListGroup)//:IdWorklistGroup):void
+	sendAcceptMailToHelpDesk(workListGroup)//:IdWorklistGroup):void
 	{
-		var bodyFormData = stringifyCircularObjectWithModifiedKeys(workListGroup);
+		var bodyFormData = stringifyCircularObjectWithModifiedKeys(workListGroup)
+		var worklistGroup = qs.stringify({
+			worklistGroup: bodyFormData
+		})
 
 		return this.callServiceMethod(
 			'post',
 			'IdentityHub/api/worklistsvc/sendAcceptMailToHelpDesk',
-			bodyFormData,
+			worklistGroup,
 			null,
 			this.sendAcceptMailSuccessResult,
 			this.failureFaultEvent,
@@ -182,7 +188,7 @@ export default class WorklistService extends ServiceProxyBase {
 		//rpcCall.addResponder(new AsyncResponder(this.sendAcceptMailSuccessResult, this.failureFaultEvent));
 	}
 
-    sendAcceptMailSuccessResult(event)//:ResultEvent, token:Object=null):void
+	sendAcceptMailSuccessResult(event)//:ResultEvent, token:Object=null):void
 	{
 		alert("Email sent to Help Desk Sucessfully!")//, "Help Desk Email sent", Alert.OK)
 	}
@@ -209,8 +215,8 @@ export default class WorklistService extends ServiceProxyBase {
 
 	failureFaultEvent(err)//:FaultEvent, token:Object=null):void
 	{
-		var msg=err.error ? err.error.message : err.toString();
-		if (msg.indexOf('Aborting findWorklistGroups() as userId is') > -1){
+		var msg = err.error ? err.error.message : err.toString();
+		if (msg.indexOf('Aborting findWorklistGroups() as userId is') > -1) {
 			alert("logging out ")
 			this.loginService.logOut();
 		}
