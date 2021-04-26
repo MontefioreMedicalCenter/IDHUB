@@ -1,11 +1,13 @@
 import {
 	LOOKUP_SUCCESSFULL,
-	SET_DOCUMENT_LIBRARY
+	SET_DOCUMENT_LIBRARY,
+	SET_TAB_VALUE
 } from '../actions/workListSheet'
 
 const initialState = {
 	workListmodel: {},
-	documentLibrary: []
+	documentLibrary: [],
+	tabValue: 0,
 }
 
 const worklistReducer = (state = initialState, action) => {
@@ -19,6 +21,11 @@ const worklistReducer = (state = initialState, action) => {
 			return {
 				...state,
 				documentLibrary: action.payload
+			}
+		case SET_TAB_VALUE:
+			return {
+				...state,
+				tabValue: action.payload
 			}
 		default:
 			return state

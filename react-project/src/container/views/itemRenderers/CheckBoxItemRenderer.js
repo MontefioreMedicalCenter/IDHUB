@@ -1,11 +1,12 @@
 import { Checkbox } from '@material-ui/core'
 import React from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 import { UIComponent } from '../../../flexicious'
 
 const CheckBoxItemRenderer = props => {
 	const dispatch = useDispatch()
+	const tabValue = useSelector(state => state.workListState.tabValue)
 	const handleChangeData = () => {
 		const rowData = props.row.getData()
 		const dataField = props.column.getDataField()
@@ -44,7 +45,7 @@ const CheckBoxItemRenderer = props => {
 		<div style={{visibility: props.column.getDataField() === "noSSN" && props.row.getData().constructor.name !== 'IdWorklist' ? "hidden" : "visible" }}>
 			<Checkbox
 				id="ChkBox"
-				disabled={props.column.valueOfTab !== 0}
+				disabled={tabValue !== 0}
 				checked={Boolean(
 					props.row.rowPositionInfo.rowData[props.column.getDataField()] === 'Y'
 				)}

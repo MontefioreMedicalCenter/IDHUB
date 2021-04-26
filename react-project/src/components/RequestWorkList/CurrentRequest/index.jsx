@@ -86,7 +86,7 @@ const styles = theme => ({
 	}
 })
 
-const CurrentRequest = props => {
+const CurrentRequest = ({tabValue}) => {
 	const dispatch = useDispatch()
 
 	const dataGridRef = useRef(null)
@@ -97,7 +97,6 @@ const CurrentRequest = props => {
 	const [openModal, setOpenModal] = useState(false)
 	const [openDocumentLibrary, setDocumentLibraryModal] = useState(false)
 	const [documentFileUrl, setDocumentFileUrl] = useState('')
-	const [valueOfTab] = useState(props.tabValue)
 	var numb_regex = /[0-9]/
 	var numb_errregex = /[.+-]/
 
@@ -406,7 +405,7 @@ const CurrentRequest = props => {
 							'Confirm_Cancel',
 							() => {
 								selectedobj.edit = false
-								if (valueOfTab === 0) {
+								if (tabValue === 0) {
 									findWorklist()
 									props.cell.refreshCell()
 									props.grid.gotoVerticalPosition(vpos)
@@ -1017,9 +1016,9 @@ const CurrentRequest = props => {
 	}
 
 	return (
-		<div className="grid-container">
+		<div className="requestor-grid-container">
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
-				<RequestorSearch findWorklist={findWorklist} />
+				<RequestorSearch findWorklist={findWorklist} valueOfTab={tabValue} />
 				<div style={{ height: 'calc(100% - 65px)' }}>
 					<DataGrid
 						ref={dataGridRef}
@@ -1151,7 +1150,7 @@ const CurrentRequest = props => {
 								<ReactDataGridColumn
 									dataField="noSSN"
 									headerText="No SSN"
-									valueOfTab={valueOfTab}
+									valueOfTab={tabValue}
 									width={100}
 									headerWordWrap={true}
 									editable={false}
@@ -1377,7 +1376,7 @@ const CurrentRequest = props => {
 									width={100}
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
-									valueOfTab={valueOfTab}
+									valueOfTab={tabValue}
 									filterComboBoxDataProvider={comboDP}
 									editable={false}
 									enableRecursiveSearch={true}
@@ -1391,7 +1390,7 @@ const CurrentRequest = props => {
 									headerText="EPF"
 									width={100}
 									headerWordWrap={true}
-									valueOfTab={valueOfTab}
+									valueOfTab={tabValue}
 									filterControl="MultiSelectComboBox"
 									filterComboBoxDataProvider={comboDP}
 									editable={false}
@@ -1407,7 +1406,7 @@ const CurrentRequest = props => {
 									width={100}
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
-									valueOfTab={valueOfTab}
+									valueOfTab={tabValue}
 									filterComboBoxDataProvider={comboDP}
 									editable={false}
 									enableRecursiveSearch={true}
@@ -1422,7 +1421,7 @@ const CurrentRequest = props => {
 									width={100}
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
-									valueOfTab={valueOfTab}
+									valueOfTab={tabValue}
 									filterComboBoxDataProvider={comboDP}
 									editable={false}
 									enableRecursiveSearch={true}

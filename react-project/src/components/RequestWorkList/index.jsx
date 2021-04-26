@@ -2,13 +2,16 @@ import React, { useState } from 'react'
 import './requestWork.style.scss'
 import { Paper, Tab, Tabs } from '@material-ui/core'
 import CurrentRequest from './CurrentRequest'
-import SearchRequest from './SearchRequest'
+import { useDispatch } from 'react-redux'
+import { setTabValue } from '../../AppConfig/store/actions/workListSheet'
 
 const RequestWorkList = () => {
 	const [tab, setTab] = useState(0)
+	const dispatch = useDispatch();
 
 	const handleChange = (event, value) => {
 		setTab(value)
+		dispatch(setTabValue(value))
 	}
 
 	return (
@@ -26,8 +29,7 @@ const RequestWorkList = () => {
 					</Tabs>
 				</Paper>
 			</div>
-			{Boolean(tab === 0) && <CurrentRequest tabValue={tab} />}
-			{Boolean(tab === 1) && <SearchRequest tabValue={tab} />}
+			 <CurrentRequest tabValue={tab} />
 		</div>
 	)
 }
