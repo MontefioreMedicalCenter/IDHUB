@@ -14,6 +14,10 @@ import DataGrid from "../../shared/components/ExtendedDataGrid";
 import MontefioreUtils from "../../service/utils/MontefioreUtils";
 import { camelizeKeys } from "../../shared/utils";
 import GlobalEventDispatcher from "../../service/utils/GlobalEventDispatcher";
+import { reviewerWorklistData, storeWorklist } from "../../AppConfig/store/actions/reviewerWorklistAction";
+import store from '../../AppConfig/store/configureStore'
+import { setDocumentLibrary } from "../../AppConfig/store/actions/workListSheet";
+import { showDelete, showUpload } from "../../AppConfig/store/actions/documentLibrary";
 
 
 export default class ReviewerWorkListMediator {
@@ -175,18 +179,11 @@ export default class ReviewerWorkListMediator {
         this.selectedGroup.updateRequestor = false
         if (event.cell instanceof FlexDataGridDataCell && event.cell.getColumn() != null) {
             if (event.cell.getColumn().getHeaderText() == 'View Docs') {
-                alert("Add DocumentLibrary based on code below")
-                // var worklistDocument:DocumentLibrary=new DocumentLibrary()
-                // worklistDocument.height=this.contextView.height - 200;
-                // worklistDocument.width=this.contextView.width - 100;
-                // PopUpManager.addPopUp(worklistDocument, this.contextView, true);
-                // PopUpManager.centerPopUp(worklistDocument);
-                // worklistDocument.title='Request Documents'
-                // worklistDocument.showDelete=false
-                // worklistDocument.uploadHbx.visible=false
-                // this.mediatorMap.createMediator(worklistDocument);
-                // worklistDocument.grid.dataProvider=this.selectedItem.fileList
-                // worklistDocument.workList=this.selectedItem
+                store.dispatch(reviewerWorklistData(true))
+                store.dispatch(showDelete(false))
+                store.dispatch(showUpload(false))
+                store.dispatch(setDocumentLibrary(this.selectedItem.fileList))
+                store.dispatch(storeWorklist(this.selectedItem))
             }
             else if (event.cell.getColumn().getHeaderText() == "Under Review") {
                 alertMsg=this.selectedGroup.worklistStatus != "UnderReview" ? "Are you sure you want to mark Request:" + this.selectedGroup.worklistId + " Under Review?" : "Are you sure you want to Cancel Review for Request:" + this.selectedGroup.worklistId + "?"

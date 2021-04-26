@@ -1598,7 +1598,7 @@ const CurrentRequest = ({tabValue}) => {
 			<AdvanceDialog
 				open={openModal}
 				handleClose={() => setOpenModal(false)}
-				headerTitle="Request Documents"
+				headerTitle="Document Viewer"
 				bodyRenderer={<DocumentViewer documentFileUrl={documentFileUrl} />}
 			/>
 			<AdvanceDialog
