@@ -202,7 +202,7 @@ const ReviewWorkList = () => {
     return (
         <div className="reviewWork-main-container">
             <DataGrid creationComplete={vbox1_creationCompleteHandler} ref={g => grid = g} width="100%" height="100%" editable enableCopy enablePaging enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={onExecuteToolbarAction} virtualScroll alternatingItemColors={[0xffffff, 0xffffff]} cellBackgroundColorFunction={getColor} horizontalScrollPolicy="auto" enableDrillDown >
-                <ReactDataGridColumnLevel rowHeight="23" enablePaging alternatingItemColors={[0xe1eef7, 0xe1eef7]} horizontalGridLines pageSize="10000" childrenField="workLists" enableFilters horizontalGridLineColor="#99BBE8" horizontalGridLineThickness="1">
+                <ReactDataGridColumnLevel rowHeight="23" enablePaging alternatingItemColors={[0xe1eef7, 0xe1eef7]} horizontalGridLines pageSize="10000" childrenField="_workLists" enableFilters horizontalGridLineColor="#99BBE8" horizontalGridLineThickness="1">
                     <ReactDataGridColumnGroup headerText="ID">
                         <ReactDataGridColumn editable={false} columnLockMode="left" columnWidthMode="fitToContent" dataField="worklistId" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="Worklist #" enableCellClickRowSelect={false} filterCompareFunction={textFilterFunction} />
                         <ReactDataGridColumn editable={false} columnLockMode="left" width="60" dataField="id.worklistSeqNum" enableCellClickRowSelect={false} headerText="Seq" />

@@ -224,7 +224,11 @@ export default class ReviewerWorkListMediator {
                         else if (this.isWorklistChild)
                         {
                             this.selectedItem.worklistStatus=this.selectedItem.worklistStatus != "Rejected" ? "Rejected" : "Submitted"
-                            this.wlservice.saveWorkListSingle(this.selectedItem)
+                            this.wlservice.saveWorklist(
+                                this.selectedItem, 
+                                (resp) => { this.updateWorkList({eventObject: resp.result}) },
+                                MontefioreUtils.showError
+                            )
                             //CursorManager.removeBusyCursor()
                             gridDP.setItemAt(this.selectedItem,this.index)
 
