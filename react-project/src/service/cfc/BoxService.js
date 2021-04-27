@@ -1,4 +1,5 @@
 import ServiceProxyBase from './ServiceProxyBase'
+import qs from 'qs'
 export default class BoxService extends ServiceProxyBase {
 	constructor(props) {
 		super(props)
@@ -16,10 +17,13 @@ export default class BoxService extends ServiceProxyBase {
 			}
 		}
 		if (typeof resultHandler == 'undefined') resultHandler = ()=>{alert("Files Transferred to Box Sucessfully!")}
+		var bodyFormData = qs.stringify({
+			worklistId: workListId
+		})
 		return this.callServiceMethod(
 			'post',
-			'IdentityHub/api/boxsvc/sendDocumentsToBox',
-			workListId,
+			'IdentityHub/api/boxsvc/uploadFile',
+			bodyFormData,
 			null,
 			resultHandler,
 			faultHandler,

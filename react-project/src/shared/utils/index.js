@@ -1,4 +1,5 @@
 import { camelCase } from 'lodash'
+import moment from "moment"
 
 export const deepCopy = data => {
 	// deep copy
@@ -52,13 +53,13 @@ export const camelizeKeys = obj => {
 	return obj
 }
 
-export 	const modifyKeys = (obj) => {
+export const modifyKeys = (obj) => {
 	Object.keys(obj).forEach(key => {
-		if(key.charAt(0) === "_") {
+		if (key.charAt(0) === "_") {
 			obj[`${key.substring(1)}`] = obj[key];
 			delete obj[key];
-			if(typeof obj[`${key.substring(1)}`] === "object" && obj[`${key.substring(1)}`]){
-				if(obj[`${key.substring(1)}`].length) {
+			if (typeof obj[`${key.substring(1)}`] === "object" && obj[`${key.substring(1)}`]) {
+				if (obj[`${key.substring(1)}`].length) {
 					obj[`${key.substring(1)}`].forEach((data) => {
 						modifyKeys(data);
 					})
@@ -70,13 +71,18 @@ export 	const modifyKeys = (obj) => {
 
 export const stringifyCircularObjectWithModifiedKeys = (selectedRequest) => {
 
-	const data = JSON.parse(JSON.stringify(selectedRequest, function(
+	const data = JSON.parse(JSON.stringify(selectedRequest, function (
 		key,
 		value
 	) {
 		if (key === '_worklistGroup') {
 			return value.worklistId
+		} else if (value && (key.endsWith('Date') || key.indexOf( 'dateOfBirth') >= 0)) {
+			//debugger;
+			//console.log(key + ":" +  moment(new Date(value)).format("yyyy-MM-DD HH:mm:ss"))
+			return moment(new Date(value)).format("yyyy-MM-DD HH:mm:ss")
 		} else {
+			console.log(key + +":"+ value)
 			return value
 		}
 	}))
