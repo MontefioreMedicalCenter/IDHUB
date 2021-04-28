@@ -1,0 +1,22 @@
+ 
+POST http://localhost:8080/IdentityHub/api/adminsvc/findTitle
+500
+8 ms
+ 
+POST http://localhost:8080/IdentityHub/api/adminsvc/findTitles
+200
+134 ms
+Network
+Request Headers
+User-Agent: PostmanRuntime/7.28.0
+Accept: */*
+Postman-Token: 33d718a4-db4e-4390-8402-19b0708d2abc
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Length: 0
+Response Headers
+Connection: keep-alive
+Content-Type: application/json
+Content-Length: 8624
+Date: Wed, 28 Apr 2021 13:29:17 GMT
