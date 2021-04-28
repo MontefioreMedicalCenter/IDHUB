@@ -24,8 +24,8 @@ const RequestWorkList = () => {
 						indicatorColor="primary"
 						textColor="primary"
 						centered>
-						<Tab label="Current Request" />
-						<Tab label="Search Request" />
+						<Tab style={{margin: "0px"}} label="Current Request" />
+						<Tab style={{margin: "0px"}} label="Search Request" />
 					</Tabs>
 				</Paper>
 			</div>

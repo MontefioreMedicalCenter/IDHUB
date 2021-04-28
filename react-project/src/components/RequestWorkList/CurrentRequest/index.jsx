@@ -1365,7 +1365,7 @@ const CurrentRequest = ({ tabValue }) => {
 									headerWordWrap={false}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									formatter={ExampleUtils.dateFormatter2}
+									formatter={ExampleUtils.dateFormatter3}
 									// labelFunction={MontefioreUtils.dateFormatter2}
 									itemEditor={endDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateEndDate}

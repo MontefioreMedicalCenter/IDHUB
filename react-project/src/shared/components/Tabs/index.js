@@ -16,7 +16,8 @@ const StyledTabs = withStyles({
 	flexContainer: {
 		width: props => (props.customstyle.centered ? 'fit-content' : '100%'),
 		marginLeft: 'auto',
-		marginRight: 'auto'
+		marginRight: 'auto',
+		height: "47px"
 	},
 	root: {
 		minHeight: 'unset'
@@ -40,6 +41,7 @@ const StyledTab = withStyles(theme => ({
 		fontWeight: theme.typography.fontWeightRegular,
 		width: '25%',
 		minHeight: '35px',
+		margin: '0px',
 		maxWidth: 'unset',
 		'&:focus': {
 			opacity: 1
@@ -96,7 +98,7 @@ function CustomizedTabs(props) {
 								key={index}
 								customstyle={{
 									tabColor: props.customstyle.tabColor,
-									textTransform: props.customstyle.textTransform
+									textTransform: props.customstyle.textTransform,
 								}}
 								label={
 									tab.badge ? (
