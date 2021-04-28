@@ -86,11 +86,11 @@ const styles = theme => ({
 	}
 })
 
-const CurrentRequest = ({tabValue}) => {
+const CurrentRequest = ({ tabValue }) => {
 	const dispatch = useDispatch()
 
 	const dataGridRef = useRef(null)
-	const [worklist, setWorklist] = useState(null)
+	const [worklist, setWorklists] = useState(null)
 	const [documentlibraryTitle, setDocumentlibraryTitle] = useState(
 		'Document Library'
 	)
@@ -373,7 +373,7 @@ const CurrentRequest = ({tabValue}) => {
 								}
 							},
 							() => {
-								// No Handler 
+								// No Handler
 							}
 						)
 					)
@@ -392,7 +392,7 @@ const CurrentRequest = ({tabValue}) => {
 					WorklistService.getInstance().saveWorklist(
 						selectedRequest,
 						updateWorkList,
-						() => { }
+						() => {}
 					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
@@ -411,7 +411,7 @@ const CurrentRequest = ({tabValue}) => {
 									props.grid.gotoVerticalPosition(vpos)
 								}
 							},
-							() => { }
+							() => {}
 						)
 					)
 				} else {
@@ -452,8 +452,8 @@ const CurrentRequest = ({tabValue}) => {
 					deleteid = isWorklistGroup
 						? selectedGroup.worklistId
 						: selectedRequest.worklistId +
-						'.' +
-						selectedRequest.id.worklistSeqNum
+						  '.' +
+						  selectedRequest.id.worklistSeqNum
 				} else {
 					isnotsave = true
 				}
@@ -481,7 +481,7 @@ const CurrentRequest = ({tabValue}) => {
 								// console.log('deleteWorkListGroup')
 							}
 						},
-						() => { }
+						() => {}
 					)
 				)
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
@@ -996,29 +996,76 @@ const CurrentRequest = ({tabValue}) => {
 					.toLowerCase()
 					.indexOf(filter.expression.toLowerCase()) !== -1
 			)
-		}
-		else if (
+		} else if (
 			typeof filter.expression === 'object' &&
 			filter.expression.length > 0
 		) {
 			const filteredArr = filter.expression.map(data => {
-				const temp = item[filter.columnName]
-					.toString()
-					.toLowerCase()
-					.indexOf(data.toLowerCase()) !== -1;
+				const temp =
+					item[filter.columnName]
+						.toString()
+						.toLowerCase()
+						.indexOf(data.toLowerCase()) !== -1
 
-				if (temp)
-					return true;
+				if (temp) return true
 			})
 
-			return filteredArr && filteredArr.length && filteredArr[0];
+			return filteredArr && filteredArr.length && filteredArr[0]
 		}
+	}
+
+	const setWorkList = event => {
+		var workListGroupArr = new ArrayCollection()
+		var workListArr = new ArrayCollection()
+		var grid = dataGridRef.current
+		event.workList.forEach(data => {
+			let workGroup = new IdWorklistGroup()
+			workGroup.fromJson(camelizeKeys(data))
+			workGroup.workLists.forEach(wl => (wl.worklistGroup = workGroup))
+			if (workGroup.workLists != null && workGroup.workLists.length === 1)
+				workListArr.addAll(workGroup.workLists)
+			else workListGroupArr.addItem(workGroup)
+		})
+		workListGroupArr.addAll(workListArr)
+		grid.setDataProvider(workListGroupArr)
+		grid.getColumnLevel().filterFunction = filterDeviceTypes
+		grid.getColumnLevel().nextLevel.filterFunction = filterDeviceTypesChild
+		grid.processFilter()
+		grid.removeAllSorts()
+		grid.expandAll()
+	}
+
+	const filterDeviceTypes = item => {
+		if (
+			item != null &&
+			(item.worklistStatus == 'Initial' ||
+				item.worklistStatus == 'Ready' ||
+				item.worklistStatus == 'OnHold' ||
+				item.worklistStatus == 'Rejected' ||
+				item.worklistStatus == 'Processed')
+		) {
+			return true
+		} else return false
+	}
+
+	const filterDeviceTypesChild = item => {
+		if (
+			item != null &&
+			(item.worklistStatus == 'Initial' ||
+				item.worklistStatus == 'Ready' ||
+				item.worklistStatus == 'OnHold' ||
+				item.worklistStatus == 'Rejected' ||
+				item.worklistStatus == 'Submitted' ||
+				item.worklistStatus == 'Processed')
+		) {
+			return true
+		} else return false
 	}
 
 	return (
 		<div className="requestor-grid-container">
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
-				<RequestorSearch findWorklist={findWorklist} valueOfTab={tabValue} />
+				<RequestorSearch findWorklist={findWorklist} setWorkList={setWorkList} valueOfTab={tabValue} />
 				<div style={{ height: 'calc(100% - 65px)' }}>
 					<DataGrid
 						ref={dataGridRef}
@@ -1079,7 +1126,7 @@ const CurrentRequest = ({tabValue}) => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-								// filterWaterMark={"Contains"}
+									// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"
@@ -1306,7 +1353,7 @@ const CurrentRequest = ({tabValue}) => {
 									itemEditor={startDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateStartDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
-								// filterCompareFunction={textFilterFunction}
+									// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="endDate"
@@ -1323,7 +1370,7 @@ const CurrentRequest = ({tabValue}) => {
 									itemEditor={endDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateEndDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
-								// filterCompareFunction={textFilterFunction}
+									// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="managerSourceUniqueId"
@@ -1456,7 +1503,7 @@ const CurrentRequest = ({tabValue}) => {
 									useHandCursor={true}
 									editable={false}
 									sortable={false}
-								// filterCompareFunction={textFilterFunction}
+									// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="reviewerComments"
@@ -1485,7 +1532,7 @@ const CurrentRequest = ({tabValue}) => {
 									sortable={false}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 									itemEditor={createDateRendererEditorWrapper}
-								// filterCompareFunction={textFilterFunction}
+									// filterCompareFunction={textFilterFunction}
 								/>
 							</ReactDataGridColumnGroup>
 							<ReactDataGridColumn
@@ -1501,7 +1548,7 @@ const CurrentRequest = ({tabValue}) => {
 									setDocumentlibraryTitle('Request Documents')
 									dispatch(showDelete(true))
 									dispatch(showUpload(true))
-									setWorklist(e.row.getData())
+									setWorklists(e.row.getData())
 									onOpenDocument()
 								}}
 								iconToolTip="View/Upload Request Document"

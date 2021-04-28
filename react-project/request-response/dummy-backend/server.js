@@ -21,6 +21,8 @@ const storeWorklistDocument = require('./response/storeWorklistDocument')
 const saveWorkGroupResponse = require('./response/saveWorkGroupResponse')
 const sendAcceptMailToHelpDeskResponse = require('./response/sendAcceptMailToHelpDeskResponse')
 const sendRejectMailToRequestorResponse = require('./response/sendRejectMailToRequestorResponse')
+const findProcessedWorklistGroups = require('./response/findProcessedWorklistGroups')
+const findWorklistGroupReviewer = require('./response/findWorklistGroupReviewer')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -55,7 +57,7 @@ app.post('/IdentityHub/api/authenticationsvc/logOut', (req, res) => {
 
 app.post('/IdentityHub/api/worklistsvc/findWorklistGroups', (req, res) => {
 	if (req.headers.username === 'mmishra') {
-		sendResponse(res, 200, findWorklist)
+		sendResponse(res, 200, findWorklistGroupReviewer)
 	} else {
 		sendResponse(res, 400, findWorklistError)
 	}
@@ -110,6 +112,20 @@ app.post('/IdentityHub/api/worklistsvc/deleteWorklist', (req, res) => {
 app.post('/IdentityHub/api/storagesvc/deleteWorklistDocument', (req, res) => {
 	if (req.body.worklistId && req.body.dirListEntry) {
 		sendResponse(res, 200, [])
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/worklistsvc/findProcessedWorklistGroups', (req, res) => {
+	if (req.body.processedFromDate && req.body.processedToDate && req.body.firstName && req.body.lastName) {
+		sendResponse(res, 200, findProcessedWorklistGroups)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/boxsvc/uploadFile', (req, res) => {
+	if (req.body.worklistId ) {
+		sendResponse(res, 200, {"message":"wk.00011881"})
 	} else {
 		sendResponse(res, 400)
 	}

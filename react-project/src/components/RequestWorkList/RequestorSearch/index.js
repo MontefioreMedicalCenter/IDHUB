@@ -7,10 +7,22 @@ import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
 import './requestSearch.scss'
 
-const RequestorSearch = ({ findWorklist, valueOfTab }) => {
+const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList }) => {
+	var now = new Date()
+	var currentDate = now.getDate()
+	var currentMonth = now.getMonth()
+	var currentYear = now.getFullYear()
+	var lastMonth = new Date(currentYear, currentMonth - 1, currentDate)
+
+	const wlservice = WorklistService.getInstance()
+
 	const dispatch = useDispatch()
 	const fileName = useRef(null)
 	const [groupCheckbox, setGroupCheckbox] = useState(true)
+	const [startDate, setStartDate] = useState(lastMonth)
+	const [endDate, setEndDate] = useState(now)
+	const [firstName, setFirstName] = useState('')
+	const [lastName, setlastName] = useState('')
 	const [errorTxt, setErrorTxt] = useState('')
 
 	var file = null
@@ -77,6 +89,48 @@ const RequestorSearch = ({ findWorklist, valueOfTab }) => {
 		setErrorTxt(resp.result)
 	}
 
+	const handleStartDateChange = date => {
+		setStartDate(date)
+	}
+
+	const handleEndDateChange = date => {
+		setEndDate(date)
+	}
+
+	const findProcessedWorklists = event => {
+		var MS_PER_DAY = 1000 * 60 * 60 * 24
+		var dateDiff = new Date(startDate.getTime() - endDate.getTime())
+		var difference = Math.abs(Math.round(dateDiff.getTime() / MS_PER_DAY))
+		if (startDate === null || endDate === null || startDate > endDate) {
+			alert(
+				'Processed Start and End Dates are required and Start Date should be less than End Date.'
+			)
+			return
+		} else if (difference > 180) {
+			alert('Please select Date Range within six months.')
+			return
+		}
+		wlservice.findProcessedWorklistGroups(
+			startDate,
+			endDate,
+			firstName,
+			lastName,
+			resultHandler,
+			MontefioreUtils.showError
+		)
+	}
+
+	const resultHandler = resp => {
+		resp.result && setWorkList({ workList: resp.result })
+	}
+
+	const clearSearch = () => {
+		setStartDate(lastMonth)
+		setEndDate(new Date())
+		setFirstName('')
+		setlastName('')
+	}
+
 	return (
 		<div className="upload-container">
 			<span className="error-txt">{errorTxt}</span>
@@ -111,9 +165,9 @@ const RequestorSearch = ({ findWorklist, valueOfTab }) => {
 					</Button>
 				</div>
 			) : (
-				<div style={{display: 'flex', alignItems: 'center'}}>
+				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<div className="upload-inner-container">
-						Processed Date &nbsp; From:{' '}
+						Processed Date &nbsp; From: &nbsp;
 						<MaterialDatePicker
 							keyboard
 							color=" "
@@ -128,11 +182,13 @@ const RequestorSearch = ({ findWorklist, valueOfTab }) => {
 									}
 								}
 							}}
+							selectedDate={startDate}
+							onDateChange={handleStartDateChange}
 							style={{
 								minWidth: 100
 							}}
 						/>
-						&nbsp; To:{' '}
+						&nbsp; To: &nbsp;
 						<MaterialDatePicker
 							keyboard
 							color=" "
@@ -147,14 +203,26 @@ const RequestorSearch = ({ findWorklist, valueOfTab }) => {
 									}
 								}
 							}}
+							selectedDate={endDate}
+							onDateChange={handleEndDateChange}
 							style={{
 								minWidth: 100
 							}}
 						/>
 						&nbsp; First Name &nbsp;
-						<input type="text" style={{ width: '70px' }} />
+						<input
+							type="text"
+							style={{ width: '70px' }}
+							onChange={e => setFirstName(e.target.value)}
+							value={firstName}
+						/>
 						&nbsp; Last Name &nbsp;
-						<input type="text" style={{ width: '70px' }} />
+						<input
+							type="text"
+							style={{ width: '70px' }}
+							onChange={e => setlastName(e.target.value)}
+							value={lastName}
+						/>
 						&nbsp; Processed{' '}
 						<Checkbox
 							size="small"
@@ -170,6 +238,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab }) => {
 							variant="contained"
 							color="primary"
 							size="small"
+							onClick={findProcessedWorklists}
 							style={{
 								maxWidth: '30px',
 								height: '20px',
@@ -182,6 +251,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab }) => {
 							variant="contained"
 							color="primary"
 							size="small"
+							onClick={clearSearch}
 							style={{
 								maxWidth: '30px',
 								height: '20px',

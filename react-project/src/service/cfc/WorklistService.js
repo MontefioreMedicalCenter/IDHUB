@@ -1,13 +1,13 @@
 import ServiceProxyBase from './ServiceProxyBase'
 import qs from 'qs'
-import { stringifyCircularObjectWithModifiedKeys } from '../../shared/utils';
+import { stringifyCircularObjectWithModifiedKeys } from '../../shared/utils'
 export default class WorklistService extends ServiceProxyBase {
 	constructor(props) {
 		super(props)
 		this.source = ''
 	}
 	findRevWorklists(resultHandler, faultHandler) {
-		return this.findWorklistGroups(resultHandler, faultHandler);
+		return this.findWorklistGroups(resultHandler, faultHandler)
 	}
 	findWorklistGroups(resultHandler, faultHandler) {
 		if (typeof faultHandler == 'undefined') faultHandler = null
@@ -48,7 +48,7 @@ export default class WorklistService extends ServiceProxyBase {
 	}
 	deleteWorkListSingle(workList, resultHandler, faultHandler) {
 		if (typeof faultHandler == 'undefined') faultHandler = null
-		workList = stringifyCircularObjectWithModifiedKeys(workList);
+		workList = stringifyCircularObjectWithModifiedKeys(workList)
 		var bodyFormData = qs.stringify({
 			worklist: workList
 		})
@@ -69,8 +69,8 @@ export default class WorklistService extends ServiceProxyBase {
 			userName: localStorage.getItem('user-id'),
 			'content-Type': 'application/x-www-form-urlencoded'
 		}
-		if (typeof faultHandler == 'undefined') faultHandler = null;
-		worklist = stringifyCircularObjectWithModifiedKeys(worklist);
+		if (typeof faultHandler == 'undefined') faultHandler = null
+		worklist = stringifyCircularObjectWithModifiedKeys(worklist)
 
 		var bodyFormData = qs.stringify({
 			worklist: worklist
@@ -88,8 +88,8 @@ export default class WorklistService extends ServiceProxyBase {
 	}
 
 	saveWorkGroup(worklistGroup, resultHandler, faultHandler) {
-		if (typeof faultHandler == 'undefined') faultHandler = null;
-		worklistGroup = stringifyCircularObjectWithModifiedKeys(worklistGroup);
+		if (typeof faultHandler == 'undefined') faultHandler = null
+		worklistGroup = stringifyCircularObjectWithModifiedKeys(worklistGroup)
 
 		var bodyFormData = qs.stringify({
 			worklistGroup: worklistGroup
@@ -143,10 +143,8 @@ export default class WorklistService extends ServiceProxyBase {
 		)
 	}
 
-
-
-	sendRejectMailToRequestor(workListGroup/* :IdWorklistGroup */)/* :void */ {
-		var bodyFormData = stringifyCircularObjectWithModifiedKeys(workListGroup);
+	sendRejectMailToRequestor(workListGroup /* :IdWorklistGroup */) /* :void */ {
+		var bodyFormData = stringifyCircularObjectWithModifiedKeys(workListGroup)
 
 		var worklistGroup = qs.stringify({
 			worklistGroup: bodyFormData
@@ -163,13 +161,17 @@ export default class WorklistService extends ServiceProxyBase {
 		)
 	}
 
-	sendRejectMailSuccessResult(event)//:ResultEvent, token:Object=null):void
-	{
-		alert("Email sent to Requestor Sucessfully!"/* , "Requestor Email", Alert.OK */)
+	sendRejectMailSuccessResult(
+		event //:ResultEvent, token:Object=null):void
+	) {
+		alert(
+			'Email sent to Requestor Sucessfully!' /* , "Requestor Email", Alert.OK */
+		)
 	}
 
-	sendAcceptMailToHelpDesk(workListGroup)//:IdWorklistGroup):void
-	{
+	sendAcceptMailToHelpDesk(
+		workListGroup //:IdWorklistGroup):void
+	) {
 		var bodyFormData = stringifyCircularObjectWithModifiedKeys(workListGroup)
 		var worklistGroup = qs.stringify({
 			worklistGroup: bodyFormData
@@ -188,13 +190,15 @@ export default class WorklistService extends ServiceProxyBase {
 		//rpcCall.addResponder(new AsyncResponder(this.sendAcceptMailSuccessResult, this.failureFaultEvent));
 	}
 
-	sendAcceptMailSuccessResult(event)//:ResultEvent, token:Object=null):void
-	{
-		alert("Email sent to Help Desk Sucessfully!")//, "Help Desk Email sent", Alert.OK)
+	sendAcceptMailSuccessResult(
+		event //:ResultEvent, token:Object=null):void
+	) {
+		alert('Email sent to Help Desk Sucessfully!') //, "Help Desk Email sent", Alert.OK)
 	}
 
-	sendDocumentsToBox(workListId)//:string):void
-	{
+	sendDocumentsToBox(
+		workListId //:string):void
+	) {
 		return this.callServiceMethod(
 			'post',
 			'IdentityHub/api/worklistsvc/sendDocumentsToBox',
@@ -208,20 +212,39 @@ export default class WorklistService extends ServiceProxyBase {
 		//rpcCall.addResponder(new AsyncResponder(this.boxTransferSuccessResult, this.failureFaultEvent));
 	}
 
-	boxTransferSuccessResult(event)//:ResultEvent, token:Object=null):void
-	{
-		alert("Files Trasferred to Box Sucessfully!")//, "Bos File Transfer", Alert.OK) 
+	boxTransferSuccessResult(
+		event //:ResultEvent, token:Object=null):void
+	) {
+		alert('Files Trasferred to Box Sucessfully!') //, "Bos File Transfer", Alert.OK)
 	}
 
-	failureFaultEvent(err)//:FaultEvent, token:Object=null):void
-	{
-		var msg = err.error ? err.error.message : err.toString();
+	failureFaultEvent(
+		err //:FaultEvent, token:Object=null):void
+	) {
+		var msg = err.error ? err.error.message : err.toString()
 		if (msg.indexOf('Aborting findWorklistGroups() as userId is') > -1) {
-			alert("logging out ")
-			this.loginService.logOut();
-		}
-		else
-			alert(msg)//.faultString, "Error Message", Alert.OK)
+			alert('logging out ')
+			this.loginService.logOut()
+		} else alert(msg) //.faultString, "Error Message", Alert.OK)
+	}
+
+	findProcessedWorklistGroups(startDate, endDate, firstName, lastName, resultHandler, faultHandler) {
+		var formData = qs.stringify({
+			processedFromDate: startDate, 
+			processedToDate: endDate, 
+			firstName, 
+			lastName
+		})
+
+		return this.callServiceMethod(
+			'post',
+			'IdentityHub/api/worklistsvc/findProcessedWorklistGroups',
+			formData,
+			null,
+			resultHandler, 
+			faultHandler,
+			'form'
+		)
 	}
 }
 
