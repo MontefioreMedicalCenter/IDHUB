@@ -110,18 +110,7 @@ const CurrentRequest = ({ tabValue }) => {
 	]
 
 	const worklistResultHandler = resp => {
-		var workListGroupArr = new ArrayCollection()
-		var workListArr = new ArrayCollection()
-		resp.result.forEach(data => {
-			let workGroup = new IdWorklistGroup()
-			workGroup.fromJson(camelizeKeys(data))
-			workGroup.workLists.forEach(wl => (wl.worklistGroup = workGroup))
-			if (workGroup.workLists != null && workGroup.workLists.length === 1)
-				workListArr.addAll(workGroup.workLists)
-			else workListGroupArr.addItem(workGroup)
-		})
-		workListGroupArr.addAll(workListArr)
-		dataGridRef.current && dataGridRef.current.setDataProvider(workListGroupArr)
+		setWorkList({ workList: resp.result })
 	}
 	//this is how Facebook recommends we run code on mount. Stupid ESlint does not like it.
 	/* eslint-disable*/
@@ -465,7 +454,7 @@ const CurrentRequest = ({ tabValue }) => {
 						'Confirm_Cancel',
 						() => {
 							if (isnotsave) {
-								// gridDP.removeItemAt(index);
+								gridDP.removeItemAt(index)
 							} else if (
 								isWorklistChild &&
 								selectedGroup.workLists.length > 1
@@ -475,10 +464,12 @@ const CurrentRequest = ({ tabValue }) => {
 									updateWorkList,
 									MontefioreUtils.showError
 								)
-								console.log('deleteWorkListSingle')
 							} else {
-								// wlservice.deleteWorkListGroup(selectedGroup)
-								// console.log('deleteWorkListGroup')
+								WorklistService.getInstance().deleteWorkListGroup(
+									selectedGroup,
+									deletedWorkList,
+									MontefioreUtils.showError
+								)
 							}
 						},
 						() => {}
@@ -487,6 +478,15 @@ const CurrentRequest = ({ tabValue }) => {
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
 			}
 		}
+	}
+
+	const deletedWorkList = event => {
+		var gridDP = dataGridRef.current.getDataProvider()
+		var vp = dataGridRef.current.getVerticalScrollPosition()
+		gridDP.removeItemAt(index)
+		dataGridRef.current.expandAll()
+		dataGridRef.current.validateNow()
+		dataGridRef.current.gotoVerticalPosition(vp)
 	}
 
 	const updateWorkList = resp => {
@@ -1065,7 +1065,11 @@ const CurrentRequest = ({ tabValue }) => {
 	return (
 		<div className="requestor-grid-container">
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
-				<RequestorSearch findWorklist={findWorklist} setWorkList={setWorkList} valueOfTab={tabValue} />
+				<RequestorSearch
+					findWorklist={findWorklist}
+					setWorkList={setWorkList}
+					valueOfTab={tabValue}
+				/>
 				<div style={{ height: 'calc(100% - 65px)' }}>
 					<DataGrid
 						ref={dataGridRef}

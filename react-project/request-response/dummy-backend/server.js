@@ -109,6 +109,13 @@ app.post('/IdentityHub/api/worklistsvc/deleteWorklist', (req, res) => {
 		sendResponse(res, 400)
 	}
 })
+app.post('/IdentityHub/api/worklistsvc/deleteWorklistGroup', (req, res) => {
+	if (req.body.worklistGroup) {
+		sendResponse(res, 200, deleteWorklist)
+	} else {
+		sendResponse(res, 400)
+	}
+})
 app.post('/IdentityHub/api/storagesvc/deleteWorklistDocument', (req, res) => {
 	if (req.body.worklistId && req.body.dirListEntry) {
 		sendResponse(res, 200, [])

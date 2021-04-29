@@ -63,6 +63,24 @@ export default class WorklistService extends ServiceProxyBase {
 			'form'
 		)
 	}
+	
+	deleteWorkListGroup(workList, resultHandler, faultHandler) {
+		if (typeof faultHandler == 'undefined') faultHandler = null
+		workList = stringifyCircularObjectWithModifiedKeys(workList)
+		var bodyFormData = qs.stringify({
+			worklistGroup: workList
+		})
+
+		return this.callServiceMethod(
+			'post',
+			'IdentityHub/api/worklistsvc/deleteWorklistGroup',
+			bodyFormData,
+			null,
+			resultHandler,
+			faultHandler,
+			'form'
+		)
+	}
 
 	saveWorklist(worklist, resultHandler, faultHandler) {
 		var headerData = {
