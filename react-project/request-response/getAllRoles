@@ -1,4 +1,4 @@
-GET /IdentityHub/api/adminsvc/getAllRoles HTTP/1.1
+POST /IdentityHub/api/adminsvc/getAllRoles HTTP/1.1
 Host: localhost:8080
 
 
