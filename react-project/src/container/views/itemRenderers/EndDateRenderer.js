@@ -16,7 +16,7 @@ const EndDateRenderer = props => {
 		<MaterialDatePicker
 			keyboard
 			color=" "
-			format={'MM/DD/YYYY'}
+			format={'MM/DD/YY'}
 			key={`${props.row.rowPositionInfo.rowData.sourceUniqueId}2`}
 			InputProps={{
 				inputProps: {
@@ -28,7 +28,7 @@ const EndDateRenderer = props => {
 					}
 				}
 			}}
-			selectedDate={new Date(props.row.rowPositionInfo.rowData.endDate)}
+			selectedDate={new Date(props.row.rowPositionInfo.rowData.endDate|| null)}
 			style={{
 				minWidth: 100
 			}}

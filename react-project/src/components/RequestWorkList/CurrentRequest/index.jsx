@@ -381,7 +381,7 @@ const CurrentRequest = ({ tabValue }) => {
 					WorklistService.getInstance().saveWorklist(
 						selectedRequest,
 						updateWorkList,
-						() => {}
+						() => { }
 					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
@@ -400,7 +400,7 @@ const CurrentRequest = ({ tabValue }) => {
 									props.grid.gotoVerticalPosition(vpos)
 								}
 							},
-							() => {}
+							() => { }
 						)
 					)
 				} else {
@@ -441,8 +441,8 @@ const CurrentRequest = ({ tabValue }) => {
 					deleteid = isWorklistGroup
 						? selectedGroup.worklistId
 						: selectedRequest.worklistId +
-						  '.' +
-						  selectedRequest.id.worklistSeqNum
+						'.' +
+						selectedRequest.id.worklistSeqNum
 				} else {
 					isnotsave = true
 				}
@@ -472,7 +472,7 @@ const CurrentRequest = ({ tabValue }) => {
 								)
 							}
 						},
-						() => {}
+						() => { }
 					)
 				)
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
@@ -1079,7 +1079,7 @@ const CurrentRequest = ({ tabValue }) => {
 						id="Requestor_WorkList_Grid"
 						alternatingItemColors={[0xffffff, 0xffffff]}
 						enablePrint
-						enablePreferencePersistence
+						// enablePreferencePersistence
 						enableDrag
 						showSpinnerOnFilterPageSort
 						enableEagerDraw
@@ -1120,7 +1120,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="worklistId"
 									headerText="Worklist #"
-									width={150}
+									width={125}
 									columnLockMode={'left'}
 									enableCellClickRowSelect={false}
 									editable={false}
@@ -1130,12 +1130,13 @@ const CurrentRequest = ({ tabValue }) => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-									// filterWaterMark={"Contains"}
+									filterCompareFunction={textFilterFunction}
+								// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"
 									headerText="Seq"
-									width={50}
+									width={35}
 									columnLockMode={'left'}
 									editable={false}
 									enableCellClickRowSelect={false}
@@ -1147,7 +1148,7 @@ const CurrentRequest = ({ tabValue }) => {
 							<ReactDataGridColumn
 								headerText="Status"
 								dataField="worklistStatus"
-								width={100}
+								width={70}
 								columnLockMode={'left'}
 								enableCellClickRowSelect={false}
 								editable={false}
@@ -1161,8 +1162,9 @@ const CurrentRequest = ({ tabValue }) => {
 								headerText="Personal"
 								dataField="requester-user-id">
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="lastName"
-									headerText="Last name"
+									headerText="Last Name"
 									width={100}
 									filterControl="TextInput"
 									filterOperation="Contains"
@@ -1175,6 +1177,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="firstName"
 									headerText="First Name"
 									width={100}
@@ -1191,7 +1194,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="middleNameOrInitial"
 									headerText="Init"
-									width={100}
+									width={35}
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
@@ -1202,7 +1205,7 @@ const CurrentRequest = ({ tabValue }) => {
 									dataField="noSSN"
 									headerText="No SSN"
 									valueOfTab={tabValue}
-									width={100}
+									width={35}
 									headerWordWrap={true}
 									editable={false}
 									itemEditorApplyOnValueCommit={true}
@@ -1226,7 +1229,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="dateOfBirth"
 									headerText="DOB"
-									width={150}
+									width={100}
 									editorDataField="selectedDate"
 									filterControl="DateComboBox"
 									enableRecursiveSearch={true}
@@ -1242,7 +1245,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="gender"
 									headerText="Gender"
-									width={100}
+									width={55}
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
 									filterComboBoxDataProvider={combogenderDP}
@@ -1254,6 +1257,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="nonMonteEmail"
 									headerText="Personal or Business Email"
 									width={120}
@@ -1268,6 +1272,7 @@ const CurrentRequest = ({ tabValue }) => {
 								headerText="Official Details"
 								dataField="requester-user-id">
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="employeeSubGroup"
 									headerText="User Type"
 									width={140}
@@ -1284,6 +1289,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="companyCode"
 									headerText="Vendor Consultant Company"
 									width={150}
@@ -1299,6 +1305,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="campusCode"
 									headerText="Location"
 									width={100}
@@ -1314,6 +1321,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="title"
 									headerText="Title"
 									width={100}
@@ -1329,6 +1337,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="department"
 									headerText="Department"
 									width={100}
@@ -1345,8 +1354,8 @@ const CurrentRequest = ({ tabValue }) => {
 								/>
 								<ReactDataGridColumn
 									dataField="startDate"
-									headerText="Start date"
-									width={150}
+									headerText="Start Date"
+									width={100}
 									editorDataField="selectedDate"
 									filterControl="DateComboBox"
 									enableRecursiveSearch={true}
@@ -1357,12 +1366,12 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditor={startDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateStartDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
-									// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
 									dataField="endDate"
 									headerText="End Date"
-									width={150}
+									width={100}
 									editorDataField="selectedDate"
 									filterControl="DateComboBox"
 									enableRecursiveSearch={true}
@@ -1374,9 +1383,10 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditor={endDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateEndDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
-									// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="managerSourceUniqueId"
 									headerText="MHS Manager ID"
 									width={100}
@@ -1402,6 +1412,7 @@ const CurrentRequest = ({ tabValue }) => {
 									sortable={false}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="managerExt"
 									headerText="MHS Manager Ext"
 									width={100}
@@ -1412,6 +1423,7 @@ const CurrentRequest = ({ tabValue }) => {
 									sortable={false}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="managerEmail"
 									headerText="MHS Manager Email"
 									width={100}
@@ -1424,7 +1436,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="epicRequest"
 									headerText="EPIC"
-									width={100}
+									width={60}
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
 									valueOfTab={tabValue}
@@ -1439,7 +1451,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="epfRequest"
 									headerText="EPF"
-									width={100}
+									width={60}
 									headerWordWrap={true}
 									valueOfTab={tabValue}
 									filterControl="MultiSelectComboBox"
@@ -1454,7 +1466,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="epcsHardTokenRequest"
 									headerText="EPCS Hard Token"
-									width={100}
+									width={80}
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
 									valueOfTab={tabValue}
@@ -1469,7 +1481,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="mmcEmailRequest"
 									headerText="MMC Email"
-									width={100}
+									width={60}
 									headerWordWrap={true}
 									filterControl="MultiSelectComboBox"
 									valueOfTab={tabValue}
@@ -1482,6 +1494,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="additionalComments"
 									headerText="Requestors Comment"
 									width={100}
@@ -1497,6 +1510,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="requestorFullName"
 									headerText="Requestor"
 									width={100}
@@ -1507,9 +1521,10 @@ const CurrentRequest = ({ tabValue }) => {
 									useHandCursor={true}
 									editable={false}
 									sortable={false}
-									// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={textFilterFunction}
 								/>
 								<ReactDataGridColumn
+									textAlign={'left'}
 									dataField="reviewerComments"
 									headerText="Reject Reason"
 									width={100}
@@ -1526,7 +1541,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="createDate"
 									headerText="Create Date"
-									width={150}
+									width={70}
 									filterControl="DateComboBox"
 									enableRecursiveSearch={true}
 									headerWordWrap={false}
@@ -1536,12 +1551,12 @@ const CurrentRequest = ({ tabValue }) => {
 									sortable={false}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 									itemEditor={createDateRendererEditorWrapper}
-									// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={textFilterFunction}
 								/>
 							</ReactDataGridColumnGroup>
 							<ReactDataGridColumn
 								dataField="uploadDocs"
-								headerText="Upload or view Docs"
+								headerText="Upload or View Docs"
 								width={60}
 								columnLockMode={'right'}
 								itemRenderer={uploadOrViewFile}
@@ -1564,7 +1579,7 @@ const CurrentRequest = ({ tabValue }) => {
 							<ReactDataGridColumn
 								dataField="Save"
 								headerText="Save"
-								width={60}
+								width={50}
 								columnLockMode={'right'}
 								itemRenderer={save}
 								editable={false}
@@ -1581,7 +1596,7 @@ const CurrentRequest = ({ tabValue }) => {
 							<ReactDataGridColumn
 								dataField="Edit"
 								headerText="Edit"
-								width={60}
+								width={50}
 								columnLockMode={'right'}
 								itemRenderer={edit}
 								editable={false}
@@ -1598,7 +1613,7 @@ const CurrentRequest = ({ tabValue }) => {
 							<ReactDataGridColumn
 								dataField="Delete"
 								headerText="Delete"
-								width={60}
+								width={50}
 								columnLockMode={'right'}
 								itemRenderer={remove}
 								editable={false}

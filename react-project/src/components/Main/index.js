@@ -99,6 +99,9 @@ const Main = () => {
 						) : null
 					})}
 				</Switch>
+				<p style={{ fontSize: "15px", textAlign: "right", margin: "0px" }}>
+					Content © 2018, MIT .All rights reserved.
+          		</p>
 			</div>
 			<AlertDialog {...alertData} onClose={() => dispatch(removeMessage())} />
 		</div>

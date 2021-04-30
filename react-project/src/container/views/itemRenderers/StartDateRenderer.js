@@ -4,7 +4,7 @@ import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/mate
 
 const StartDateRenderer = props => {
 	const handleDateChange = date => {
-		props.row.rowPositionInfo.rowData.dateOfBirth = date
+		props.row.rowPositionInfo.rowData.startDate = date
 		props.cell.refreshCell()
 		const container = props.cell.getGrid().getBodyContainer()
 		if (container._inEdit) {
@@ -28,7 +28,7 @@ const StartDateRenderer = props => {
 					}
 				}
 			}}
-			selectedDate={new Date(props.row.rowPositionInfo.rowData.startDate)}
+			selectedDate={new Date(props.row.rowPositionInfo.rowData.startDate || null)}
 			style={{
 				minWidth: 100,
 				padding: '0px'

@@ -27,6 +27,7 @@ import {
 	FlexDataGridEvent,
 	UIUtils
 } from '../../../../../../flexicious'
+import Tooltip from '@material-ui/core/Tooltip';
 
 /**
  * Toolbar that sits on top of the datagrid component
@@ -308,21 +309,27 @@ export default class ToolbarImpl extends React.Component {
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnAddEmployee'}
 							onClick={this.executeToolbarAction.bind(this, 'Add Employee')}>
+							<Tooltip title="Add Non-Employee">
 							<IconButton className={'imageButtonSize'}>
 								<Add fontSize="large" />
 							</IconButton>
+							</Tooltip>
 						</span>
-						<span
+						<span							
 							key={gridId + 'btnAddDocument'}
-							className={'pagerDiv  iconCell'}
+							className={'pagerDiv iconCell'}
 							id={gridId + 'btnAddDocument'}
 							onClick={this.executeToolbarAction.bind(
 								this,
 								'Document Library'
 							)}>
-							<IconButton className={'imageButtonSize'}>
+							<Tooltip title="Document Library">
+							<IconButton 
+							className={'imageButtonSize'}
+							>
 								<FolderIcon fontSize="large" />
 							</IconButton>
+							</Tooltip>
 						</span>
 						<span
 							key={gridId + 'btnAddRefresh'}
@@ -645,13 +652,14 @@ export default class ToolbarImpl extends React.Component {
 		const val = (
 			<div
 				className={'pagerControl flexiciousGridPager cellRenderer'}
-				style={{ display: 'block' }}>
+				style={{ display: 'block', overflow: 'auto' }}>
 				<span
 					key={gridId + 'pagerTable'}
 					className={'pagerTable'}
 					style={{
 						float: 'left',
-						height: this.props.pager.getHeight() + 'px'
+						height: this.props.pager.getHeight() + 'px',
+						maxWidth:"600px"
 					}}>
 					{this.props.pager.level.enablePaging ? (
 						<span key="pageInfo" className={'pagerDiv pageInfo'}>
@@ -786,7 +794,8 @@ export default class ToolbarImpl extends React.Component {
 					className={'pagerTable'}
 					style={{
 						float: 'right',
-						height: this.props.pager.getHeight() + 'px'
+						height: this.props.pager.getHeight() + 'px',
+						maxWidth:"625px"
 					}}>
 					{topLevelToolbarButtons}
 				</span>

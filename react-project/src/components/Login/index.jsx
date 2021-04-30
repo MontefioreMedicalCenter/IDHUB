@@ -84,7 +84,12 @@ const Login = () => {
 	}
 
 	const loginFaultHandler = ({ error }) => {
-		toast.error(error.toString())
+		//toast.error(error.toString())
+		toast.error(error.response.data.reason)
+		setState({
+			userName: '',
+			password: ''
+		})
 	}
 
 	const handleOnLogin = () => {
