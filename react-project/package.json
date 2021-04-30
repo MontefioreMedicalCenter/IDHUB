@@ -142,6 +142,7 @@
 		},
 		"moduleFileExtensions": [
 			"web.js",
+			"ts",
 			"js",
 			"web.ts",
 			"ts",
@@ -149,6 +150,7 @@
 			"tsx",
 			"json",
 			"web.jsx",
+			"tsx",
 			"jsx",
 			"node"
 		]

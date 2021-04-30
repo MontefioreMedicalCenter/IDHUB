@@ -13,6 +13,7 @@ import {
 	check as checkNetworkStatus
 } from 'is-offline'
 import axios from 'axios'
+import GlobalEventDispatcher from '../utils/GlobalEventDispatcher'
 const amf = window.amf
 
 /**
@@ -41,7 +42,17 @@ export default class ServiceProxyBase extends TypedObject {
 	static progressHook(hookFunction: Function) {
 		ServiceProxyBase._hook = hookFunction
 	}
+	getHeaderData(){
+		var headerData = {
+			userName: localStorage.getItem('user-id'),
+			'Content-Type': 'application/json'
+		}
+		return headerData;
+	}
 
+	dispatchEvent(evt){
+		GlobalEventDispatcher.instance().dispatchEvent(evt);
+	}
 	getClassNames() {
 		return ['ServiceProxyBase', 'TypedObject']
 	}

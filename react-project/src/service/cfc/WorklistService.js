@@ -11,11 +11,7 @@ export default class WorklistService extends ServiceProxyBase {
 	}
 	findWorklistGroups(resultHandler, faultHandler) {
 		if (typeof faultHandler == 'undefined') faultHandler = null
-		var headerData = {
-			userName: localStorage.getItem('user-id'),
-			'Content-Type': 'application/json'
-		}
-
+		
 		return this.callServiceMethod(
 			'post',
 			'IdentityHub/api/worklistsvc/findWorklistGroups',
@@ -24,16 +20,13 @@ export default class WorklistService extends ServiceProxyBase {
 			resultHandler,
 			faultHandler,
 			null,
-			headerData
+			this.getHeaderData()
 		)
 	}
 
 	findLookupLists(resultHandler, faultHandler) {
 		if (typeof faultHandler == 'undefined') faultHandler = null
-		var headerData = {
-			userName: localStorage.getItem('user-id'),
-			'content-Type': 'application/json'
-		}
+		
 
 		return this.callServiceMethod(
 			'post',
@@ -43,7 +36,7 @@ export default class WorklistService extends ServiceProxyBase {
 			resultHandler,
 			faultHandler,
 			null,
-			headerData
+			this.getHeaderData()
 		)
 	}
 	deleteWorkListSingle(workList, resultHandler, faultHandler) {
@@ -60,7 +53,8 @@ export default class WorklistService extends ServiceProxyBase {
 			null,
 			resultHandler,
 			faultHandler,
-			'form'
+			'form',
+			this.getHeaderData()
 		)
 	}
 	
@@ -78,15 +72,13 @@ export default class WorklistService extends ServiceProxyBase {
 			null,
 			resultHandler,
 			faultHandler,
-			'form'
+			'form',
+			this.getHeaderData()
 		)
 	}
 
 	saveWorklist(worklist, resultHandler, faultHandler) {
-		var headerData = {
-			userName: localStorage.getItem('user-id'),
-			'content-Type': 'application/x-www-form-urlencoded'
-		}
+		
 		if (typeof faultHandler == 'undefined') faultHandler = null
 		worklist = stringifyCircularObjectWithModifiedKeys(worklist)
 
@@ -101,7 +93,7 @@ export default class WorklistService extends ServiceProxyBase {
 			resultHandler,
 			faultHandler,
 			'form',
-			headerData
+			this.getHeaderData()
 		)
 	}
 
@@ -112,10 +104,6 @@ export default class WorklistService extends ServiceProxyBase {
 		var bodyFormData = qs.stringify({
 			worklistGroup: worklistGroup
 		})
-		var headerData = {
-			userName: localStorage.getItem('user-id'),
-			'content-Type': 'application/x-www-form-urlencoded'
-		}
 		return this.callServiceMethod(
 			'post',
 			'IdentityHub/api/worklistsvc/saveWorkGroup',
@@ -124,7 +112,7 @@ export default class WorklistService extends ServiceProxyBase {
 			resultHandler,
 			faultHandler,
 			'form',
-			headerData
+			this.getHeaderData()
 		)
 	}
 
@@ -144,10 +132,6 @@ export default class WorklistService extends ServiceProxyBase {
 			}
 		}
 
-		var headerData = {
-			userName: localStorage.getItem('user-id'),
-			'Content-Type': 'application/json'
-		}
 
 		return this.callServiceMethod(
 			'post',
@@ -157,7 +141,7 @@ export default class WorklistService extends ServiceProxyBase {
 			resultHandler,
 			faultHandler,
 			null,
-			headerData
+			this.getHeaderData()
 		)
 	}
 
@@ -175,7 +159,8 @@ export default class WorklistService extends ServiceProxyBase {
 			null,
 			this.sendRejectMailSuccessResult,
 			this.failureFaultEvent,
-			'form'
+			'form',
+			this.getHeaderData()
 		)
 	}
 
@@ -202,7 +187,8 @@ export default class WorklistService extends ServiceProxyBase {
 			null,
 			this.sendAcceptMailSuccessResult,
 			this.failureFaultEvent,
-			'form'
+			'form',
+			this.getHeaderData()
 		)
 		//var rpcCall:AsyncToken=this.service.sendAcceptMailToHelpDesk(workListGroup);
 		//rpcCall.addResponder(new AsyncResponder(this.sendAcceptMailSuccessResult, this.failureFaultEvent));
@@ -224,7 +210,8 @@ export default class WorklistService extends ServiceProxyBase {
 			null,
 			this.boxTransferSuccessResult,
 			this.failureFaultEvent,
-			'form'
+			'form',
+			this.getHeaderData()
 		)
 		//var rpcCall:AsyncToken=this.service.sendDocumentsToBox(workListId);
 		//rpcCall.addResponder(new AsyncResponder(this.boxTransferSuccessResult, this.failureFaultEvent));
@@ -261,7 +248,8 @@ export default class WorklistService extends ServiceProxyBase {
 			null,
 			resultHandler, 
 			faultHandler,
-			'form'
+			'form',
+			this.getHeaderData()
 		)
 	}
 }

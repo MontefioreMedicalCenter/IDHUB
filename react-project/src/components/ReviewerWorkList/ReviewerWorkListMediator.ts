@@ -22,7 +22,7 @@ import { showDelete, showUpload } from "../../AppConfig/store/actions/documentLi
 
 export default class ReviewerWorkListMediator {
     /*[Inject]*/
-    public grid: DataGrid;
+    public grid: any;
     /*[Inject]*/
     public loginModel: LoginModel;
     /*[Inject]*/
@@ -33,7 +33,7 @@ export default class ReviewerWorkListMediator {
     private _workList: ArrayCollection
     private _selectedGroup: IdWorklistGroup;
     private _selectedRequest: IdWorklist;
-    private selectedItem: Object
+    private selectedItem: any;
     private isWorklistGroup: boolean;
     private isWorklist: boolean
     private isWorklistChild: boolean
@@ -122,7 +122,7 @@ export default class ReviewerWorkListMediator {
         this.grid.expandAll()
     }
 
-    private updateWorkList(event: WorkListEvent): void {
+    private updateWorkList(event: any): void {
         var vpos: number = this.grid.getVerticalScrollPosition();
         var gridDP: ArrayCollection = <ArrayCollection>this.grid.getDataProvider();
         if (this.index > 0) {

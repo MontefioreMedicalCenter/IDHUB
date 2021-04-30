@@ -191,8 +191,7 @@ const ReviewWorkList = () => {
                     .toLowerCase()
                     .indexOf(list.toLowerCase()) !== -1;
 
-                if (temp)
-                    return true;
+                    return temp;
             })
             return filteredArr && filteredArr.length && filteredArr[0];
         }
