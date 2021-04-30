@@ -20,7 +20,8 @@ export default class UserMediator //extends Mediator
 	/*[Inject]*/
 	public servc: AdminService = AdminService.getInstance();
 
-		/*override*/ public onRegister(): void {
+		/*override*/ public onRegister(view: UserModifier): void {
+			this.view = view
 		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.USER_START, this.getLayout, ManageUserEvent);
 		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.GET_USERS_AND_ROLES_ST, this.getUserRoles, ManageUserEvent);
 		// this.eventMap.mapListener(this.view, ManageUserEvent.CLR_USR, this.clrUsr, ManageUserEvent);
@@ -44,6 +45,7 @@ export default class UserMediator //extends Mediator
 		// this.eventMap.mapListener(this.view.grid.pager, ExtendedFilterPageSortChangeEvent.PAGE_CHANGE, this.changeViewPg, ExtendedFilterPageSortChangeEvent)
 		// var manageUserEvent:ManageUserEvent=new ManageUserEvent(ManageUserEvent.USER_START);
 		// this.dispatch(manageUserEvent);
+		this.getLayout()
 
 	}
 

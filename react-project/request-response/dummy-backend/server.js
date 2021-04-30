@@ -23,6 +23,7 @@ const sendAcceptMailToHelpDeskResponse = require('./response/sendAcceptMailToHel
 const sendRejectMailToRequestorResponse = require('./response/sendRejectMailToRequestorResponse')
 const findProcessedWorklistGroups = require('./response/findProcessedWorklistGroups')
 const findWorklistGroupReviewer = require('./response/findWorklistGroupReviewer')
+const getAllRoles = require('./response/getAllRoles')
 app.use(cors())
 app.use(bodyParser.urlencoded({ extended: false }))
 app.use(bodyParser.json())
@@ -169,6 +170,9 @@ app.post(
 )
 app.get('/IdentityHub/api/storagesvc/listDocumentLibraryFiles', (req, res) => {
 	sendResponse(res, 200, listDocumentLibraryFiles)
+})
+app.get('/IdentityHub/api/adminsvc/getAllRoles', (req, res) => {
+	sendResponse(res, 200, getAllRoles)
 })
 
 app.use(require('express').static(path.join(__dirname, 'build')))

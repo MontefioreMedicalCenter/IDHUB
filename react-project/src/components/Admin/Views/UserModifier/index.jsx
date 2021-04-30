@@ -67,7 +67,7 @@ export default class UserModifier extends UIComponent {
         this._indx = -1
         this.editable/*: boolean*/ = true;
         this.gridRef = React.createRef();
-        this.mediator = null;/* :UserMediator */;
+        this.mediator =  new UserMediator();/* :UserMediator */;
     }
 
     get firCol() {
@@ -238,7 +238,7 @@ export default class UserModifier extends UIComponent {
 
     componentDidMount() {
         this.mediator = new UserMediator();
-        this.mediator.onRegister();
+        this.mediator.onRegister(this);
         this.gridRef.current.setDataProvider([]);
     }
     componentWillUnmount() {
@@ -248,7 +248,7 @@ export default class UserModifier extends UIComponent {
     render() {
         return (
             <div className="userModifier-main-container">
-                <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" editable="true" cellEditableFunction={cellEdit} enableCopy="true" enableToolbarActions="true" enableEagerDraw="true" styleName="gridStyle" toolbarActionExecutedFunction="onExecuteToolbarAction" virtualScroll="true">
+                <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" editable cellEditableFunction={cellEdit} enableCopy enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction} virtualScroll="true">
                     <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="5000" 
                     >
                         <ReactDataGridColumnGroup headerText="Menu">

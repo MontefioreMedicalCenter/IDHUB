@@ -1,1 +1,42 @@
-module.exports = [{"createDate":"2018-04-03T04:00:00Z[UTC]","createdBy":"system","roleActiveFlag":1,"roleDescr":"Admin Functions","roleId":"Admin","roleType":"Functional","updateDate":"2018-04-03T04:00:00Z[UTC]","updatedBy":"system"},{"createDate":"2018-04-03T04:00:00Z[UTC]","createdBy":"system","roleActiveFlag":1,"roleDescr":"Requestor","roleId":"Requestor","roleType":"Functional","updateDate":"2018-04-03T04:00:00Z[UTC]","updatedBy":"system"},{"createDate":"2018-05-15T04:00:00Z[UTC]","createdBy":"system","roleActiveFlag":1,"roleDescr":"Service Desk Reviewer","roleId":"Reviewer","roleType":"Functional","updateDate":"2018-05-15T04:00:00Z[UTC]","updatedBy":"system"},{"createDate":"2018-05-15T04:00:00Z[UTC]","createdBy":"system","roleActiveFlag":1,"roleDescr":"Service Desk Email","roleId":"SDEmailer","roleType":"Functional","updateDate":"2018-05-15T04:00:00Z[UTC]","updatedBy":"system"}]
+module.exports = [
+	{
+		createDate: '2018-04-03T04:00:00Z[UTC]',
+		createdBy: 'system',
+		roleActiveFlag: 1,
+		roleDescr: 'Admin Functions',
+		roleId: 'Admin',
+		roleType: 'Functional',
+		updateDate: '2018-04-03T04:00:00Z[UTC]',
+		updatedBy: 'system'
+	},
+	{
+		createDate: '2018-04-03T04:00:00Z[UTC]',
+		createdBy: 'system',
+		roleActiveFlag: 1,
+		roleDescr: 'Requestor',
+		roleId: 'Requestor',
+		roleType: 'Functional',
+		updateDate: '2018-04-03T04:00:00Z[UTC]',
+		updatedBy: 'system'
+	},
+	{
+		createDate: '2018-05-15T04:00:00Z[UTC]',
+		createdBy: 'system',
+		roleActiveFlag: 1,
+		roleDescr: 'Service Desk Reviewer',
+		roleId: 'Reviewer',
+		roleType: 'Functional',
+		updateDate: '2018-05-15T04:00:00Z[UTC]',
+		updatedBy: 'system'
+	},
+	{
+		createDate: '2018-05-15T04:00:00Z[UTC]',
+		createdBy: 'system',
+		roleActiveFlag: 1,
+		roleDescr: 'Service Desk Email',
+		roleId: 'SDEmailer',
+		roleType: 'Functional',
+		updateDate: '2018-05-15T04:00:00Z[UTC]',
+		updatedBy: 'system'
+	}
+]

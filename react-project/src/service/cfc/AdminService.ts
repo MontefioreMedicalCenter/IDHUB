@@ -39,7 +39,7 @@ export default class AdminService extends ServiceProxyBase {
             Alert.show("Foreign key")
         }
         Alert.show("fault: " + fmsg)	*/
-        alert('Error: \n\r' + msg.faultString)
+        alert('Error: \n\r' + msg)
     }
 
     //addfailureFaultEvent
