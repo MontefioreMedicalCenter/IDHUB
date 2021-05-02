@@ -13,10 +13,10 @@ export default class IdCampusCodeMediator{
 	// 	/*override*/ public onRegister():void
 	// 	{
 	// 		super.onRegister();
-	// 		this.eventMap.mapListener(this.eventDispatcher, AdminEvent.GET_CAMPUSCODE, this.getCampusCodes, AdminEvent);
-	// 		this.eventMap.mapListener(this.eventDispatcher, AdminEvent.POP_CAMPUSCODE, this.popIdCampusCodeGW, AdminEvent);
-	// 		this.eventMap.mapListener(this.view, IdCampusCodeAdminEvent.SAVE, this.saveIdCampusCode, IdCampusCodeAdminEvent);
-	// 		this.eventMap.mapListener(this.view, IdCampusCodeAdminEvent.DELETE, this.deleteIdCampusCode, IdCampusCodeAdminEvent);
+	// 		this.mapListener(this.eventDispatcher, AdminEvent.GET_CAMPUSCODE, this.getCampusCodes, AdminEvent);
+	// 		this.mapListener(this.eventDispatcher, AdminEvent.POP_CAMPUSCODE, this.popIdCampusCodeGW, AdminEvent);
+	// 		this.mapListener(this.view, IdCampusCodeAdminEvent.SAVE, this.saveIdCampusCode, IdCampusCodeAdminEvent);
+	// 		this.mapListener(this.view, IdCampusCodeAdminEvent.DELETE, this.deleteIdCampusCode, IdCampusCodeAdminEvent);
 	// 		var  adminEvent:AdminEvent = new AdminEvent(AdminEvent.GET_CAMPUSCODE)
 	// 		this.dispatch(adminEvent);
 	// 	}

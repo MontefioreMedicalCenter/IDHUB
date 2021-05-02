@@ -12,10 +12,10 @@ export default class TitleMediator{
 	// 	/*override*/ public onRegister():void
 	// 	{
 	// 		super.onRegister();
-	// 		this.eventMap.mapListener(this.eventDispatcher, AdminEvent.GET_TITLE, this.getTitle, AdminEvent);
-	// 		this.eventMap.mapListener(this.eventDispatcher, AdminEvent.POP_TITLE, this.popTitle, AdminEvent);
-	// 		this.eventMap.mapListener(this.view, IdTitleAdminEvent.SAVE, this.saveTitle, IdTitleAdminEvent);
-	// 		this.eventMap.mapListener(this.view, IdTitleAdminEvent.DELETE, this.deleteTitle, IdTitleAdminEvent);
+	// 		this.mapListener(this.eventDispatcher, AdminEvent.GET_TITLE, this.getTitle, AdminEvent);
+	// 		this.mapListener(this.eventDispatcher, AdminEvent.POP_TITLE, this.popTitle, AdminEvent);
+	// 		this.mapListener(this.view, IdTitleAdminEvent.SAVE, this.saveTitle, IdTitleAdminEvent);
+	// 		this.mapListener(this.view, IdTitleAdminEvent.DELETE, this.deleteTitle, IdTitleAdminEvent);
 	// 		var  adminEvent:AdminEvent = new AdminEvent(AdminEvent.GET_TITLE)
 	// 		this.dispatch(adminEvent);
 	// 	}

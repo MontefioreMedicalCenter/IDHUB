@@ -5,6 +5,7 @@
 
 // @flow
 // FIXME: Add correct types where FlowFixMe's have been used
+import { toast } from 'react-toastify'
 
 import { TypedObject } from '../../flexicious'
 // import { traceError, /* trace */ } from "../../helpers/loggers";
@@ -179,7 +180,7 @@ export default class ServiceProxyBase extends TypedObject {
 	// eslint-disable-next-line no-unused-vars
 	defaultFaultHandler({ fault }, token) {
 		if (typeof token == 'undefined') token = null
-		alert(fault)
+		toast.error(fault)
 	}
 }
 

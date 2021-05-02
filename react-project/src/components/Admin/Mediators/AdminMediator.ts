@@ -14,9 +14,9 @@ export default class AdminMediator{
 	// 	/*override*/ public onRegister():void
 	// 	{
 
-	// 		this.eventMap.mapListener(this.view.viewStackAdmin, Event.CHANGE, this.refreshTab, Event);
-	// 		this.eventMap.mapListener(this.eventDispatcher, AdminEditEvent.ERR, this.errMsg, AdminEditEvent);
-	// 		this.eventMap.mapListener(this.eventDispatcher, this.MainEvent.ADMIN, this.startAdmin, this.MainEvent);
+	// 		this.mapListener(this.view.viewStackAdmin, Event.CHANGE, this.refreshTab, Event);
+	// 		this.mapListener(this.eventDispatcher, AdminEditEvent.ERR, this.errMsg, AdminEditEvent);
+	// 		this.mapListener(this.eventDispatcher, this.MainEvent.ADMIN, this.startAdmin, this.MainEvent);
 	// 	}
 
 

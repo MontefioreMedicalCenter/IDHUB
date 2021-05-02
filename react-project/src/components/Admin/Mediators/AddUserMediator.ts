@@ -14,12 +14,12 @@ export default class AddUserMediator{
 
 	// 	/*override*/ public onRegister():void
 	// 	{
-	// 		this.eventMap.mapListener(this.view, CloseEvent.CLOSE, this.dispose, CloseEvent);
+	// 		this.mapListener(this.view, CloseEvent.CLOSE, this.dispose, CloseEvent);
 	// 		//usernameValidator.source=view.usernameValidatorSource;
 	// 		//usernameValidator.property=view.usernameValidatorProperty;
 	// 		//emailVald.source=view.emailValSrc;
 	// 		//emailVald.property=view.usernameValidatorProperty;	
-	// 		this.eventMap.mapListener(this.view, ManageUserEvent.ADD_USER, this.saveUserRev, ManageUserEvent);
+	// 		this.mapListener(this.view, ManageUserEvent.ADD_USER, this.saveUserRev, ManageUserEvent);
 	// 	}
 	// 	private saveUser(event:ManageUserEvent):void
 	// 	{

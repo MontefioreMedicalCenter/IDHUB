@@ -12,10 +12,10 @@ export default class IdDepartmentMediator{
 	// 	/*override*/ public onRegister():void
 	// 	{
 	// 		super.onRegister();
-	// 		this.eventMap.mapListener(this.eventDispatcher, AdminEvent.GET_DEPT, this.getDeptCC, AdminEvent);
-	// 		this.eventMap.mapListener(this.eventDispatcher, AdminEvent.POP_DEPT, this.popIdDepartmentClass, AdminEvent);
-	// 		this.eventMap.mapListener(this.view, IdDepartmentAdminEvent.SAVE, this.saveIdDepartment, IdDepartmentAdminEvent);
-	// 		this.eventMap.mapListener(this.view, IdDepartmentAdminEvent.DELETE, this.deleteIdDepartment, IdDepartmentAdminEvent);
+	// 		this.mapListener(this.eventDispatcher, AdminEvent.GET_DEPT, this.getDeptCC, AdminEvent);
+	// 		this.mapListener(this.eventDispatcher, AdminEvent.POP_DEPT, this.popIdDepartmentClass, AdminEvent);
+	// 		this.mapListener(this.view, IdDepartmentAdminEvent.SAVE, this.saveIdDepartment, IdDepartmentAdminEvent);
+	// 		this.mapListener(this.view, IdDepartmentAdminEvent.DELETE, this.deleteIdDepartment, IdDepartmentAdminEvent);
 	// 		var  adminEvent:AdminEvent = new AdminEvent(AdminEvent.GET_DEPT)
 	// 		this.dispatch(adminEvent);
 	// 	}

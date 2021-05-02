@@ -12,10 +12,10 @@ export default class IdEmployeeSubgroupMediator{
 	// 	/*override*/ public onRegister():void
 	// 	{
 	// 		super.onRegister();
-	// 		this.eventMap.mapListener(this.eventDispatcher, AdminEvent.GET_EMPSUBGROUP, this.getEmployeeSubgroups, AdminEvent);
-	// 		this.eventMap.mapListener(this.eventDispatcher, AdminEvent.POP_EMPSUBGROUP, this.popEmployeeSubgroups, AdminEvent);
-	// 		this.eventMap.mapListener(this.view, IdEmployeeSubgroupAdminEvent.SAVE, this.saveIdEmployeeSubgroup, IdEmployeeSubgroupAdminEvent);
-	// 		this.eventMap.mapListener(this.view, IdEmployeeSubgroupAdminEvent.DELETE, this.deleteIdEmployeeSubgroup, IdEmployeeSubgroupAdminEvent);
+	// 		this.mapListener(this.eventDispatcher, AdminEvent.GET_EMPSUBGROUP, this.getEmployeeSubgroups, AdminEvent);
+	// 		this.mapListener(this.eventDispatcher, AdminEvent.POP_EMPSUBGROUP, this.popEmployeeSubgroups, AdminEvent);
+	// 		this.mapListener(this.view, IdEmployeeSubgroupAdminEvent.SAVE, this.saveIdEmployeeSubgroup, IdEmployeeSubgroupAdminEvent);
+	// 		this.mapListener(this.view, IdEmployeeSubgroupAdminEvent.DELETE, this.deleteIdEmployeeSubgroup, IdEmployeeSubgroupAdminEvent);
 	// 		var  adminEvent:AdminEvent = new AdminEvent(AdminEvent.GET_EMPSUBGROUP)
 	// 		this.dispatch(adminEvent);
 	// 	}

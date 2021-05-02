@@ -1,11 +1,13 @@
 import AdminService from "../../../service/cfc/AdminService.ts";
 import UserModifier from "../Views/UserModifier";
+import Mediator from "./Mediator.ts"
 import IDRole from "../../../vo/main/IDRole"
 import {
 	FlexDataGridEvent,
 	FlexDataGridColumn,
 	ExtendedFilterPageSortChangeEvent,
-	ClassFactory
+	ClassFactory,
+	UIUtils
 } from '../../../flexicious';
 import ManageUserEvent from "../../../events/ManageUserEvent.ts";
 import AdminEvent from "../../../events/AdminEvent.ts";
@@ -13,7 +15,9 @@ import ArrayCollection from "../../../vo/ArrayCollection";
 import IdUser from "../../../vo/main/IdUser";
 import IdUserRoleMap from "../../../vo/main/IdUserRoleMap";
 import GlobalEventDispatcher from "../../../service/utils/GlobalEventDispatcher";
-export default class UserMediator //extends Mediator
+import { toast } from 'react-toastify'
+
+export default class UserMediator extends Mediator
 {
 	/*[Inject]*/
 	public view: UserModifier;
@@ -22,30 +26,30 @@ export default class UserMediator //extends Mediator
 
 		/*override*/ public onRegister(view: UserModifier): void {
 			this.view = view
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.USER_START, this.getLayout, ManageUserEvent);
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.GET_USERS_AND_ROLES_ST, this.getUserRoles, ManageUserEvent);
-		// this.eventMap.mapListener(this.view, ManageUserEvent.CLR_USR, this.clrUsr, ManageUserEvent);
-		// this.eventMap.mapListener(this.eventDispatcher, AdminEvent.ROLE_USR, this.setRoleUser, AdminEvent)
-		// this.eventMap.mapListener(this.eventDispatcher, AdminEvent.POP_USERS, this.setRoleUsr, AdminEvent)	
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.SET_ROLE_DONE, this.getUsers, ManageUserEvent);
-		// this.eventMap.mapListener(this.view, ManageUserEvent.SAVE_USER, this.saveUsr, ManageUserEvent);
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.SAVE_USER, this.saveUsr, ManageUserEvent);
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.SV_USR_END, this.saveUsrRole, ManageUserEvent);
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.USR_FSA_REF, this.refillFsa, ManageUserEvent);
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.USR_FSA_REF_FIN, this.saveUsrFsa, ManageUserEvent);
-		// this.eventMap.mapListener(this.view, ManageUserEvent.ADD_USER, this.addNewUser, ManageUserEvent);
-		// this.eventMap.mapListener(this.view, ManageUserEvent.RFSH_DISP, this.refreshView, ManageUserEvent);
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.USR_ROLE_REF, this.reshuffleUsrRole, ManageUserEvent);
-		// this.eventMap.mapListener(this.view, ManageUserEvent.DELETE_USER, this.deleteUserRole, ManageUserEvent);
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.RMV_USR_ROLE_ED, this.delUsrStart, ManageUserEvent);
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.RMV_USR_ROLE_NON, this.delUsrStart, ManageUserEvent);
-		// this.eventMap.mapListener(this.eventDispatcher, ManageUserEvent.DELETE_USER_FIN, this.delUsrEnd, ManageUserEvent);
-		// this.eventMap.mapListener(this.view.grid, FlexDataGridVirtualScrollEvent.VIRTUAL_SCROLL, this.changeViewVS, FlexDataGridVirtualScrollEvent)
-		// this.eventMap.mapListener(this.view.grid, ExtendedFilterPageSortChangeEvent.FILTER_PAGE_SORT_CHANGE, this.changeView, ExtendedFilterPageSortChangeEvent)
-		// this.eventMap.mapListener(this.view.grid.pager, ExtendedFilterPageSortChangeEvent.PAGE_CHANGE, this.changeViewPg, ExtendedFilterPageSortChangeEvent)
-		// var manageUserEvent:ManageUserEvent=new ManageUserEvent(ManageUserEvent.USER_START);
-		// this.dispatch(manageUserEvent);
-		this.getLayout()
+		this.mapListener(this.eventDispatcher, ManageUserEvent.USER_START, this.getLayout, ManageUserEvent);
+		this.mapListener(this.eventDispatcher, ManageUserEvent.GET_USERS_AND_ROLES_ST, this.getUserRoles, ManageUserEvent);
+		this.mapListener(this.view, ManageUserEvent.CLR_USR, this.clrUsr, ManageUserEvent);
+		this.mapListener(this.eventDispatcher, AdminEvent.ROLE_USR, this.setRoleUser, AdminEvent)
+		this.mapListener(this.eventDispatcher, AdminEvent.POP_USERS, this.setRoleUsr, AdminEvent)	
+		this.mapListener(this.eventDispatcher, ManageUserEvent.SET_ROLE_DONE, this.getUsers, ManageUserEvent);
+		this.mapListener(this.view, ManageUserEvent.SAVE_USER, this.saveUsr, ManageUserEvent);
+		this.mapListener(this.eventDispatcher, ManageUserEvent.SAVE_USER, this.saveUsr, ManageUserEvent);
+		this.mapListener(this.eventDispatcher, ManageUserEvent.SV_USR_END, this.saveUsrRole, ManageUserEvent);
+		this.mapListener(this.eventDispatcher, ManageUserEvent.USR_FSA_REF, this.refillFsa, ManageUserEvent);
+		this.mapListener(this.eventDispatcher, ManageUserEvent.USR_FSA_REF_FIN, this.saveUsrFsa, ManageUserEvent);
+		this.mapListener(this.view, ManageUserEvent.ADD_USER, this.addNewUser, ManageUserEvent);
+		this.mapListener(this.view, ManageUserEvent.RFSH_DISP, this.refreshView, ManageUserEvent);
+		this.mapListener(this.eventDispatcher, ManageUserEvent.USR_ROLE_REF, this.reshuffleUsrRole, ManageUserEvent);
+		this.mapListener(this.view, ManageUserEvent.DELETE_USER, this.deleteUserRole, ManageUserEvent);
+		this.mapListener(this.eventDispatcher, ManageUserEvent.RMV_USR_ROLE_ED, this.delUsrStart, ManageUserEvent);
+		this.mapListener(this.eventDispatcher, ManageUserEvent.RMV_USR_ROLE_NON, this.delUsrStart, ManageUserEvent);
+		this.mapListener(this.eventDispatcher, ManageUserEvent.DELETE_USER_FIN, this.delUsrEnd, ManageUserEvent);
+		this.mapListener(this.view.grid, FlexDataGridEvent.VIRTUAL_SCROLL, this.changeViewVS, FlexDataGridEvent)
+		this.mapListener(this.view.grid, ExtendedFilterPageSortChangeEvent.FILTER_PAGE_SORT_CHANGE, this.changeView, ExtendedFilterPageSortChangeEvent)
+		this.mapListener(this.view.grid, ExtendedFilterPageSortChangeEvent.PAGE_CHANGE, this.changeViewPg, ExtendedFilterPageSortChangeEvent)
+		var manageUserEvent:ManageUserEvent=new ManageUserEvent(ManageUserEvent.USER_START);
+		this.dispatch(manageUserEvent);
+		//this.getLayout(null) -> This is not needed because line 50 calls this.
 
 	}
 
@@ -53,9 +57,6 @@ export default class UserMediator //extends Mediator
 		GlobalEventDispatcher.instance().dispatchEvent(evt);
 	}
 
-	public onUnRegister() {
-		//dont forget to unregister everything on global event dispatcher
-	}
 	private changeViewVS(event: FlexDataGridEvent): void {
 		// Alert.show("changeViewVS: ")
 		this.refreshView()
@@ -83,69 +84,69 @@ export default class UserMediator //extends Mediator
 	private arrColn(): void {
 		if (!this.view.firCol) {
 			var dummyCol: FlexDataGridColumn = new FlexDataGridColumn();
-			dummyCol.dataField = "userId"
-			dummyCol.headerText = "User"
-			dummyCol.itemEditorApplyOnValueCommit = true
-			dummyCol.headerAlign = "center"
+			dummyCol.setDataField("userId");
+			dummyCol.setHeaderText("User");
+			UIUtils.checkSetterAndApply(dummyCol,"itemEditorApplyOnValueCommit",true)
+			UIUtils.checkSetterAndApply(dummyCol,"headerAlign", "center")
 			dummyCol.setStyle('fontWeight', 'bold')
-			dummyCol.columnWidthMode = "fitToContent"
-			dummyCol.columnLockMode = "left"
-			dummyCol.sortable = true
-			dummyCol.filterControl = "TextInput"
-			dummyCol.filterOperation = "Contains"
+			UIUtils.checkSetterAndApply(dummyCol,"columnWidthMode","fitToContent")
+			UIUtils.checkSetterAndApply(dummyCol,"columnLockMode", "left");
+			UIUtils.checkSetterAndApply(dummyCol,"sortable", true)
+			UIUtils.checkSetterAndApply(dummyCol,"filterControl" , "TextInput")
+			UIUtils.checkSetterAndApply(dummyCol,"filterOperation" , "Contains");
 			//dummyCol. .filterTriggerEvent="filterChange"	
 			this.view.grid.addColumn(dummyCol);
 			var lummyCol: FlexDataGridColumn = new FlexDataGridColumn();
-			lummyCol.dataField = "userLastName"
-			lummyCol.headerText = "Last Name"
-			lummyCol.itemEditorApplyOnValueCommit = true
-			lummyCol.headerAlign = "center"
+			UIUtils.checkSetterAndApply(lummyCol,"dataField","userLastName")
+			UIUtils.checkSetterAndApply(lummyCol,"headerText",  "Last Name")
+			UIUtils.checkSetterAndApply(lummyCol,"itemEditorApplyOnValueCommit",true)
+			UIUtils.checkSetterAndApply(lummyCol,"headerAlign", "center")
 			lummyCol.setStyle('fontWeight', 'bold')
-			lummyCol.columnWidthMode = "fitToContent"
-			//lummyCol.width=100	
-			lummyCol.columnLockMode = "left"
-			lummyCol.sortable = true
-			lummyCol.filterControl = "TextInput"
-			lummyCol.filterOperation = "Contains"
+			UIUtils.checkSetterAndApply(lummyCol,"columnWidthMode", "fitToContent")
+			//UIUtils.checkSetterAndApply(lummyCol,"width=100	
+			UIUtils.checkSetterAndApply(lummyCol,"columnLockMode", "left")
+			UIUtils.checkSetterAndApply(lummyCol,"sortable", true)
+			UIUtils.checkSetterAndApply(lummyCol,"filterControl", "TextInput")
+			UIUtils.checkSetterAndApply(lummyCol,"filterOperation", "Contains")
 			this.view.grid.addColumn(lummyCol);
 			var fummyCol: FlexDataGridColumn = new FlexDataGridColumn();
-			fummyCol.dataField = "userFirstName"
-			fummyCol.headerText = "First Name"
-			fummyCol.itemEditorApplyOnValueCommit = true
-			fummyCol.headerAlign = "center"
+			UIUtils.checkSetterAndApply(fummyCol,"dataField",  "userFirstName")
+			UIUtils.checkSetterAndApply(fummyCol,"headerText", "First Name")
+			UIUtils.checkSetterAndApply(fummyCol,"itemEditorApplyOnValueCommit",  true)
+			UIUtils.checkSetterAndApply(fummyCol,"headerAlign",  "center")
 			fummyCol.setStyle('fontWeight', 'bold')
-			fummyCol.columnWidthMode = "fitToContent"
-			//lummyCol.width=100	
-			fummyCol.columnLockMode = "left"
-			fummyCol.sortable = true
-			fummyCol.filterControl = "TextInput"
-			fummyCol.filterOperation = "Contains"
+			UIUtils.checkSetterAndApply(fummyCol,"columnWidthMode",  "fitToContent")
+			//UIUtils.checkSetterAndApply(lummyCol,"width=100	
+			UIUtils.checkSetterAndApply(fummyCol,"columnLockMode",  "left")
+			UIUtils.checkSetterAndApply(fummyCol,"sortable",  true)
+			UIUtils.checkSetterAndApply(fummyCol,"filterControl",  "TextInput")
+			UIUtils.checkSetterAndApply(fummyCol,"filterOperation", "Contains")
 			this.view.grid.addColumn(fummyCol);
 			var tummyCol: FlexDataGridColumn = new FlexDataGridColumn();
-			tummyCol.dataField = "userEmail"
-			tummyCol.headerText = "Email"
-			tummyCol.itemEditorApplyOnValueCommit = true
-			tummyCol.headerAlign = "center"
+			UIUtils.checkSetterAndApply(tummyCol,"dataField","userEmail")
+			UIUtils.checkSetterAndApply(tummyCol,"headerText","Email")
+			UIUtils.checkSetterAndApply(tummyCol,"itemEditorApplyOnValueCommit", true)
+			UIUtils.checkSetterAndApply(tummyCol,"headerAlign", "center")
 			tummyCol.setStyle('fontWeight', 'bold')
-			//tummyCol.columnWidthMode="fitToContent"	
-			tummyCol.width = 100
-			tummyCol.columnLockMode = "left"
-			tummyCol.sortable = false
-			tummyCol.filterControl = "TextInput"
-			tummyCol.filterOperation = "Contains"
+			//UIUtils.checkSetterAndApply(tummyCol,"columnWidthMode="fitToContent"	
+			UIUtils.checkSetterAndApply(tummyCol,"width", 100)
+			UIUtils.checkSetterAndApply(tummyCol,"columnLockMode", "left")
+			UIUtils.checkSetterAndApply(tummyCol,"sortable", false)
+			UIUtils.checkSetterAndApply(tummyCol,"filterControl", "TextInput")
+			UIUtils.checkSetterAndApply(tummyCol,"filterOperation", "Contains")
 			this.view.grid.addColumn(tummyCol);
 			var pummyCol: FlexDataGridColumn = new FlexDataGridColumn();
-			pummyCol.dataField = "userPhone"
-			pummyCol.headerText = "Phone Number"
-			pummyCol.itemEditorApplyOnValueCommit = true
-			pummyCol.headerAlign = "center"
+			UIUtils.checkSetterAndApply(pummyCol,"dataField", "userPhone")
+			UIUtils.checkSetterAndApply(pummyCol,"headerText", "Phone Number")
+			UIUtils.checkSetterAndApply(pummyCol,"itemEditorApplyOnValueCommit",true)
+			UIUtils.checkSetterAndApply(pummyCol,"headerAlign", "center")
 			pummyCol.setStyle('fontWeight', 'bold')
-			pummyCol.columnWidthMode = "fitToContent"
-			//lummyCol.width=100	
-			pummyCol.columnLockMode = "left"
-			pummyCol.sortable = false
-			pummyCol.filterControl = "TextInput"
-			pummyCol.filterOperation = "Contains"
+			UIUtils.checkSetterAndApply(pummyCol,"columnWidthMode", "fitToContent")
+			//UIUtils.checkSetterAndApply(lummyCol,"width=100	
+			UIUtils.checkSetterAndApply(pummyCol,"columnLockMode", "left")
+			UIUtils.checkSetterAndApply(pummyCol,"sortable", false)
+			UIUtils.checkSetterAndApply(pummyCol,"filterControl", "TextInput")
+			UIUtils.checkSetterAndApply(pummyCol,"filterOperation", "Contains")
 
 			this.view.grid.addColumn(pummyCol);
 
@@ -168,14 +169,14 @@ export default class UserMediator //extends Mediator
 			var ind: number = hl.getItemIndex(role.roleId)
 			if (ind < 0 && !(role.roleId == 'Admin' || role.roleId == 'SDEmailer')) {
 				var col: FlexDataGridColumn = new FlexDataGridColumn();
-				col.headerText = role.roleId;
+				col.setHeaderText(role.roleId);
 				//Alert.show("UserMediator:col header is: " + col.headerText);
-				col.uniqueIdentifier = role.roleId
+				col.setUniqueIdentifier(role.roleId);
 				col.sortable = false
 				//col.columnLockMode="LOCK_MODE_LEFT"
-				col.editable = true
-				hl.addItem(col.uniqueIdentifier)
-				alert("fix this line below")
+				col.setEditable(true);// = true
+				hl.addItem(col.getUniqueIdentifier())
+				toast.warning("fix this line below ClassFactory(UsrRole)")
 				//col.itemRenderer = new ClassFactory(UsrRole)
 				this.view.grid.addColumn(col);
 			}
@@ -218,7 +219,7 @@ export default class UserMediator //extends Mediator
 
 	}
 	private setRoleUsr(event: AdminEvent): void {
-		this.view.grid.dataProvider = event.userData;
+		this.view.grid.setDataProvider(event.userData);
 		this.refreshView()
 	}
 
@@ -316,7 +317,7 @@ export default class UserMediator //extends Mediator
 		this.refreshView()
 	}
 	private editUser(event: ManageUserEvent): void {
-		alert("fix this")
+		toast.warning("fix this editUser")
 		// var addUser:AddUser=new AddUser();
 		// PopUpManager.addPopUp(addUser, this.contextView, true);
 		// PopUpManager.centerPopUp(addUser);
@@ -324,7 +325,7 @@ export default class UserMediator //extends Mediator
 	}
 
 	private addNewUser(event: ManageUserEvent): void {
-		alert("fix this")
+		toast.warning("fix this addNewUser")
 
 		// var addUser:AddUser=new AddUser();
 		// PopUpManager.addPopUp(addUser, this.contextView, true);
@@ -404,14 +405,14 @@ export default class UserMediator //extends Mediator
 						var onefsa: any = this.view.fsal[j]
 						if (onefsa.fsaTxt == hd) {
 							col = this.view.grid.getColumnByUniqueIdentifier(onefsa.fsaid)
-							alert("fix this")
+							toast.warning("fix this ClassFactory(UsrRole")
 							//col.itemRenderer=new ClassFactory(UsrRole)
 							break;
 						}
 					}
 				} else {
 					col = this.view.grid.getColumnByUniqueIdentifier(hd)
-					alert("fix this")
+					toast.warning("fix this ClassFactory(UsrRole")
 					//col.itemRenderer=new ClassFactory(UsrRole)
 				}
 			}

@@ -27,13 +27,13 @@ const active = Edit;
 const inactive = InActive;
 
 const isCellEditable = (cell/* : FlexDataGridDataCell */)/*: boolean*/ => {
-    //Alert.show("cell edit is:" + cell.rowInfo.data.edit);
-    return (cell.rowInfo.data.edit === true && (cell.column.dataField === "userLastName" || cell.column.dataField === "userFirstName"
+    //Alert.show("cell edit is:" + cell.rowInfo.getData().edit);
+    return (cell.rowInfo.getData().edit === true && (cell.column.dataField === "userLastName" || cell.column.dataField === "userFirstName"
         || cell.column.dataField === "userPhone" || cell.column.dataField === "userEmail"))
     //|| cell.column.dataField=="appealTimeline"
 }
 const cellEdit = (cell/* : FlexDataGridDataCell */)/*: boolean*/ => {
-    return (cell.rowInfo.data.edit && (cell.column.dataField === "userLastName" || cell.column.dataField === "userFirstName"
+    return (cell.rowInfo.getData().edit && (cell.column.dataField === "userLastName" || cell.column.dataField === "userFirstName"
         || cell.column.dataField === "userPhone" || cell.column.dataField === "userEmail"))
 }
 const dynamicIcon = (data/*: any*/)/*: any*/ => {
@@ -46,7 +46,7 @@ const dynamicIcon = (data/*: any*/)/*: any*/ => {
 }
 
 // const cellEditableForAdd = (cell/* : FlexDataGridDataCell */)/*: boolean*/ => {
-//     return cell.rowInfo.data.edit && cell.column.headerText != "Active";
+//     return cell.rowInfo.getData().edit && cell.column.headerText != "Active";
 // }
 // const dynamicIconFunction = (data/*: any*/)/*: any*/ => {
 
@@ -238,7 +238,7 @@ export default class UserModifier extends UIComponent {
 
     componentDidMount() {
         this.mediator = new UserMediator();
-        this.mediator.onRegister(this);
+        this.mediator.onRegister(this, this.gridRef.current);
         this.gridRef.current.setDataProvider([]);
     }
     componentWillUnmount() {
@@ -268,7 +268,7 @@ export default class UserModifier extends UIComponent {
 														// TODO Auto-generated method stub
 														var tcbx:CheckBox=event.target as CheckBox
 														var cell:FlexDataGridDataCell=tcbx.parent.parent as FlexDataGridDataCell
-														var data:Object=cell.rowInfo.data
+														var data:Object=cell.rowInfo.getData()
 														var msg:String=""
 														if (data.edit){
 															Alert.show("Please save the change first !")

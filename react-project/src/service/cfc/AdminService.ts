@@ -8,7 +8,8 @@ import ServiceProxyBase from "./ServiceProxyBase";
 import qs from 'qs'
 import IdUserRoleMap from "../../vo/main/IdUserRoleMap";
 import GlobalEventDispatcher from "../utils/GlobalEventDispatcher";
-
+import { toast } from "react-toastify"
+import MontefioreUtils from "../utils/MontefioreUtils";
 
 export default class AdminService extends ServiceProxyBase {
 
@@ -39,7 +40,8 @@ export default class AdminService extends ServiceProxyBase {
             Alert.show("Foreign key")
         }
         Alert.show("fault: " + fmsg)	*/
-        alert('Error: \n\r' + msg)
+        debugger;
+        MontefioreUtils.showError(event)
     }
 
     //addfailureFaultEvent
