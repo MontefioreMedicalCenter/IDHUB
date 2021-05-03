@@ -1,0 +1,21 @@
+ 
+POST http://localhost:8080/IdentityHub/api/adminsvc/saveCampusCode
+200
+14.00 s
+Network
+Request Headers
+userName: mzeltsan
+User-Agent: PostmanRuntime/7.28.0
+Accept: */*
+Postman-Token: 377b95d7-f975-4dd4-9efc-871a8d2a6ecf
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 245
+Request Body
+Response Headers
+Connection: keep-alive
+Content-Type: application/json
+Content-Length: 2408
+Date: Mon, 03 May 2021 16:31:25 GMT
