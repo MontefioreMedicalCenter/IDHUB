@@ -1,0 +1,23 @@
+POST http://localhost:8080/IdentityHub/api/adminsvc/deleteEmployeeSubgroup
+200
+534 ms
+Network
+Request Headers
+userName: mzeltsan
+User-Agent: PostmanRuntime/7.28.0
+Accept: */*
+Postman-Token: b2aeae8f-16b0-4c10-8d2d-dd354d1859ae
+Host: localhost:8080
+Accept-Encoding: gzip, deflate, br
+Connection: keep-alive
+Content-Type: application/x-www-form-urlencoded
+Content-Length: 264
+Request Body
+idEmployeeSubGroupStr: "{"activeFlag":0,"createDate":"2019-09-25 20:25:19","employeeSubGroupId":11,"employeeSubGroupName":"test","updateDate":"2019-09-25 20:25:19","updatedBy":"vlaregina"}"
+Response Headers
+Connection: keep-alive
+Content-Type: application/json
+Content-Length: 1676
+Date: Mon, 03 May 2021 17:33:38 GMT
+Response Body
+[{"activeFlag":1,"createDate":"2018-05-15 18:14:00","employeeSubGroupId":1,"employeeSubGroupName":"Clinical Consultant","updateDate":"2018-05-15 18:14:00","updatedBy":""},{"activeFlag":1,"createDate":"2018-05-15 18:14:00","employeeSubGroupId":2,"employeeSubGroupName":"Clinical Vendor","updateDate":"2018-08-08 19:16:30","updatedBy":"whussain"},{"activeFlag":1,"createDate":"2018-05-15 18:14:00","employeeSubGroupId":3,"employeeSubGroupName":"House Staff","updateDate":"2018-05-15 18:14:00","updatedBy":""},{"activeFlag":1,"createDate":"2018-05-15 18:14:00","employeeSubGroupId":4,"employeeSubGroupName":"Non-clinical Consultant","updateDate":"2018-05-15 18:14:00","updatedBy":""},{"activeFlag":1,"createDate":"2018-05-15 18:14:00","employeeSubGroupId":5,"employeeSubGroupName":"Non-clinical Vendor","updateDate":"2018-05-15 18:14:00","updatedBy":""},{"activeFlag":1,"createDate":"2018-05-15 18:14:00","employeeSubGroupId":6,"employeeSubGroupName":"Student","updateDate":"2018-05-15 18:14:00","updatedBy":""},{"activeFlag":1,"createDate":"2018-05-15 18:14:00","employeeSubGroupId":7,"employeeSubGroupName":"Traveling Nurse","updateDate":"2018-05-15 18:14:00","updatedBy":""},{"activeFlag":1,"createDate":"2018-05-15 18:14:00","employeeSubGroupId":8,"employeeSubGroupName":"Volunteer","updateDate":"2018-05-15 18:14:00","updatedBy":""},{"activeFlag":1,"createDate":"2018-08-28 19:58:03","employeeSubGroupId":9,"employeeSubGroupName":"BAHN User","updateDate":"2018-08-28 19:58:03","updatedBy":"beweeks"},{"activeFlag":1,"createDate":"2019-09-25 20:25:19","employeeSubGroupId":10,"employeeSubGroupName":"Epic Tapestry","updateDate":"2019-09-25 20:25:19","updatedBy":"vlaregina"}]
