@@ -122,7 +122,7 @@ export default class AdminService extends ServiceProxyBase {
             this.resultEvent.bind(this),
             this.addfailureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         )
         // var rpcCall: AsyncToken = this.service.addUserOnly(user);
         // rpcCall.addResponder(new AsyncResponder(this.resultEvent, this.addfailureFaultEvent));
@@ -201,7 +201,7 @@ export default class AdminService extends ServiceProxyBase {
             this.saveIdDepartSuccessResultEvent.bind(this),
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         )
         // var rpcCall: AsyncToken = this.service.saveDepartment(<IdDepartment>depart);
         // rpcCall.addResponder(new AsyncResponder(this.saveIdDepartSuccessResultEvent, this.failureFaultEvent));
@@ -226,7 +226,7 @@ export default class AdminService extends ServiceProxyBase {
             this.deleteIdDepartSuccessResultEvent.bind(this),
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         )
         // var rpcCall: AsyncToken = this.service.deleteDepartment(<IdDepartment>depart);
         // rpcCall.addResponder(new AsyncResponder(this.deleteIdDepartSuccessResultEvent, this.failureFaultEvent));
@@ -262,7 +262,7 @@ export default class AdminService extends ServiceProxyBase {
             this.saveUserHandler.bind(this),
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.saveUserOnly(user);
         // rpcCall.addResponder(new AsyncResponder(this.saveUserHandler, this.failureFaultEvent));
@@ -286,7 +286,7 @@ export default class AdminService extends ServiceProxyBase {
             (signal == ManageUserEvent.USR_FSA_REF) ? this.addUsrFsaResult.bind(this) : () => { },
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.addUserFacilityMap(ur)
         // if (signal == ManageUserEvent.USR_FSA_REF) {
@@ -314,7 +314,7 @@ export default class AdminService extends ServiceProxyBase {
                 (signal == ManageUserEvent.RMV_USR_FSA_ED) ? this.remUsrFsaHandleDel.bind(this) : () => { },
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.removeUserFacilityMap(ur)
         // if (signal == ManageUserEvent.USR_FSA_REF) {
@@ -345,7 +345,7 @@ export default class AdminService extends ServiceProxyBase {
             (signal == ManageUserEvent.USR_ROLE_REF) ? this.addUsrRoleResult.bind(this) : () => { },
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.setRole(ur.id.userId, ur.id.roleId)
         // if (signal == ManageUserEvent.USR_ROLE_REF) {
@@ -381,7 +381,7 @@ export default class AdminService extends ServiceProxyBase {
                 (signal == ManageUserEvent.RMV_USR_ROLE_ED) ? this.remUsrRoleResultDel.bind(this) : () => { },
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.unsetRole(ur.id.userId, ur.id.roleId)
         // if (signal == ManageUserEvent.USR_ROLE_REF) {
@@ -415,7 +415,7 @@ export default class AdminService extends ServiceProxyBase {
             this.deleteUserSuccessfulHandler.bind(this),
             this.deleteUserFailureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.deleteUser(user);
         // rpcCall.addResponder(new AsyncResponder(this.deleteUserSuccessfulHandler, this.deleteUserFailureFaultEvent));
@@ -462,7 +462,7 @@ export default class AdminService extends ServiceProxyBase {
             this.saveCampusCodeSuccessResultEvent.bind(this),
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.saveCampusCode(<IdCampusCode>val);
         // rpcCall.addResponder(new AsyncResponder(this.saveCampusCodeSuccessResultEvent, this.failureFaultEvent));
@@ -487,7 +487,7 @@ export default class AdminService extends ServiceProxyBase {
             this.deleteCampusCodeSuccessResultEvent.bind(this),
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.deleteCampusCode(<IdCampusCode>val);
         // rpcCall.addResponder(new AsyncResponder(this.deleteCampusCodeSuccessResultEvent, this.failureFaultEvent));
@@ -535,7 +535,7 @@ export default class AdminService extends ServiceProxyBase {
             this.saveEmployeeSubgroupSuccessResultEvent.bind(this),
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
 
         // var rpcCall: AsyncToken = this.service.saveEmployeeSubgroup(<IdEmployeeSubgroup>val);
@@ -561,7 +561,7 @@ export default class AdminService extends ServiceProxyBase {
             this.deleteEmployeeSubgroupSuccessResultEvent.bind(this),
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.deleteEmployeeSubgroup(<IdEmployeeSubgroup>val);
         // rpcCall.addResponder(new AsyncResponder(this.deleteEmployeeSubgroupSuccessResultEvent, this.failureFaultEvent));
@@ -608,7 +608,7 @@ export default class AdminService extends ServiceProxyBase {
             this.saveIdTitleSuccessResultEvent.bind(this),
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.saveTitle(<IdTitle>title);
         // rpcCall.addResponder(new AsyncResponder(this.saveIdTitleSuccessResultEvent, this.failureFaultEvent));
@@ -633,7 +633,7 @@ export default class AdminService extends ServiceProxyBase {
             this.deleteIdTitleSuccessResultEvent.bind(this),
             this.failureFaultEvent.bind(this),
             'form',
-            this.getHeaderData()
+            this.getHeaderFormData()
         );
         // var rpcCall: AsyncToken = this.service.deleteTitle(<IdTitle>title);
         // rpcCall.addResponder(new AsyncResponder(this.deleteIdTitleSuccessResultEvent, this.failureFaultEvent));

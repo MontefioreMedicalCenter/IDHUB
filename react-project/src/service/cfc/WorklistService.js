@@ -54,7 +54,7 @@ export default class WorklistService extends ServiceProxyBase {
 			resultHandler,
 			faultHandler,
 			'form',
-			this.getHeaderData()
+			this.getHeaderFormData()
 		)
 	}
 	
@@ -73,7 +73,7 @@ export default class WorklistService extends ServiceProxyBase {
 			resultHandler,
 			faultHandler,
 			'form',
-			this.getHeaderData()
+			this.getHeaderFormData()
 		)
 	}
 
@@ -93,7 +93,7 @@ export default class WorklistService extends ServiceProxyBase {
 			resultHandler,
 			faultHandler,
 			'form',
-			this.getHeaderData()
+			this.getHeaderFormData()
 		)
 	}
 
@@ -112,7 +112,7 @@ export default class WorklistService extends ServiceProxyBase {
 			resultHandler,
 			faultHandler,
 			'form',
-			this.getHeaderData()
+			this.getHeaderFormData()
 		)
 	}
 
@@ -160,7 +160,7 @@ export default class WorklistService extends ServiceProxyBase {
 			this.sendRejectMailSuccessResult,
 			this.failureFaultEvent,
 			'form',
-			this.getHeaderData()
+			this.getHeaderFormData()
 		)
 	}
 
@@ -188,7 +188,7 @@ export default class WorklistService extends ServiceProxyBase {
 			this.sendAcceptMailSuccessResult,
 			this.failureFaultEvent,
 			'form',
-			this.getHeaderData()
+			this.getHeaderFormData()
 		)
 		//var rpcCall:AsyncToken=this.service.sendAcceptMailToHelpDesk(workListGroup);
 		//rpcCall.addResponder(new AsyncResponder(this.sendAcceptMailSuccessResult, this.failureFaultEvent));
@@ -211,7 +211,7 @@ export default class WorklistService extends ServiceProxyBase {
 			this.boxTransferSuccessResult,
 			this.failureFaultEvent,
 			'form',
-			this.getHeaderData()
+			this.getHeaderFormData()
 		)
 		//var rpcCall:AsyncToken=this.service.sendDocumentsToBox(workListId);
 		//rpcCall.addResponder(new AsyncResponder(this.boxTransferSuccessResult, this.failureFaultEvent));
@@ -249,7 +249,7 @@ export default class WorklistService extends ServiceProxyBase {
 			resultHandler, 
 			faultHandler,
 			'form',
-			this.getHeaderData()
+			this.getHeaderFormData()
 		)
 	}
 }

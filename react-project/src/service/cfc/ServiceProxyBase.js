@@ -50,6 +50,14 @@ export default class ServiceProxyBase extends TypedObject {
 		}
 		return headerData;
 	}
+	getHeaderFormData(){
+		var headerData = {
+			userName: localStorage.getItem('user-id'),
+			'Content-Type': 'application/x-www-form-urlencoded'
+		}
+		return headerData;
+	}
+
 
 	dispatchEvent(evt){
 		GlobalEventDispatcher.instance().dispatchEvent(evt);
