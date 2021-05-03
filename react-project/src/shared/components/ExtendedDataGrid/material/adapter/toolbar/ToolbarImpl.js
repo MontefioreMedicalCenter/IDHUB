@@ -304,18 +304,18 @@ export default class ToolbarImpl extends React.Component {
 			if (grid.enableDrillDown) {
 				topLevelToolbarButtons.push(
 					<span key="1">
-						<span
+						{grid.showAddEmployee && <span
 							key={gridId + 'btnAddEmployee'}
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnAddEmployee'}
 							onClick={this.executeToolbarAction.bind(this, 'Add Employee')}>
 							<Tooltip title="Add Non-Employee">
-							<IconButton className={'imageButtonSize'}>
-								<Add fontSize="large" />
-							</IconButton>
+								<IconButton className={'imageButtonSize'}>
+									<Add fontSize="large" />
+								</IconButton>
 							</Tooltip>
-						</span>
-						<span							
+						</span>}
+						<span
 							key={gridId + 'btnAddDocument'}
 							className={'pagerDiv iconCell'}
 							id={gridId + 'btnAddDocument'}

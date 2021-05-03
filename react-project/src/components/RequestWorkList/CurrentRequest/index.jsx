@@ -1098,6 +1098,7 @@ const CurrentRequest = ({ tabValue }) => {
 						styleName="gridStyle"
 						editable
 						enableDrillDown
+						showAddEmployee
 						filterVisible={false}
 						headerWordWrap
 						headerHeight={60}
