@@ -16,6 +16,7 @@ import IdUser from "../../../vo/main/IdUser";
 import IdUserRoleMap from "../../../vo/main/IdUserRoleMap";
 import GlobalEventDispatcher from "../../../service/utils/GlobalEventDispatcher";
 import { toast } from 'react-toastify'
+import UsrRole from "../Views/UserModifier/UsrRole";
 
 export default class UserMediator extends Mediator
 {
@@ -163,11 +164,11 @@ export default class UserMediator extends Mediator
 
 	private setRoleUser(event: AdminEvent): void {
 		//Alert.show("UserMediator:setRoleUser()");
-		var hl: ArrayCollection = this.view.hl == null ? (new ArrayCollection()) : this.view.hl
+		var hl: ArrayCollection = this.view.hl === null ? (new ArrayCollection()) : this.view.hl
 		for (var x: number = 0; x < event.roleData.length; x++) {
 			var role: IDRole = event.roleData[x]
 			var ind: number = hl.getItemIndex(role.roleId)
-			if (ind < 0 && !(role.roleId == 'Admin' || role.roleId == 'SDEmailer')) {
+			if (ind < 0 && !(role.roleId === 'Admin' || role.roleId === 'SDEmailer')) {
 				var col: FlexDataGridColumn = new FlexDataGridColumn();
 				col.setHeaderText(role.roleId);
 				//Alert.show("UserMediator:col header is: " + col.headerText);
@@ -176,8 +177,7 @@ export default class UserMediator extends Mediator
 				//col.columnLockMode="LOCK_MODE_LEFT"
 				col.setEditable(true);// = true
 				hl.addItem(col.getUniqueIdentifier())
-				toast.warning("fix this line below ClassFactory(UsrRole)")
-				//col.itemRenderer = new ClassFactory(UsrRole)
+				col.itemRenderer = new ClassFactory(UsrRole)
 				this.view.grid.addColumn(col);
 			}
 		}
@@ -405,15 +405,13 @@ export default class UserMediator extends Mediator
 						var onefsa: any = this.view.fsal[j]
 						if (onefsa.fsaTxt == hd) {
 							col = this.view.grid.getColumnByUniqueIdentifier(onefsa.fsaid)
-							toast.warning("fix this ClassFactory(UsrRole")
-							//col.itemRenderer=new ClassFactory(UsrRole)
+							col.itemRenderer=new ClassFactory(UsrRole)
 							break;
 						}
 					}
 				} else {
 					col = this.view.grid.getColumnByUniqueIdentifier(hd)
-					toast.warning("fix this ClassFactory(UsrRole")
-					//col.itemRenderer=new ClassFactory(UsrRole)
+					col.itemRenderer=new ClassFactory(UsrRole)
 				}
 			}
 			this.view.grid.reDraw()
