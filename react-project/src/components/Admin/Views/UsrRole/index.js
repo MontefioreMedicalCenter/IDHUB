@@ -1,16 +1,18 @@
 import { Checkbox } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
-import { UIComponent } from '../../../../../flexicious'
-import { camelizeKeys } from '../../../../../shared/utils'
-import IdUser from '../../../../../vo/main/IdUser'
-import IdUserRoleMap from '../../../../../vo/main/IdUserRoleMap'
-import IdUserRoleMapPK from '../../../../../vo/main/IdUserRoleMapPK'
+import { UIComponent } from '../../../../flexicious'
+import { camelizeKeys } from '../../../../shared/utils'
+import IdUser from '../../../../vo/main/IdUser'
+import IdUserRoleMap from '../../../../vo/main/IdUserRoleMap'
+import IdUserRoleMapPK from '../../../../vo/main/IdUserRoleMapPK'
 
 const UsrRole = props => {
 	const [roleChkbx, setRoleChkbx] = useState(false)
 	const [disabled, setDisabled] = useState(false)
+
 	useEffect(() => {
 		setData(props.row.getData())
+		// eslint-disable-next-line
 	}, [])
 
 	const setData = value => {
@@ -45,7 +47,7 @@ const UsrRole = props => {
 		// var p:Object=t.parent
 		// var cp:FlexDataGridDataCell=t.parent as FlexDataGridDataCell
 		var ht = props.column.getHeaderText()
-		var pg=props.grid
+		// var pg=props.grid
 		var caps = usr.roleMap
 		var adds = usr.addMaps
 		var rems = usr.remMaps
@@ -67,7 +69,7 @@ const UsrRole = props => {
 				rlcapk.userId=usr.userId
 				rlcapk.roleId=ht
 				rlcapm.id=rlcapk
-				var edin=exists(rlcapk, caps)
+				// var edin=exists(rlcapk, caps)
 				if(chbx.checked===true){
 					usr.addEntry(rlcapm)
 				}else{
@@ -84,18 +86,18 @@ const UsrRole = props => {
 		}
 	}
 
-	const exists =(pk, caps) => {
-		var ex=-1
-		for(var i=0;i<caps.length;i++){
-			const idUserRoleMap =  new IdUserRoleMap()
-			var one = idUserRoleMap.fromJson(camelizeKeys(caps.getItemAt(i)))
-			if (pk.userId===one.id.userId && pk.roleId===one.id.roleId){
-				ex=i
-				break	
-			}
-		}
-		return ex
-	}
+	// const exists =(pk, caps) => {
+	// 	var ex=-1
+	// 	for(var i=0;i<caps.length;i++){
+	// 		const idUserRoleMap =  new IdUserRoleMap()
+	// 		var one = idUserRoleMap.fromJson(camelizeKeys(caps.getItemAt(i)))
+	// 		if (pk.userId===one.id.userId && pk.roleId===one.id.roleId){
+	// 			ex=i
+	// 			break	
+	// 		}
+	// 	}
+	// 	return ex
+	// }
 
 	return (
 		<div>

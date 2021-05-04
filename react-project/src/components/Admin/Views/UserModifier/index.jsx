@@ -24,6 +24,7 @@ import Remove from '../../../../container/views/itemRenderers/Remove';
 import IdUser from '../../../../vo/main/IdUser';
 import { camelizeKeys } from '../../../../shared/utils';
 import Edit from '../../../../container/views/itemRenderers/Edit';
+import ActiveRenderer from '../../../../container/views/itemRenderers/ActiveRenderer';
 
 
 const save = new ClassFactory(Save)
@@ -256,49 +257,9 @@ export default class UserModifier extends UIComponent {
         return (
             <div className="userModifier-main-container">
                 <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" editable cellEditableFunction={cellEdit} enableCopy enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction} virtualScroll="true">
-                    <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="5000" 
-                    >
+                    <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="5000" >
                         <ReactDataGridColumnGroup headerText="Menu">
-                            <ReactDataGridColumn width="50" dataField="userActiveFlag" enableCellClickRowSelect="false" headerAlign="center" headerText="Active" columnLockMode="right" excludeFromExport="true" itemEditorApplyOnValueCommit="true">
-                                {/* <nestedtreedatagrid:itemRenderer>
-									<fx:Component>
-										<mx:HBox width="100%" horizontalAlign="center" horizontalScrollPolicy="off">
-											<fx:Script>
-												<![CDATA[
-													import com.flexicious.nestedtreedatagrid.cells.FlexDataGridDataCell;
-
-													import mx.controls.Alert;
-
-													import org.monte.edi.idhub.modules.main.model.vo.IdUser;
-													protected function activeChk_click(event:MouseEvent):void
-													{
-														// TODO Auto-generated method stub
-														var tcbx:CheckBox=event.target as CheckBox
-														var cell:FlexDataGridDataCell=tcbx.parent.parent as FlexDataGridDataCell
-														var data:Object=cell.rowInfo.getData()
-														var msg:String=""
-														if (data.edit){
-															Alert.show("Please save the change first !")
-														}else{
-															if(tcbx.selected){
-																data.userActiveFlag=1
-																msg="activated"	
-															}else{
-																data.userActiveFlag=0
-																msg="de-activated"	
-															}
-															Alert.show("The use is " + msg + ". Do you want to save it?", "Confirm Activate", Alert.YES | Alert.NO, this, parentDocument.saveHandle(data,2))
-														}
-													}
-													private function onConfirmActivate():void{
-
-													}
-												]]>
-											</fx:Script>
-											<s:CheckBox id="activeChk" selected="{data.userActiveFlag==1}" click="activeChk_click(event)" styleName="checkBoxStyle"/>
-										</mx:HBox>
-									</fx:Component>
-								</nestedtreedatagrid:itemRenderer> */}
+                            <ReactDataGridColumn width="50" dataField="userActiveFlag" enableCellClickRowSelect="false" headerAlign="center" headerText="Active" columnLockMode="right" excludeFromExport="true" itemEditorApplyOnValueCommit="true" itemRenderer={new ClassFactory(ActiveRenderer)} saveHandle={(data, i) => this.saveHandle(data, i)}>
                             </ReactDataGridColumn>
                             {/* <ReactDataGridColumn headerText="Edit" enableIcon iconFunction={dynamicIcon} uniqueIdentifier="Edit" width="50" headerAlign="center" columnLockMode="right" excludeFromExport="true" >  */}
                             <ReactDataGridColumn headerText="Edit" uniqueIdentifier="Edit" width="50" headerAlign="center" columnLockMode="right" excludeFromExport="true" itemRenderer={edit} onHandleEdit={(props) => { this.editHandle(props.cell.rowInfo.getData()) }}>
