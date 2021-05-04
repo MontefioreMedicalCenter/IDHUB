@@ -17,6 +17,7 @@ import IdUserRoleMap from "../../../vo/main/IdUserRoleMap";
 import GlobalEventDispatcher from "../../../service/utils/GlobalEventDispatcher";
 import { toast } from 'react-toastify'
 import UsrRole from "../Views/UserModifier/UsrRole";
+import { camelizeKeys } from "../../../shared/utils";
 
 export default class UserMediator extends Mediator
 {
@@ -226,7 +227,9 @@ export default class UserMediator extends Mediator
 
 	private clrUsr(event: ManageUserEvent): void {
 
-		var usr: IdUser = event.data as IdUser;
+		// var usr: IdUser = event.data as IdUser;
+		var idUser = new IdUser()
+		var usr = idUser.fromJson(camelizeKeys(event.data)) ;
 		if (usr.add) {
 			var dataPd: ArrayCollection = <ArrayCollection>this.view.grid.dataProvider
 			dataPd.removeItemAt(this.view.indx)
@@ -395,7 +398,7 @@ export default class UserMediator extends Mediator
 		this.refreshView()
 	}
 
-	private refreshView(): void {
+	private refreshView = (): void => {
 		if (this.view.hl != null) {
 			for (var i: number = 0; i < this.view.hl.length; i++) {
 				var hd: string = this.view.hl[i]

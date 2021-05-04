@@ -1,6 +1,6 @@
 import * as React from 'react'
 import ArrayCollection from '../../../../vo/ArrayCollection';
-import Edit from "../../../../assets/images/Edit-active.png"
+// import Edit from "../../../../assets/images/Edit-active.png"
 import InActive from '../../../../assets/images/Edit-inactive.png'
 import './userModifier.style.scss';
 
@@ -9,6 +9,7 @@ import {
     ReactDataGridColumnGroup,
     ReactDataGridColumnLevel,
     UIComponent,
+    ClassFactory,
     ExtendedExportController
 } from '../../../../flexicious';
 
@@ -18,9 +19,16 @@ import ExampleUtils from '../../../../utils/ExampleUtils';
 import AdminEditEvent from '../../../../events/AdminEditEvent.ts';
 import ManageUserEvent from '../../../../events/ManageUserEvent.ts';
 import UserMediator from '../../Mediators/UserMediator.ts';
+import Save from '../../../../container/views/itemRenderers/Save';
+import Remove from '../../../../container/views/itemRenderers/Remove';
+import IdUser from '../../../../vo/main/IdUser';
+import { camelizeKeys } from '../../../../shared/utils';
+import Edit from '../../../../container/views/itemRenderers/Edit';
 
 
-
+const save = new ClassFactory(Save)
+const remove = new ClassFactory(Remove)
+const edit = new ClassFactory(Edit)
 /*[Embed('../../../../assets/img/Edit-active.png')]*/
 const active = Edit;
 /*[Embed('../../../../assets/img/Edit-inactive.png')]*/
@@ -33,8 +41,8 @@ const isCellEditable = (cell/* : FlexDataGridDataCell */)/*: boolean*/ => {
     //|| cell.column.dataField=="appealTimeline"
 }
 const cellEdit = (cell/* : FlexDataGridDataCell */)/*: boolean*/ => {
-    return (cell.rowInfo.getData().edit && (cell.column.dataField === "userLastName" || cell.column.dataField === "userFirstName"
-        || cell.column.dataField === "userPhone" || cell.column.dataField === "userEmail"))
+    return (cell.rowInfo.getData().edit && (cell.getColumn().dataField === "userLastName" || cell.getColumn().dataField === "userFirstName"
+        || cell.getColumn().dataField === "userPhone" || cell.getColumn().dataField === "userEmail"))
 }
 const dynamicIcon = (data/*: any*/)/*: any*/ => {
     var ret = null;
@@ -97,37 +105,36 @@ export default class UserModifier extends UIComponent {
     get grid()/*: any*/ {
         return this.gridRef.current;
     }
-    editHandle(data/*: any*/)/*: void*/ {
+    editHandle = (data) => {
         if (data.edit) {
             if (window.confirm("Are you sure you want to cancel your changes?")) {//, "Confirm Cancel", Alert.YES | Alert.NO, this, function (event: CloseEvent)/*: void*/ {
                 //Alert.show("Trigger delete on the backend: data: " + data)
-                this._indx = (this.grid.getDataProvider()).getItemIndex(data)
+                this._indx = (this.grid.getDataProvider()).indexOf(data)
                 var evt/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.CLR_USR)
                 evt.data = data
 
                 this.dispatchEvent(evt);
             } else {//if (this.event.detail === Alert.NO)
-                
+
             }
         } else {
             data.edit = true
         }
         this.grid.refreshCells();
     }
-    saveHandle(data/*: Object*/, i/*: number*/)/*: boolean*/ {
+    saveHandle = (data, i) => {
         //Alert.show("saveHandle(): data: " + data)
-        var dpa/*: ArrayCollection*/ = this.grid.getDataProvider()
+        var dpa = this.grid.getDataProvider()
         //Alert.show("" + dpa)
-        this._indx = dpa.getItemIndex(data)
+        this._indx = dpa.indexOf(data)
         //grid.refreshCells();
         //Alert.show("saveHandle():_indx: " + _indx)
         var event/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.SAVE_USER)
         event.data = data
-        var usr/*: IdUser*/ = data;
+        var idUser = new IdUser()
+        var usr = idUser.fromJson(camelizeKeys(data));
         //Alert.show("*** " + (usr.roleMap.length-usr.remMaps.length))
-        if (usr.userActiveFlag === 1 &&
-            ((usr.roleMap.length - usr.remMaps.length) < 1) &&
-            usr.addMaps.length < 1) {
+        if (usr.userActiveFlag === 1 && ((usr.roleMap.length - usr.remMaps.length) < 1) && usr.addMaps.length < 1) {
             alert("An active user should have One role !")
             if (i === 2) usr.userActiveFlag = 0
         } else {
@@ -198,18 +205,18 @@ export default class UserModifier extends UIComponent {
         this.grid.refreshCells();
         return false;
     }
-    onRem(data/*: Object*/)/*: boolean*/ {
+    onRem = (data/*: Object*/)/*: boolean*/ => {
         if (window.confirm("Are you sure you want to delete this item?")) {//}, "Confirm Delete", Alert.OK | Alert.CANCEL, this, function (event: CloseEvent)/*: void*/ {
             //            if (this.event.detail === Alert.OK) {
             //Alert.show("Trigger delete on the backend")
-            this._indx = (this.grid.getDataProvider()).getItemIndex(data)
+            this._indx = (this.grid.getDataProvider()).indexOf(data)
             var evt/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.DELETE_USER)
             evt.data = data
             this.dispatchEvent(evt);
         }
         else {// if (this.event.detail === Alert.NO)
             
-                alert("Cancel the delete.")
+            alert("Cancel the delete.")
             
         }
         return true;
@@ -293,7 +300,8 @@ export default class UserModifier extends UIComponent {
 									</fx:Component>
 								</nestedtreedatagrid:itemRenderer> */}
                             </ReactDataGridColumn>
-                            <ReactDataGridColumn headerText="Edit" enableIcon iconFunction={dynamicIcon} uniqueIdentifier="Edit" width="50" headerAlign="center" columnLockMode="right" excludeFromExport="true">
+                            {/* <ReactDataGridColumn headerText="Edit" enableIcon iconFunction={dynamicIcon} uniqueIdentifier="Edit" width="50" headerAlign="center" columnLockMode="right" excludeFromExport="true" >  */}
+                            <ReactDataGridColumn headerText="Edit" uniqueIdentifier="Edit" width="50" headerAlign="center" columnLockMode="right" excludeFromExport="true" itemRenderer={edit} onHandleEdit={(props) => { this.editHandle(props.cell.rowInfo.getData()) }}>
                                 {/* <nestedtreedatagrid:itemRenderer>
 									<fx:Component>
 										<mx:HBox width="100%" horizontalAlign="center" horizontalScrollPolicy="off">
@@ -302,7 +310,7 @@ export default class UserModifier extends UIComponent {
 									</fx:Component>
 								</nestedtreedatagrid:itemRenderer> */}
                             </ReactDataGridColumn>
-                            <ReactDataGridColumn width="50" enableCellClickRowSelect="false" headerAlign="center" headerText="Delete User" columnLockMode="right" excludeFromExport="true">
+                            <ReactDataGridColumn width="50" enableCellClickRowSelect="false" headerAlign="center" headerText="Delete User" columnLockMode="right" excludeFromExport="true" itemRenderer={remove} onHandleDelete={(props) => { this.onRem(props.cell.rowInfo.getData()) }}>
                                 {/* <nestedtreedatagrid:itemRenderer>
 									<fx:Component>
 										<mx:HBox width="100%" horizontalAlign="center" horizontalScrollPolicy="off">
@@ -311,7 +319,7 @@ export default class UserModifier extends UIComponent {
 									</fx:Component>
 								</nestedtreedatagrid:itemRenderer> */}
                             </ReactDataGridColumn>
-                            <ReactDataGridColumn width="50" enableCellClickRowSelect="false" headerAlign="center" headerText="Save" columnLockMode="right" excludeFromExport="true">
+                            <ReactDataGridColumn width="50" enableCellClickRowSelect="false" headerAlign="center" headerText="Save" columnLockMode="right" excludeFromExport="true" itemRenderer={save} onHandleSave={(props) => { this.saveHandle(props.cell.rowInfo.getData(), 1) }}>
                                 {/* <nestedtreedatagrid:itemRenderer>
 									<fx:Component>
 										<mx:HBox width="100%" horizontalAlign="center" horizontalScrollPolicy="off">
