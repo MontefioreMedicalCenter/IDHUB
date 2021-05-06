@@ -1,7 +1,7 @@
 import * as React from 'react'
 import ArrayCollection from '../../../../vo/ArrayCollection';
 // import Edit from "../../../../assets/images/Edit-active.png"
-import InActive from '../../../../assets/images/Edit-inactive.png'
+// import InActive from '../../../../assets/images/Edit-inactive.png'
 import './userModifier.style.scss';
 
 import {
@@ -30,10 +30,10 @@ import ActiveRenderer from '../../../../container/views/itemRenderers/ActiveRend
 const save = new ClassFactory(Save)
 const remove = new ClassFactory(Remove)
 const edit = new ClassFactory(Edit)
-/*[Embed('../../../../assets/img/Edit-active.png')]*/
-const active = Edit;
-/*[Embed('../../../../assets/img/Edit-inactive.png')]*/
-const inactive = InActive;
+// /*[Embed('../../../../assets/img/Edit-active.png')]*/
+// const active = Edit;
+// /*[Embed('../../../../assets/img/Edit-inactive.png')]*/
+// const inactive = InActive;
 
 const isCellEditable = (cell/* : FlexDataGridDataCell */)/*: boolean*/ => {
     //Alert.show("cell edit is:" + cell.rowInfo.getData().edit);
@@ -45,14 +45,14 @@ const cellEdit = (cell/* : FlexDataGridDataCell */)/*: boolean*/ => {
     return (cell.rowInfo.getData().edit && (cell.getColumn().dataField === "userLastName" || cell.getColumn().dataField === "userFirstName"
         || cell.getColumn().dataField === "userPhone" || cell.getColumn().dataField === "userEmail"))
 }
-const dynamicIcon = (data/*: any*/)/*: any*/ => {
-    var ret = null;
-    if (data.edit)
-        ret = active;
-    else
-        ret = inactive;
-    return ret;
-}
+// const dynamicIcon = (data/*: any*/)/*: any*/ => {
+//     var ret = null;
+//     if (data.edit)
+//         ret = active;
+//     else
+//         ret = inactive;
+//     return ret;
+// }
 
 // const cellEditableForAdd = (cell/* : FlexDataGridDataCell */)/*: boolean*/ => {
 //     return cell.rowInfo.getData().edit && cell.column.headerText != "Active";

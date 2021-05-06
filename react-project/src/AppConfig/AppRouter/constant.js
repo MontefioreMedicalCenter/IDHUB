@@ -3,6 +3,7 @@ import Main from '../../components/Main'
 import RequestWorkList from '../../components/RequestWorkList'
 import ReviewerWorkList from '../../components/ReviewerWorkList'
 import UserModifier from '../../components/Admin/Views/UserModifier'
+import AdminTab from '../../components/Admin/Views/Admin'
 
 
 
@@ -29,6 +30,12 @@ export const PRIVATE_ROUTES = [
 		url: '/main/users',
 		private: true,
 		component: UserModifier,
+		exact: true
+	},{
+		name: 'users',
+		url: '/main/admin',
+		private: true,
+		component: AdminTab,
 		exact: true
 	}
 ]
