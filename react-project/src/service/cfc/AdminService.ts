@@ -249,9 +249,9 @@ export default class AdminService extends ServiceProxyBase {
     }
 
 
-    public saveUser(user: IdUser): AxiosPromise<any> {
+    public saveUser(userData: IdUser): AxiosPromise<any> {
         var formData = qs.stringify({
-            user: user
+            user: JSON.stringify(userData)
         })
 
         return this.callServiceMethod(

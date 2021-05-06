@@ -36,6 +36,7 @@ const saveCampusCode = require('./response/saveCampusCode')
 const saveDepartment = require('./response/saveDepartment')
 const saveEmployeeSubgroup = require('./response/saveEmployeeSubgroup')
 const saveTitle = require('./response/saveTitle')
+const saveUserOnly = require('./response/saveUserOnly')
 
 
 app.use(cors())
@@ -211,6 +212,13 @@ app.post('/IdentityHub/api/adminsvc/saveEmployeeSubgroup', (req, res) => {
 app.post('/IdentityHub/api/adminsvc/saveTitle', (req, res) => {
 	if (req.body.idTitleStr) {
 		sendResponse(res, 200, saveTitle)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/saveUserOnly', (req, res) => {
+	if (req.body.user) {
+		sendResponse(res, 200, saveUserOnly)
 	} else {
 		sendResponse(res, 400)
 	}

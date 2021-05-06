@@ -231,7 +231,7 @@ export default class UserMediator extends Mediator
 		var idUser = new IdUser()
 		var usr = idUser.fromJson(camelizeKeys(event.data)) ;
 		if (usr.add) {
-			var dataPd: ArrayCollection = <ArrayCollection>this.view.grid.dataProvider
+			var dataPd: ArrayCollection = <ArrayCollection>this.view.grid.getDataProvider()
 			dataPd.removeItemAt(this.view.indx)
 		} else {
 			usr.undo()
@@ -282,8 +282,9 @@ export default class UserMediator extends Mediator
 
 	//
 	private saveUsrRole(event: ManageUserEvent): void {
-		var dp: ArrayCollection = <ArrayCollection>this.view.grid.dataProvider
-		var us: IdUser = this.view.eusr    //event.data as RcUser
+		var dp: ArrayCollection = <ArrayCollection>this.view.grid.getDataProvider()
+		var idUser = new IdUser()
+		var us: IdUser = idUser.fromJson(camelizeKeys(this.view.eusr))    //event.data as RcUser
 		var adds: ArrayCollection = us.addMaps
 		var rems: ArrayCollection = us.remMaps
 		var nonchg: boolean = true
@@ -310,13 +311,16 @@ export default class UserMediator extends Mediator
 
 	private reshuffleUsrRole(event: ManageUserEvent): void {
 		var inx: number = this.view.indx
-		var dp: ArrayCollection = <ArrayCollection>this.view.grid.dataProvider
-		var us: IdUser = <IdUser>dp.getItemAt(inx)
-		us = this.view.eusr
+		var dp: ArrayCollection = <ArrayCollection>this.view.grid.getDataProvider()
+		
+		var idUser = new IdUser()
+		var us = idUser.fromJson(camelizeKeys(dp[inx])) ;
+		// var us: IdUser = <IdUser>dp[inx]
+		us = idUser.fromJson(camelizeKeys(this.view.eusr)) 
 		us.add = false
 		us.edit = false
 		us.reshuffle()
-		var testus: IdUser = <IdUser>dp.getItemAt(inx)
+		var testus: IdUser = <IdUser>dp[inx]
 		this.refreshView()
 	}
 	private editUser(event: ManageUserEvent): void {
@@ -386,7 +390,7 @@ export default class UserMediator extends Mediator
 	}
 	private delUsrEnd(event: ManageUserEvent): void {
 		var rus: IdUser = <IdUser>event.data
-		var dp: ArrayCollection = <ArrayCollection>this.view.grid.dataProvider
+		var dp: ArrayCollection = <ArrayCollection>this.view.grid.getDataProvider()
 		dp.removeItemAt(this.view.indx)
 		this.refreshView()
 	}
