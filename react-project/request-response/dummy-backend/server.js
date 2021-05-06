@@ -25,6 +25,17 @@ const findProcessedWorklistGroups = require('./response/findProcessedWorklistGro
 const findWorklistGroupReviewer = require('./response/findWorklistGroupReviewer')
 const getAllRoles = require('./response/getAllRoles')
 const getAllUsers = require('./response/getAllUsers')
+const unsetRole = require('./response/unsetRole')
+const deleteDepartment = require('./response/deleteDepartment')
+const deleteEmployeeSubgroup = require('./response/deleteEmployeeSubgroup')
+const deleteTitle = require('./response/deleteTitle')
+const findDepartments = require('./response/findDepartments')
+const findEmployeeSubgroup = require('./response/findEmployeeSubgroup')
+const findTitles = require('./response/findTitles')
+const saveCampusCode = require('./response/saveCampusCode')
+const saveDepartment = require('./response/saveDepartment')
+const saveEmployeeSubgroup = require('./response/saveEmployeeSubgroup')
+const saveTitle = require('./response/saveTitle')
 
 
 app.use(cors())
@@ -140,6 +151,78 @@ app.post('/IdentityHub/api/boxsvc/uploadFile', (req, res) => {
 	} else {
 		sendResponse(res, 400)
 	}
+})
+app.post('/IdentityHub/api/adminsvc/unsetRole', (req, res) => {
+	if (req.body.userId && req.body.roleId ) {
+		sendResponse(res, 200, unsetRole)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/setRole', (req, res) => {
+	if (req.body.userId && req.body.roleId ) {
+		sendResponse(res, 200, {})
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/deleteDepartment', (req, res) => {
+	if (req.body.department) {
+		sendResponse(res, 200, deleteDepartment)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/deleteEmployeeSubgroup', (req, res) => {
+	if (req.body.idEmployeeSubGroupStr) {
+		sendResponse(res, 200, deleteEmployeeSubgroup)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/deleteTitle', (req, res) => {
+	if (req.body.idTitleStr) {
+		sendResponse(res, 200, deleteTitle)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/saveCampusCode', (req, res) => {
+	if (req.body.idcampusCodeStr) {
+		sendResponse(res, 200, saveCampusCode)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/saveDepartment', (req, res) => {
+	if (req.body.department) {
+		sendResponse(res, 200, saveDepartment)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/saveEmployeeSubgroup', (req, res) => {
+	if (req.body.idEmployeeSubGroupStr) {
+		sendResponse(res, 200, saveEmployeeSubgroup)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/saveTitle', (req, res) => {
+	if (req.body.idTitleStr) {
+		sendResponse(res, 200, saveTitle)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/findDepartments', (req, res) => {
+	sendResponse(res, 200, findDepartments)
+})
+app.post('/IdentityHub/api/adminsvc/findEmployeeSubgroup', (req, res) => {
+	sendResponse(res, 200, findEmployeeSubgroup)
+})
+app.post('/IdentityHub/api/adminsvc/findTitles', (req, res) => {
+	sendResponse(res, 200, findTitles)
 })
 app.post(
 	'/IdentityHub/api/worklistsvc/loadWorklistFromSpreadsheet',
