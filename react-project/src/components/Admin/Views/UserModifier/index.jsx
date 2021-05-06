@@ -25,6 +25,7 @@ import IdUser from '../../../../vo/main/IdUser';
 import { camelizeKeys } from '../../../../shared/utils';
 import Edit from '../../../../container/views/itemRenderers/Edit';
 import ActiveRenderer from '../../../../container/views/itemRenderers/ActiveRenderer';
+import StyledPagerRenderer from '../StyledPager';
 
 
 const save = new ClassFactory(Save)
@@ -154,9 +155,8 @@ export default class UserModifier extends UIComponent {
             alert("Please save the row previously being edited first !")
         }
     }
-    onAddClick()/*: void*/ {
+    onAddClick = () =>{
         this.dispatchEvent(new ManageUserEvent(ManageUserEvent.ADD_USER));
-
     }
 
     onToolbarExport()/*: void*/ {
@@ -256,8 +256,8 @@ export default class UserModifier extends UIComponent {
     render() {
         return (
             <div className="userModifier-main-container">
-                <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" editable cellEditableFunction={cellEdit} enableCopy enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction} virtualScroll="true">
-                    <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="5000" >
+                <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" editable cellEditableFunction={cellEdit} enableCopy enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction} virtualScroll="true" onAddClick={this.onAddClick}>
+                    <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="5000" pagerRenderer={new ClassFactory(StyledPagerRenderer)} >
                         <ReactDataGridColumnGroup headerText="Menu">
                             <ReactDataGridColumn width="50" dataField="userActiveFlag" enableCellClickRowSelect="false" headerAlign="center" headerText="Active" columnLockMode="right" excludeFromExport="true" itemEditorApplyOnValueCommit="true" itemRenderer={new ClassFactory(ActiveRenderer)} saveHandle={(data, i) => this.saveHandle(data, i)}>
                             </ReactDataGridColumn>

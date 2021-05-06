@@ -1,0 +1,14 @@
+.pager-main-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 100%;
+    padding: 0px 10px;
+}
+.pager-add-txt {
+    text-transform: capitalize;
+    padding-left: 5px;
+}
+.pager-label {
+    font-weight: 500;
+}

@@ -99,7 +99,7 @@ const Main = () => {
 						) : null
 					})}
 				</Switch>
-				<p style={{ fontSize: "15px", textAlign: "right", margin: "0px" }}>
+				<p style={{ fontSize: "13px", textAlign: "right", margin: "0px", padding: "0px 10px" }}>
 					Content © 2018, MIT .All rights reserved.
           		</p>
 			</div>

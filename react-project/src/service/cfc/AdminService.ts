@@ -62,8 +62,8 @@ export default class AdminService extends ServiceProxyBase {
     }
 
     protected deleteUserFailureFaultEvent(event: any, token: Object = null): void {
-        var msg = event.message;
-        var fmsg: string = event.fault.faultString
+        // var msg = event.message;
+        // var fmsg: string = event.fault.faultString
         /*if(fmsg.indexOf('Foreign Key Conflicts when deleting user')>=0){
             Alert.show("Foreign key")
         }
@@ -334,7 +334,8 @@ export default class AdminService extends ServiceProxyBase {
     public addUsrRole(ur: IdUserRoleMap, signal: string): AxiosPromise<any> {
         //Alert.show("AdminService:addUsrRole()");
         var formData = qs.stringify({
-            ur: ur
+            userId: ur.id.userId, 
+            roleId: ur.id.roleId
         })
 
         return this.callServiceMethod(
@@ -369,7 +370,8 @@ export default class AdminService extends ServiceProxyBase {
     public remUsrRole(ur: IdUserRoleMap, signal: string): AxiosPromise<any> {
         //Alert.show("AdminService:remUsrRole()");
         var formData = qs.stringify({
-            ur: ur
+            userId: ur.id.userId,
+            roleId: ur.id.roleId
         })
 
         return this.callServiceMethod(
