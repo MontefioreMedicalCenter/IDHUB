@@ -1,6 +1,13 @@
 // add one more method to it (can do more)
 export default class ArrayCollection extends Array {
-	
+	static from(arr){
+		const collection = new ArrayCollection();
+		var length = arr.length
+		for (var i = 0; i < length; i++) {
+			collection.push(arr[i])
+		}
+		return collection;
+	}
 	isEmpty() {
 		return this.length === 0
 	}

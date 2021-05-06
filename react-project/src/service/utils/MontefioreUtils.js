@@ -1,5 +1,5 @@
 import moment from 'moment'
-import { DateFormatter, UIUtils } from '../../flexicious'
+import { DateFormatter, FlexDataGridEvent, UIUtils } from '../../flexicious'
 import { toast } from 'react-toastify'
 
 const MontefioreUtils = () => {}
@@ -35,5 +35,22 @@ MontefioreUtils.dateFormatter3 = (item, { dataField }) => {
 MontefioreUtils.globalDateFormatter = (item, { dataField }) => {
 	return formatter(item, dataField, 'MM/DD/YY K:NN A')
 }
-
+MontefioreUtils.OK = "OK";
+MontefioreUtils.YES = "OK";
+MontefioreUtils.CANCEL = "Cancel";
+MontefioreUtils.NO = "Cancel";
+MontefioreUtils.showConfirm = (msg, title, flags, binder, callback) => {
+	callback = callback.bind(binder);
+	if(window.confirm(msg)){
+		callback(new DialogEvent(MontefioreUtils.OK));
+	} else {
+		callback(new DialogEvent(MontefioreUtils.CANCEL));
+	}
+}
+class DialogEvent extends FlexDataGridEvent {
+	constructor(detail){
+		super("DialogEvent");
+		this.detail=detail;
+	}
+}
 export default MontefioreUtils

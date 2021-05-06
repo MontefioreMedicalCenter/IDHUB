@@ -26,7 +26,7 @@ export default class IdCampusCodeMediator{
 	// 	}
 		
 	// 	private popIdCampusCodeGW(event:AdminEvent):void{
-	// 		this.view.grid.dataProvider=event.campuscodeData
+	// 		this.view.grid.getDataProvider()=event.campuscodeData
 	// 		this.view.grid.refreshCells()
 	// 	}
 		

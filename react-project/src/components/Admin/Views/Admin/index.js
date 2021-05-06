@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import CustomizedTabs from '../../../../shared/components/Tabs'
+import './admin.style.scss'
+import IdDepartmentModifier from './IdDepartmentModifier'
 
 
 const tabList = [
@@ -30,6 +32,7 @@ const AdminTab = () => {
                 tabValue={tabValue}
                 tabList={tabList}
             />
+            {tabValue === 0 && <IdDepartmentModifier/>}
         </div>
     )
 

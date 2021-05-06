@@ -1,32 +1,11 @@
-export default class BaseEvent  {
-    public type:string;
-    public bubbles:boolean;
-    public cancelable:boolean;
+import { FlexDataGridEvent } from "../flexicious";
+
+export default class BaseEvent extends FlexDataGridEvent {
     public defaultPrevented:boolean;
     public triggerEvent:any;
     constructor(type, bubbles:boolean=false, cancelable:boolean=false) {
-
-        /**
-         * Type of this event.
-         * @type {String}
-         * @property type
-         * @default type
-         */
-        this.type = type;
-        /**
-         * Ignored property
-         * @type {Boolean}
-         * @property bubbles
-         * @default bubbles
-         */
-        this.bubbles = bubbles;
-        /**
-         * Whether or not this event can be cancelled.
-         * @type {Boolean}
-         * @property cancelable
-         * @default cancelable
-         */
-        this.cancelable = cancelable;
+        super(type, bubbles, cancelable)
+        
         /**
          * Has the default for this event been prevented
          * @type {Boolean}

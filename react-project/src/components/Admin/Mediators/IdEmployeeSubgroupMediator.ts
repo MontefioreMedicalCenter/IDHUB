@@ -25,7 +25,7 @@ export default class IdEmployeeSubgroupMediator{
 	// 	}
 		
 	// 	private popEmployeeSubgroups(event:AdminEvent):void{
-	// 		this.view.grid.dataProvider=event.employeeSubgroupData
+	// 		this.view.grid.getDataProvider()=event.employeeSubgroupData
 	// 		this.view.grid.refreshCells()
 	// 	}
 		

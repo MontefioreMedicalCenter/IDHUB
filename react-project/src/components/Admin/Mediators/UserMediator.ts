@@ -189,7 +189,7 @@ export default class UserMediator extends Mediator
 	}
 
 	private setUsers(event: ManageUserEvent): void {
-		this.view.grid.dataProvider = event.data;
+		this.view.grid.setDataProvider(ArrayCollection.from(event.data));
 		this.view.grid.refreshCells();
 
 		var gridCgs: any[] = [];

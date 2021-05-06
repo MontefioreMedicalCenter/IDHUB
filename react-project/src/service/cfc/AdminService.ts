@@ -171,7 +171,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public getAllDepartments(): AxiosPromise<any> {
         return this.callServiceMethod(
-            'get',
+            'post',
             'IdentityHub/api/adminsvc/findDepartments',
             null,
             null,

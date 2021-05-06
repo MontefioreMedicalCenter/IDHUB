@@ -25,7 +25,7 @@ export default class TitleMediator{
 	// 	}
 		
 	// 	private popTitle(event:AdminEvent):void{
-	// 			this.view.grid.dataProvider=event.titleData
+	// 			this.view.grid.getDataProvider()=event.titleData
 	// 			this.view.grid.refreshCells()
 	// 	}
 		

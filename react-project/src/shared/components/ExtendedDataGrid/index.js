@@ -113,6 +113,9 @@ export default class DataGrid extends MaterialDataGrid {
 			this.localLastVScroll = 0
 		}
 	}
+	getCurrentEditingCell(){
+		return this.getCurrentEditCell();
+	}
 	concatenatePersistenceValues() {
 		//we dont want to persist Constants.PERSIST_VERTICAL_SCROLL and Constants.PERSIST_HORIZONTAL_SCROLL
 		return [
