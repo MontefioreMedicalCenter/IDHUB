@@ -1,7 +1,8 @@
-import BaseEvent from "./BaseEvent.ts";import IdTitle from "../vo/admin/IdTitle";
+import BaseEvent from "./BaseEvent.ts";
+import IdTitle from "../vo/admin/IdTitle";
 
 
-export default class IdTitleAdminEvent extends Event {
+export default class IdTitleAdminEvent extends BaseEvent {
 	public static DELETE: string = "delete"
 	public static EDIT: string = "edit"
 	public static SAVE: string = "save"

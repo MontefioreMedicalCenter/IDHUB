@@ -180,7 +180,7 @@ export default class IdDepartmentModifier extends React.Component {
         var txt = editor;
         this.grid.clearErrorByObject(cell.rowInfo.getData());
 
-        if (txt.text.length < 1) {
+        if (txt.getValue().length < 1) {
             this.grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field :Name");
             valSuccess = false;
         }

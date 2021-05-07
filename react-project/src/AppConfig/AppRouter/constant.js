@@ -37,7 +37,38 @@ export const PRIVATE_ROUTES = [
 		private: true,
 		component: AdminTab,
 		exact: true
+	},{
+		name: 'users',
+		url: '/main/admin/department',
+		private: true,
+		component: AdminTab,
+		exact: true
+	},{
+		name: 'users',
+		url: '/main/admin/locations',
+		private: true,
+		component: AdminTab,
+		exact: true
+	},{
+		name: 'users',
+		url: '/main/admin/usertype',
+		private: true,
+		component: AdminTab,
+		exact: true
+	},{
+		name: 'users',
+		url: '/main/admin/title',
+		private: true,
+		component: AdminTab,
+		exact: true
 	}
 ]
+
+// const tabList = [
+// 	{ label: 'Department', value: 0, path: '/main/admin/department' },
+// 	{ label: 'Locations', value: 1, path: '/main/admin/locations' },
+// 	{ label: 'User Types ', value: 2, path: '/main/admin/usertype' },
+// 	{ label: 'Title', value: 3, path: '/main/admin/title' }
+// ]
 
 export default ROUTES

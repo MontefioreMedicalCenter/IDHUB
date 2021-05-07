@@ -1,5 +1,6 @@
 
-import BaseEvent from "./BaseEvent.ts";import IdCampusCode from "../vo/admin/IdCampusCode";
+import BaseEvent from "./BaseEvent.ts";
+import IdCampusCode from "../vo/admin/IdCampusCode";
 
 export default class IdCampusCodeAdminEvent extends BaseEvent {
 	public static DELETE: string = "delete"

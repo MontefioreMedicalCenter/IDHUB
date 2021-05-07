@@ -2,14 +2,41 @@ import React, { useState } from 'react'
 import CustomizedTabs from '../../../../shared/components/Tabs'
 import './admin.style.scss'
 import IdDepartmentModifier from './IdDepartmentModifier'
+import TitleModifier from './TitleModifier'
+import { Route, Switch } from 'react-router'
 
 
 const tabList = [
-	{ label: 'Department', value: 0, path: '/main/admin/department' },
-	{ label: 'Locations', value: 1, path: '/main/admin/locations' },
-	{ label: 'User Types ', value: 2, path: '/main/admin/usertype' },
-	{ label: 'Title', value: 3, path: '/main/admin/title' }
+    { label: 'Department', value: 0, path: '/main/admin/department' },
+    { label: 'Locations', value: 1, path: '/main/admin/locations' },
+    { label: 'User Types ', value: 2, path: '/main/admin/usertype' },
+    { label: 'Title', value: 3, path: '/main/admin/title' }
 ]
+const routes = [{
+    name: 'users',
+    url: '/main/admin/department',
+    private: true,
+    component: IdDepartmentModifier,
+    exact: true
+}, {
+    name: 'users',
+    url: '/main/admin/locations',
+    private: true,
+    component: IdDepartmentModifier,
+    exact: true
+}, {
+    name: 'users',
+    url: '/main/admin/usertype',
+    private: true,
+    component: IdDepartmentModifier,
+    exact: true
+}, {
+    name: 'users',
+    url: '/main/admin/title',
+    private: true,
+    component: TitleModifier,
+    exact: true
+}]
 const tabStyles = {
     backgroundColor: 'white',
     tabColor: 'rgba(0, 0, 0, 0.54)',
@@ -24,6 +51,7 @@ const tabStyles = {
 
 const AdminTab = () => {
     const [tabValue, handleTabChange] = useState(0)
+    console.log(tabValue)
     return (
         <div className="admin-main-container">
             <CustomizedTabs
@@ -32,7 +60,19 @@ const AdminTab = () => {
                 tabValue={tabValue}
                 tabList={tabList}
             />
-            {tabValue === 0 && <IdDepartmentModifier/>}
+            <Switch>
+                {routes.map((route, idx) => {
+                    return route.component ? (
+                        <Route
+                            key={idx}
+                            path={route.url}
+                            exact={route.exact}
+                            name={route.name}
+                            render={props => <route.component {...props} />}
+                        />
+                    ) : null
+                })}
+            </Switch>
         </div>
     )
 

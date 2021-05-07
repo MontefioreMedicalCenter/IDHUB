@@ -577,7 +577,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public getAllTitle(): AxiosPromise<any> {
         return this.callServiceMethod(
-            'get',
+            'post',
             'IdentityHub/api/adminsvc/findTitles',
             null,
             null,
