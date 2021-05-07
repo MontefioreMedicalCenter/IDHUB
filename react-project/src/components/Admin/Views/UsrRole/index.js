@@ -1,8 +1,6 @@
 import { Checkbox } from '@material-ui/core'
 import React, { useEffect, useState } from 'react'
 import { UIComponent } from '../../../../flexicious'
-import { camelizeKeys } from '../../../../shared/utils'
-import IdUser from '../../../../vo/main/IdUser'
 import IdUserRoleMap from '../../../../vo/main/IdUserRoleMap'
 import IdUserRoleMapPK from '../../../../vo/main/IdUserRoleMapPK'
 
@@ -41,9 +39,8 @@ const UsrRole = props => {
 		// TODO Auto-generated method stub
 		var tgt = event.target
 		// var t = event.target.parent.parent
-		const idUser = new IdUser()
 		// var usr:IdUser=t.data as IdUser
-		var usr = idUser.fromJson( camelizeKeys(props.row.getData()) )
+		var usr = ( (props.row.getData()) )
 		// var p:Object=t.parent
 		// var cp:FlexDataGridDataCell=t.parent as FlexDataGridDataCell
 		var ht = props.column.getHeaderText()

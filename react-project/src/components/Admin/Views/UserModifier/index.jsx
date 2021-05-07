@@ -21,8 +21,6 @@ import ManageUserEvent from '../../../../events/ManageUserEvent.ts';
 import UserMediator from '../../Mediators/UserMediator.ts';
 import Save from '../../../../container/views/itemRenderers/Save';
 import Remove from '../../../../container/views/itemRenderers/Remove';
-import IdUser from '../../../../vo/main/IdUser';
-import { camelizeKeys } from '../../../../shared/utils';
 import Edit from '../../../../container/views/itemRenderers/Edit';
 import ActiveRenderer from '../../../../container/views/itemRenderers/ActiveRenderer';
 import StyledPagerRenderer from '../StyledPager';
@@ -133,8 +131,7 @@ export default class UserModifier extends UIComponent {
         //Alert.show("saveHandle():_indx: " + _indx)
         var event/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.SAVE_USER)
         event.data = data
-        var idUser = new IdUser()
-        var usr = idUser.fromJson(camelizeKeys(data));
+        var usr = (data);
         //Alert.show("*** " + (usr.roleMap.length-usr.remMaps.length))
         if (usr.userActiveFlag === 1 && ((usr.roleMap.length - usr.remMaps.length) < 1) && usr.addMaps.length < 1) {
             alert("An active user should have One role !")
