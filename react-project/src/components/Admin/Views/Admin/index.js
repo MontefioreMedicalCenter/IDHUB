@@ -2,6 +2,8 @@ import React, { useState } from 'react'
 import CustomizedTabs from '../../../../shared/components/Tabs'
 import './admin.style.scss'
 import IdDepartmentModifier from './IdDepartmentModifier'
+import IdEmployeeSubgroupModifier from './IdEmployeeSubgroupModifier'
+import IdCampusCodeModifier from './IdCampusCodeModifier'
 import TitleModifier from './TitleModifier'
 import { Route, Switch } from 'react-router'
 
@@ -22,13 +24,13 @@ const routes = [{
     name: 'users',
     url: '/main/admin/locations',
     private: true,
-    component: IdDepartmentModifier,
+    component: IdCampusCodeModifier,
     exact: true
 }, {
     name: 'users',
     url: '/main/admin/usertype',
     private: true,
-    component: IdDepartmentModifier,
+    component: IdEmployeeSubgroupModifier,
     exact: true
 }, {
     name: 'users',

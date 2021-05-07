@@ -10,6 +10,10 @@ import IdUserRoleMap from "../../vo/main/IdUserRoleMap";
 import GlobalEventDispatcher from "../utils/GlobalEventDispatcher";
 import { toast } from "react-toastify"
 import MontefioreUtils from "../utils/MontefioreUtils";
+import IdCampusCode from "../../vo/admin/IdCampusCode";
+import IdEmployeeSubgroup from "../../vo/admin/IdEmployeeSubgroup";
+import IdTitle from "../../vo/admin/IdTitle";
+import IdDepartment from "../../vo/admin/IdDepartment";
 
 export default class AdminService extends ServiceProxyBase {
 
@@ -86,7 +90,7 @@ export default class AdminService extends ServiceProxyBase {
 
     protected usersResultEvent(event: any, token: Object = null): void {
         var manageUserEvent: AdminEvent = new AdminEvent(AdminEvent.POP_USERS)
-        manageUserEvent.userData = event.result;
+        manageUserEvent.userData = this.convertToVo(event.result, ()=>{return new IdUser()});
         //Alert.show("getRolesUsrResultEvent(): userData is: [" + manageUserEvent.userData.length + "].");
         this.dispatchEvent(manageUserEvent);
     }
@@ -131,7 +135,7 @@ export default class AdminService extends ServiceProxyBase {
     protected resultEvent(event: any, token: Object = null): void {
         //adminModel.usersAndRoles=event.result as ArrayCollection;
         var adminEvent: ManageUserEvent = new ManageUserEvent(ManageUserEvent.GET_USERS_AND_ROLES_ST);
-        adminEvent.data = event.result;
+        adminEvent.data = this.convertToVo(event.result, ()=>{return new IdUser()});
         this.dispatchEvent(adminEvent);
 
     }
@@ -184,7 +188,7 @@ export default class AdminService extends ServiceProxyBase {
 
     protected getAllDepartmentsSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_DEPT);
-        adminEvent.departmentsData = event.result;
+        adminEvent.departmentsData = this.convertToVo(event.result, ()=>{return new IdDepartment()});
         this.dispatchEvent(adminEvent);
     }
 
@@ -209,7 +213,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public saveIdDepartSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_DEPT);
-        adminEvent.departmentsData = event.result;
+        adminEvent.departmentsData = this.convertToVo(event.result, ()=>{return new IdDepartment()});;
         this.dispatchEvent(adminEvent);
     }
 
@@ -234,7 +238,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteIdDepartSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_DEPT);
-        adminEvent.departmentsData = event.result;
+        adminEvent.departmentsData = this.convertToVo(event.result, ()=>{return new IdDepartment()});;
         this.dispatchEvent(adminEvent);
     }
 
@@ -270,7 +274,7 @@ export default class AdminService extends ServiceProxyBase {
 
     protected saveUserHandler(event: any, toker: Object = null): void {
         var adminEvent: ManageUserEvent = new ManageUserEvent(ManageUserEvent.SV_USR_END);
-        adminEvent.data = event.result;
+        adminEvent.data = this.convertToVo(event.result, ()=>{return new IdUser()});
         this.dispatchEvent(adminEvent);
     }
     public addUsrFsa(ur: IdUserRoleMap, signal: string): AxiosPromise<any> {
@@ -425,14 +429,14 @@ export default class AdminService extends ServiceProxyBase {
 
     protected deleteUserSuccessfulHandler(event: any, toker: Object = null): void {
         var adminEvent: ManageUserEvent = new ManageUserEvent(ManageUserEvent.DELETE_USER_FIN);
-        adminEvent.data = event.result;
+        adminEvent.data = this.convertToVo(event.result, ()=>{return new IdUser()});
         this.dispatchEvent(adminEvent);
     }
 
     public getAllCampusCodes(): AxiosPromise<any> {
 
         return this.callServiceMethod(
-            'get',
+            'post',
             'IdentityHub/api/adminsvc/findCampusCodes',
             null,
             null,
@@ -447,7 +451,7 @@ export default class AdminService extends ServiceProxyBase {
 
     protected getAllCampusCodeSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_CAMPUSCODE);
-        adminEvent.campuscodeData = event.result;
+        adminEvent.campuscodeData = this.convertToVo(event.result, ()=>{return new IdCampusCode()});
         this.dispatchEvent(adminEvent);
     }
     //---
@@ -472,7 +476,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public saveCampusCodeSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_CAMPUSCODE);
-        adminEvent.campuscodeData = event.result;
+        adminEvent.campuscodeData = this.convertToVo(event.result, ()=>{return new IdCampusCode()});;
         this.dispatchEvent(adminEvent);
     }
 
@@ -497,7 +501,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteCampusCodeSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_CAMPUSCODE);
-        adminEvent.campuscodeData = event.result;
+        adminEvent.campuscodeData = this.convertToVo(event.result, ()=>{return new IdCampusCode()});;
         this.dispatchEvent(adminEvent);
     }
 
@@ -505,7 +509,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public getAllIdEmployeeGroups(): AxiosPromise<any> {
         return this.callServiceMethod(
-            'get',
+            'post',
             'IdentityHub/api/adminsvc/findEmployeeSubgroup',
             null,
             null,
@@ -520,7 +524,7 @@ export default class AdminService extends ServiceProxyBase {
 
     protected getAllEmployeeGroupSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_EMPSUBGROUP);
-        adminEvent.employeeSubgroupData = event.result;
+        adminEvent.employeeSubgroupData = this.convertToVo(event.result, ()=>{return new IdEmployeeSubgroup()});
         this.dispatchEvent(adminEvent);
     }
 
@@ -546,7 +550,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public saveEmployeeSubgroupSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_EMPSUBGROUP);
-        adminEvent.employeeSubgroupData = event.result;
+        adminEvent.employeeSubgroupData = this.convertToVo(event.result, ()=>{return new IdEmployeeSubgroup()});
         this.dispatchEvent(adminEvent);
     }
 
@@ -571,7 +575,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteEmployeeSubgroupSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_EMPSUBGROUP);
-        adminEvent.employeeSubgroupData = event.result;
+        adminEvent.employeeSubgroupData = this.convertToVo(event.result, ()=>{return new IdEmployeeSubgroup()});
         this.dispatchEvent(adminEvent);
     }
 
@@ -593,7 +597,7 @@ export default class AdminService extends ServiceProxyBase {
     protected getAllTitleSuccessResultEvent(event: any, token: Object = null): void {
 
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_TITLE);
-        adminEvent.titleData = event.result;
+        adminEvent.titleData = this.convertToVo(event.result, ()=>{return new IdTitle()});
         this.dispatchEvent(adminEvent);
     }
 
@@ -618,7 +622,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public saveIdTitleSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.GET_TITLE);
-        adminEvent.titleData = event.result;
+        adminEvent.titleData = this.convertToVo(event.result, ()=>{return new IdTitle()});
         this.dispatchEvent(adminEvent);
     }
 
@@ -643,7 +647,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteIdTitleSuccessResultEvent(event: any, token: Object = null): void {
         var adminEvent: AdminEvent = new AdminEvent(AdminEvent.POP_TITLE);
-        adminEvent.titleData = event.result;
+        adminEvent.titleData = this.convertToVo(event.result, ()=>{return new IdTitle()});
         this.dispatchEvent(adminEvent);
     }
 }

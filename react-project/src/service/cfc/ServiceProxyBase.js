@@ -15,6 +15,8 @@ import {
 } from 'is-offline'
 import axios from 'axios'
 import GlobalEventDispatcher from '../utils/GlobalEventDispatcher'
+import ArrayCollection from '../../vo/ArrayCollection'
+import { camelizeKeys } from '../../shared/utils'
 const amf = window.amf
 
 /**
@@ -58,7 +60,21 @@ export default class ServiceProxyBase extends TypedObject {
 		return headerData;
 	}
 
-
+	convertToVo(arr,converter){
+		var list = new ArrayCollection();
+		if(arr instanceof Array){
+			arr.forEach(data => {
+				let converted = converter()
+				converted.fromJson(camelizeKeys(data))
+				list.addItem(converted)
+			})
+			return list;
+		} else{
+			let converted = converter()
+			converted.fromJson(camelizeKeys(arr))
+			return converted;
+		}
+	}
 	dispatchEvent(evt){
 		GlobalEventDispatcher.instance().dispatchEvent(evt);
 	}

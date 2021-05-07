@@ -26,7 +26,9 @@ const isCellEditable = (cell) => {
 }
 
 
-const dynamicIconFunction = (data/*:Object*/) => {
+const dynamicIconFunction = (cell/**/) => {
+    if(!cell.rowInfo.getIsDataRow()) return null;
+    var data = cell.rowInfo.getData();
     if (data == null) return null;
     var ret;
     if (data.edit === true) ret = Active;
@@ -38,8 +40,8 @@ const dynamicIconFunction = (data/*:Object*/) => {
 const gridIconClick = (evt) => {
     evt.column.iconClick(evt.item);
 }
-const getSaveB = () => { return saveB };
-const getDeleteIcon = () => { return deleteIcon };
+const getSaveB = (cell) => { return cell.rowInfo.getIsDataRow()? saveB : null};
+const getDeleteIcon = (cell) => { return cell.rowInfo.getIsDataRow()?  deleteIcon : null };
 
 
 const dateLabel = (item/*:Object*/, col/*:FlexDataGridColumn*/, cell/*:IFlexDataGridCell*/ = null) =>/*:String*/ {

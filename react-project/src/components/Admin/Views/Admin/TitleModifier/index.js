@@ -27,7 +27,9 @@ const isCellEditable = (cell) => {
 }
 
 
-const dynamicIconFunction = (data/*:Object*/) => {
+const dynamicIconFunction = (cell/**/) => {
+    if(!cell.rowInfo.getIsDataRow()) return null;
+    var data = cell.rowInfo.getData();
     if (data == null) return null;
     var ret;
     if (data.edit === true) ret = Active;
@@ -50,8 +52,8 @@ const dateLabel = (item, col) => {
 const gridIconClick = (evt) => {
     evt.column.iconClick(evt.item);
 }
-const getSaveB = () => { return saveB };
-const getDeleteIcon = () => { return deleteIcon };
+const getSaveB = (cell) => { return cell.rowInfo.getIsDataRow()? saveB : null};
+const getDeleteIcon = (cell) => { return cell.rowInfo.getIsDataRow()?  deleteIcon : null };
 
 export default class TitleModifier extends React.Component {
     constructor(props) {
@@ -59,9 +61,7 @@ export default class TitleModifier extends React.Component {
         this.keeper = "";
         this.lastN = 0;
         this.grid = null;
-
         this._indEdit/*:int*/ = -1;
-
     }
     componentDidMount() {
         this.mediator = new TitleMediator().onRegister(this.grid);
@@ -224,27 +224,12 @@ export default class TitleModifier extends React.Component {
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="updatedBy" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated By" itemEditorApplyOnValueCommit editable={false} />
                     <ReactDataGridColumn headerText="Edit" width="30" editable={false} excludeFromExport
                         iconHandCursor enableIcon iconFunction={dynamicIconFunction} iconClick={this.onEdit.bind(this)}>
-                        {/* <nestedtreedatagrid:itemRenderer>
-                                    <fx:Component>
-                                        <mx:Image source="{parentDocument.dynamicIconFunction(data)}" click="parentDocument.onEdit(data)" scaleContent={false} useHandCursor buttonMode mouseChildren={false}/>
-                                    </fx:Component>
-                                </nestedtreedatagrid:itemRenderer> */}
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Delete" width="30" excludeFromExport editable={false}
                         iconHandCursor enableIcon iconFunction={getDeleteIcon} iconClick={this.onDelete.bind(this)}>
-                        {/* <nestedtreedatagrid:itemRenderer>
-                                    <fx:Component>
-                                        <mx:Image source="@Embed('../../../../assets/img/delete.png')" click="parentDocument.onDelete(data)" scaleContent={false} useHandCursor buttonMode mouseChildren={false}/>
-                                    </fx:Component>
-                                </nestedtreedatagrid:itemRenderer> */}
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Save" width="30" excludeFromExport editable={false}
                         iconHandCursor enableIcon iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
-                        {/* <nestedtreedatagrid:itemRenderer>
-                                    <fx:Component>
-                                        <mx:Image source="@Embed('../../../../assets/img/saveB.png')" click="parentDocument.onSave(data)" scaleContent={false} useHandCursor buttonMode mouseChildren={false}/>
-                                    </fx:Component>
-                                </nestedtreedatagrid:itemRenderer> */}
                     </ReactDataGridColumn>
                 </ReactDataGridColumnLevel>
             </DataGrid>);

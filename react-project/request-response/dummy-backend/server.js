@@ -31,6 +31,7 @@ const deleteEmployeeSubgroup = require('./response/deleteEmployeeSubgroup')
 const deleteTitle = require('./response/deleteTitle')
 const findDepartments = require('./response/findDepartments')
 const findEmployeeSubgroup = require('./response/findEmployeeSubgroup')
+const findCampusCodes = require('./response/findCampusCodes')
 const findTitles = require('./response/findTitles')
 const saveCampusCode = require('./response/saveCampusCode')
 const saveDepartment = require('./response/saveDepartment')
@@ -232,6 +233,10 @@ app.post('/IdentityHub/api/adminsvc/findEmployeeSubgroup', (req, res) => {
 app.post('/IdentityHub/api/adminsvc/findTitles', (req, res) => {
 	sendResponse(res, 200, findTitles)
 })
+app.post('/IdentityHub/api/adminsvc/findCampusCodes', (req, res) => {
+	sendResponse(res, 200, findCampusCodes)
+})
+
 app.post(
 	'/IdentityHub/api/worklistsvc/loadWorklistFromSpreadsheet',
 	upload.single('content'),
