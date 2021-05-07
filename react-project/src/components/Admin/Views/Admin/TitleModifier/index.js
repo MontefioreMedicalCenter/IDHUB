@@ -3,6 +3,7 @@ import '../admin.style.scss'
 import DataGrid from '../../../../../shared/components/ExtendedDataGrid';
 // import ExampleUtils from '../../../../utils/ExampleUtils';
 import {
+    ClassFactory,
     ExtendedExportController,
     FlexDataGridEvent,
     ReactDataGridColumn,
@@ -21,7 +22,9 @@ import { ToolbarAction } from '../../../../../flexicious';
 import IdTitle from '../../../../../vo/admin/IdTitle';
 import ExampleUtils from '../../../../../utils/ExampleUtils';
 import TitleMediator from '../../../Mediators/TitleMediator.ts';
+import AdminCheckBoxRenderer from '../../../../../container/views/itemRenderers/AdminCheckBoxRenderer';
 
+const AdminCheckBox = new ClassFactory(AdminCheckBoxRenderer)
 const isCellEditable = (cell) => {
     return cell.rowInfo.getData().edit === true
 }
@@ -210,7 +213,7 @@ export default class TitleModifier extends React.Component {
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters enablePaging pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Id" itemEditorApplyOnValueCommit />
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Name" itemEditorApplyOnValueCommit itemEditorValidatorFunction={this.validateTitle.bind(this)} />
-                    <ReactDataGridColumn headerText="Active" editable={false}>
+                    <ReactDataGridColumn headerText="Active" editable={false} itemRenderer={AdminCheckBox}>
                         {/* <nestedtreedatagrid:itemRenderer>
                                     <fx:Component>
                                         <mx:HBox width="100%" horizontalAlign="center" horizontalScrollPolicy="off">

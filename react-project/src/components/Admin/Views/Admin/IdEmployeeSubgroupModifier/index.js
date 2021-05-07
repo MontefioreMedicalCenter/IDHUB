@@ -3,6 +3,7 @@ import '../admin.style.scss'
 import DataGrid from '../../../../../shared/components/ExtendedDataGrid';
 // import ExampleUtils from '../../../../utils/ExampleUtils';
 import {
+    ClassFactory,
     ExtendedExportController,
     FlexDataGridEvent,
     ReactDataGridColumn,
@@ -21,7 +22,9 @@ import { ToolbarAction } from '../../../../../flexicious';
 import IdEmployeeSubgroup from '../../../../../vo/admin/IdEmployeeSubgroup';
 import ExampleUtils from '../../../../../utils/ExampleUtils';
 import IdEmployeeSubgroupMediator from '../../../Mediators/IdEmployeeSubgroupMediator.ts';
+import AdminCheckBoxRenderer from '../../../../../container/views/itemRenderers/AdminCheckBoxRenderer';
 
+const AdminCheckBox = new ClassFactory(AdminCheckBoxRenderer)
 
 const dateLabel = (item, col) => {
     var dateStr/*:String*/ = ''
@@ -201,7 +204,7 @@ export default class TitleModifier extends React.Component {
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="employeeSubGroupId" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type ID" itemEditorApplyOnValueCommit="true" editable="false" />
                     <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="employeeSubGroupName" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validateuseridtype.bind(this)} />
-                    <ReactDataGridColumn headerText="Active" editable="false" enableCellClickRowSelect="false">
+                    <ReactDataGridColumn headerText="Active" editable="false" enableCellClickRowSelect="false" itemRenderer={AdminCheckBox}>
                         {/* <fx:Component>
 								<mx:HBox width="100%" horizontalAlign="center" >
 									<s:CheckBox id="activeChkBox" enabled="{data.edit}" selected="{data.activeFlag==1?true:false}"  click="if(data.activeFlag==0) data.activeFlag=1; else data.activeFlag=0;" styleName="checkBoxStyle"/>
