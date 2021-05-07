@@ -228,7 +228,7 @@ export default class UserMediator extends Mediator {
 
 		// var usr: IdUser = event.data as IdUser;
 		var idUser = new IdUser()
-		var usr = idUser.fromJson(camelizeKeys(event.data));
+		var usr = event.data;
 		if (usr.add) {
 			var dataPd: ArrayCollection = <ArrayCollection>this.view.grid.getDataProvider()
 			dataPd.removeItemAt(this.view.indx)
@@ -283,7 +283,7 @@ export default class UserMediator extends Mediator {
 	private saveUsrRole(event: ManageUserEvent): void {
 		var dp: ArrayCollection = <ArrayCollection>this.view.grid.getDataProvider()
 		var idUser = new IdUser()
-		var us: IdUser = idUser.fromJson(camelizeKeys(this.view.eusr))    //event.data as RcUser
+		var us: IdUser = ((this.view.eusr))    //event.data as RcUser
 		var adds: ArrayCollection = us.addMaps
 		var rems: ArrayCollection = us.remMaps
 		var nonchg: boolean = true
@@ -313,9 +313,9 @@ export default class UserMediator extends Mediator {
 		var dp: ArrayCollection = <ArrayCollection>this.view.grid.getDataProvider()
 
 		var idUser = new IdUser()
-		var us = idUser.fromJson(camelizeKeys(dp[inx]));
+		var us = ((dp[inx]));
 		// var us: IdUser = <IdUser>dp[inx]
-		us = idUser.fromJson(camelizeKeys(this.view.eusr))
+		us = ((this.view.eusr))
 		us.add = false
 		us.edit = false
 		us.reshuffle()
