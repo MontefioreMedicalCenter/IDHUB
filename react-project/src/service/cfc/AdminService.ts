@@ -14,6 +14,7 @@ import IdCampusCode from "../../vo/admin/IdCampusCode";
 import IdEmployeeSubgroup from "../../vo/admin/IdEmployeeSubgroup";
 import IdTitle from "../../vo/admin/IdTitle";
 import IdDepartment from "../../vo/admin/IdDepartment";
+import { stringifyCircularObjectWithModifiedKeys } from "../../shared/utils";
 
 export default class AdminService extends ServiceProxyBase {
 
@@ -194,7 +195,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public saveIdDepartment(depart: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            depart: depart
+            department: stringifyCircularObjectWithModifiedKeys(depart)
         })
 
         return this.callServiceMethod(
