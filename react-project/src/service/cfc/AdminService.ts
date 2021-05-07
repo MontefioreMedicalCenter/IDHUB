@@ -220,7 +220,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteIdDepartment(depart: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            depart: stringifyCircularObjectWithModifiedKeys(depart)
+            department: stringifyCircularObjectWithModifiedKeys(depart)
         })
 
         return this.callServiceMethod(
