@@ -19,20 +19,19 @@ import { toast } from 'react-toastify'
 import { camelizeKeys } from "../../../shared/utils";
 import UsrRole from "../Views/UsrRole";
 
-export default class UserMediator extends Mediator
-{
+export default class UserMediator extends Mediator {
 	/*[Inject]*/
 	public view: UserModifier;
 	/*[Inject]*/
 	public servc: AdminService = AdminService.getInstance();
 
 		/*override*/ public onRegister(view: UserModifier): void {
-			this.view = view
+		this.view = view
 		this.mapListener(this.eventDispatcher, ManageUserEvent.USER_START, this.getLayout, ManageUserEvent);
 		this.mapListener(this.eventDispatcher, ManageUserEvent.GET_USERS_AND_ROLES_ST, this.getUserRoles, ManageUserEvent);
 		this.mapListener(this.view, ManageUserEvent.CLR_USR, this.clrUsr, ManageUserEvent);
 		this.mapListener(this.eventDispatcher, AdminEvent.ROLE_USR, this.setRoleUser, AdminEvent)
-		this.mapListener(this.eventDispatcher, AdminEvent.POP_USERS, this.setRoleUsr, AdminEvent)	
+		this.mapListener(this.eventDispatcher, AdminEvent.POP_USERS, this.setRoleUsr, AdminEvent)
 		this.mapListener(this.eventDispatcher, ManageUserEvent.SET_ROLE_DONE, this.getUsers, ManageUserEvent);
 		this.mapListener(this.view, ManageUserEvent.SAVE_USER, this.saveUsr, ManageUserEvent);
 		this.mapListener(this.eventDispatcher, ManageUserEvent.SAVE_USER, this.saveUsr, ManageUserEvent);
@@ -49,13 +48,13 @@ export default class UserMediator extends Mediator
 		this.mapListener(this.view.grid, FlexDataGridEvent.VIRTUAL_SCROLL, this.changeViewVS, FlexDataGridEvent)
 		this.mapListener(this.view.grid, ExtendedFilterPageSortChangeEvent.FILTER_PAGE_SORT_CHANGE, this.changeView, ExtendedFilterPageSortChangeEvent)
 		this.mapListener(this.view.grid, ExtendedFilterPageSortChangeEvent.PAGE_CHANGE, this.changeViewPg, ExtendedFilterPageSortChangeEvent)
-		var manageUserEvent:ManageUserEvent=new ManageUserEvent(ManageUserEvent.USER_START);
+		var manageUserEvent: ManageUserEvent = new ManageUserEvent(ManageUserEvent.USER_START);
 		this.dispatch(manageUserEvent);
 		//this.getLayout(null) -> This is not needed because line 50 calls this.
 
 	}
 
-	dispatch(evt:any){
+	dispatch(evt: any) {
 		GlobalEventDispatcher.instance().dispatchEvent(evt);
 	}
 
@@ -88,67 +87,67 @@ export default class UserMediator extends Mediator
 			var dummyCol: FlexDataGridColumn = new FlexDataGridColumn();
 			dummyCol.setDataField("userId");
 			dummyCol.setHeaderText("User");
-			UIUtils.checkSetterAndApply(dummyCol,"itemEditorApplyOnValueCommit",true)
-			UIUtils.checkSetterAndApply(dummyCol,"headerAlign", "center")
+			UIUtils.checkSetterAndApply(dummyCol, "itemEditorApplyOnValueCommit", true)
+			UIUtils.checkSetterAndApply(dummyCol, "headerAlign", "center")
 			dummyCol.setStyle('fontWeight', 'bold')
-			UIUtils.checkSetterAndApply(dummyCol,"columnWidthMode","fitToContent")
-			UIUtils.checkSetterAndApply(dummyCol,"columnLockMode", "left");
-			UIUtils.checkSetterAndApply(dummyCol,"sortable", true)
-			UIUtils.checkSetterAndApply(dummyCol,"filterControl" , "TextInput")
-			UIUtils.checkSetterAndApply(dummyCol,"filterOperation" , "Contains");
+			UIUtils.checkSetterAndApply(dummyCol, "columnWidthMode", "fitToContent")
+			UIUtils.checkSetterAndApply(dummyCol, "columnLockMode", "left");
+			UIUtils.checkSetterAndApply(dummyCol, "sortable", true)
+			UIUtils.checkSetterAndApply(dummyCol, "filterControl", "TextInput")
+			UIUtils.checkSetterAndApply(dummyCol, "filterOperation", "Contains");
 			//dummyCol. .filterTriggerEvent="filterChange"	
 			this.view.grid.addColumn(dummyCol);
 			var lummyCol: FlexDataGridColumn = new FlexDataGridColumn();
-			UIUtils.checkSetterAndApply(lummyCol,"dataField","userLastName")
-			UIUtils.checkSetterAndApply(lummyCol,"headerText",  "Last Name")
-			UIUtils.checkSetterAndApply(lummyCol,"itemEditorApplyOnValueCommit",true)
-			UIUtils.checkSetterAndApply(lummyCol,"headerAlign", "center")
+			UIUtils.checkSetterAndApply(lummyCol, "dataField", "userLastName")
+			UIUtils.checkSetterAndApply(lummyCol, "headerText", "Last Name")
+			UIUtils.checkSetterAndApply(lummyCol, "itemEditorApplyOnValueCommit", true)
+			UIUtils.checkSetterAndApply(lummyCol, "headerAlign", "center")
 			lummyCol.setStyle('fontWeight', 'bold')
-			UIUtils.checkSetterAndApply(lummyCol,"columnWidthMode", "fitToContent")
+			UIUtils.checkSetterAndApply(lummyCol, "columnWidthMode", "fitToContent")
 			//UIUtils.checkSetterAndApply(lummyCol,"width=100	
-			UIUtils.checkSetterAndApply(lummyCol,"columnLockMode", "left")
-			UIUtils.checkSetterAndApply(lummyCol,"sortable", true)
-			UIUtils.checkSetterAndApply(lummyCol,"filterControl", "TextInput")
-			UIUtils.checkSetterAndApply(lummyCol,"filterOperation", "Contains")
+			UIUtils.checkSetterAndApply(lummyCol, "columnLockMode", "left")
+			UIUtils.checkSetterAndApply(lummyCol, "sortable", true)
+			UIUtils.checkSetterAndApply(lummyCol, "filterControl", "TextInput")
+			UIUtils.checkSetterAndApply(lummyCol, "filterOperation", "Contains")
 			this.view.grid.addColumn(lummyCol);
 			var fummyCol: FlexDataGridColumn = new FlexDataGridColumn();
-			UIUtils.checkSetterAndApply(fummyCol,"dataField",  "userFirstName")
-			UIUtils.checkSetterAndApply(fummyCol,"headerText", "First Name")
-			UIUtils.checkSetterAndApply(fummyCol,"itemEditorApplyOnValueCommit",  true)
-			UIUtils.checkSetterAndApply(fummyCol,"headerAlign",  "center")
+			UIUtils.checkSetterAndApply(fummyCol, "dataField", "userFirstName")
+			UIUtils.checkSetterAndApply(fummyCol, "headerText", "First Name")
+			UIUtils.checkSetterAndApply(fummyCol, "itemEditorApplyOnValueCommit", true)
+			UIUtils.checkSetterAndApply(fummyCol, "headerAlign", "center")
 			fummyCol.setStyle('fontWeight', 'bold')
-			UIUtils.checkSetterAndApply(fummyCol,"columnWidthMode",  "fitToContent")
+			UIUtils.checkSetterAndApply(fummyCol, "columnWidthMode", "fitToContent")
 			//UIUtils.checkSetterAndApply(lummyCol,"width=100	
-			UIUtils.checkSetterAndApply(fummyCol,"columnLockMode",  "left")
-			UIUtils.checkSetterAndApply(fummyCol,"sortable",  true)
-			UIUtils.checkSetterAndApply(fummyCol,"filterControl",  "TextInput")
-			UIUtils.checkSetterAndApply(fummyCol,"filterOperation", "Contains")
+			UIUtils.checkSetterAndApply(fummyCol, "columnLockMode", "left")
+			UIUtils.checkSetterAndApply(fummyCol, "sortable", true)
+			UIUtils.checkSetterAndApply(fummyCol, "filterControl", "TextInput")
+			UIUtils.checkSetterAndApply(fummyCol, "filterOperation", "Contains")
 			this.view.grid.addColumn(fummyCol);
 			var tummyCol: FlexDataGridColumn = new FlexDataGridColumn();
-			UIUtils.checkSetterAndApply(tummyCol,"dataField","userEmail")
-			UIUtils.checkSetterAndApply(tummyCol,"headerText","Email")
-			UIUtils.checkSetterAndApply(tummyCol,"itemEditorApplyOnValueCommit", true)
-			UIUtils.checkSetterAndApply(tummyCol,"headerAlign", "center")
+			UIUtils.checkSetterAndApply(tummyCol, "dataField", "userEmail")
+			UIUtils.checkSetterAndApply(tummyCol, "headerText", "Email")
+			UIUtils.checkSetterAndApply(tummyCol, "itemEditorApplyOnValueCommit", true)
+			UIUtils.checkSetterAndApply(tummyCol, "headerAlign", "center")
 			tummyCol.setStyle('fontWeight', 'bold')
 			//UIUtils.checkSetterAndApply(tummyCol,"columnWidthMode="fitToContent"	
-			UIUtils.checkSetterAndApply(tummyCol,"width", 100)
-			UIUtils.checkSetterAndApply(tummyCol,"columnLockMode", "left")
-			UIUtils.checkSetterAndApply(tummyCol,"sortable", false)
-			UIUtils.checkSetterAndApply(tummyCol,"filterControl", "TextInput")
-			UIUtils.checkSetterAndApply(tummyCol,"filterOperation", "Contains")
+			UIUtils.checkSetterAndApply(tummyCol, "width", 100)
+			UIUtils.checkSetterAndApply(tummyCol, "columnLockMode", "left")
+			UIUtils.checkSetterAndApply(tummyCol, "sortable", false)
+			UIUtils.checkSetterAndApply(tummyCol, "filterControl", "TextInput")
+			UIUtils.checkSetterAndApply(tummyCol, "filterOperation", "Contains")
 			this.view.grid.addColumn(tummyCol);
 			var pummyCol: FlexDataGridColumn = new FlexDataGridColumn();
-			UIUtils.checkSetterAndApply(pummyCol,"dataField", "userPhone")
-			UIUtils.checkSetterAndApply(pummyCol,"headerText", "Phone Number")
-			UIUtils.checkSetterAndApply(pummyCol,"itemEditorApplyOnValueCommit",true)
-			UIUtils.checkSetterAndApply(pummyCol,"headerAlign", "center")
+			UIUtils.checkSetterAndApply(pummyCol, "dataField", "userPhone")
+			UIUtils.checkSetterAndApply(pummyCol, "headerText", "Phone Number")
+			UIUtils.checkSetterAndApply(pummyCol, "itemEditorApplyOnValueCommit", true)
+			UIUtils.checkSetterAndApply(pummyCol, "headerAlign", "center")
 			pummyCol.setStyle('fontWeight', 'bold')
-			UIUtils.checkSetterAndApply(pummyCol,"columnWidthMode", "fitToContent")
+			UIUtils.checkSetterAndApply(pummyCol, "columnWidthMode", "fitToContent")
 			//UIUtils.checkSetterAndApply(lummyCol,"width=100	
-			UIUtils.checkSetterAndApply(pummyCol,"columnLockMode", "left")
-			UIUtils.checkSetterAndApply(pummyCol,"sortable", false)
-			UIUtils.checkSetterAndApply(pummyCol,"filterControl", "TextInput")
-			UIUtils.checkSetterAndApply(pummyCol,"filterOperation", "Contains")
+			UIUtils.checkSetterAndApply(pummyCol, "columnLockMode", "left")
+			UIUtils.checkSetterAndApply(pummyCol, "sortable", false)
+			UIUtils.checkSetterAndApply(pummyCol, "filterControl", "TextInput")
+			UIUtils.checkSetterAndApply(pummyCol, "filterOperation", "Contains")
 
 			this.view.grid.addColumn(pummyCol);
 
@@ -229,7 +228,7 @@ export default class UserMediator extends Mediator
 
 		// var usr: IdUser = event.data as IdUser;
 		var idUser = new IdUser()
-		var usr = idUser.fromJson(camelizeKeys(event.data)) ;
+		var usr = idUser.fromJson(camelizeKeys(event.data));
 		if (usr.add) {
 			var dataPd: ArrayCollection = <ArrayCollection>this.view.grid.getDataProvider()
 			dataPd.removeItemAt(this.view.indx)
@@ -312,11 +311,11 @@ export default class UserMediator extends Mediator
 	private reshuffleUsrRole(event: ManageUserEvent): void {
 		var inx: number = this.view.indx
 		var dp: ArrayCollection = <ArrayCollection>this.view.grid.getDataProvider()
-		
+
 		var idUser = new IdUser()
-		var us = idUser.fromJson(camelizeKeys(dp[inx])) ;
+		var us = idUser.fromJson(camelizeKeys(dp[inx]));
 		// var us: IdUser = <IdUser>dp[inx]
-		us = idUser.fromJson(camelizeKeys(this.view.eusr)) 
+		us = idUser.fromJson(camelizeKeys(this.view.eusr))
 		us.add = false
 		us.edit = false
 		us.reshuffle()
@@ -412,13 +411,13 @@ export default class UserMediator extends Mediator
 						var onefsa: any = this.view.fsal[j]
 						if (onefsa.fsaTxt == hd) {
 							col = this.view.grid.getColumnByUniqueIdentifier(onefsa.fsaid)
-							col.itemRenderer=new ClassFactory(UsrRole)
+							col.itemRenderer = new ClassFactory(UsrRole)
 							break;
 						}
 					}
 				} else {
 					col = this.view.grid.getColumnByUniqueIdentifier(hd)
-					col.itemRenderer=new ClassFactory(UsrRole)
+					col.itemRenderer = new ClassFactory(UsrRole)
 				}
 			}
 			this.view.grid.reDraw()

@@ -38,11 +38,11 @@ const dateLabel = (item, col) => {
 const gridIconClick = (evt) => {
     evt.column.iconClick(evt.item);
 }
-const getSaveB = (cell) => { return cell.rowInfo.getIsDataRow()? saveB : null};
-const getDeleteIcon = (cell) => { return cell.rowInfo.getIsDataRow()?  deleteIcon : null };
+const getSaveB = (cell) => { return cell.rowInfo.getIsDataRow() ? saveB : null };
+const getDeleteIcon = (cell) => { return cell.rowInfo.getIsDataRow() ? deleteIcon : null };
 
 const dynamicIconFunction = (cell/**/) => {
-    if(!cell.rowInfo.getIsDataRow()) return null;
+    if (!cell.rowInfo.getIsDataRow()) return null;
     var data = cell.rowInfo.getData();
     if (data == null) return null;
     var ret;
@@ -127,98 +127,98 @@ export default class TitleModifier extends React.Component {
     }
     onDelete(data) {
         MontefioreUtils.showConfirm("Are you sure you want to delete this item?", "Confirm Delete", MontefioreUtils.OK | MontefioreUtils.CANCEL, this, (event) => {
-            if(event.detail === MontefioreUtils.OK) {
-            this.lastN = 0;
-            this._indEdit = -1;
-            this.grid.dispatchEvent(new IdCampusCodeAdminEvent(IdCampusCodeAdminEvent.DELETE, data));
-            this.grid.refreshCells();
-        }
+            if (event.detail === MontefioreUtils.OK) {
+                this.lastN = 0;
+                this._indEdit = -1;
+                this.grid.dispatchEvent(new IdCampusCodeAdminEvent(IdCampusCodeAdminEvent.DELETE, data));
+                this.grid.refreshCells();
+            }
             else if (event.detail === MontefioreUtils.NO) {
-            toast.warning("Cancel the delete.")
-        }
-    })
+                toast.warning("Cancel the delete.")
+            }
+        })
         return true;
     }
 
-onSave(data) {
-    if (data.campusCodeName != null) {
-        data.edit = false;
-        this._indEdit = -1;
-        this.grid.dispatchEvent(new IdCampusCodeAdminEvent(IdCampusCodeAdminEvent.SAVE, data));
-        this.grid.refreshCells();
+    onSave(data) {
+        if (data.campusCodeName != null) {
+            data.edit = false;
+            this._indEdit = -1;
+            this.grid.dispatchEvent(new IdCampusCodeAdminEvent(IdCampusCodeAdminEvent.SAVE, data));
+            this.grid.refreshCells();
+        }
+        //data.edit
+        this.editable = false
+        return false;
     }
-    //data.edit
-    this.editable = false
-    return false;
-}
 
-checkId(cell) {
-    var data=cell.rowInfo.getData()
-    var oid = (data).campusCodeId;
-    if (this.lastN === 0 || oid <= this.lastN)
-        return getDeleteIcon(cell);
-    else
-        return null;
-}
-
-validatecampus(editor) {
-    var valSuccess = false;
-    var cell = this.grid.getCurrentEditingCell();
-    var txt = editor;
-    this.grid.clearErrorByObject(cell.rowInfo.data);
-
-    if (txt.getValue().length < 1) {
-        this.grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field :Name");
-        valSuccess = false;
+    checkId(cell) {
+        var data = cell.rowInfo.getData()
+        var oid = (data).campusCodeId;
+        if (this.lastN === 0 || oid <= this.lastN)
+            return getDeleteIcon(cell);
+        else
+            return null;
     }
-    else {
 
-        valSuccess = true;
+    validatecampus(editor) {
+        var valSuccess = false;
+        var cell = this.grid.getCurrentEditingCell();
+        var txt = editor;
+        this.grid.clearErrorByObject(cell.rowInfo.data);
+
+        if (txt.getValue().length < 1) {
+            this.grid.setErrorByObject(cell.rowInfo.getData(), cell.getColumn().dataField, "Missing required field :Name");
+            valSuccess = false;
+        }
+        else {
+
+            valSuccess = true;
+        }
+        return valSuccess;
     }
-    return valSuccess;
-}
-componentDidMount() {
-    this.mediator = new IdCampusCodeMediator().onRegister(this.grid);
-    this.grid.addEventListener(this, FlexDataGridEvent.ICON_CLICK, gridIconClick);
-}
-componentWillUnmount() {
-    this.grid.removeEventListener(FlexDataGridEvent.ICON_CLICK, gridIconClick);
-    this.mediator.onUnRegister();
-}
-render() {
-    return (
-        <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" enablePaging="true" enableToolbarActions="true" horizontalScrollPolicy="auto" styleName="gridStyle"
-            toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}
-            creationComplete={this.vbox1_creationCompleteHandler.bind(this)} editable="true"
-            cellEditableFunction={isCellEditable} enableCopy="true" enableExport="true">
-            <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
-                <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="campusCodeId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Location ID" itemEditorApplyOnValueCommit="true" editable={false} />
-                <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="campusCodeName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Location Name" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validatecampus.bind(this)} />
-                <ReactDataGridColumn headerText="Active" editable={false} enableCellClickRowSelect={false}>
-                    {/* <nestedtreedatagrid:itemRenderer>
+    componentDidMount() {
+        this.mediator = new IdCampusCodeMediator().onRegister(this.grid);
+        this.grid.addEventListener(this, FlexDataGridEvent.ICON_CLICK, gridIconClick);
+    }
+    componentWillUnmount() {
+        this.grid.removeEventListener(FlexDataGridEvent.ICON_CLICK, gridIconClick);
+        this.mediator.onUnRegister();
+    }
+    render() {
+        return (
+            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" enablePaging="true" enableToolbarActions="true" horizontalScrollPolicy="auto" styleName="gridStyle"
+                toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}
+                creationComplete={this.vbox1_creationCompleteHandler.bind(this)} editable="true"
+                cellEditableFunction={isCellEditable} enableCopy="true" enableExport="true">
+                <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
+                    <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="campusCodeId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Location ID" itemEditorApplyOnValueCommit="true" editable={false} />
+                    <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="campusCodeName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Location Name" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validatecampus.bind(this)} />
+                    <ReactDataGridColumn headerText="Active" editable={false} enableCellClickRowSelect={false}>
+                        {/* <nestedtreedatagrid:itemRenderer>
 							<fx:Component>
 								<mx:HBox width="100%" horizontalAlign="center" >
 									<s:CheckBox id="activeChkBox" enabled="{data.edit}" selected="{data.activeFlag==1?true:false}"  click="if(data.activeFlag==0) data.activeFlag=1; else data.activeFlag=0;" styleName="checkBoxStyle"/>
 								</mx:HBox>
 							</fx:Component>
 						</nestedtreedatagrid:itemRenderer> */}
-                </ReactDataGridColumn>
-                <ReactDataGridColumn width="100" dataField="createDate" enableCellClickRowSelect={false} filterOperation="Contains" headerText="Create Date" labelFunction={dateLabel} editable={false} filterControl="DateComboBox" />
-                <ReactDataGridColumn width="100" dataField="updateDate" enableCellClickRowSelect={false} filterControl="DateComboBox" filterOperation="Contains" headerText="Update Date" labelFunction={dateLabel} editable={false} />
-                <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated By" editable={false} />
+                    </ReactDataGridColumn>
+                    <ReactDataGridColumn width="100" dataField="createDate" enableCellClickRowSelect={false} filterOperation="Contains" headerText="Create Date" labelFunction={dateLabel} editable={false} filterControl="DateComboBox" />
+                    <ReactDataGridColumn width="100" dataField="updateDate" enableCellClickRowSelect={false} filterControl="DateComboBox" filterOperation="Contains" headerText="Update Date" labelFunction={dateLabel} editable={false} />
+                    <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated By" editable={false} />
 
-                <ReactDataGridColumn headerText="Edit" width="50" excludeFromExport="true" editable={false}
-                    iconHandCursor enableIcon iconFunction={dynamicIconFunction} iconClick={this.onEdit.bind(this)}>
+                    <ReactDataGridColumn headerText="Edit" width="50" excludeFromExport="true" editable={false}
+                        iconHandCursor enableIcon iconFunction={dynamicIconFunction} iconClick={this.onEdit.bind(this)}>
 
 
-                </ReactDataGridColumn>
-                <ReactDataGridColumn headerText="Delete" width="50" excludeFromExport="true" editable={false}
-                    iconHandCursor enableIcon iconFunction={this.checkId.bind(this)} iconClick={this.onDelete.bind(this)}>
-                </ReactDataGridColumn>
-                <ReactDataGridColumn headerText="Save" width="50" excludeFromExport="true" editable={false}
-                iconHandCursor enableIcon iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
-                </ReactDataGridColumn>
-            </ReactDataGridColumnLevel>
-        </DataGrid>);
-}
+                    </ReactDataGridColumn>
+                    <ReactDataGridColumn headerText="Delete" width="50" excludeFromExport="true" editable={false}
+                        iconHandCursor enableIcon iconFunction={this.checkId.bind(this)} iconClick={this.onDelete.bind(this)}>
+                    </ReactDataGridColumn>
+                    <ReactDataGridColumn headerText="Save" width="50" excludeFromExport="true" editable={false}
+                        iconHandCursor enableIcon iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
+                    </ReactDataGridColumn>
+                </ReactDataGridColumnLevel>
+            </DataGrid>);
+    }
 }

@@ -28,7 +28,7 @@ const isCellEditable = (cell) => {
 
 
 const dynamicIconFunction = (cell/**/) => {
-    if(!cell.rowInfo.getIsDataRow()) return null;
+    if (!cell.rowInfo.getIsDataRow()) return null;
     var data = cell.rowInfo.getData();
     if (data == null) return null;
     var ret;
@@ -52,8 +52,8 @@ const dateLabel = (item, col) => {
 const gridIconClick = (evt) => {
     evt.column.iconClick(evt.item);
 }
-const getSaveB = (cell) => { return cell.rowInfo.getIsDataRow()? saveB : null};
-const getDeleteIcon = (cell) => { return cell.rowInfo.getIsDataRow()?  deleteIcon : null };
+const getSaveB = (cell) => { return cell.rowInfo.getIsDataRow() ? saveB : null };
+const getDeleteIcon = (cell) => { return cell.rowInfo.getIsDataRow() ? deleteIcon : null };
 
 export default class TitleModifier extends React.Component {
     constructor(props) {

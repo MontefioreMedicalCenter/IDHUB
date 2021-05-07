@@ -1,5 +1,5 @@
-export default class IdDepartmentModifierMediator{
-	
+export default class IdDepartmentModifierMediator {
+
 }
 	// export default class IdDepartmentModifierMediator extends Mediator
 	// {

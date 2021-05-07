@@ -36,11 +36,11 @@ const dateLabel = (item, col) => {
 const gridIconClick = (evt) => {
     evt.column.iconClick(evt.item);
 }
-const getSaveB = (cell) => { return cell.rowInfo.getIsDataRow()? saveB : null};
-const getDeleteIcon = (cell) => { return cell.rowInfo.getIsDataRow()?  deleteIcon : null };
+const getSaveB = (cell) => { return cell.rowInfo.getIsDataRow() ? saveB : null };
+const getDeleteIcon = (cell) => { return cell.rowInfo.getIsDataRow() ? deleteIcon : null };
 
 const dynamicIconFunction = (cell/**/) => {
-    if(!cell.rowInfo.getIsDataRow()) return null;
+    if (!cell.rowInfo.getIsDataRow()) return null;
     var data = cell.rowInfo.getData();
     if (data == null) return null;
     var ret;
@@ -66,24 +66,24 @@ export default class TitleModifier extends React.Component {
         if (data.edit && this._indEdit === (this.grid.getDataProvider()).getItemIndex(data)) {
             MontefioreUtils.showConfirm("Are you sure you want to cancel your changes?", "Confirm Cancel",
                 MontefioreUtils.YES | MontefioreUtils.NO, this, (event) => {
-                if (event.detail === MontefioreUtils.YES) {
-                    idx = gridDP.getItemAt(this._indEdit);
-                    if (this._indEdit === 0 && idx.employeeSubGroupId >= this.lastN) {
-                        gridDP.removeItemAt(0);
-                    }
-                    else {
-                        idx.employeeSubGroupName = this.keeper;
-                        gridDP.setItemAt(idx, this._indEdit);
-                    }
-                    data.edit = false;
-                    this._indEdit = -1;
-                    this.grid.refreshCells();
-                    return;
+                    if (event.detail === MontefioreUtils.YES) {
+                        idx = gridDP.getItemAt(this._indEdit);
+                        if (this._indEdit === 0 && idx.employeeSubGroupId >= this.lastN) {
+                            gridDP.removeItemAt(0);
+                        }
+                        else {
+                            idx.employeeSubGroupName = this.keeper;
+                            gridDP.setItemAt(idx, this._indEdit);
+                        }
+                        data.edit = false;
+                        this._indEdit = -1;
+                        this.grid.refreshCells();
+                        return;
 
-                } else if (event.detail === MontefioreUtils.NO) {
+                    } else if (event.detail === MontefioreUtils.NO) {
 
-                }
-            })
+                    }
+                })
         } else {
             if (this._indEdit < 0) {
                 data.edit = true

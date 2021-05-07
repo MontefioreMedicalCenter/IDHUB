@@ -1,4 +1,4 @@
-import React  from 'react'
+import React from 'react'
 import '../admin.style.scss'
 import DataGrid from '../../../../../shared/components/ExtendedDataGrid';
 // import ExampleUtils from '../../../../utils/ExampleUtils';
@@ -27,7 +27,7 @@ const isCellEditable = (cell) => {
 
 
 const dynamicIconFunction = (cell/**/) => {
-    if(!cell.rowInfo.getIsDataRow()) return null;
+    if (!cell.rowInfo.getIsDataRow()) return null;
     var data = cell.rowInfo.getData();
     if (data == null) return null;
     var ret;
@@ -40,8 +40,8 @@ const dynamicIconFunction = (cell/**/) => {
 const gridIconClick = (evt) => {
     evt.column.iconClick(evt.item);
 }
-const getSaveB = (cell) => { return cell.rowInfo.getIsDataRow()? saveB : null};
-const getDeleteIcon = (cell) => { return cell.rowInfo.getIsDataRow()?  deleteIcon : null };
+const getSaveB = (cell) => { return cell.rowInfo.getIsDataRow() ? saveB : null };
+const getDeleteIcon = (cell) => { return cell.rowInfo.getIsDataRow() ? deleteIcon : null };
 
 
 const dateLabel = (item/*:Object*/, col/*:FlexDataGridColumn*/, cell/*:IFlexDataGridCell*/ = null) =>/*:String*/ {
