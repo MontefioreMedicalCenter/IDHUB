@@ -12,7 +12,7 @@ export default class AddUserMediator{
 
 	// 	private log:ILogger=this.Log.getLogger("AddUserMediator");
 
-	// 	/*override*/ public onRegister():void
+	// public onRegister():void
 	// 	{
 	// 		this.mapListener(this.view, CloseEvent.CLOSE, this.dispose, CloseEvent);
 	// 		//usernameValidator.source=view.usernameValidatorSource;
@@ -148,7 +148,7 @@ export default class AddUserMediator{
 	// 		this.onRemove()
 	// 	}
 
-	// 	/*override*/ public onRemove():void
+	// public onRemove():void
 	// 	{
 	// 		PopUpManager.removePopUp(this.view)
 	// 		this.eventMap.unmapListeners();

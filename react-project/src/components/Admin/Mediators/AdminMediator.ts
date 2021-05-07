@@ -11,7 +11,7 @@ export default class AdminMediator{
 
 	// 	private log:ILogger=this.Log.getLogger("adminMediator");
 
-	// 	/*override*/ public onRegister():void
+	// public onRegister():void
 	// 	{
 
 	// 		this.mapListener(this.view.viewStackAdmin, Event.CHANGE, this.refreshTab, Event);

@@ -65,6 +65,8 @@ export default class IdDepartmentModifier extends React.Component {
 
     }
     componentDidMount() {
+        this.grid.toolbarActions.push(new ToolbarAction("Add Department", -1, "", "Add Department", "org/monte/edi/idhub/assets/img/add.png", false, true));
+        this.grid.rebuildPager();
         this.mediator = new IdDepartmentMediator().onRegister(this.grid);
         this.grid.addEventListener(this, FlexDataGridEvent.ICON_CLICK, gridIconClick);
     }
@@ -109,9 +111,6 @@ export default class IdDepartmentModifier extends React.Component {
         this.grid.refreshCells();
     }
 
-    vbox1_creationCompleteHandler() {
-        this.grid.toolbarActions.addItem(new ToolbarAction("Add Department", -1, "", "Add Department", "org/monte/edi/idhub/assets/img/add.png", false, true));
-    }
 
     onExecuteToolbarAction(action) {
 
@@ -133,6 +132,7 @@ export default class IdDepartmentModifier extends React.Component {
             idDepartmentClass.activeFlag = 1;
             this._indEdit = 0;
             gridDP.addItemAt(idDepartmentClass, 0);
+            this.grid.rebuildBody();
             this.lastN = lastRow.departmentId + 1;
             this.grid.refreshCells()
         }
@@ -198,7 +198,8 @@ export default class IdDepartmentModifier extends React.Component {
     }
     render() {
         return (
-            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" enablePaging="true" enableToolbarActions="true" horizontalScrollPolicy="auto" styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)} creationComplete={this.vbox1_creationCompleteHandler.bind(this)} editable="true" cellEditableFunction={isCellEditable} enableCopy="true" enableExport="true">
+            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" 
+            pagerRenderer={MontefioreUtils.pagerFactory} enablePaging="true" enableToolbarActions="true" horizontalScrollPolicy="auto" styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}  editable="true" cellEditableFunction={isCellEditable} enableCopy="true" enableExport="true">
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="departmentId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Department ID" itemEditorApplyOnValueCommit="true" editable={false} />
                     <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="departmentName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Department Name" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validatedept.bind(this)} />
@@ -218,13 +219,13 @@ export default class IdDepartmentModifier extends React.Component {
                     <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated By" editable={false} />
 
                     <ReactDataGridColumn headerText="Edit" width="50" excludeFromExport="true" editable={false}
-                        iconFunction={dynamicIconFunction} iconHandCursor enableIcon iconClick={this.onEdit.bind(this)}>
+                        iconFunction={dynamicIconFunction} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon iconClick={this.onEdit.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Delete" width="50" excludeFromExport="true" editable={false}
-                        enableIcon iconFunction={getDeleteIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
+                        enableIcon iconFunction={getDeleteIcon} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Save" width="50" excludeFromExport="true" editable={false}
-                        iconFunction={getSaveB} iconHandCursor enableIcon iconClick={this.onSave.bind(this)}>
+                        iconFunction={getSaveB} iconHandCursor iconPlacementFunction={MontefioreUtils.placeIcon} enableIcon iconClick={this.onSave.bind(this)}>
                     </ReactDataGridColumn>
                 </ReactDataGridColumnLevel>
             </DataGrid>

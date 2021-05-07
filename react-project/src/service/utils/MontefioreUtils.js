@@ -1,7 +1,7 @@
 import moment from 'moment'
-import { DateFormatter, FlexDataGridEvent, UIUtils } from '../../flexicious'
+import { ClassFactory, DateFormatter, FlexDataGridEvent, UIUtils } from '../../flexicious'
 import { toast } from 'react-toastify'
-
+import Pager from "../../shared/components/PagerControlAs"
 const MontefioreUtils = () => {}
 const formatter = (item, dataField, formatString) => {
 	const dateFormatter = new DateFormatter()
@@ -47,6 +47,10 @@ MontefioreUtils.showConfirm = (msg, title, flags, binder, callback) => {
 		callback(new DialogEvent(MontefioreUtils.CANCEL));
 	}
 }
+MontefioreUtils.placeIcon = (cell, icon) => {
+	icon.move(8,12);
+}
+MontefioreUtils.pagerFactory = new ClassFactory(Pager)
 class DialogEvent extends FlexDataGridEvent {
 	constructor(detail){
 		super("DialogEvent");

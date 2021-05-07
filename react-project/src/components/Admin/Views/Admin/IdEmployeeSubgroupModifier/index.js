@@ -100,10 +100,7 @@ export default class TitleModifier extends React.Component {
     onToolbarExport() {
         ExtendedExportController.instance().export(this.grid);
     }
-    vbox1_creationCompleteHandler(event) {
-        this.grid.toolbarActions.addItem(new ToolbarAction("Add Employee Subgroup", -1, "", "Add Employee Subgroup", "org/monte/edi/idhub/assets/img/add.png", false, true));
-    }
-
+    
     onExecuteToolbarAction(action) {
 
         if (action.code === "Add Employee Subgroup") {
@@ -125,6 +122,7 @@ export default class TitleModifier extends React.Component {
             this.lastN = lastRow.employeeSubGroupId + 1
             this._indEdit = 0;
             gridDP.addItemAt(val, 0);
+            this.grid.rebuildBody();
             this.grid.refreshCells()
         }
         else
@@ -186,6 +184,8 @@ export default class TitleModifier extends React.Component {
         return valSuccess;
     }
     componentDidMount() {
+        this.grid.toolbarActions.push(new ToolbarAction("Add Employee Subgroup", -1, "", "Add Employee Subgroup", "org/monte/edi/idhub/assets/img/add.png", false, true));
+        this.grid.rebuildPager();
         this.mediator = new IdEmployeeSubgroupMediator().onRegister(this.grid);
         this.grid.addEventListener(this, FlexDataGridEvent.ICON_CLICK, gridIconClick);
     }
@@ -195,9 +195,9 @@ export default class TitleModifier extends React.Component {
     }
     render() {
         return (
-            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" enablePaging="true" enableToolbarActions="true"
-                horizontalScrollPolicy="auto" styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction}
-                creationComplete={this.vbox1_creationCompleteHandler} editable="true" cellEditableFunction={this.isCellEditable} enableCopy="true" enableExport="true">
+            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" pagerRenderer={MontefioreUtils.pagerFactory} enablePaging="true" enableToolbarActions="true"
+                horizontalScrollPolicy="auto" styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}
+                 editable="true" cellEditableFunction={this.isCellEditable} enableCopy="true" enableExport="true">
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="employeeSubGroupId" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type ID" itemEditorApplyOnValueCommit="true" editable="false" />
                     <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="employeeSubGroupName" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validateuseridtype.bind(this)} />
@@ -213,7 +213,7 @@ export default class TitleModifier extends React.Component {
                     <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="Updated By" editable="false" />
 
                     <ReactDataGridColumn headerText="Edit" width="50" excludeFromExport="true" editable="false"
-                        iconFunction={dynamicIconFunction} iconHandCursor enableIcon iconClick={this.onEdit.bind(this)}>
+                        iconFunction={dynamicIconFunction}iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon iconClick={this.onEdit.bind(this)}>
                         {/* <nestedtreedatagrid:itemRenderer>
 							<fx:Component>
 								<mx:Image source="{parentDocument.dynamicIconFunction(data)}" click="parentDocument.onEdit(data)" scaleContent="false" useHandCursor="true" buttonMode="true" mouseChildren="false"/>
@@ -221,7 +221,7 @@ export default class TitleModifier extends React.Component {
 						</nestedtreedatagrid:itemRenderer> */}
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Delete" width="50" excludeFromExport="true" editable="false"
-                        enableIcon iconFunction={getDeleteIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
+                        enableIcon iconFunction={getDeleteIcon} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
                         {/* <nestedtreedatagrid:itemRenderer>
 							<fx:Component>
 								<mx:Image source="@Embed('../../../../assets/img/delete.png')" click="parentDocument.onDelete(data)" scaleContent="false" useHandCursor="true" buttonMode="true" mouseChildren="false" visible="{parentDocument.checkId(data)}"/>
@@ -229,7 +229,7 @@ export default class TitleModifier extends React.Component {
 						</nestedtreedatagrid:itemRenderer> */}
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Save" width="50" excludeFromExport="true" editable="false"
-                        iconHandCursor enableIcon iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
+                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
                         {/* <nestedtreedatagrid:itemRenderer>
 							<fx:Component>
 								<mx:Image source="@Embed('../../../../assets/img/saveB.png')" click="parentDocument.onSave(data)" scaleContent="false" useHandCursor="true" buttonMode="true" mouseChildren="false"/>

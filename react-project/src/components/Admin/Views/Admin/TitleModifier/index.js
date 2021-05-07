@@ -64,6 +64,9 @@ export default class TitleModifier extends React.Component {
         this._indEdit/*:int*/ = -1;
     }
     componentDidMount() {
+        this.grid.toolbarActions.push(new ToolbarAction("Add", -1, "", "Add Record", "org/monte/edi/idhub/assets/img/add.png", false, true));
+        this.grid.rebuildPager();
+
         this.mediator = new TitleMediator().onRegister(this.grid);
         this.grid.addEventListener(this, FlexDataGridEvent.ICON_CLICK, gridIconClick);
     }
@@ -120,9 +123,6 @@ export default class TitleModifier extends React.Component {
 
 
 
-    vbox1_creationCompleteHandler(event) {
-        this.grid.toolbarActions.addItem(new ToolbarAction("Add", -1, "", "Add Record", "org/monte/edi/idhub/assets/img/add.png", false, true));
-    }
 
     onDelete(data) {
         var grid = this.grid;
@@ -174,6 +174,7 @@ export default class TitleModifier extends React.Component {
             title.activeFlag = 1
             title.edit = true;
             gridDP.addItemAt(title, 0);
+            this.grid.rebuildBody();
             this.grid.refreshCells()
         }
         else
@@ -205,7 +206,7 @@ export default class TitleModifier extends React.Component {
     render() {
         return (
             <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" editable cellEditableFunction={isCellEditable} enableCopy enableEagerDraw enableExport styleName="gridStyle" enableToolbarActions toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}
-                toolbarExcelHandlerFunction={this.onToolbarExport.bind(this)}>
+            pagerRenderer={MontefioreUtils.pagerFactory} toolbarExcelHandlerFunction={this.onToolbarExport.bind(this)}>
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters enablePaging pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Id" itemEditorApplyOnValueCommit />
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Name" itemEditorApplyOnValueCommit itemEditorValidatorFunction={this.validateTitle.bind(this)} />
@@ -223,13 +224,13 @@ export default class TitleModifier extends React.Component {
                     <ReactDataGridColumn width="150" columnWidthMode="fitToContent" dataField="updateDate" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated Date" itemEditorApplyOnValueCommit labelFunction={dateLabel} editable={false} />
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="updatedBy" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated By" itemEditorApplyOnValueCommit editable={false} />
                     <ReactDataGridColumn headerText="Edit" width="30" editable={false} excludeFromExport
-                        iconHandCursor enableIcon iconFunction={dynamicIconFunction} iconClick={this.onEdit.bind(this)}>
+                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={dynamicIconFunction} iconClick={this.onEdit.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Delete" width="30" excludeFromExport editable={false}
-                        iconHandCursor enableIcon iconFunction={getDeleteIcon} iconClick={this.onDelete.bind(this)}>
+                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getDeleteIcon} iconClick={this.onDelete.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Save" width="30" excludeFromExport editable={false}
-                        iconHandCursor enableIcon iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
+                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
                     </ReactDataGridColumn>
                 </ReactDataGridColumnLevel>
             </DataGrid>);

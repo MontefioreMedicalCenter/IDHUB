@@ -13,7 +13,7 @@ export default class TitleMediator extends Mediator {
 	/*[Inject]*/
 	public adminService: AdminService = AdminService.getInstance();
 
-		/*override*/ public onRegister(grid: DataGrid) {
+	public onRegister(grid: DataGrid) {
 		this.grid = grid;
 		this.mapListener(this.eventDispatcher, AdminEvent.GET_TITLE, this.getTitle, AdminEvent);
 		this.mapListener(this.eventDispatcher, AdminEvent.POP_TITLE, this.popTitle, AdminEvent);

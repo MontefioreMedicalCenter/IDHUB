@@ -13,7 +13,7 @@ export default class IdCampusCodeMediator extends Mediator {
 	/*[Inject]*/
 	public adminService: AdminService = AdminService.getInstance();
 
-		/*override*/ public onRegister(grid: DataGrid): void {
+	public onRegister(grid: DataGrid): void {
 		this.grid = grid;
 
 		this.mapListener(this.eventDispatcher, AdminEvent.GET_CAMPUSCODE, this.getCampusCodes, AdminEvent);

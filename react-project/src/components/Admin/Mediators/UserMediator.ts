@@ -25,7 +25,7 @@ export default class UserMediator extends Mediator {
 	/*[Inject]*/
 	public servc: AdminService = AdminService.getInstance();
 
-		/*override*/ public onRegister(view: UserModifier): void {
+	public onRegister(view: UserModifier): void {
 		this.view = view
 		this.mapListener(this.eventDispatcher, ManageUserEvent.USER_START, this.getLayout, ManageUserEvent);
 		this.mapListener(this.eventDispatcher, ManageUserEvent.GET_USERS_AND_ROLES_ST, this.getUserRoles, ManageUserEvent);

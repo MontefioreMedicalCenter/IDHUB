@@ -8,7 +8,7 @@ export default class IdDepartmentModifierMediator {
 	// 	/*[Inject]*/
 	// 	public storageService:AdminService
 
-	// 	/*override*/ public onRegister():void
+	// public onRegister():void
 	// 	{
 	// 		super.onRegister();
 	// 	}

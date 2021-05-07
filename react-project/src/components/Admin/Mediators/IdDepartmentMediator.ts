@@ -13,7 +13,7 @@ export default class IdDepartmentMediator extends Mediator {
 	/*[Inject]*/
 	public adminService: AdminService = AdminService.getInstance();
 
-		/*override*/ public onRegister(grid: DataGrid): IdDepartmentMediator {
+	public onRegister(grid: DataGrid): IdDepartmentMediator {
 		this.grid = grid;
 		this.mapListener(this.eventDispatcher, AdminEvent.GET_DEPT, this.getDeptCC, AdminEvent);
 		this.mapListener(this.eventDispatcher, AdminEvent.POP_DEPT, this.popIdDepartmentClass, AdminEvent);
