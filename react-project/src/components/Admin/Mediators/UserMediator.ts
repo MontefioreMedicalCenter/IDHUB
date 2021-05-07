@@ -392,6 +392,7 @@ export default class UserMediator extends Mediator {
 		var dp: ArrayCollection = <ArrayCollection>this.view.grid.getDataProvider()
 		dp.removeItemAt(this.view.indx)
 		this.refreshView()
+		this.view.grid.refreshGrid()
 	}
 	private activateUser(event: ManageUserEvent): void {
 		//service.activateUser(event.user, event.activate)

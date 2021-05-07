@@ -410,7 +410,7 @@ export default class AdminService extends ServiceProxyBase {
     }
     public deleteUser(user: IdUser): AxiosPromise<any> {
         var formData = qs.stringify({
-            user: user
+            user: JSON.stringify(user)
         })
 
         return this.callServiceMethod(
