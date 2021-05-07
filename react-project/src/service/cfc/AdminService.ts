@@ -116,7 +116,7 @@ export default class AdminService extends ServiceProxyBase {
     }
     public addNewUser(user: IdUser): AxiosPromise<any> {
         var formData = qs.stringify({
-            user: user
+            user: stringifyCircularObjectWithModifiedKeys(user)
         })
 
         return this.callServiceMethod(
@@ -220,7 +220,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteIdDepartment(depart: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            depart: depart
+            depart: stringifyCircularObjectWithModifiedKeys(depart)
         })
 
         return this.callServiceMethod(
@@ -256,7 +256,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public saveUser(userData: IdUser): AxiosPromise<any> {
         var formData = qs.stringify({
-            user: JSON.stringify(userData)
+            user: stringifyCircularObjectWithModifiedKeys(userData)
         })
 
         return this.callServiceMethod(
@@ -280,7 +280,7 @@ export default class AdminService extends ServiceProxyBase {
     }
     public addUsrFsa(ur: IdUserRoleMap, signal: string): AxiosPromise<any> {
         var formData = qs.stringify({
-            ur: ur
+            ur: stringifyCircularObjectWithModifiedKeys(ur)
         })
 
         return this.callServiceMethod(
@@ -307,7 +307,7 @@ export default class AdminService extends ServiceProxyBase {
     }
     public remUsrFsa(ur: IdUserRoleMap, signal: string): AxiosPromise<any> {
         var formData = qs.stringify({
-            ur: ur
+            ur: stringifyCircularObjectWithModifiedKeys(ur)
         })
 
         return this.callServiceMethod(
@@ -411,7 +411,7 @@ export default class AdminService extends ServiceProxyBase {
     }
     public deleteUser(user: IdUser): AxiosPromise<any> {
         var formData = qs.stringify({
-            user: JSON.stringify(user)
+            user: stringifyCircularObjectWithModifiedKeys(user)
         })
 
         return this.callServiceMethod(
@@ -458,7 +458,7 @@ export default class AdminService extends ServiceProxyBase {
     //---
     public saveIdCampusCode(val: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            campusCode: val
+            campusCode: stringifyCircularObjectWithModifiedKeys(val)
         })
 
         return this.callServiceMethod(
@@ -483,7 +483,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteCampusCode(val: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            campusCode: val
+            campusCode: stringifyCircularObjectWithModifiedKeys(val)
         })
 
         return this.callServiceMethod(
@@ -531,7 +531,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public saveIdEmployeeSubgroup(val: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            employeeSubgroup: val
+            employeeSubgroup: stringifyCircularObjectWithModifiedKeys(val)
         })
 
         return this.callServiceMethod(
@@ -557,7 +557,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteEmployeeSubgroup(val: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            employeeSubgroup: val
+            employeeSubgroup: stringifyCircularObjectWithModifiedKeys(val)
         })
 
         return this.callServiceMethod(
@@ -604,7 +604,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public saveIdTitle(title: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            title
+            title: stringifyCircularObjectWithModifiedKeys(title)
         })
 
         return this.callServiceMethod(
@@ -629,7 +629,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteIdTitle(title: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            title
+            title: stringifyCircularObjectWithModifiedKeys(title)
         })
 
         return this.callServiceMethod(
