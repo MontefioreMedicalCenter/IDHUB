@@ -458,7 +458,7 @@ export default class AdminService extends ServiceProxyBase {
     //---
     public saveIdCampusCode(val: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            campusCode: stringifyCircularObjectWithModifiedKeys(val)
+            idcampusCodeStr: stringifyCircularObjectWithModifiedKeys(val)
         })
 
         return this.callServiceMethod(
@@ -483,7 +483,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteCampusCode(val: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            campusCode: stringifyCircularObjectWithModifiedKeys(val)
+            idcampusCodeStr: stringifyCircularObjectWithModifiedKeys(val)
         })
 
         return this.callServiceMethod(
@@ -531,7 +531,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public saveIdEmployeeSubgroup(val: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            employeeSubgroup: stringifyCircularObjectWithModifiedKeys(val)
+            idEmployeeSubGroupStr: stringifyCircularObjectWithModifiedKeys(val)
         })
 
         return this.callServiceMethod(
@@ -557,7 +557,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteEmployeeSubgroup(val: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            employeeSubgroup: stringifyCircularObjectWithModifiedKeys(val)
+            idEmployeeSubGroupStr: stringifyCircularObjectWithModifiedKeys(val)
         })
 
         return this.callServiceMethod(
@@ -604,7 +604,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public saveIdTitle(title: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            title: stringifyCircularObjectWithModifiedKeys(title)
+            idTitleStr: stringifyCircularObjectWithModifiedKeys(title)
         })
 
         return this.callServiceMethod(
@@ -629,7 +629,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public deleteIdTitle(title: Object): AxiosPromise<any> {
         var formData = qs.stringify({
-            title: stringifyCircularObjectWithModifiedKeys(title)
+            idTitleStr: stringifyCircularObjectWithModifiedKeys(title)
         })
 
         return this.callServiceMethod(
