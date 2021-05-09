@@ -78,11 +78,8 @@ export const stringifyCircularObjectWithModifiedKeys = (selectedRequest) => {
 		if (key === '_worklistGroup') {
 			return value.worklistId
 		} else if (value && (key.endsWith('Date') || key.indexOf( 'dateOfBirth') >= 0)) {
-			//debugger;
-			//console.log(key + ":" +  moment(new Date(value)).format("yyyy-MM-DD HH:mm:ss"))
 			return moment(new Date(value)).format("yyyy-MM-DD HH:mm:ss")
 		} else {
-			console.log(key + +":"+ value)
 			return value
 		}
 	}))

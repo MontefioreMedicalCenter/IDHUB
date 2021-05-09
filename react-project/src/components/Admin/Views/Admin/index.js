@@ -53,7 +53,6 @@ const tabStyles = {
 
 const AdminTab = () => {
     const [tabValue, handleTabChange] = useState(0)
-    console.log(tabValue)
     return (
         <div className="admin-main-container">
             <CustomizedTabs
