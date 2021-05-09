@@ -224,16 +224,16 @@ const ReviewWorkList = () => {
                         <ReactDataGridColumn editable={false} width="85" dataField="worklistGroup.requesterUser.userPhone" headerText="Phone" enableCellClickRowSelect={false} sortable={false} />
                         <ReactDataGridColumn editable={false} width="100" columnWidthMode="fixed" cellTextColorFunction={getCellTextColor} dataField="worklistGroup.requesterUser.userEmail" headerText="Email" enableCellClickRowSelect={false} useHandCursor useUnderLine color="blue" fontWeight="bold" sortable={false} />
                     </ReactDataGridColumnGroup>
-                    <ReactDataGridColumn editable={false} columnLockMode="right" headerText="View Docs" hideText headerWordWrap enableIcon iconFunction={dynamicIconFunctionUpload} iconToolTip="View Request Document" iconHandCursor columnWidthMode="fixed" width="60" iconLeft="25" />
+                    <ReactDataGridColumn editable={false} columnLockMode="right" headerText="View Docs" hideText headerWordWrap enableIcon useIconRollOverTimer={false} iconFunction={dynamicIconFunctionUpload} iconToolTip="View Request Document" iconHandCursor columnWidthMode="fixed" width="60" iconLeft="25" />
                     <ReactDataGridColumnGroup headerText="Under Review">
                         <ReactDataGridColumn editable={false} columnLockMode="right" width="90" dataField="reviewerUserId" filterControl="MultiSelectComboBox" enableRecursiveSearch headerText="Reviewer ID" filterComboBoxBuildFromGrid enableCellClickRowSelect={false} filterCompareFunction={textFilterFunction} />
-                        <ReactDataGridColumn editable={false} columnLockMode="right" hideText headerText="Under Review" enableIcon iconHandCursor columnWidthMode="fixed" width="80" iconLeft="30" iconFunction={dynamicIconFunction} />
+                        <ReactDataGridColumn editable={false} columnLockMode="right" hideText headerText="Under Review" enableIcon useIconRollOverTimer={false} iconHandCursor columnWidthMode="fixed" width="80" iconLeft="30" iconFunction={dynamicIconFunction} />
                     </ReactDataGridColumnGroup>
                     <ReactDataGridColumnGroup headerText="Reject">
                         <ReactDataGridColumn columnLockMode="right" itemEditorApplyOnValueCommit width="150" dataField="reviewerComments" headerText="Reject Reason" enableCellClickRowSelect={false} sortable={false} itemEditorValidatorFunction={validateReviewerComment} />
-                        <ReactDataGridColumn columnLockMode="right" editable={false} hideText headerText="Reject" enableIcon iconFunction={dynamicIconFunctionReject} iconToolTip="Reject Request" iconHandCursor columnWidthMode="fixed" width="80" iconLeft="30" sortable={false} />
+                        <ReactDataGridColumn columnLockMode="right" editable={false} hideText headerText="Reject" enableIcon useIconRollOverTimer={false} iconFunction={dynamicIconFunctionReject} iconToolTip="Reject Request" iconHandCursor columnWidthMode="fixed" width="80" iconLeft="30" sortable={false} />
                     </ReactDataGridColumnGroup>
-                    <ReactDataGridColumn columnLockMode="right" editable={false} hideText headerText="Accept" enableIcon iconFunction={dynamicIconFunctionAccept} iconToolTip="Accept Request" iconHandCursor columnWidthMode="fixed" width="60" iconLeft="20" sortable={false} />
+                    <ReactDataGridColumn columnLockMode="right" editable={false} hideText headerText="Accept" enableIcon useIconRollOverTimer={false} iconFunction={dynamicIconFunctionAccept} iconToolTip="Accept Request" iconHandCursor columnWidthMode="fixed" width="60" iconLeft="20" sortable={false} />
                     <ReactDataGridColumnLevel horizontalGridLines={false} horizontalGridLineColor="0xffffff" horizontalGridLineThickness="0" rowHeight="23" nestIndent="30" reusePreviousLevelColumns alternatingItemColors={[0xFFFFFF, 0xFFFFFF]} initialSortField="id.worklistSeqNum" />
                 </ReactDataGridColumnLevel>
             </DataGrid>

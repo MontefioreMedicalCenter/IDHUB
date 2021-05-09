@@ -216,7 +216,7 @@ export default class TitleModifier extends React.Component {
                     <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="Updated By" editable="false" />
 
                     <ReactDataGridColumn headerText="Edit" width="50" excludeFromExport="true" editable="false"
-                        iconFunction={dynamicIconFunction}iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon iconClick={this.onEdit.bind(this)}>
+                        iconFunction={dynamicIconFunction}iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon useIconRollOverTimer={false} iconClick={this.onEdit.bind(this)}>
                         {/* <nestedtreedatagrid:itemRenderer>
 							<fx:Component>
 								<mx:Image source="{parentDocument.dynamicIconFunction(data)}" click="parentDocument.onEdit(data)" scaleContent="false" useHandCursor="true" buttonMode="true" mouseChildren="false"/>
@@ -224,7 +224,7 @@ export default class TitleModifier extends React.Component {
 						</nestedtreedatagrid:itemRenderer> */}
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Delete" width="50" excludeFromExport="true" editable="false"
-                        enableIcon iconFunction={getDeleteIcon} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
+                        enableIcon useIconRollOverTimer={false} iconFunction={getDeleteIcon} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
                         {/* <nestedtreedatagrid:itemRenderer>
 							<fx:Component>
 								<mx:Image source="@Embed('../../../../assets/img/delete.png')" click="parentDocument.onDelete(data)" scaleContent="false" useHandCursor="true" buttonMode="true" mouseChildren="false" visible="{parentDocument.checkId(data)}"/>
@@ -232,7 +232,7 @@ export default class TitleModifier extends React.Component {
 						</nestedtreedatagrid:itemRenderer> */}
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Save" width="50" excludeFromExport="true" editable="false"
-                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
+                        iconHandCursor enableIcon useIconRollOverTimer={false} iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
                         {/* <nestedtreedatagrid:itemRenderer>
 							<fx:Component>
 								<mx:Image source="@Embed('../../../../assets/img/saveB.png')" click="parentDocument.onSave(data)" scaleContent="false" useHandCursor="true" buttonMode="true" mouseChildren="false"/>

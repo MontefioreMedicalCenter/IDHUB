@@ -258,7 +258,7 @@ export default class UserModifier extends UIComponent {
                         <ReactDataGridColumnGroup headerText="Menu">
                             <ReactDataGridColumn width="50" dataField="userActiveFlag" enableCellClickRowSelect="false" headerAlign="center" headerText="Active" columnLockMode="right" excludeFromExport="true" itemEditorApplyOnValueCommit="true" itemRenderer={new ClassFactory(ActiveRenderer)} saveHandle={(data, i) => this.saveHandle(data, i)}>
                             </ReactDataGridColumn>
-                            {/* <ReactDataGridColumn headerText="Edit" enableIcon iconFunction={dynamicIcon} uniqueIdentifier="Edit" width="50" headerAlign="center" columnLockMode="right" excludeFromExport="true" >  */}
+                            {/* <ReactDataGridColumn headerText="Edit" enableIcon useIconRollOverTimer={false} iconFunction={dynamicIcon} uniqueIdentifier="Edit" width="50" headerAlign="center" columnLockMode="right" excludeFromExport="true" >  */}
                             <ReactDataGridColumn headerText="Edit" uniqueIdentifier="Edit" width="50" headerAlign="center" columnLockMode="right" excludeFromExport="true" itemRenderer={edit} onHandleEdit={(props) => { this.editHandle(props.cell.rowInfo.getData()) }}>
                                 {/* <nestedtreedatagrid:itemRenderer>
 									<fx:Component>

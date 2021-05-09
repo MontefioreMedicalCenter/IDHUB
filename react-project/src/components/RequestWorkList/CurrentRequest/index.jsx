@@ -1585,7 +1585,7 @@ const CurrentRequest = ({ tabValue }) => {
 								itemRenderer={save}
 								editable={false}
 								hideText={true}
-								//  enableIcon={true}
+								//  enableIcon useIconRollOverTimer={false}={true}
 								//  iconFunction="dynamicIconFunctionSave"
 								iconToolTip="Save Request"
 								iconHandCursor={true}
@@ -1602,7 +1602,7 @@ const CurrentRequest = ({ tabValue }) => {
 								itemRenderer={edit}
 								editable={false}
 								hideText={true}
-								//  enableIcon={true}
+								//  enableIcon useIconRollOverTimer={false}={true}
 								//  iconFunction="dynamicIconFunctionEdit"
 								iconToolTip="Edit Request"
 								iconHandCursor={true}
@@ -1619,7 +1619,7 @@ const CurrentRequest = ({ tabValue }) => {
 								itemRenderer={remove}
 								editable={false}
 								hideText={true}
-								//  enableIcon="{this.searchTb.viewStack.selectedIndex==0}"
+								//  enableIcon useIconRollOverTimer={false}="{this.searchTb.viewStack.selectedIndex==0}"
 								iconHandCursor={true}
 								iconToolTip="Delete Request"
 								iconHandCursor={true}
@@ -1637,7 +1637,7 @@ const CurrentRequest = ({ tabValue }) => {
 								editable={false}
 								hideText={true}
 								headerWordWrap={true}
-								//  enableIcon={true}
+								//  enableIcon useIconRollOverTimer={false}={true}
 								//  iconFunction="dynamicIconFunctionSubmit"
 								iconToolTip="Submit/Accept Request"
 								iconHandCursor={true}

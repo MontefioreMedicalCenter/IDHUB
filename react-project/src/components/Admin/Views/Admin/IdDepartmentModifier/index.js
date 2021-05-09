@@ -222,13 +222,13 @@ export default class IdDepartmentModifier extends React.Component {
                     <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated By" editable={false} />
 
                     <ReactDataGridColumn headerText="Edit" width="50" excludeFromExport="true" editable={false}
-                        iconFunction={dynamicIconFunction} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon iconClick={this.onEdit.bind(this)}>
+                        iconFunction={dynamicIconFunction} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon useIconRollOverTimer={false} iconClick={this.onEdit.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Delete" width="50" excludeFromExport="true" editable={false}
-                        enableIcon iconFunction={getDeleteIcon} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
+                        enableIcon useIconRollOverTimer={false} iconFunction={getDeleteIcon} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Save" width="50" excludeFromExport="true" editable={false}
-                        iconFunction={getSaveB} iconHandCursor iconPlacementFunction={MontefioreUtils.placeIcon} enableIcon iconClick={this.onSave.bind(this)}>
+                        iconFunction={getSaveB} iconHandCursor iconPlacementFunction={MontefioreUtils.placeIcon} enableIcon useIconRollOverTimer={false} iconClick={this.onSave.bind(this)}>
                     </ReactDataGridColumn>
                 </ReactDataGridColumnLevel>
             </DataGrid>

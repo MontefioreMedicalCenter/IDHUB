@@ -213,15 +213,15 @@ export default class TitleModifier extends React.Component {
                     <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated By" editable={false} />
 
                     <ReactDataGridColumn headerText="Edit" width="50" excludeFromExport="true" editable={false}
-                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={dynamicIconFunction} iconClick={this.onEdit.bind(this)}>
+                        iconHandCursor enableIcon useIconRollOverTimer={false} iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={dynamicIconFunction} iconClick={this.onEdit.bind(this)}>
 
 
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Delete" width="50" excludeFromExport="true" editable={false}
-                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={this.checkId.bind(this)} iconClick={this.onDelete.bind(this)}>
+                        iconHandCursor enableIcon useIconRollOverTimer={false} iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={this.checkId.bind(this)} iconClick={this.onDelete.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Save" width="50" excludeFromExport="true" editable={false}
-                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
+                        iconHandCursor enableIcon useIconRollOverTimer={false} iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
                     </ReactDataGridColumn>
                 </ReactDataGridColumnLevel>
             </DataGrid>);

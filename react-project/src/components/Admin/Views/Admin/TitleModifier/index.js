@@ -227,13 +227,13 @@ export default class TitleModifier extends React.Component {
                     <ReactDataGridColumn width="150" columnWidthMode="fitToContent" dataField="updateDate" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated Date" itemEditorApplyOnValueCommit labelFunction={dateLabel} editable={false} />
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="updatedBy" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated By" itemEditorApplyOnValueCommit editable={false} />
                     <ReactDataGridColumn headerText="Edit" width="30" editable={false} excludeFromExport
-                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={dynamicIconFunction} iconClick={this.onEdit.bind(this)}>
+                        iconHandCursor enableIcon useIconRollOverTimer={false} iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={dynamicIconFunction} iconClick={this.onEdit.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Delete" width="30" excludeFromExport editable={false}
-                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getDeleteIcon} iconClick={this.onDelete.bind(this)}>
+                        iconHandCursor enableIcon useIconRollOverTimer={false} iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getDeleteIcon} iconClick={this.onDelete.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Save" width="30" excludeFromExport editable={false}
-                        iconHandCursor enableIcon iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
+                        iconHandCursor enableIcon useIconRollOverTimer={false} iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
                     </ReactDataGridColumn>
                 </ReactDataGridColumnLevel>
             </DataGrid>);
