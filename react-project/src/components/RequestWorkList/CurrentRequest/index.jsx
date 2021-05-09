@@ -988,31 +988,31 @@ const CurrentRequest = ({ tabValue }) => {
 		return valSuccess
 	}
 
-	const textFilterFunction = (item, filter) => {
-		if (typeof filter.expression === 'string') {
-			return (
-				item[filter.columnName]
-					.toString()
-					.toLowerCase()
-					.indexOf(filter.expression.toLowerCase()) !== -1
-			)
-		} else if (
-			typeof filter.expression === 'object' &&
-			filter.expression.length > 0
-		) {
-			const filteredArr = filter.expression.map(data => {
-				const temp =
-					item[filter.columnName]
-						.toString()
-						.toLowerCase()
-						.indexOf(data.toLowerCase()) !== -1
+	// const textFilterFunction = (item, filter) => {
+	// 	if (typeof filter.expression === 'string') {
+	// 		return (
+	// 			item[filter.columnName]
+	// 				.toString()
+	// 				.toLowerCase()
+	// 				.indexOf(filter.expression.toLowerCase()) !== -1
+	// 		)
+	// 	} else if (
+	// 		typeof filter.expression === 'object' &&
+	// 		filter.expression.length > 0
+	// 	) {
+	// 		const filteredArr = filter.expression.map(data => {
+	// 			const temp =
+	// 				item[filter.columnName]
+	// 					.toString()
+	// 					.toLowerCase()
+	// 					.indexOf(data.toLowerCase()) !== -1
 
-				if (temp) return true
-			})
+	// 			if (temp) return true
+	// 		})
 
-			return filteredArr && filteredArr.length && filteredArr[0]
-		}
-	}
+	// 		return filteredArr && filteredArr.length && filteredArr[0]
+	// 	}
+	// }
 
 	const setWorkList = event => {
 		var workListGroupArr = new ArrayCollection()
@@ -1131,7 +1131,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableExpandCollapseIcon
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
@@ -1157,7 +1157,7 @@ const CurrentRequest = ({ tabValue }) => {
 								filterControl="MultiSelectComboBox"
 								itemRenderer={worklistStatusRenderer}
 								cellBackgroundColorFunction={getCellBackgroundColor}
-								filterCompareFunction={textFilterFunction}
+								filterCompareFunction={null}
 							/>
 							<ReactDataGridColumnGroup
 								headerText="Personal"
@@ -1175,7 +1175,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemEditorValidatorFunction={validateLname}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1190,7 +1190,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemEditorValidatorFunction={validateFname}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									dataField="middleNameOrInitial"
@@ -1236,7 +1236,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableRecursiveSearch={true}
 									formatter={ExampleUtils.dateFormatter3}
 									itemEditorValidatorFunction={validateDOB}
-									// filterCompareFunction={textFilterFunction}
+									// filterCompareFunction={null}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
@@ -1252,10 +1252,10 @@ const CurrentRequest = ({ tabValue }) => {
 									filterComboBoxDataProvider={combogenderDP}
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
-									// filterCompareFunction={textFilterFunction}
+									// filterCompareFunction={null}
 									enableCellClickRowSelect={false}
 									itemEditor={genderEditorWrapper}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1287,7 +1287,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
 									itemEditor={employeeSubGroupEditorWrapper}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1303,7 +1303,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									sortable={false}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1319,7 +1319,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
 									itemEditor={campusCodeEditorWrapper}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1335,7 +1335,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
 									itemEditor={titleEditorWrapper}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1351,7 +1351,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									itemEditorManagesPersistence={true}
 									itemEditor={departmenteEditorWrapper}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									dataField="startDate"
@@ -1367,7 +1367,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditor={startDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateStartDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
-								// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									dataField="endDate"
@@ -1384,7 +1384,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditor={endDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateEndDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
-								// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1400,7 +1400,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									itemEditorValidatorFunction={validatesmanagersource}
 									sortable={false}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									dataField="managerPh"
@@ -1447,7 +1447,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									dataField="epfRequest"
@@ -1462,7 +1462,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									dataField="epcsHardTokenRequest"
@@ -1477,7 +1477,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									dataField="mmcEmailRequest"
@@ -1492,7 +1492,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1508,7 +1508,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									sortable={false}
 									itemEditorValidatorFunction={validateAdditionalComment}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1522,7 +1522,7 @@ const CurrentRequest = ({ tabValue }) => {
 									useHandCursor={true}
 									editable={false}
 									sortable={false}
-								// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1536,7 +1536,7 @@ const CurrentRequest = ({ tabValue }) => {
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									filterCompareFunction={textFilterFunction}
+									filterCompareFunction={null}
 									sortable={false}
 								/>
 								<ReactDataGridColumn
@@ -1552,7 +1552,7 @@ const CurrentRequest = ({ tabValue }) => {
 									sortable={false}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 									itemEditor={createDateRendererEditorWrapper}
-								// filterCompareFunction={textFilterFunction}
+								// filterCompareFunction={null}
 								/>
 							</ReactDataGridColumnGroup>
 							<ReactDataGridColumn

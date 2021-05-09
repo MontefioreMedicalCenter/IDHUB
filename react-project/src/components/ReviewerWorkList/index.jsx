@@ -174,30 +174,30 @@ const ReviewWorkList = () => {
         setOpenModal(true)
     }
 
-    const textFilterFunction = (item, filter) => {
-        if (typeof filter.expression === 'string') {
-            return (
-                item[filter.columnName]
-                    .toString()
-                    .toLowerCase()
-                    .indexOf(filter.expression.toLowerCase()) !== -1
-            )
-        }
-        else if (
-            typeof filter.expression === 'object' &&
-            filter.expression.length > 0 && item[filter.columnName]
-        ) {
-            const filteredArr = filter.expression.map(list => {
-                const temp = item[filter.columnName]
-                    .toString()
-                    .toLowerCase()
-                    .indexOf(list.toLowerCase()) !== -1;
+    // const textFilterFunction = (item, filter) => {
+    //     if (typeof filter.expression === 'string') {
+    //         return (
+    //             item[filter.columnName]
+    //                 .toString()
+    //                 .toLowerCase()
+    //                 .indexOf(filter.expression.toLowerCase()) !== -1
+    //         )
+    //     }
+    //     else if (
+    //         typeof filter.expression === 'object' &&
+    //         filter.expression.length > 0 && item[filter.columnName]
+    //     ) {
+    //         const filteredArr = filter.expression.map(list => {
+    //             const temp = item[filter.columnName]
+    //                 .toString()
+    //                 .toLowerCase()
+    //                 .indexOf(list.toLowerCase()) !== -1;
 
-                return temp;
-            })
-            return filteredArr && filteredArr.length && filteredArr[0];
-        }
-    }
+    //             return temp;
+    //         })
+    //         return filteredArr && filteredArr.length && filteredArr[0];
+    //     }
+    // }
 
 
     return (
@@ -205,16 +205,16 @@ const ReviewWorkList = () => {
             <DataGrid creationComplete={vbox1_creationCompleteHandler} ref={g => grid = g} enableDefaultDisclosureIcon={false} width="100%" height="100%" editable enableCopy enablePaging enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={onExecuteToolbarAction} virtualScroll alternatingItemColors={[0xffffff, 0xffffff]} cellBackgroundColorFunction={getColor} horizontalScrollPolicy="auto" enableDrillDown >
                 <ReactDataGridColumnLevel rowHeight="23" enablePaging alternatingItemColors={[0xe1eef7, 0xe1eef7]} horizontalGridLines pageSize="10000" childrenField="_workLists" enableFilters horizontalGridLineColor="#99BBE8" horizontalGridLineThickness="1">
                     <ReactDataGridColumnGroup headerText="ID">
-                        <ReactDataGridColumn editable={false} columnLockMode="left" columnWidthMode="fitToContent" dataField="worklistId" expandCollapseIconPlacementFunction={placeExpandCollapseIcon} enableExpandCollapseIcon filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="Worklist #" enableCellClickRowSelect={false} filterCompareFunction={textFilterFunction} />
+                        <ReactDataGridColumn editable={false} columnLockMode="left" columnWidthMode="fitToContent" dataField="worklistId" expandCollapseIconPlacementFunction={placeExpandCollapseIcon} enableExpandCollapseIcon filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="Worklist #" enableCellClickRowSelect={false} filterCompareFunction={null} />
                         <ReactDataGridColumn editable={false} columnLockMode="left" width="60" dataField="id.worklistSeqNum" enableCellClickRowSelect={false} headerText="Seq" />
                     </ReactDataGridColumnGroup>
-                    <ReactDataGridColumn editable={false} columnLockMode="left" columnWidthMode="fitToContent" dataField="worklistStatus" headerText="Status" filterComboBoxBuildFromGrid filterControl="MultiSelectComboBox" cellBackgroundColorFunction={getCellBackgroundColor} enableCellClickRowSelect={false} filterCompareFunction={textFilterFunction} />
-                    <ReactDataGridColumn editable={false} width="90" dataField="lastName" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="Last Name" enableRecursiveSearch enableCellClickRowSelect={false} filterCompareFunction={textFilterFunction} />
-                    <ReactDataGridColumn editable={false} width="90" dataField="firstName" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="First Name" enableRecursiveSearch enableCellClickRowSelect={false} filterCompareFunction={textFilterFunction} />
+                    <ReactDataGridColumn editable={false} columnLockMode="left" columnWidthMode="fitToContent" dataField="worklistStatus" headerText="Status" filterComboBoxBuildFromGrid filterControl="MultiSelectComboBox" cellBackgroundColorFunction={getCellBackgroundColor} enableCellClickRowSelect={false} filterCompareFunction={null} />
+                    <ReactDataGridColumn editable={false} width="90" dataField="lastName" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="Last Name" enableRecursiveSearch enableCellClickRowSelect={false} filterCompareFunction={null} />
+                    <ReactDataGridColumn editable={false} width="90" dataField="firstName" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="First Name" enableRecursiveSearch enableCellClickRowSelect={false} filterCompareFunction={null} />
                     <ReactDataGridColumnGroup headerText="Official Detail">
-                        <ReactDataGridColumn editable={false} width="95" dataField="campusCode" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" enableRecursiveSearch headerText="Location" enableCellClickRowSelect={false} filterCompareFunction={textFilterFunction} />
-                        <ReactDataGridColumn editable={false} columnWidthMode="fixed" width="180" dataField="title" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" enableRecursiveSearch headerText="Title" enableCellClickRowSelect={false} filterCompareFunction={textFilterFunction} />
-                        <ReactDataGridColumn editable={false} columnWidthMode="fixed" width="170" dataField="department" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" enableRecursiveSearch headerText="Department" enableCellClickRowSelect={false} filterCompareFunction={textFilterFunction} />
+                        <ReactDataGridColumn editable={false} width="95" dataField="campusCode" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" enableRecursiveSearch headerText="Location" enableCellClickRowSelect={false} filterCompareFunction={null} />
+                        <ReactDataGridColumn editable={false} columnWidthMode="fixed" width="180" dataField="title" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" enableRecursiveSearch headerText="Title" enableCellClickRowSelect={false} filterCompareFunction={null} />
+                        <ReactDataGridColumn editable={false} columnWidthMode="fixed" width="170" dataField="department" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" enableRecursiveSearch headerText="Department" enableCellClickRowSelect={false} filterCompareFunction={null} />
                         <ReactDataGridColumn editable={false} width="90" dataField="startDate" filterControl="DateComboBox" headerText="Start Date" enableRecursiveSearch formatter={ExampleUtils.dateFormatter3} enableCellClickRowSelect={false} filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]} sortable={false} />
                         <ReactDataGridColumn editable={false} width="90" dataField="endDate" filterControl="DateComboBox" headerText="End Date" enableRecursiveSearch formatter={ExampleUtils.dateFormatter3} enableCellClickRowSelect={false} filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]} sortable={false} />
                         <ReactDataGridColumn editable={false} width="150" dataField="additionalComments" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="Requestors comment" enableRecursiveSearch headerWordWrap enableCellClickRowSelect={false} itemEditorApplyOnValueCommit sortable={false} />
@@ -226,7 +226,7 @@ const ReviewWorkList = () => {
                     </ReactDataGridColumnGroup>
                     <ReactDataGridColumn editable={false} columnLockMode="right" headerText="View Docs" hideText headerWordWrap enableIcon useIconRollOverTimer={false} iconFunction={dynamicIconFunctionUpload} iconToolTip="View Request Document" iconHandCursor columnWidthMode="fixed" width="60" iconLeft="25" />
                     <ReactDataGridColumnGroup headerText="Under Review">
-                        <ReactDataGridColumn editable={false} columnLockMode="right" width="90" dataField="reviewerUserId" filterControl="MultiSelectComboBox" enableRecursiveSearch headerText="Reviewer ID" filterComboBoxBuildFromGrid enableCellClickRowSelect={false} filterCompareFunction={textFilterFunction} />
+                        <ReactDataGridColumn editable={false} columnLockMode="right" width="90" dataField="reviewerUserId" filterControl="MultiSelectComboBox" enableRecursiveSearch headerText="Reviewer ID" filterComboBoxBuildFromGrid enableCellClickRowSelect={false} filterCompareFunction={null} />
                         <ReactDataGridColumn editable={false} columnLockMode="right" hideText headerText="Under Review" enableIcon useIconRollOverTimer={false} iconHandCursor columnWidthMode="fixed" width="80" iconLeft="30" iconFunction={dynamicIconFunction} />
                     </ReactDataGridColumnGroup>
                     <ReactDataGridColumnGroup headerText="Reject">
