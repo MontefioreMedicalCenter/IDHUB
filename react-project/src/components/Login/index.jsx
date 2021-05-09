@@ -83,9 +83,9 @@ const Login = () => {
 		toast.warning('Fields cannot be empty!!')
 	}
 
-	const loginFaultHandler = ({ error }) => {
+	const loginFaultHandler = (error) => {
 		//toast.error(error.toString())
-		toast.error(error.response.data.reason)
+		MontefioreUtils.showError(error)
 		setState({
 			userName: '',
 			password: ''
