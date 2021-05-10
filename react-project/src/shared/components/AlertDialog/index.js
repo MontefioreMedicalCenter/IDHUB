@@ -30,7 +30,7 @@ export default function AlertDialog(props) {
 		props.onClose()
 		props.onOk()
 	}
-	const { action = 'Cancel_Confirm' } = props
+	const { action } = props
 
 	return (
 		<div>
@@ -50,18 +50,20 @@ export default function AlertDialog(props) {
 						{props.content}
 					</DialogContentText>
 				</DialogContent>
-				<DialogActions>
-					<Button onClick={handleSubmit} color="primary">
-						{' '}
-						{action.split('_')[0]}{' '}
-					</Button>
-					{action.split('_')[1] && (
-						<Button onClick={handleClickCancel} color="primary">
+				{action && (
+					<DialogActions>
+						<Button onClick={handleSubmit} color="primary">
 							{' '}
-							{action.split('_')[1]}{' '}
+							{action.split('_')[0]}{' '}
 						</Button>
-					)}
-				</DialogActions>
+						{action.split('_')[1] && (
+							<Button onClick={handleClickCancel} color="primary">
+								{' '}
+								{action.split('_')[1]}{' '}
+							</Button>
+						)}
+					</DialogActions>
+				)}
 			</Dialog>
 		</div>
 	)
