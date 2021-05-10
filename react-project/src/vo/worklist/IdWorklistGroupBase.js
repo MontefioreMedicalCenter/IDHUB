@@ -1,4 +1,5 @@
 import ArrayCollection from '../ArrayCollection'
+import IdUser from '../main/IdUser'
 import VoBase from '../VoBase'
 import DirectoryListEntry from './DirectoryListEntry'
 import IdWorklist from './IdWorklist'
@@ -15,6 +16,8 @@ export default class IdWorklistGroupBase extends VoBase {
 			return new DirectoryListEntry()
 		} else if (key === 'workLists') {
 			return new IdWorklist()
+		} else if(key === "requesterUser") {
+			return new IdUser();
 		}
 		return super.getComplexProperty(key)
 	}
