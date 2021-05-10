@@ -41,13 +41,11 @@ const HtmlTooltip = withStyles(theme => ({
 }))(Tooltip)
 
 const WorklistStatusRenderer = props => {
-	const selectedRequest = props.cell.rowInfo.getIsDataRow()
-	const sendRequest =
-		props.cell.rowInfo.getIsDataRow() && props.cell.level.getNestDepth()
+	const selectedRequest = props.cell.rowInfo.getData()
 
-	if (sendRequest !== 1 || selectedRequest) {
+	if (props.cell.rowInfo.getIsDataRow()  || selectedRequest) {
 		const statusList = props.cell.rowInfo.getData().worklistStatus
-		if (statusList === 'OnHold') {
+		if (statusList === 'OnHold' && props.cell.level.getNestDepth() !== 1 ) {
 			return (
 				<div style={styles.statusContainer}>
 					{statusList}
