@@ -1,24 +1,26 @@
 import { Checkbox } from '@material-ui/core'
-import React, { useEffect, useState } from 'react'
-import { UIComponent } from '../../../../flexicious'
+import React from 'react'
 import IdUserRoleMap from '../../../../vo/main/IdUserRoleMap'
 import IdUserRoleMapPK from '../../../../vo/main/IdUserRoleMapPK'
 
-const UsrRole = props => {
-	const [roleChkbx, setRoleChkbx] = useState(false)
-	const [disabled, setDisabled] = useState(false)
+class UsrRole extends React.Component {
+	constructor(props) {
+		super(props)
+		this.chkbx_handler = this.chkbx_handler.bind(this)
+		this.state = this.initializeFromProps(props.row.getData())
+	}
 
-	useEffect(() => {
-		setData(props.row.getData())
-		// eslint-disable-next-line
-	}, [])
+	// componentWillReceiveProps(nextProps) {
+	// 	this.setState(this.initializeFromProps(nextProps.row.getData()))
+	// }
 
-	const setData = value => {
-		var headerTxt = props.column.getHeaderText()
+	initializeFromProps = value => {
+		var headerTxt = this.props.column.getHeaderText()
+		let roleChkbx = false
+		let disabled = false
 
 		if (headerTxt === 'Admin' || headerTxt === 'SDEmailer') {
-			// roleChkbx.enabled = false
-			setDisabled(true)
+			disabled = true
 		}
 		var lst
 		if (value.edit) lst = value.addMaps
@@ -28,98 +30,82 @@ const UsrRole = props => {
 			lst[i].id.roleId === headerTxt && value['userId'] === lst[i].id.userId
 				? (isSelected = true)
 				: (isSelected = false)
-			setRoleChkbx(isSelected)
+			roleChkbx = isSelected
 			if (isSelected === true) {
 				break
 			}
 		}
+
+		return {
+			roleChkbx: roleChkbx,
+			disabled: disabled
+		}
 	}
 
-	const chkbx_handler = event => {
+	chkbx_handler(event) {
 		// TODO Auto-generated method stub
 		var tgt = event.target
 		// var t = event.target.parent.parent
 		// var usr:IdUser=t.data as IdUser
-		var usr = ( (props.row.getData()) )
+		var usr = this.props.row.getData()
 		// var p:Object=t.parent
 		// var cp:FlexDataGridDataCell=t.parent as FlexDataGridDataCell
-		var ht = props.column.getHeaderText()
+		var ht = this.props.column.getHeaderText()
 		// var pg=props.grid
 		var caps = usr.roleMap
 		var adds = usr.addMaps
 		var rems = usr.remMaps
 		var dif = caps.length + adds.length - rems.length
 		//Alert.show("dif is: [" + dif + "].")
-		if(usr.add&&(usr.userId === null || usr.userId.length <= 0)){
-			alert("Please type in Capability first !")
-		}else if (!usr.edit){
-			alert("Please Click the Edit icon first !")
+		if (usr.add && (usr.userId === null || usr.userId.length <= 0)) {
+			alert('Please type in Capability first !')
+		} else if (!usr.edit) {
+			alert('Please Click the Edit icon first !')
 			//var grid:FlexDataGrid=pg as FlexDataGrid
-			if(tgt.checked) setRoleChkbx(false)
-			else setRoleChkbx(true)
-		}else{
-			var chbx=event.target
-			if((dif/*caps.length*/<1)||(!chbx.checked)){
+			if (tgt.checked) this.setState({ roleChkbx: false })
+			else this.setState({ roleChkbx: true })
+		} else {
+			var chbx = event.target
+			if (dif /*caps.length*/ < 1 || !chbx.checked) {
 				//var chbx:CheckBox=event.target as CheckBox
-				var rlcapm=new IdUserRoleMap()
-				var rlcapk=new IdUserRoleMapPK()
-				rlcapk.userId=usr.userId
-				rlcapk.roleId=ht
-				rlcapm.id=rlcapk
+				var rlcapm = new IdUserRoleMap()
+				var rlcapk = new IdUserRoleMapPK()
+				rlcapk.userId = usr.userId
+				rlcapk.roleId = ht
+				rlcapm.id = rlcapk
 				// var edin=exists(rlcapk, caps)
-				if(chbx.checked===true){
+				if (chbx.checked === true) {
 					usr.addEntry(rlcapm)
-				}else{
+				} else {
 					usr.removeEntry(rlcapm)
 				}
-					//Alert.show("UsrRole.mxml: usr: addMaps: " + usr.addMaps.length + ", remMaps: " + usr.remMaps.length)
-			}else{
-				alert("One user should have only ONE role !")
-				// var grid=pg 
-				if(tgt.selected) setRoleChkbx(false)
-					//else tgt.selected=true
-
+				//Alert.show("UsrRole.mxml: usr: addMaps: " + usr.addMaps.length + ", remMaps: " + usr.remMaps.length)
+			} else {
+				alert('One user should have only ONE role !')
+				// var grid=pg
+				if (tgt.selected) this.setState({ roleChkbx: false })
+				//else tgt.selected=true
 			}
 		}
+		this.setState(this.initializeFromProps(usr))
 	}
-
-	// const exists =(pk, caps) => {
-	// 	var ex=-1
-	// 	for(var i=0;i<caps.length;i++){
-	// 		const idUserRoleMap =  new IdUserRoleMap()
-	// 		var one = idUserRoleMap.fromJson(camelizeKeys(caps.getItemAt(i)))
-	// 		if (pk.userId===one.id.userId && pk.roleId===one.id.roleId){
-	// 			ex=i
-	// 			break	
-	// 		}
-	// 	}
-	// 	return ex
-	// }
-
-	return (
-		<div>
+	render = () => (
+		<div
+			style={{
+				width: '100%',
+				height: '100%',
+				alignItems: 'center',
+				display: 'flex',
+				justifyContent: 'center'
+			}}>
 			<Checkbox
 				id="UsrRoleChkBox"
-				onClick={chkbx_handler}
-				checked={roleChkbx}
-				disabled={disabled}
+				onClick={this.chkbx_handler}
+				checked={this.state.roleChkbx}
+				disabled={this.state.disabled}
 			/>
 		</div>
 	)
 }
-class EditorWrapper extends UIComponent {
-	render() {
-		const cell = this.cell
-		const cellProps = {
-			cell: cell,
-			row: cell.rowInfo,
-			column: cell._column,
-			level: cell.level,
-			grid: cell.level.grid
-		}
-		this.children = [<UsrRole {...cellProps} />]
-		return super.render()
-	}
-}
-UsrRole.editorWrapper = EditorWrapper
+
 export default UsrRole
