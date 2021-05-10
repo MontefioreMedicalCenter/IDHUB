@@ -50,6 +50,7 @@ import RequestorSearch from '../RequestorSearch'
 import moment from 'moment'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import { isValid } from 'ssn-validator'
+import CustomDateComboBox from '../../../shared/components/CustomDateComboBox'
 
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
 const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
@@ -78,6 +79,7 @@ const dateOfBirthRendererEditorWrapper = new ClassFactory(
 	DateOfBirthRenderer.editorWrapper
 )
 const checkBoxItemRenderer = new ClassFactory(CheckBoxItemRenderer)
+const dateFilter = new ClassFactory(CustomDateComboBox)
 const styles = theme => ({
 	gridHeader: {
 		color: `${theme.palette.primary.contrastText}`,
@@ -339,9 +341,7 @@ const CurrentRequest = ({ tabValue }) => {
 									WorklistService.getInstance().saveWorklist(
 										selectedRequest,
 										updateWorkList,
-										() => {
-											// resulthandler
-										}
+										MontefioreUtils.showError
 									)
 								}
 								if (isWorklist) {
@@ -1027,12 +1027,15 @@ const CurrentRequest = ({ tabValue }) => {
 			else workListGroupArr.addItem(workGroup)
 		})
 		workListGroupArr.addAll(workListArr)
-		grid.setDataProvider(workListGroupArr)
-		grid.getColumnLevel().filterFunction = filterDeviceTypes
-		grid.getColumnLevel().nextLevel.filterFunction = filterDeviceTypesChild
-		grid.processFilter()
-		grid.removeAllSorts()
-		grid.expandAll()
+		if(grid) {
+			grid.setDataProvider(workListGroupArr)
+			grid.getColumnLevel().filterFunction = filterDeviceTypes
+			grid.getColumnLevel().nextLevel.filterFunction = filterDeviceTypesChild
+			grid.processFilter()
+			grid.removeAllSorts()
+			grid.expandAll()
+		}
+
 	}
 
 	const filterDeviceTypes = item => {
@@ -1232,7 +1235,8 @@ const CurrentRequest = ({ tabValue }) => {
 									headerText="DOB"
 									width={100}
 									editorDataField="selectedDate"
-									filterControl="DateComboBox"
+									// filterControl="DateComboBox"
+									filterRenderer={dateFilter}
 									enableRecursiveSearch={true}
 									formatter={ExampleUtils.dateFormatter3}
 									itemEditorValidatorFunction={validateDOB}
@@ -1358,7 +1362,8 @@ const CurrentRequest = ({ tabValue }) => {
 									headerText="Start Date"
 									width={100}
 									editorDataField="selectedDate"
-									filterControl="DateComboBox"
+									filterRenderer={dateFilter}
+									// filterControl="DateComboBox"
 									enableRecursiveSearch={true}
 									headerWordWrap={false}
 									formatter={ExampleUtils.dateFormatter3}
@@ -1373,8 +1378,9 @@ const CurrentRequest = ({ tabValue }) => {
 									dataField="endDate"
 									headerText="End Date"
 									width={100}
+									filterRenderer={dateFilter}
 									editorDataField="selectedDate"
-									filterControl="DateComboBox"
+									// filterControl="DateComboBox"
 									enableRecursiveSearch={true}
 									headerWordWrap={false}
 									itemEditorApplyOnValueCommit={true}
@@ -1543,8 +1549,9 @@ const CurrentRequest = ({ tabValue }) => {
 									dataField="createDate"
 									headerText="Create Date"
 									width={70}
-									filterControl="DateComboBox"
+									// filterControl="DateComboBox"
 									enableRecursiveSearch={true}
+									filterRenderer={dateFilter}
 									headerWordWrap={false}
 									// editable={false}
 									formatter={ExampleUtils.dateFormatter3}
