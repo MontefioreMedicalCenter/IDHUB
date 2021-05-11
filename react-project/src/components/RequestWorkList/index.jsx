@@ -16,6 +16,12 @@ const RequestWorkList = () => {
 
 	return (
 		<div className="requestWork-main-container">
+			{/* As idiotic as this looks, this is the only way to ask chrome not to autofill random text fields on the page! */}
+			<div style={{ position: "fixed", top: "0px" }}>
+				<input type="text" name="prevent_autofill" id="prevent_autofill" value="" style={{ display: "none" }} />
+				<input type="password" name="password_fake" id="password_fake" value="" style={{ display: "none" }} />
+				<input type="password" name="password" id="password" value="" style={{ height: "1px", width: "1px" }} />
+			</div>
 			<div className="changetabs">
 				<Paper>
 					<Tabs
@@ -24,12 +30,12 @@ const RequestWorkList = () => {
 						indicatorColor="primary"
 						textColor="primary"
 						centered>
-						<Tab style={{margin: "0px"}} label="Current Request" />
-						<Tab style={{margin: "0px"}} label="Search Request" />
+						<Tab style={{ margin: "0px" }} label="Current Request" />
+						<Tab style={{ margin: "0px" }} label="Search Request" />
 					</Tabs>
 				</Paper>
 			</div>
-			 <CurrentRequest tabValue={tab} />
+			<CurrentRequest tabValue={tab} />
 		</div>
 	)
 }
