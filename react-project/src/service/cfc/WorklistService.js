@@ -132,7 +132,7 @@ export default class WorklistService extends ServiceProxyBase {
 			}
 		}
 
-        //Changed the groupFlag to QueryParam
+        //Changed the groupFlag to @QueryParam
 		return this.callServiceMethod(
 			'post',
 			`IdentityHub/api/worklistsvc/loadWorklistFromSpreadsheet?groupFlag=${isSelected}`,
