@@ -77,7 +77,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList }) => {
 		if (file && file.files) {
 			WorklistService.getInstance().loadWorklistFromSpreadsheet(
 				file.files,
-				groupCheckbox,
+				String(groupCheckbox),
 				loadWorklistFromSpreadsheetResultEvent,
 				MontefioreUtils.showError
 			)
@@ -86,7 +86,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList }) => {
 
 	const loadWorklistFromSpreadsheetResultEvent = resp => {
 		findWorklist()
-		setErrorTxt(resp.result)
+		setErrorTxt(resp.result.message)
 	}
 
 	const handleStartDateChange = date => {
