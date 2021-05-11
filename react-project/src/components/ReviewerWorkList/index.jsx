@@ -208,7 +208,8 @@ const ReviewWorkList = () => {
                         <ReactDataGridColumn editable={false} columnLockMode="left" columnWidthMode="fitToContent" dataField="worklistId" expandCollapseIconPlacementFunction={placeExpandCollapseIcon} enableExpandCollapseIcon filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="Worklist #" enableCellClickRowSelect={false} filterCompareFunction={null} />
                         <ReactDataGridColumn editable={false} columnLockMode="left" width="60" dataField="id.worklistSeqNum" enableCellClickRowSelect={false} headerText="Seq" />
                     </ReactDataGridColumnGroup>
-                    <ReactDataGridColumn editable={false} columnLockMode="left" columnWidthMode="fitToContent" dataField="worklistStatus" headerText="Status" filterComboBoxBuildFromGrid filterControl="MultiSelectComboBox" cellBackgroundColorFunction={getCellBackgroundColor} enableCellClickRowSelect={false} filterCompareFunction={null} />
+                    <ReactDataGridColumn editable={false} columnLockMode="left" columnWidthMode="fitToContent" dataField="worklistStatus" headerText="Status" filterComboBoxBuildFromGrid filterControl="MultiSelectComboBox" cellBackgroundColorFunction={getCellBackgroundColor} enableCellClickRowSelect={false} filterCompareFunction={null} 
+									filterComboBoxWidth={150}/>
                     <ReactDataGridColumn editable={false} width="90" dataField="lastName" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="Last Name" enableRecursiveSearch enableCellClickRowSelect={false} filterCompareFunction={null} />
                     <ReactDataGridColumn editable={false} width="90" dataField="firstName" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="First Name" enableRecursiveSearch enableCellClickRowSelect={false} filterCompareFunction={null} />
                     <ReactDataGridColumnGroup headerText="Official Detail">
@@ -220,13 +221,15 @@ const ReviewWorkList = () => {
                         <ReactDataGridColumn editable={false} width="150" dataField="additionalComments" filterControl="TextInput" filterOperation="Contains" filterWaterMark="Contains" headerText="Requestors comment" enableRecursiveSearch headerWordWrap enableCellClickRowSelect={false} itemEditorApplyOnValueCommit sortable={false} />
                     </ReactDataGridColumnGroup>
                     <ReactDataGridColumnGroup headerText="Requestor Information">
-                        <ReactDataGridColumn width="100" columnWidthMode="fixed" dataField="requestorFullName" enableCellClickRowSelect={false} filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid enableRecursiveSearch headerText="Name" useHandCursor editable={false} sortable={false} />
+                        <ReactDataGridColumn width="100" columnWidthMode="fixed" dataField="requestorFullName" enableCellClickRowSelect={false} filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid enableRecursiveSearch headerText="Name" useHandCursor editable={false} sortable={false} 
+									filterComboBoxWidth={150}/>
                         <ReactDataGridColumn editable={false} width="85" dataField="worklistGroup.requesterUser.userPhone" headerText="Phone" enableCellClickRowSelect={false} sortable={false} />
                         <ReactDataGridColumn editable={false} width="100" columnWidthMode="fixed" cellTextColorFunction={getCellTextColor} dataField="worklistGroup.requesterUser.userEmail" headerText="Email" enableCellClickRowSelect={false} useHandCursor useUnderLine color="blue" fontWeight="bold" sortable={false} />
                     </ReactDataGridColumnGroup>
                     <ReactDataGridColumn editable={false} columnLockMode="right" headerText="View Docs" hideText headerWordWrap enableIcon useIconRollOverTimer={false} iconFunction={dynamicIconFunctionUpload} iconToolTip="View Request Document" iconHandCursor columnWidthMode="fixed" width="60" iconLeft="25" />
                     <ReactDataGridColumnGroup headerText="Under Review">
-                        <ReactDataGridColumn editable={false} columnLockMode="right" width="90" dataField="reviewerUserId" filterControl="MultiSelectComboBox" enableRecursiveSearch headerText="Reviewer ID" filterComboBoxBuildFromGrid enableCellClickRowSelect={false} filterCompareFunction={null} />
+                        <ReactDataGridColumn editable={false} columnLockMode="right" width="90" dataField="reviewerUserId" filterControl="MultiSelectComboBox" enableRecursiveSearch headerText="Reviewer ID" filterComboBoxBuildFromGrid enableCellClickRowSelect={false} filterCompareFunction={null} 
+									filterComboBoxWidth={150}/>
                         <ReactDataGridColumn editable={false} columnLockMode="right" hideText headerText="Under Review" enableIcon useIconRollOverTimer={false} iconHandCursor columnWidthMode="fixed" width="80" iconLeft="30" iconFunction={dynamicIconFunction} />
                     </ReactDataGridColumnGroup>
                     <ReactDataGridColumnGroup headerText="Reject">

@@ -1161,6 +1161,7 @@ const CurrentRequest = ({ tabValue }) => {
 								itemRenderer={worklistStatusRenderer}
 								cellBackgroundColorFunction={getCellBackgroundColor}
 								filterCompareFunction={null}
+								filterComboBoxWidth={150}
 							/>
 							<ReactDataGridColumnGroup
 								headerText="Personal"
@@ -1260,6 +1261,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									itemEditor={genderEditorWrapper}
 									filterCompareFunction={null}
+									filterComboBoxWidth={150}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1454,6 +1456,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
 									filterCompareFunction={null}
+									filterComboBoxWidth={150}
 								/>
 								<ReactDataGridColumn
 									dataField="epfRequest"
@@ -1469,6 +1472,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
 									filterCompareFunction={null}
+									filterComboBoxWidth={150}
 								/>
 								<ReactDataGridColumn
 									dataField="epcsHardTokenRequest"
@@ -1484,6 +1488,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
 									filterCompareFunction={null}
+									filterComboBoxWidth={150}
 								/>
 								<ReactDataGridColumn
 									dataField="mmcEmailRequest"
@@ -1499,6 +1504,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									itemRenderer={checkBoxItemRenderer}
 									filterCompareFunction={null}
+									filterComboBoxWidth={150}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1528,6 +1534,7 @@ const CurrentRequest = ({ tabValue }) => {
 									useHandCursor={true}
 									editable={false}
 									sortable={false}
+									filterComboBoxWidth={150}
 								// filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn

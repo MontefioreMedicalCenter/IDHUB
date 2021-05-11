@@ -402,6 +402,7 @@
   display: block;
   border-bottom: solid 1px #cccccc;
   user-select: none;
+  text-align: left;
 }
 .flexiciousGrid .multiSelectComboBoxPopup .okCancelDiv {
   display: block;
