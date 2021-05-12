@@ -328,6 +328,8 @@ const CurrentRequest = ({ tabValue }) => {
 	var isWorklist = false
 
 	const iconClick = props => {
+		index=-1;
+
 		const selectedItem = props.row.getData()
 		let selectedGroup = {}
 		let selectedRequest = {}
@@ -357,6 +359,8 @@ const CurrentRequest = ({ tabValue }) => {
 
 		if (props.cell.getColumn() !== null) {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
+				alert("implement doc viewer here");
+
 			} else if (props.cell.getColumn().getHeaderText() === 'Submit') {
 				// var alertId = isWorklistGroup ? selectedGroup.worklistId : selectedRequest.worklistId
 				if (
@@ -449,7 +453,7 @@ const CurrentRequest = ({ tabValue }) => {
 					WorklistService.getInstance().saveWorklist(
 						selectedRequest,
 						updateWorkList,
-						() => { }
+						MontefioreUtils.showError
 					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
@@ -475,29 +479,29 @@ const CurrentRequest = ({ tabValue }) => {
 					if (isWorklistGroup) {
 						if (!selectedGroup.edit) {
 							selectedGroup.edit = true
-							// props.grid.cellEditableFunction = isCellEditable
-							props.cell.refreshCell()
+							props.cell.getGrid().cellEditableFunction = isCellEditable
+							props.cell.getGrid().refreshCells()
 						} else {
 							selectedGroup.edit = false
-							props.cell.refreshCell()
+							props.cell.getGrid().refreshCells()
 						}
 					} else if (isWorklistChild) {
 						if (!selectedRequest.edit) {
 							selectedRequest.edit = true
-							// props.cellEditableFunction = isCellEditable
-							props.cell.refreshCell()
+							props.cell.getGrid().cellEditableFunction = isCellEditable
+							props.cell.getGrid().refreshCells()
 						} else {
 							selectedRequest.edit = false
-							props.cell.refreshCell()
+							props.cell.getGrid().refreshCells()
 						}
 					} else if (isWorklist) {
 						if (!selectedRequest.edit) {
 							selectedRequest.edit = true
-							// props.cellEditableFunction = isCellEditable
-							props.cell.refreshCell()
+							props.cell.getGrid().cellEditableFunction = isCellEditable
+							props.cell.getGrid().refreshCells()
 						} else {
 							selectedRequest.edit = false
-							props.cell.refreshCell()
+							props.cell.getGrid().refreshCells()
 						}
 					}
 				}
@@ -544,6 +548,7 @@ const CurrentRequest = ({ tabValue }) => {
 					)
 				)
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
+				alert("todo implement this")
 			}
 		}
 	}
@@ -552,19 +557,21 @@ const CurrentRequest = ({ tabValue }) => {
 		var gridDP = dataGridRef.current.getDataProvider()
 		var vp = dataGridRef.current.getVerticalScrollPosition()
 		gridDP.removeItemAt(index)
-		dataGridRef.current.expandAll()
 		dataGridRef.current.validateNow()
+		dataGridRef.current.expandAll()
 		dataGridRef.current.gotoVerticalPosition(vp)
 	}
 
 	const updateWorkList = resp => {
-		var vpos = dataGridRef.current.getVerticalScrollPosition()
-		var gridDP = dataGridRef.current.getDataProvider()
-		gridDP.removeItemAt(index)
 
 		let workGroup = new IdWorklistGroup()
 		workGroup.fromJson(camelizeKeys(resp.result))
 		workGroup.workLists.forEach(wl => (wl.worklistGroup = workGroup))
+
+		var vpos = dataGridRef.current.getVerticalScrollPosition()
+		var gridDP = dataGridRef.current.getDataProvider()
+		gridDP.removeItemAt(index)
+
 		if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), index)
 		else gridDP.addItemAt(workGroup, index)
 		dataGridRef.current.expandAll()
