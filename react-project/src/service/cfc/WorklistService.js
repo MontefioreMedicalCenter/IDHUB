@@ -1,6 +1,8 @@
 import ServiceProxyBase from './ServiceProxyBase'
 import qs from 'qs'
 import { stringifyCircularObjectWithModifiedKeys } from '../../shared/utils'
+import WorkListEvent from '../../events/WorkListEvent'
+import IdWorklistGroup from '../../vo/worklist/IdWorklistGroup'
 export default class WorklistService extends ServiceProxyBase {
 	constructor(props) {
 		super(props)
@@ -51,8 +53,8 @@ export default class WorklistService extends ServiceProxyBase {
 			'IdentityHub/api/worklistsvc/deleteWorklist',
 			bodyFormData,
 			null,
-			resultHandler,
-			faultHandler,
+			resultHandler || this.saveWorkListGroupSuccessResultEvent.bind(this),
+			faultHandler || this.failureFaultEvent.bind(this), 
 			'form',
 			this.getHeaderFormData()
 		)
@@ -90,13 +92,12 @@ export default class WorklistService extends ServiceProxyBase {
 			'IdentityHub/api/worklistsvc/saveWorklist',
 			bodyFormData,
 			null,
-			resultHandler,
-			faultHandler,
+			resultHandler || this.saveWorkListGroupSuccessResultEvent.bind(this),
+			faultHandler || this.failureFaultEvent.bind(this),
 			'form',
 			this.getHeaderFormData()
 		)
 	}
-
 	saveWorkGroup(worklistGroup, resultHandler, faultHandler) {
 		if (typeof faultHandler == 'undefined') faultHandler = null
 		worklistGroup = stringifyCircularObjectWithModifiedKeys(worklistGroup)
@@ -109,13 +110,19 @@ export default class WorklistService extends ServiceProxyBase {
 			'IdentityHub/api/worklistsvc/saveWorkGroup',
 			bodyFormData,
 			null,
-			resultHandler,
-			faultHandler,
+			resultHandler || this.saveWorkListGroupSuccessResultEvent.bind(this),
+			faultHandler || this.failureFaultEvent.bind(this),
 			'form',
 			this.getHeaderFormData()
 		)
 	}
-
+	saveWorkListGroupSuccessResultEvent(event)//, token:Object=null):void
+	{
+		var wg = this.convertToVo(event.result, ()=>{return new IdWorklistGroup()});
+		wg.workLists.forEach(wl => (wl.worklistGroup = wg))
+		var workListEvent=new WorkListEvent(WorkListEvent.SAVED_SINGLE, wg)
+		this.dispatchEvent(workListEvent);
+	}
 	loadWorklistFromSpreadsheet(
 		content,
 		isSelected,

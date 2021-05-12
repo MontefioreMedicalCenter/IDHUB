@@ -137,6 +137,7 @@ export default class ReviewerWorkListMediator {
             gridDP.addItemAt(<IdWorklistGroup>event.eventObject, this.index);
             nitem = event.eventObject
         }
+        this.grid.refreshCells();
         this.grid.expandAll()
         this.grid.validateNow()
         this.grid.gotoVerticalPosition(vpos)
@@ -224,11 +225,7 @@ export default class ReviewerWorkListMediator {
                         else if (this.isWorklistChild)
                         {
                             this.selectedItem.worklistStatus=this.selectedItem.worklistStatus != "Rejected" ? "Rejected" : "Submitted"
-                            this.wlservice.saveWorklist(
-                                this.selectedItem, 
-                                (resp) => { this.updateWorkList({eventObject: resp.result}) },
-                                MontefioreUtils.showError
-                            )
+                            this.wlservice.saveWorklist(this.selectedItem);
                             //CursorManager.removeBusyCursor()
                             gridDP.setItemAt(this.selectedItem,this.index)
 

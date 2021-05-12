@@ -1,16 +1,15 @@
 // This was imported from flash.events.Event
 // export default class WorkListEvent extends Event {
 
-import VoBase from '../vo/VoBase'
+import BaseEvent from './BaseEvent.ts'
 
-export default class WorkListEvent extends VoBase {
+export default class WorkListEvent extends BaseEvent {
 	constructor(
 		type,
 		val = null,
 		group = null
 	) {
-		super()
-		this._type = type
+		super(type)
 		this._eventObject = val
 		this._eventObjectGroup = group;
 	}

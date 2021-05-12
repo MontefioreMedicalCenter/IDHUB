@@ -159,6 +159,73 @@ const CurrentRequest = ({ tabValue }) => {
 		} else if (action.code == 'Refresh') {
 			findWorklist()
 		} else if (action.code == 'SubmitAll') {
+
+			alert("Need to implement this")
+			// var arrayvalidsubmit:ArrayCollection=new ArrayCollection();
+			// 		var arrayvalidsubmitgroup:ArrayCollection=new ArrayCollection();
+			// 		var arrayselectedobject:ArrayCollection=grid.selectedObjects
+			// 		var readystatus:Boolean=true;
+			// 		for each (var idworklist:Object in arrayselectedobject)
+			// 		{
+			// 			var isworkgroup:Boolean=idworklist as IdWorklistGroup ? true : false
+			// 			if (isworkgroup)
+			// 			{
+			// 				if (idworklist.worklistStatus == "Ready")
+			// 				{
+			// 					idworklist.worklistStatus="Submitted"
+			// 					arrayvalidsubmitgroup.addItem(idworklist)
+			// 				}
+			// 				else
+			// 				{
+			// 					readystatus=false
+			// 				}
+			// 				for each (var worklist:IdWorklist in idworklist.workLists)
+			// 				{
+			// 					if (worklist.worklistStatus == "Ready")
+			// 					{
+			// 						worklist.worklistStatus="Submitted"
+			// 						arrayvalidsubmit.addItem(worklist)
+			// 					}
+			// 					else
+			// 						readystatus=false
+			// 				}
+			// 			}
+			// 			else if (idworklist.worklistStatus == "Ready")
+			// 			{
+			// 				idworklist.worklistStatus="Submitted"
+			// 				arrayvalidsubmit.addItem(idworklist)
+			// 			}
+			// 			else
+			// 			{
+			// 				readystatus=false
+			// 			}
+			// 		}
+			// 		if (arrayvalidsubmit.length > 0 || arrayvalidsubmitgroup.length > 0 || !readystatus)
+			// 		{
+			// 			Alert.show("Are you sure you want to Submit  " + grid.selectedObjects.length + " Requests", "Confirm SubmitAll", Alert.OK | Alert.CANCEL, this, function(event:CloseEvent):void
+			// 			{
+			// 				if (event.detail == Alert.OK)
+			// 				{
+			// 					//do the delete....you have the grid.selectedKey or grid.selectedObject here...
+			// 					if (readystatus)
+			// 					{
+			// 						for each (var idworklist:IdWorklist in arrayvalidsubmit)
+			// 						{
+			// 							dispatchEvent(new WorkListEvent(WorkListEvent.SAVE_SINGLE, idworklist));
+			// 						}
+			// 						for each (var idworklistgroup:IdWorklistGroup in arrayvalidsubmitgroup)
+			// 						{
+			// 							dispatchEvent(new WorkListEvent(WorkListEvent.SAVE_GROUP, idworklistgroup));
+			// 						}
+			// 					}
+			// 					else
+			// 					{
+			// 						Alert.show("Invalid Status")
+			// 					}
+			// 				}
+			// 			})
+			// 		}
+
 		} else if (action.code == 'Document Library') {
 			StorageService.getInstance().listDocumentLibraryFiles(
 				docLibrarySuccessResult,
@@ -331,11 +398,11 @@ const CurrentRequest = ({ tabValue }) => {
 										updateWorkList,
 										MontefioreUtils.showError
 									)
-									props.cell.refreshCell()
+									props.cell.getGrid().refreshCells()
 								}
 								if (isWorklistChild) {
 									selectedRequest.edit = false
-									props.cell.refreshCell()
+									props.cell.getGrid().refreshCells()
 									selectedRequest.worklistStatus = 'Submitted'
 
 									WorklistService.getInstance().saveWorklist(
@@ -345,6 +412,7 @@ const CurrentRequest = ({ tabValue }) => {
 									)
 								}
 								if (isWorklist) {
+									selectedRequest.edit=false
 									if (selectedGroup.worklistStatus == 'Processed') {
 										selectedGroup.worklistStatus = 'Accepted'
 										selectedRequest.worklistStatus = 'Accepted'
@@ -358,7 +426,7 @@ const CurrentRequest = ({ tabValue }) => {
 										updateWorkList,
 										MontefioreUtils.showError
 									)
-									props.cell.refreshCell()
+									props.cell.getGrid().refreshCells()
 								}
 							},
 							() => {
