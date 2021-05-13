@@ -1158,10 +1158,10 @@ const CurrentRequest = ({ tabValue }) => {
 						alternatingItemColors={[0xffffff, 0xffffff]}
 						enablePrint
 						// enablePreferencePersistence
-						enableDrag
+						// enableDrag
 						showSpinnerOnFilterPageSort
 						enableEagerDraw
-						enableDrop
+						// enableDrop
 						enableExport
 						enableCopy
 						preferencePersistenceKey={'simpleGrid'}
