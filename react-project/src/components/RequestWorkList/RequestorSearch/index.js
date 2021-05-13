@@ -171,7 +171,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList }) => {
 						<MaterialDatePicker
 							keyboard
 							color=" "
-							format={'DD/MM/YYYY'}
+							format={'MM/DD/YYYY'}
 							InputProps={{
 								inputProps: {
 									style: {
@@ -192,7 +192,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList }) => {
 						<MaterialDatePicker
 							keyboard
 							color=" "
-							format={'DD/MM/YYYY'}
+							format={'MM/DD/YYYY'}
 							InputProps={{
 								inputProps: {
 									style: {
@@ -227,10 +227,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList }) => {
 						<Checkbox
 							size="small"
 							color="primary"
-							checked={groupCheckbox}
-							onChange={(e, value) => {
-								setGroupCheckbox(value)
-							}}
+							checked={true}
 						/>{' '}
 					</div>
 					<div className="button">
