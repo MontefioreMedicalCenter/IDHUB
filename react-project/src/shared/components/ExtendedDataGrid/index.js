@@ -13,7 +13,7 @@ import { toast } from 'react-toastify'
 const iconExpand = '/keyboard_arrow_right.svg'
 const iconCollapse = '/keyboard_arrow_up.svg'
 
-Constants.IMAGE_PATH = window.location.origin + '/images'
+Constants.IMAGE_PATH = window.location.origin + window.location.pathname.split('main')[0] + '/images'
 Constants.VERTICAL_SCROLLBAR_WIDTH = Constants.isMobileBrowser() ? 0 : 10
 if (Constants.isMobileBrowser()) {
 	Constants.HORIZONTAL_SCROLLBAR_HEIGHT = 10
