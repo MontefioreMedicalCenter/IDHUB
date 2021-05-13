@@ -9,9 +9,9 @@ const Remove = props => {
 		props.column.handleDelete(props)
 	}
 
-	if (props.cell.rowInfo.getIsDataRow()) {
+	if (props.cell.rowInfo.getIsDataRow() && tabValue === 0) {
 		return (
-			<Button disabled={tabValue === 1} onClick={onDelete}>
+			<Button onClick={onDelete}>
 				<DeleteIcon fontSize="small" />
 			</Button>
 		)
