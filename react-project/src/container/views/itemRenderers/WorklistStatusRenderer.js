@@ -41,14 +41,19 @@ const HtmlTooltip = withStyles(theme => ({
 }))(Tooltip)
 
 const WorklistStatusRenderer = props => {
-	const selectedRequest = props.cell.rowInfo.getData()
+	const selectedRequest =
+		props.cell.rowInfo.getData().constructor.name === 'IdWorklist'
 
-	if (props.cell.rowInfo.getIsDataRow()  || selectedRequest) {
-		const statusList = props.cell.rowInfo.getData().worklistStatus
-		if (statusList === 'OnHold' && props.cell.level.getNestDepth() !== 1 ) {
-			return (
-				<div style={styles.statusContainer}>
-					{statusList}
+	const statusList = props.cell.rowInfo.getData().worklistStatus
+	if (
+		(props.cell.rowInfo.getIsDataRow() &&
+			props.cell.level.getNestDepth() !== 1) ||
+		selectedRequest
+	) {
+		return (
+			<div style={styles.statusContainer}>
+				{statusList}
+				{statusList === 'OnHold' && (
 					<HtmlTooltip
 						title={
 							<div style={styles.tooltipContainer}>
@@ -64,13 +69,12 @@ const WorklistStatusRenderer = props => {
 							src={dialog_warning}
 						/>
 					</HtmlTooltip>
-				</div>
-			)
-		} else {
-			return <div style={styles.statusContainer}>{statusList}</div>
-		}
+				)}
+			</div>
+		)
+	} else {
+		return <div style={styles.statusContainer}>{statusList}</div>
 	}
-	return null
 }
 
 export default WorklistStatusRenderer
