@@ -37,7 +37,7 @@ export default class ReviewerWorkListMediator {
     private isWorklistGroup: boolean;
     private isWorklist: boolean
     private isWorklistChild: boolean
-    private _index: number
+    private _idx: number
 
     public get workList(): ArrayCollection {
         return this._workList;
@@ -63,12 +63,12 @@ export default class ReviewerWorkListMediator {
         this._selectedGroup = value;
     }
 
-    public get index(): number {
-        return this._index;
+    public get idx(): number {
+        return this._idx;
     }
 
-    public set index(value: number) {
-        this._index = value;
+    public set idx(value: number) {
+        this._idx = value;
     }
     //private log:ILogger=this.Log.getLogger("ReviewerWorkListMediator"); 
 
@@ -125,16 +125,16 @@ export default class ReviewerWorkListMediator {
     private updateWorkList(event: any): void {
         var vpos: number = this.grid.getVerticalScrollPosition();
         var gridDP: ArrayCollection = <ArrayCollection>this.grid.getDataProvider();
-        if (this.index > 0) {
-            gridDP.removeItemAt(this.index)
+        if (this.idx > 0) {
+            gridDP.removeItemAt(this.idx)
         }
         var nitem: Object = null
         if (this.isWorklist) {
-            gridDP.addItemAt((<IdWorklistGroup>event.eventObject).workLists.getItemAt(0), this.index);
+            gridDP.addItemAt((<IdWorklistGroup>event.eventObject).workLists.getItemAt(0), this.idx);
             nitem = (<IdWorklistGroup>event.eventObject).workLists.getItemAt(0)
         }
         else {
-            gridDP.addItemAt(<IdWorklistGroup>event.eventObject, this.index);
+            gridDP.addItemAt(<IdWorklistGroup>event.eventObject, this.idx);
             nitem = event.eventObject
         }
         this.grid.refreshCells();
@@ -160,7 +160,7 @@ export default class ReviewerWorkListMediator {
     }
 
     private iconClick(event: FlexDataGridEvent): void {
-        this.index = -1
+        this.idx = -1
         var level: number = event.cell.getNestDepth();
         this.selectedRequest = event.item instanceof IdWorklist? event.item : null
         this.selectedGroup = event.item instanceof IdWorklistGroup? event.item : null
@@ -174,9 +174,9 @@ export default class ReviewerWorkListMediator {
         if (this.isWorklist || this.isWorklistChild)
             this.selectedGroup = this.selectedItem.worklistGroup
         var gridDP: ArrayCollection = this.grid.getDataProvider();
-        this.index = gridDP.getItemIndex(this.selectedItem)
-        if (this.index == -1)
-            this.index = gridDP.getItemIndex(this.selectedGroup)
+        this.idx = gridDP.getItemIndex(this.selectedItem)
+        if (this.idx == -1)
+            this.idx = gridDP.getItemIndex(this.selectedGroup)
         this.selectedGroup.updateRequestor = false
         if (event.cell instanceof FlexDataGridDataCell && event.cell.getColumn() != null) {
             if (event.cell.getColumn().getHeaderText() == 'View Docs') {
@@ -219,7 +219,7 @@ export default class ReviewerWorkListMediator {
                             }
                             this.wlservice.saveWorkGroup(worklistGroup)
                             this.wlservice.sendRejectMailToRequestor(<IdWorklistGroup>worklistGroup )
-                            gridDP.setItemAt(worklistGroup,this.index)
+                            gridDP.setItemAt(worklistGroup,this.idx)
 
                         }
                         else if (this.isWorklistChild)
@@ -227,7 +227,7 @@ export default class ReviewerWorkListMediator {
                             this.selectedItem.worklistStatus=this.selectedItem.worklistStatus != "Rejected" ? "Rejected" : "Submitted"
                             this.wlservice.saveWorklist(this.selectedItem);
                             //CursorManager.removeBusyCursor()
-                            gridDP.setItemAt(this.selectedItem,this.index)
+                            gridDP.setItemAt(this.selectedItem,this.idx)
 
                         }
                 }
@@ -249,7 +249,7 @@ export default class ReviewerWorkListMediator {
                         this.bservice.sendDocumentsToBox(worklistGroup.worklistId) 
                     this.wlservice.saveWorkGroup((worklistGroup))
                     this.wlservice.sendAcceptMailToHelpDesk(this.selectedGroup)
-                    gridDP.setItemAt(worklistGroup,this.index)
+                    gridDP.setItemAt(worklistGroup,this.idx)
                 }
             }
         }
