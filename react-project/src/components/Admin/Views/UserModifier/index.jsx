@@ -8,9 +8,9 @@ import {
     ReactDataGridColumn,
     ReactDataGridColumnGroup,
     ReactDataGridColumnLevel,
-    UIComponent,
     ClassFactory,
-    ExtendedExportController
+    ExtendedExportController,
+    EventDispatcher
 } from '../../../../flexicious';
 
 import DataGrid from '../../../../shared/components/ExtendedDataGrid';
@@ -67,7 +67,7 @@ const cellEdit = (cell/* : FlexDataGridDataCell */)/*: boolean*/ => {
 //     return ret;
 
 // }
-export default class UserModifier extends UIComponent {
+export default class UserModifier extends EventDispatcher {
     constructor(props) {
         super(props);
         this._hl = null;;
