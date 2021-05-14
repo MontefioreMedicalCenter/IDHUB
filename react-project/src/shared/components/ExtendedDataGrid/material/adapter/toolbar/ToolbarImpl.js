@@ -27,7 +27,15 @@ import {
 	FlexDataGridEvent,
 	UIUtils
 } from '../../../../../../flexicious'
-import Tooltip from '@material-ui/core/Tooltip'
+import Tooltip from '@material-ui/core/Tooltip';
+import sort from '../../../../../../assets/images/sort.png'
+import add from '../../../../../../assets/images/add.png'
+import foldericon from '../../../../../../assets/images/folder-documents-icon.png'
+import refresh from '../../../../../../assets/images/refresh.png'
+import filterShowHide from '../../../../../../assets/images/filterShowHide.png'
+import filter from '../../../../../../assets/images/filter.png'
+import clearFilter from '../../../../../../assets/images/clearFilter.png'
+
 
 /**
  * Toolbar that sits on top of the datagrid component
@@ -315,8 +323,8 @@ export default class ToolbarImpl extends React.Component {
 										'Add Employee'
 									)}>
 									<Tooltip title="Add Non-Employee">
-										<IconButton className={'imageButtonSize'}>
-											<Add fontSize="large" />
+										<IconButton className={'imageButtonSize'} style={{ marginTop: "5px" }}>
+											<img alt={Add} src={add} />
 										</IconButton>
 									</Tooltip>
 								</span>
@@ -329,8 +337,12 @@ export default class ToolbarImpl extends React.Component {
 										'Document Library'
 									)}>
 									<Tooltip title="Document Library">
-										<IconButton className={'imageButtonSize'}>
-											<FolderIcon fontSize="large" />
+										<IconButton
+											className={'imageButtonSize'}
+											style={{ marginTop: '3px' }}
+										>
+											{/* <FolderIcon fontSize="large" /> */}
+											<img alt={foldericon} src={foldericon} />
 										</IconButton>
 									</Tooltip>
 								</span>
@@ -339,8 +351,9 @@ export default class ToolbarImpl extends React.Component {
 									className={'pagerDiv  iconCell'}
 									id={gridId + 'btnAddRefresh'}
 									onClick={this.executeToolbarAction.bind(this, 'Refresh')}>
-									<IconButton className={'imageButtonSize'}>
-										<Refresh fontSize="large" />
+									<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
+										{/* <Refresh fontSize="large" />  */}
+										<img alt={refresh} src={refresh} />
 									</IconButton>
 								</span>
 								<span className={'pagerDiv lineSep'}>&nbsp;</span>
@@ -426,11 +439,11 @@ export default class ToolbarImpl extends React.Component {
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnSort'}
 							onClick={this.onMultiColumnSort.bind(this)}>
-							<IconButton className={'imageButtonSize'}>
+							<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
 								<img
 									alt={Constants.PGR_BTN_SORT_TOOLTIP}
 									className={'imageButtonSort'}
-									src={grid.getThemeToolbarIconFolder() + '/sort.png'}
+									src={sort}
 									tabIndex={0}
 									title={Constants.PGR_BTN_SORT_TOOLTIP}
 								/>
@@ -457,7 +470,7 @@ export default class ToolbarImpl extends React.Component {
 							<IconButton
 								style={{ width: '40px', height: '40px' }}
 								title={Constants.PGR_BTN_SETTINGS_TOOLTIP}>
-								<Settings className={'imageButtonSettings'}>{}</Settings>
+								<Settings className={'imageButtonSettings'}>{ }</Settings>
 								{/* <img tabIndex={0} src={grid.getThemeToolbarIconFolder() + "/settings.png"} 
                             className={"imageButtonSettings"}
                                 alt={Constants.PGR_BTN_SETTINGS_TOOLTIP} title={Constants.PGR_BTN_SETTINGS_TOOLTIP} /> */}
@@ -476,7 +489,7 @@ export default class ToolbarImpl extends React.Component {
 								<IconButton
 									style={{ width: '40px', height: '40px' }}
 									title={Constants.PGR_BTN_OPEN_SETTINGS_TOOLTIP}>
-									<Settings className={'imageButtonOpenSettings'}>{}</Settings>
+									<Settings className={'imageButtonOpenSettings'}>{ }</Settings>
 								</IconButton>
 							</span>
 						</span>
@@ -494,7 +507,7 @@ export default class ToolbarImpl extends React.Component {
 								style={{ width: '40px', height: '40px' }}
 								title={Constants.PGR_BTN_SAVE_SETTINGS_TOOLTIP}>
 								<SettingsApplications className={'imageButtonSaveSettings'}>
-									{}
+									{ }
 								</SettingsApplications>
 							</IconButton>
 						</span>
@@ -516,9 +529,11 @@ export default class ToolbarImpl extends React.Component {
 							id={gridId + 'btnFilterShowHide'}
 							onClick={this.onShowHideFilter.bind(this)}>
 							<IconButton
-								style={{ width: '40px', height: '40px' }}
+								style={{ width: '20px', height: '40px' }}
 								title={Constants.PGR_BTN_FILTER_TOOLTIP}>
-								<FilterList className={'imageButtonFilterShowHide'} />
+								{/* filterShowHide */}
+								{/* <FilterList className={'imageButtonFilterShowHide'} /> */}
+								<img alt={filterShowHide} src={filterShowHide} />
 							</IconButton>
 						</span>
 					</span>
@@ -531,9 +546,10 @@ export default class ToolbarImpl extends React.Component {
 							id={gridId + 'btnFilter'}
 							onClick={this.onProcessFilter.bind(this)}>
 							<IconButton
-								style={{ width: '40px', height: '40px' }}
+								style={{ width: '20px', height: '40px' }}
 								title={Constants.PGR_BTN_RUN_FILTER_TOOLTIP}>
-								<Sync className={'imageButtonFilter'} />
+								{/* <Sync className={'imageButtonFilter'} /> */}
+								<img alt={filter} src={filter} />
 							</IconButton>
 						</span>
 					</span>
@@ -546,9 +562,11 @@ export default class ToolbarImpl extends React.Component {
 							id={gridId + 'btnClearFilter'}
 							onClick={this.onClearFilter.bind(this)}>
 							<IconButton
-								style={{ width: '40px', height: '40px' }}
+								style={{ width: '20px', height: '40px' }}
 								title={Constants.PGR_BTN_CLEAR_FILTER_TOOLTIP}>
-								<ClearAll className={'imageButtonClearFilter'} />
+								{/* <ClearAll className={'imageButtonClearFilter'} /> */}
+								{/* clearFilter */}
+								<img alt={clearFilter} src={clearFilter} />
 							</IconButton>
 						</span>
 						<span
@@ -666,15 +684,11 @@ export default class ToolbarImpl extends React.Component {
 					{this.props.pager.level.enablePaging ? (
 						<span key="pageInfo" className={'pagerDiv pageInfo'}>
 							{' '}
-							{`${Constants.PGR_ITEMS} ${this.getPageStart()} ${
-								Constants.PGR_TO
-							} ${this.getPageEnd()} ${
-								Constants.PGR_OF
-							} ${this.getTotalRecords()}. ${
-								Constants.PGR_PAGE
-							} ${this.getPageIndex() + 1} ${
-								Constants.PGR_OF
-							} ${this.getPageCount()} `}
+							{`${Constants.PGR_ITEMS} ${this.getPageStart()} ${Constants.PGR_TO
+								} ${this.getPageEnd()} ${Constants.PGR_OF
+								} ${this.getTotalRecords()}. ${Constants.PGR_PAGE
+								} ${this.getPageIndex() + 1} ${Constants.PGR_OF
+								} ${this.getPageCount()} `}
 						</span>
 					) : null}
 

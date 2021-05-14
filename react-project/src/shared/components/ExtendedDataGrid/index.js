@@ -182,7 +182,7 @@ export default class DataGrid extends MaterialDataGrid {
 		this.headerPaddingRight = this.paddingRight
 		this.enableHorizontalScrollOptimizationsBETA = true
 		this.footerDrawTopBorder = true
-		this.enableMultiColumnSort = true
+		// this.enableMultiColumnSort = true
 		
 	}
 	onMouseWheel(event) {

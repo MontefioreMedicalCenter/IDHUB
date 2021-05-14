@@ -1159,7 +1159,7 @@ const CurrentRequest = ({ tabValue }) => {
 						// enableExport
 						enableCopy
 						preferencePersistenceKey={'simpleGrid'}
-						enableMultiColumnSort
+						// enableMultiColumnSort
 						useCompactPreferences
 						horizontalScrollPolicy={'auto'}
 						footerDrawTopBorder
