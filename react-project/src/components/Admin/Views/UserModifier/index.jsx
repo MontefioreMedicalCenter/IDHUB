@@ -24,6 +24,8 @@ import Remove from '../../../../container/views/itemRenderers/Remove';
 import Edit from '../../../../container/views/itemRenderers/Edit';
 import ActiveRenderer from '../../../../container/views/itemRenderers/ActiveRenderer';
 import StyledPagerRenderer from '../StyledPager';
+import AdvanceDialog from '../../../../shared/components/AdvanceDialog';
+import AddNewUser from '../AddNewUser';
 
 
 const save = new ClassFactory(Save)
@@ -76,6 +78,9 @@ export default class UserModifier extends UIComponent {
         this.editable/*: boolean*/ = true;
         this.gridRef = React.createRef();
         this.mediator =  new UserMediator();/* :UserMediator */;
+        this.state= {
+            newUser : false
+        }
     }
 
     get firCol() {
@@ -152,8 +157,10 @@ export default class UserModifier extends UIComponent {
             alert("Please save the row previously being edited first !")
         }
     }
-    onAddClick = () =>{
-        this.dispatchEvent(new ManageUserEvent(ManageUserEvent.ADD_USER));
+    onAddClick = () => {
+        // this.dispatchEvent(new ManageUserEvent(ManageUserEvent.ADD_USER));
+        this.setState({newUser: true})
+
     }
 
     onToolbarExport()/*: void*/ {
@@ -215,7 +222,7 @@ export default class UserModifier extends UIComponent {
         else {// if (this.event.detail === Alert.NO)
             
             alert("Cancel the delete.")
-            
+
         }
         return true;
     }
@@ -300,7 +307,12 @@ export default class UserModifier extends UIComponent {
                         </ReactDataGridColumnGroup>
                     </ReactDataGridColumnLevel>
                 </DataGrid>
-
+                <AdvanceDialog
+                    open={this.state.newUser}
+                    handleClose={() => {return this.setState({newUser: false})}}
+                    headerTitle="Add New User"
+                    bodyRenderer={<AddNewUser />}
+                />
             </div>
         )
     }

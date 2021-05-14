@@ -39,6 +39,7 @@ const saveEmployeeSubgroup = require('./response/saveEmployeeSubgroup')
 const saveTitle = require('./response/saveTitle')
 const saveUserOnly = require('./response/saveUserOnly')
 const deleteUser = require('./response/deleteUser')
+const addUserOnly = require('./response/addUserOnly')
 
 
 app.use(cors())
@@ -228,6 +229,13 @@ app.post('/IdentityHub/api/adminsvc/saveUserOnly', (req, res) => {
 app.post('/IdentityHub/api/adminsvc/deleteUser', (req, res) => {
 	if (req.body.user) {
 		sendResponse(res, 200, deleteUser)
+	} else {
+		sendResponse(res, 400)
+	}
+})
+app.post('/IdentityHub/api/adminsvc/addUserOnly', (req, res) => {
+	if (req.body.user) {
+		sendResponse(res, 200, addUserOnly)
 	} else {
 		sendResponse(res, 400)
 	}
