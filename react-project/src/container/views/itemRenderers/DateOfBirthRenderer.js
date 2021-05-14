@@ -21,16 +21,17 @@ const DateOfBirthRenderer = props => {
 			InputProps={{
 				inputProps: {
 					style: {
-						height: '30px',
-						padding: '5px',
+						height: '24px',
+						// padding: '5px',
+						minWidth: '60px',
 						width: '100%',
-						fontSize: 'small'
+						fontSize: '12px'
 					}
 				}
 			}}
 			selectedDate={new Date(props.row.rowPositionInfo.rowData.dateOfBirth || null)}
 			style={{
-				minWidth: 100
+				minWidth: "100%"
 			}}
 			onDateChange={handleDateChange}
 		/>

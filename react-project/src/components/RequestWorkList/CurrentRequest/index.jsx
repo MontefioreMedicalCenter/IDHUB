@@ -1303,7 +1303,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="dateOfBirth"
 									headerText="DOB"
-									width={100}
+									width={120}
 									editorDataField="selectedDate"
 									// filterControl="DateComboBox"
 									filterRenderer={dateFilter}
@@ -1431,7 +1431,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="startDate"
 									headerText="Start Date"
-									width={100}
+									width={120}
 									editorDataField="selectedDate"
 									filterRenderer={dateFilter}
 									// filterControl="DateComboBox"
@@ -1448,7 +1448,7 @@ const CurrentRequest = ({ tabValue }) => {
 								<ReactDataGridColumn
 									dataField="endDate"
 									headerText="End Date"
-									width={100}
+									width={120}
 									filterRenderer={dateFilter}
 									editorDataField="selectedDate"
 									// filterControl="DateComboBox"
