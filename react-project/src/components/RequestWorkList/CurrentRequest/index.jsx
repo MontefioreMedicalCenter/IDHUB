@@ -159,8 +159,7 @@ const CurrentRequest = ({ tabValue }) => {
 		} else if (action.code == 'Refresh') {
 			findWorklist()
 		} else if (action.code == 'SubmitAll') {
-
-			alert("Need to implement this")
+			alert('Need to implement this')
 			// var arrayvalidsubmit:ArrayCollection=new ArrayCollection();
 			// 		var arrayvalidsubmitgroup:ArrayCollection=new ArrayCollection();
 			// 		var arrayselectedobject:ArrayCollection=grid.selectedObjects
@@ -225,7 +224,6 @@ const CurrentRequest = ({ tabValue }) => {
 			// 				}
 			// 			})
 			// 		}
-
 		} else if (action.code == 'Document Library') {
 			StorageService.getInstance().listDocumentLibraryFiles(
 				docLibrarySuccessResult,
@@ -328,7 +326,7 @@ const CurrentRequest = ({ tabValue }) => {
 	var isWorklist = false
 
 	const iconClick = props => {
-		index=-1;
+		index = -1
 
 		const selectedItem = props.row.getData()
 		let selectedGroup = {}
@@ -359,8 +357,7 @@ const CurrentRequest = ({ tabValue }) => {
 
 		if (props.cell.getColumn() !== null) {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
-				alert("implement doc viewer here");
-
+				alert('implement doc viewer here')
 			} else if (props.cell.getColumn().getHeaderText() === 'Submit') {
 				// var alertId = isWorklistGroup ? selectedGroup.worklistId : selectedRequest.worklistId
 				if (
@@ -416,7 +413,7 @@ const CurrentRequest = ({ tabValue }) => {
 									)
 								}
 								if (isWorklist) {
-									selectedRequest.edit=false
+									selectedRequest.edit = false
 									if (selectedGroup.worklistStatus == 'Processed') {
 										selectedGroup.worklistStatus = 'Accepted'
 										selectedRequest.worklistStatus = 'Accepted'
@@ -472,7 +469,7 @@ const CurrentRequest = ({ tabValue }) => {
 									props.grid.gotoVerticalPosition(vpos)
 								}
 							},
-							() => { }
+							() => {}
 						)
 					)
 				} else {
@@ -513,8 +510,8 @@ const CurrentRequest = ({ tabValue }) => {
 					deleteid = isWorklistGroup
 						? selectedGroup.worklistId
 						: selectedRequest.worklistId +
-						'.' +
-						selectedRequest.id.worklistSeqNum
+						  '.' +
+						  selectedRequest.id.worklistSeqNum
 				} else {
 					isnotsave = true
 				}
@@ -544,11 +541,11 @@ const CurrentRequest = ({ tabValue }) => {
 								)
 							}
 						},
-						() => { }
+						() => {}
 					)
 				)
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
-				alert("todo implement this")
+				alert('todo implement this')
 			}
 		}
 	}
@@ -563,7 +560,6 @@ const CurrentRequest = ({ tabValue }) => {
 	}
 
 	const updateWorkList = resp => {
-
 		let workGroup = new IdWorklistGroup()
 		workGroup.fromJson(camelizeKeys(resp.result))
 		workGroup.workLists.forEach(wl => (wl.worklistGroup = workGroup))
@@ -1095,14 +1091,14 @@ const CurrentRequest = ({ tabValue }) => {
 		var grid = dataGridRef.current
 		event.workList.forEach(data => {
 			let workGroup = new IdWorklistGroup()
-			workGroup.fromJson(camelizeKeys(data))
+			workGroup.fromJson(data)
 			workGroup.workLists.forEach(wl => (wl.worklistGroup = workGroup))
 			if (workGroup.workLists != null && workGroup.workLists.length === 1)
 				workListArr.addAll(workGroup.workLists)
 			else workListGroupArr.addItem(workGroup)
 		})
 		workListGroupArr.addAll(workListArr)
-		if(grid) {
+		if (grid) {
 			grid.setDataProvider(workListGroupArr)
 			grid.getColumnLevel().filterFunction = filterDeviceTypes
 			grid.getColumnLevel().nextLevel.filterFunction = filterDeviceTypesChild
@@ -1110,7 +1106,6 @@ const CurrentRequest = ({ tabValue }) => {
 			grid.removeAllSorts()
 			grid.expandAll()
 		}
-
 	}
 
 	const filterDeviceTypes = item => {
@@ -1147,6 +1142,7 @@ const CurrentRequest = ({ tabValue }) => {
 					findWorklist={findWorklist}
 					setWorkList={setWorkList}
 					valueOfTab={tabValue}
+					dataGrid={dataGridRef.current}
 				/>
 				<div style={{ height: 'calc(100% - 65px)' }}>
 					<DataGrid
@@ -1162,7 +1158,7 @@ const CurrentRequest = ({ tabValue }) => {
 						showSpinnerOnFilterPageSort
 						enableEagerDraw
 						// enableDrop
-						enableExport
+						// enableExport
 						enableCopy
 						preferencePersistenceKey={'simpleGrid'}
 						enableMultiColumnSort
@@ -1210,7 +1206,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableHierarchicalNestIndent
 									expandCollapseIconPlacementFunction={placeExpandCollapseIcon}
 									filterCompareFunction={null}
-								// filterWaterMark={"Contains"}
+									// filterWaterMark={"Contains"}
 								/>
 								<ReactDataGridColumn
 									dataField="id.worklistSeqNum"
@@ -1449,7 +1445,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditor={startDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateStartDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
-								// filterCompareFunction={null}
+									// filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									dataField="endDate"
@@ -1467,7 +1463,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditor={endDateRendererEditorWrapper}
 									itemEditorValidatorFunction={validateEndDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
-								// filterCompareFunction={null}
+									// filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1610,7 +1606,7 @@ const CurrentRequest = ({ tabValue }) => {
 									editable={false}
 									sortable={false}
 									filterComboBoxWidth={150}
-								// filterCompareFunction={null}
+									// filterCompareFunction={null}
 								/>
 								<ReactDataGridColumn
 									textAlign={'left'}
@@ -1641,7 +1637,7 @@ const CurrentRequest = ({ tabValue }) => {
 									sortable={false}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 									itemEditor={createDateRendererEditorWrapper}
-								// filterCompareFunction={null}
+									// filterCompareFunction={null}
 								/>
 							</ReactDataGridColumnGroup>
 							<ReactDataGridColumn
@@ -1757,16 +1753,12 @@ const CurrentRequest = ({ tabValue }) => {
 				headerTitle="Document Viewer"
 				bodyRenderer={<DocumentViewer documentFileUrl={documentFileUrl} />}
 			/>
-			<AdvanceDialog
-				open={openDocumentLibrary}
-				handleClose={onOpenDocument}
-				headerTitle={documentlibraryTitle}
-				bodyRenderer={
-					<DocumentLibrary
-						worklist={worklist}
-						onShowDocument={onShowDocument}
-					/>
-				}
+			<DocumentLibrary
+				worklist={worklist}
+				onShowDocument={onShowDocument}
+				onOpenDocument={onOpenDocument}
+				openDocumentLibrary={openDocumentLibrary}
+				documentlibraryTitle={documentlibraryTitle}
 			/>
 		</div>
 	)

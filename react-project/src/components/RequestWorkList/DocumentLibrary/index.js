@@ -11,7 +11,8 @@ import StorageService from '../../../service/cfc/StorageService'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListSheet'
 import moment from 'moment'
-import ArrayCollection from "../../../vo/ArrayCollection"
+import ArrayCollection from '../../../vo/ArrayCollection'
+import AdvanceDialog from '../../../shared/components/AdvanceDialog'
 
 const styles = theme => ({
 	gridHeader: {
@@ -23,7 +24,7 @@ const styles = theme => ({
 
 const remove = new ClassFactory(Remove)
 
-const DocumentLibrary = ({ worklist, onShowDocument }) => {
+const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, documentlibraryTitle, onOpenDocument }) => {
 	const dispatch = useDispatch()
 	const dataGridRef = useRef(null)
 	const fileName = useRef(null)
@@ -42,7 +43,7 @@ const DocumentLibrary = ({ worklist, onShowDocument }) => {
 		const row = props.row.getData()
 		return (
 			<span
-				onClick={() => showDocument(props.row.getData().fileUrl)}
+				onClick={() => showDocument(props.row.getData().fileURL)}
 				className="document-file-name">
 				{row.baseName || '...'}
 			</span>
@@ -118,69 +119,79 @@ const DocumentLibrary = ({ worklist, onShowDocument }) => {
 	}
 
 	const docLibrarySuccessResultEvent = resp => {
-		if(worklist != null) {
-			worklist.fileList = new ArrayCollection().concat(resp.result);
+		if (worklist != null) {
+			worklist.fileList = new ArrayCollection().concat(resp.result)
 		}
 		dispatch(setDocumentLibrary(resp.result))
 	}
 
 	return (
-		<div className="document-library-container">
-			<Paper className="document-library-innner-container">
-				<DataGrid
-					ref={dataGridRef}
-					textAlign={'center'}
-					height={'100%'}
-					width={'100%'}
-					id="Document_Library_Grid"
-					dataProvider={documentLibrary}
-					editable
-					enableCopy
-					styleName="gridStyle">
-					<ReactDataGridColumn
-						headerText="File Name"
-						width={750}
-						headerAlign="center"
-						editable={false}
-						sortable={false}
-						enableCellClickRowSelect={false}
-						columnWidthMode="fixed"
-						useUnderLine
-						itemRenderer={baseNamerenderer}
-					/>
-					<ReactDataGridColumn
-						textAlign="right"
-						paddingRight={20}
-						onHandleDelete={deleteWorklistDocument}
-						itemRenderer={
-							Boolean(documentLibraryState.showDelete) ? remove : () => null
-						}
-					/>
-				</DataGrid>
-			</Paper>
-			{Boolean(documentLibraryState.showUpload) && (
-				<div className="upload-doc-container">
-					<span className="upload-text">Upload File:</span>
-					<div ref={fileName} className="upload-file-name" onClick={LocateFile}>
-						<span>browse...</span>
-					</div>
-					<input
-						id="uploaderDocs"
-						style={{ display: 'none' }}
-						type="file"
-					/>
-					<Button
-						variant="contained"
-						color="primary"
-						size="large"
-						onClick={uploadFile}
-						startIcon={<img src={Back} alt="no-img" />}>
-						{' '}
-						Upload{' '}
-					</Button>
+		<AdvanceDialog
+			open={openDocumentLibrary}
+			handleClose={onOpenDocument}
+			headerTitle={documentlibraryTitle}
+			bodyRenderer={
+				<div className="document-library-container">
+					<Paper className="document-library-innner-container">
+						<DataGrid
+							ref={dataGridRef}
+							textAlign={'center'}
+							height={'100%'}
+							width={'100%'}
+							id="Document_Library_Grid"
+							dataProvider={documentLibrary}
+							editable
+							enableCopy
+							styleName="gridStyle">
+							<ReactDataGridColumn
+								headerText="File Name"
+								width={750}
+								headerAlign="center"
+								editable={false}
+								sortable={false}
+								enableCellClickRowSelect={false}
+								columnWidthMode="fixed"
+								useUnderLine
+								itemRenderer={baseNamerenderer}
+							/>
+							<ReactDataGridColumn
+								textAlign="right"
+								paddingRight={20}
+								onHandleDelete={deleteWorklistDocument}
+								itemRenderer={
+									Boolean(documentLibraryState.showDelete) ? remove : () => null
+								}
+							/>
+						</DataGrid>
+					</Paper>
+					{Boolean(documentLibraryState.showUpload) && (
+						<div className="upload-doc-container">
+							<span className="upload-text">Upload File:</span>
+							<div
+								ref={fileName}
+								className="upload-file-name"
+								onClick={LocateFile}>
+								<span>browse...</span>
+							</div>
+							<input
+								id="uploaderDocs"
+								style={{ display: 'none' }}
+								type="file"
+							/>
+							<Button
+								variant="contained"
+								color="primary"
+								size="large"
+								onClick={uploadFile}
+								startIcon={<img src={Back} alt="no-img" />}>
+								{' '}
+								Upload{' '}
+							</Button>
+						</div>
+					)}
 				</div>
-			)}
-		</div>
+			}
+		/>
 	)
 }
 

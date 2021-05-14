@@ -1,5 +1,5 @@
 import { Button, Checkbox } from '@material-ui/core'
-import React, { useRef, useState } from 'react'
+import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 import WorklistService from '../../../service/cfc/WorklistService'
@@ -7,7 +7,7 @@ import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
 import './requestSearch.scss'
 
-const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList }) => {
+const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) => {
 	var now = new Date()
 	var currentDate = now.getDate()
 	var currentMonth = now.getMonth()
@@ -26,6 +26,25 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList }) => {
 	const [errorTxt, setErrorTxt] = useState('')
 
 	var file = null
+
+	const refreshTab = useCallback(() => {
+		if(dataGrid) {
+			dataGrid.clearAllFilters();
+			dataGrid.refreshCells();
+			if(valueOfTab === 0 ) {
+				dataGrid.showAddEmployee = true
+				findWorklist();
+			} else {
+				dataGrid.showAddEmployee = false
+				dataGrid.setDataProvider([])
+			}
+		}
+	}, [valueOfTab, dataGrid, findWorklist])
+
+	useEffect(() => {
+		refreshTab(valueOfTab)
+	}, [valueOfTab, refreshTab])
+
 
 	const LocateFile = () => {
 		const ele = document.getElementById('uploaderBulkDocs')
