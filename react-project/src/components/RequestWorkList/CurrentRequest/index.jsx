@@ -149,8 +149,6 @@ const CurrentRequest = ({ tabValue }) => {
 			if (grid.getCurrentSorts().length > 0) {
 				grid.removeAllSorts()
 				gridDP.addItemAt(wk, 0)
-				gridDP.sort = null
-				gridDP.refresh()
 			} else {
 				gridDP.addItemAt(wk, 0)
 			}

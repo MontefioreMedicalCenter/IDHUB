@@ -41,9 +41,9 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 		}
 	}, [valueOfTab, dataGrid, findWorklist])
 
-	useEffect(() => {
-		refreshTab(valueOfTab)
-	}, [valueOfTab, refreshTab])
+	// useEffect(() => {
+	// 	refreshTab(valueOfTab)
+	// }, [valueOfTab, refreshTab])
 
 
 	const LocateFile = () => {

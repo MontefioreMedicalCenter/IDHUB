@@ -68,22 +68,37 @@ export const modifyKeys = (obj) => {
 		}
 	});
 }
-
+const nullOutWorkGroup = (wg)=>{
+	wg.workLists.forEach(wl=>wl.worklistGroup = null);
+}
+const resetWorkGroup = (wg)=>{
+	wg.workLists.forEach(wl=>wl.worklistGroup = wg);
+}
 export const stringifyCircularObjectWithModifiedKeys = (selectedRequest) => {
-
+	let savedWls=null;
+	if(selectedRequest.constructor.name === "IdWorklist"){
+		savedWls=selectedRequest.worklistGroup.workLists;
+		selectedRequest.worklistGroup.workLists = [];
+	} else if(selectedRequest.constructor.name === "IdWorklistGroup"){
+		nullOutWorkGroup(selectedRequest);
+	}
 	const data = JSON.parse(JSON.stringify(selectedRequest, function (
 		key,
 		value
 	) {
-		if (key === '_worklistGroup') {
-			delete value._workLists
-			return value
-		} else if (value && (key.endsWith('Date') || key.indexOf( 'dateOfBirth') >= 0)) {
+		if (value && (key.endsWith('Date') || key.indexOf( 'dateOfBirth') >= 0)) {
 			return moment(new Date(value)).format("yyyy-MM-DD HH:mm:ss")
 		} else {
 			return value
 		}
 	}))
 	modifyKeys(data)
-	return JSON.stringify(data)
+	const returnvalue =  JSON.stringify(data);
+	if(selectedRequest.constructor.name === "IdWorklist"){
+		selectedRequest.worklistGroup.workLists = savedWls;
+	} else if(selectedRequest.constructor.name === "IdWorklistGroup"){
+		resetWorkGroup(selectedRequest);
+	}
+	return returnvalue;
+	
 }

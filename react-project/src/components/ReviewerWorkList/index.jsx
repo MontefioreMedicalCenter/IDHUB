@@ -123,9 +123,9 @@ const dynamicIconFunctionAccept = (cell/* :IFlexDataGridCell */, state/* :String
         img = acceptIcon;
         workListGroup = cell.rowInfo.getData().constructor.name === "IdWorklistGroup" ?
             cell.rowInfo.getData() : null/*  as IdWorklistGroup */
-        if (workListGroup != null) {
-            for (var worklist of workListGroup.workLists) {
-                if (worklist.worklistStatus !== "Submitted") {
+        if (workListGroup != null && workListGroup.workLists) {
+            for (var i =0 ;  i< workListGroup.workLists.length  ; i++) {
+                if (workListGroup.workLists[i].worklistStatus !== "Submitted") {
                     img = null
                     return
                 }
