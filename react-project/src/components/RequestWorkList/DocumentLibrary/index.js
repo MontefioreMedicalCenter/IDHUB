@@ -13,6 +13,7 @@ import { setDocumentLibrary } from '../../../AppConfig/store/actions/workListShe
 import moment from 'moment'
 import ArrayCollection from '../../../vo/ArrayCollection'
 import AdvanceDialog from '../../../shared/components/AdvanceDialog'
+import WorklistService from '../../../service/cfc/WorklistService'
 
 const styles = theme => ({
 	gridHeader: {
@@ -66,7 +67,7 @@ const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, docume
 			'_' +
 			moment(new Date()).format('YYYYMMDD') +
 			'_' +
-			file.files[0].name
+			file.files.length && file.files[0].name
 	}
 
 	const deleteWorklistDocument = e => {
@@ -125,10 +126,45 @@ const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, docume
 		dispatch(setDocumentLibrary(resp.result))
 	}
 
+	const dispose = (event) => {
+			var gridDp = dataGridRef.current.getDataProvider()
+			var readyStatus = false
+	 		if (gridDp != null  && gridDp.length > 0) 
+			{
+				gridDp.forEach(data => {
+					if (data.baseName.toLocaleLowerCase().indexOf('confagree')===21)
+					{
+						readyStatus=true
+					}
+				})
+			}	
+			var selectedRequest = worklist
+			var selectedGroup = worklist.worklistGroup
+			if (selectedRequest != null)
+				selectedGroup=selectedRequest.worklistGroup
+			if (selectedGroup != null){		
+			if (readyStatus && worklist.worklistStatus === 'Initial')
+			{
+				selectedGroup.worklistStatus='Ready'
+				selectedGroup.workLists.forEach(x => { x.worklistStatus = "Ready"})
+				// WorklistService.saveWorkGroup(selectedGroup)
+				WorklistService.getInstance().saveWorkGroup(selectedGroup)
+			}		
+			else if (!readyStatus && (worklist.worklistStatus === 'Ready' || worklist.worklistStatus === 'Rejected'))
+			{
+				selectedGroup.worklistStatus='Initial'
+				selectedGroup.workLists.forEach(xx => { xx.worklistStatus = "Initial"})	
+				WorklistService.getInstance().saveWorkGroup(selectedGroup)
+			}
+		}
+		
+		onOpenDocument()
+	}
+
 	return (
 		<AdvanceDialog
 			open={openDocumentLibrary}
-			handleClose={onOpenDocument}
+			handleClose={dispose}
 			headerTitle={documentlibraryTitle}
 			bodyRenderer={
 				<div className="document-library-container">
