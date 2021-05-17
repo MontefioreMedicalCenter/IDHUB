@@ -805,7 +805,7 @@ const CurrentRequest = ({ tabValue }) => {
 		var txt = editor
 		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
-		if (numb_regex.test(txt.text) || txt.getText().length > 1) {
+		if (numb_regex.test(txt.getText()) || txt.getText().length > 1) {
 			grid.setErrorByObject(
 				cell.rowInfo.getData(),
 				cell.getColumn().dataField,
