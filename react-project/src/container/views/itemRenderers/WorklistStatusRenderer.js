@@ -42,7 +42,7 @@ const HtmlTooltip = withStyles(theme => ({
 
 const WorklistStatusRenderer = props => {
 	const selectedRequest =
-		props.cell.rowInfo.getData().constructor.name === 'IdWorklist'
+		props.cell.rowInfo.getData().constructorName === 'IdWorklist'
 
 	const statusList = props.cell.rowInfo.getData().worklistStatus
 	if (

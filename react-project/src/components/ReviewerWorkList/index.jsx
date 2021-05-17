@@ -67,9 +67,9 @@ const dynamicIconFunction = (cell/* :IFlexDataGridCell */, state/* :String='' */
                 cell.rowInfo.getData() as IdWorklistGroup
  */
     if (cell.rowInfo.getIsDataRow() && cell.level.getNestDepth() === 1) {
-        if ((cell.rowInfo.getData().constructor.name === "IdWorklistGroup"
+        if ((cell.rowInfo.getData().constructorName === "IdWorklistGroup"
             && cell.rowInfo.getData().worklistStatus === 'UnderReview')
-            || (cell.rowInfo.getData().constructor.name === "IdWorklist"
+            || (cell.rowInfo.getData().constructorName === "IdWorklist"
                 && cell.rowInfo.getData().worklistGroup.worklistStatus === 'UnderReview'))
             return enableReview;
         else
@@ -121,7 +121,7 @@ const dynamicIconFunctionAccept = (cell/* :IFlexDataGridCell */, state/* :String
     var workListGroup/* :IdWorklistGroup */;
     if (cell.rowInfo.getIsDataRow() && cell.level.getNestDepth() === 1) {
         img = acceptIcon;
-        workListGroup = cell.rowInfo.getData().constructor.name === "IdWorklistGroup" ?
+        workListGroup = cell.rowInfo.getData().constructorName === "IdWorklistGroup" ?
             cell.rowInfo.getData() : null/*  as IdWorklistGroup */
         if (workListGroup != null && workListGroup.workLists) {
             for (var i =0 ;  i< workListGroup.workLists.length  ; i++) {

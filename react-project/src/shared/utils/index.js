@@ -76,10 +76,10 @@ const resetWorkGroup = (wg)=>{
 }
 export const stringifyCircularObjectWithModifiedKeys = (selectedRequest) => {
 	let savedWls=null;
-	if(selectedRequest.constructor.name === "IdWorklist"){
+	if(selectedRequest.constructorName === "IdWorklist"){
 		savedWls=selectedRequest.worklistGroup.workLists;
 		selectedRequest.worklistGroup.workLists = [];
-	} else if(selectedRequest.constructor.name === "IdWorklistGroup"){
+	} else if(selectedRequest.constructorName === "IdWorklistGroup"){
 		nullOutWorkGroup(selectedRequest);
 	}
 	const data = JSON.parse(JSON.stringify(selectedRequest, function (
@@ -94,9 +94,9 @@ export const stringifyCircularObjectWithModifiedKeys = (selectedRequest) => {
 	}))
 	modifyKeys(data)
 	const returnvalue =  JSON.stringify(data);
-	if(selectedRequest.constructor.name === "IdWorklist"){
+	if(selectedRequest.constructorName === "IdWorklist"){
 		selectedRequest.worklistGroup.workLists = savedWls;
-	} else if(selectedRequest.constructor.name === "IdWorklistGroup"){
+	} else if(selectedRequest.constructorName === "IdWorklistGroup"){
 		resetWorkGroup(selectedRequest);
 	}
 	return returnvalue;

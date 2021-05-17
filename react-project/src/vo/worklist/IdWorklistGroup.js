@@ -26,6 +26,7 @@ export default class IdWorklistGroup extends IdWorklistGroupBase {
 		_endDate
 	) {
 		super()
+		this.constructorName = "IdWorklistGroup"
 		this._edit = _edit
 		this._save = _save
 		this._errorMessage = _errorMessage

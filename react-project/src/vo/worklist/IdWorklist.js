@@ -16,6 +16,7 @@ export default class IdWorklist extends IdWorklistBase {
 		_fileList
 	) {
 		super()
+		this.constructorName = "IdWorklist"
 		this._edit = _edit
 		this._save = _save
 		this._managerPh = _managerPh

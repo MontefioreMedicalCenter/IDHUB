@@ -329,7 +329,7 @@ const CurrentRequest = ({ tabValue }) => {
 		const selectedItem = props.row.getData()
 		let selectedGroup = {}
 		let selectedRequest = {}
-		const isWorklistGroup = selectedItem.constructor.name === 'IdWorklistGroup'
+		const isWorklistGroup = selectedItem.constructorName === 'IdWorklistGroup'
 		if (isWorklistGroup) {
 			selectedGroup = selectedItem
 		} else {

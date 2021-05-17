@@ -13,8 +13,8 @@ const SsnItemRender = props => {
 		<div>
 			<input
 				defaultValue={data.ssn || ""}
-				// type={data.constructor.name !== "IdWorklist" ? "hidden" : (displayAsPassword ? "password" : "text")}
-				type={data.constructor.name !== 'IdWorklist' ? 'hidden' : 'password'}
+				// type={data.constructorName !== "IdWorklist" ? "hidden" : (displayAsPassword ? "password" : "text")}
+				type={data.constructorName !== 'IdWorklist' ? 'hidden' : 'password'}
 				editable={"false"}
 				key={data.ssn}
 				text={data.ssn}
