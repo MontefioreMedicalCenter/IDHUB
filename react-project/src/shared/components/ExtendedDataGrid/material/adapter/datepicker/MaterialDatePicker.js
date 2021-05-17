@@ -77,7 +77,7 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 	handleOnChange = date => {
 		const { selected } = this.state
 
-		if (selected.toDateString() === date.toDateString()) {
+		if (selected && selected.toDateString() === date.toDateString()) {
 			return
 		}
 

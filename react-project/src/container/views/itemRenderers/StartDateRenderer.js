@@ -29,7 +29,7 @@ const StartDateRenderer = props => {
 					}
 				}
 			}}
-			selectedDate={new Date(props.row.rowPositionInfo.rowData.startDate || null)}
+			selectedDate={props.row.rowPositionInfo.rowData.startDate? new Date(props.row.rowPositionInfo.rowData.startDate ): null}
 			style={{
 				minWidth: 100,
 				padding: '0px'

@@ -29,7 +29,7 @@ const DateOfBirthRenderer = props => {
 					}
 				}
 			}}
-			selectedDate={new Date(props.row.rowPositionInfo.rowData.dateOfBirth || null)}
+			selectedDate={props.row.rowPositionInfo.rowData.dateOfBirth ? new Date(props.row.rowPositionInfo.rowData.dateOfBirth) : null}
 			style={{
 				minWidth: "100%"
 			}}
