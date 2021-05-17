@@ -8,18 +8,18 @@ import {
 	Add,
 	ArrowLeft,
 	ArrowRight,
-	ClearAll,
-	FilterList,
+	// ClearAll,
+	// FilterList,
 	GetApp,
-	Refresh,
+	// Refresh,
 	Settings,
 	SettingsApplications,
 	SkipNext,
 	SkipPrevious,
-	Sync
+	// Sync
 } from '@material-ui/icons'
 import React from 'react'
-import FolderIcon from '@material-ui/icons/Folder'
+// import FolderIcon from '@material-ui/icons/Folder'
 import {
 	Constants,
 	ExtendedFilterPageSortChangeEvent,
@@ -672,7 +672,7 @@ export default class ToolbarImpl extends React.Component {
 		const val = (
 			<div
 				className={'pagerControl flexiciousGridPager cellRenderer'}
-				style={{ display: 'block', overflow: 'auto' }}>
+				style={{ display: 'flex', overflow: 'auto', justifyContent: 'space-between' }}>
 				<span
 					key={gridId + 'pagerTable'}
 					className={'pagerTable'}
