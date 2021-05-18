@@ -41,9 +41,10 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 		}
 	}, [valueOfTab, dataGrid, findWorklist])
 
-	// useEffect(() => {
-	// 	refreshTab(valueOfTab)
-	// }, [valueOfTab, refreshTab])
+	useEffect(() => {
+		refreshTab(valueOfTab)
+		// eslint-disable-next-line
+	}, [valueOfTab])
 
 
 	const LocateFile = () => {
