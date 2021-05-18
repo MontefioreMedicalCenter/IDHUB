@@ -246,17 +246,13 @@ const ReviewWorkList = () => {
                 headerTitle="Document Viewer"
                 bodyRenderer={<DocumentViewer documentFileUrl={documentFileUrl} />}
             />
-            <AdvanceDialog
-                open={documentPopup}
-                handleClose={onOpenDocument}
-                headerTitle='Request Documents'
-                bodyRenderer={
-                    <DocumentLibrary
-                        worklist={workList}
-                        onShowDocument={onShowDocument}
-                    />
-                }
-            />
+            <DocumentLibrary
+				worklist={workList}
+				onShowDocument={onShowDocument}
+				onOpenDocument={onOpenDocument}
+				openDocumentLibrary={documentPopup}
+				documentlibraryTitle='Request Documents'
+			/>
 
         </div>
     )
