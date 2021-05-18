@@ -76,8 +76,7 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 
 	handleOnChange = date => {
 		const { selected } = this.state
-
-		if (selected && selected.toDateString() === date.toDateString()) {
+		if (date && selected && selected.toDateString() === date.toDateString()) {
 			return
 		}
 
@@ -125,7 +124,8 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 					color="primary"
 					label={label}
 					value={selected}
-					onChange={w => this.handleOnChange(w.toDate())}
+					clearable		
+					onChange={w => this.handleOnChange(w ? w.toDate(): null)}
 					{...more}
 				/>
 			</MuiPickersUtilsProvider>
