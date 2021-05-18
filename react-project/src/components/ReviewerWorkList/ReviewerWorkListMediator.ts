@@ -80,7 +80,7 @@ export default class ReviewerWorkListMediator {
         GlobalEventDispatcher.instance().addEventListener(this, WorkListEvent.REV_WORK_LIST, this.setWorkList);
         GlobalEventDispatcher.instance().addEventListener(this, WorkListEvent.GET_REV_WORK_LIST, this.findWorklists);
         GlobalEventDispatcher.instance().addEventListener(this, WorkListEvent.SAVED_SINGLE, this.updateWorkList);
-        this.findWorklists(null);
+        Object.keys(loginModel).length && this.findWorklists(null);
         return this;
     }
     public onUnRegister():void{
