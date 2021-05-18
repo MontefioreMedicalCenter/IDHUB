@@ -139,7 +139,7 @@ const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, docume
 				})
 			}	
 			var selectedRequest = worklist
-			var selectedGroup = worklist.worklistGroup
+			var selectedGroup = worklist && worklist.worklistGroup
 			if (selectedRequest != null)
 				selectedGroup=selectedRequest.worklistGroup
 			if (selectedGroup != null){		
