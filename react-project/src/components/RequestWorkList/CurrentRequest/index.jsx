@@ -241,7 +241,7 @@ const CurrentRequest = ({ tabValue }) => {
 
 	const docLibrarySuccessResult = ({ result }) => {
 		const StorageService = new StorageServiceEvent()
-		StorageService.data = camelizeKeys(result)
+		StorageService.data = result
 
 		dispatch(setDocumentLibrary(StorageService.data))
 	}
