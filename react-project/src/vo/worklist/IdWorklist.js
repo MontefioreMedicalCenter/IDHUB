@@ -178,4 +178,7 @@ export default class IdWorklist extends IdWorklistBase {
 	set requestorFullName(value) {
 		this._requestorFullName = value
 	}
+	get uniqueIdentifier(){
+		return this.worklistId + ":" + this.id.worklistSeqNum;
+	}
 }

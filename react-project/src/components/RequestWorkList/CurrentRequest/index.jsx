@@ -569,7 +569,7 @@ const CurrentRequest = ({ tabValue }) => {
 		if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), index)
 		else gridDP.addItemAt(workGroup, index)
 		// dataGridRef.current.expandAll()
-		dataGridRef.current.refreshCells()
+		dataGridRef.current.rebuildBody()
 		dataGridRef.current.validateNow()
 		dataGridRef.current.gotoVerticalPosition(vpos)
 	}
@@ -1150,6 +1150,8 @@ const CurrentRequest = ({ tabValue }) => {
 						height={'100%'}
 						width={'100%'}
 						id="Requestor_WorkList_Grid"
+						clearOpenItemsOnDataProviderChange={false}
+						selectedKeyField={'uniqueIdentifier'}
 						alternatingItemColors={[0xffffff, 0xffffff]}
 						enablePrint
 						// enablePreferencePersistence
@@ -1732,7 +1734,6 @@ const CurrentRequest = ({ tabValue }) => {
 							/>
 							<ReactDataGridColumnLevel
 								enableFooters
-								selectedKeyField={'id'}
 								parentField={'invoice'}
 								horizontalGridLines={false}
 								horizontalGridLineColor="0xffffff"

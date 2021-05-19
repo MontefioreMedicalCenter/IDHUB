@@ -218,4 +218,8 @@ export default class IdWorklistGroup extends IdWorklistGroupBase {
 	set endDate(value) {
 		this._endDate = value
 	}
+
+	get uniqueIdentifier(){
+		return this.worklistId;
+	}
 }
