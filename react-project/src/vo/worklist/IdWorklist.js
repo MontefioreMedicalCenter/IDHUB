@@ -179,6 +179,9 @@ export default class IdWorklist extends IdWorklistBase {
 		this._requestorFullName = value
 	}
 	get uniqueIdentifier(){
-		return this.worklistId + ":" + this.id.worklistSeqNum;
+		if(this.id && this.id.worklistSeqNum) {
+			return this.worklistId + ":" + this.id.worklistSeqNum;
+		}
+		return this.worklistId + ":" + 0;
 	}
 }
