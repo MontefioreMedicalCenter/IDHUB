@@ -569,6 +569,7 @@ const CurrentRequest = ({ tabValue }) => {
 		if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), index)
 		else gridDP.addItemAt(workGroup, index)
 		// dataGridRef.current.expandAll()
+		dataGridRef.current.refreshCells()
 		dataGridRef.current.validateNow()
 		dataGridRef.current.gotoVerticalPosition(vpos)
 	}
