@@ -8,7 +8,7 @@ import {
 	UIComponent
 } from '../../../../../flexicious'
 import React from 'react'
-import { Paper } from '@material-ui/core'
+import ContextPoupContent from '../../../ContextMenuPopup'
 //import RightClickPopup from "../../../../container/Views/PlanGrid/RightClickPopup";
 
 class ContextMenuPopup extends React.Component {
@@ -124,15 +124,13 @@ export default class MaterialContextMenu extends UIComponent {
 				className={'contextMenuPopup'}
 				onMouseEnter={this.handleOnFocus}
 				onMouseLeave={this.handleOnBlur}>
-				<Paper>
-					{/* <RightClickPopup
-            cellData={this.grid.currentCell.getRowInfo().getData()}
-            close={this.handleClickOutside}
-            coldata={this.grid.currentCell.getColumn()}
-            currentCell={this.currentCell}
-            grid={this.grid}
-          /> */}
-				</Paper>
+				{this.grid.disableContextMenu ? null : (
+					<ContextPoupContent
+						handleOnProcessAction={this.processAction}
+						SelectionMode={this.grid.getSelectionMode()}
+						width={this.width}
+					/>
+				)}
 			</div>
 		)
 	}
