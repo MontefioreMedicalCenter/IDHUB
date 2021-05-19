@@ -138,7 +138,7 @@ export default class ReviewerWorkListMediator {
             nitem = event.eventObject
         }
         this.grid.refreshCells();
-        this.grid.expandAll()
+        this.grid.rebuildBody()
         this.grid.validateNow()
         this.grid.gotoVerticalPosition(vpos)
     }
