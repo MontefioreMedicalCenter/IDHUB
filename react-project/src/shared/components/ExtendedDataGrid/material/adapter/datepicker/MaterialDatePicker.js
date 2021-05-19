@@ -92,6 +92,12 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 		})
 	}
 
+	hadleonkeyup = (e) => {
+		if(e.target.value && e.keyCode === 9)
+			{
+				this.handleOnChange(new Date(e.target.value))	
+			}
+	}
 	static getDerivedStateFromProps = (newProps, prevState) => {
 		const { selected, changed } = prevState
 		const { selectedDate } = newProps
@@ -126,6 +132,7 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 					value={selected}
 					clearable		
 					onChange={w => this.handleOnChange(w ? w.toDate(): null)}
+					onKeyDown={(e) => this.hadleonkeyup(e)}
 					{...more}
 				/>
 			</MuiPickersUtilsProvider>
