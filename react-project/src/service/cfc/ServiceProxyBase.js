@@ -48,6 +48,7 @@ export default class ServiceProxyBase extends TypedObject {
 	getHeaderData(){
 		var headerData = {
 			userName: localStorage.getItem('user-id'),
+			Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wQqHCKoz0DVoJI7x3ubvCdFUpyOUa4cZzeidWdgzE6c',
 			'Content-Type': 'application/json'
 		}
 		return headerData;
@@ -55,6 +56,7 @@ export default class ServiceProxyBase extends TypedObject {
 	getHeaderFormData(){
 		var headerData = {
 			userName: localStorage.getItem('user-id'),
+			Authorization: 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wQqHCKoz0DVoJI7x3ubvCdFUpyOUa4cZzeidWdgzE6c',
 			'Content-Type': 'application/x-www-form-urlencoded'
 		}
 		return headerData;
