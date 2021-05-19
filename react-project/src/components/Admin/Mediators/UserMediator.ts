@@ -89,6 +89,7 @@ export default class UserMediator extends Mediator {
 			dummyCol.setHeaderText("User");
 			UIUtils.checkSetterAndApply(dummyCol, "itemEditorApplyOnValueCommit", true)
 			UIUtils.checkSetterAndApply(dummyCol, "headerAlign", "center")
+			UIUtils.checkSetterAndApply(dummyCol, "textAlign", "left")
 			dummyCol.setStyle('fontWeight', 'bold')
 			UIUtils.checkSetterAndApply(dummyCol, "columnWidthMode", "fitToContent")
 			UIUtils.checkSetterAndApply(dummyCol, "columnLockMode", "left");
@@ -102,6 +103,7 @@ export default class UserMediator extends Mediator {
 			UIUtils.checkSetterAndApply(lummyCol, "headerText", "Last Name")
 			UIUtils.checkSetterAndApply(lummyCol, "itemEditorApplyOnValueCommit", true)
 			UIUtils.checkSetterAndApply(lummyCol, "headerAlign", "center")
+			UIUtils.checkSetterAndApply(lummyCol, "textAlign", "left")
 			lummyCol.setStyle('fontWeight', 'bold')
 			UIUtils.checkSetterAndApply(lummyCol, "columnWidthMode", "fitToContent")
 			//UIUtils.checkSetterAndApply(lummyCol,"width=100	
@@ -115,6 +117,7 @@ export default class UserMediator extends Mediator {
 			UIUtils.checkSetterAndApply(fummyCol, "headerText", "First Name")
 			UIUtils.checkSetterAndApply(fummyCol, "itemEditorApplyOnValueCommit", true)
 			UIUtils.checkSetterAndApply(fummyCol, "headerAlign", "center")
+			UIUtils.checkSetterAndApply(fummyCol, "textAlign", "left")
 			fummyCol.setStyle('fontWeight', 'bold')
 			UIUtils.checkSetterAndApply(fummyCol, "columnWidthMode", "fitToContent")
 			//UIUtils.checkSetterAndApply(lummyCol,"width=100	
@@ -128,9 +131,10 @@ export default class UserMediator extends Mediator {
 			UIUtils.checkSetterAndApply(tummyCol, "headerText", "Email")
 			UIUtils.checkSetterAndApply(tummyCol, "itemEditorApplyOnValueCommit", true)
 			UIUtils.checkSetterAndApply(tummyCol, "headerAlign", "center")
+			UIUtils.checkSetterAndApply(tummyCol, "textAlign", "left")
 			tummyCol.setStyle('fontWeight', 'bold')
 			//UIUtils.checkSetterAndApply(tummyCol,"columnWidthMode="fitToContent"	
-			UIUtils.checkSetterAndApply(tummyCol, "width", 100)
+			UIUtils.checkSetterAndApply(tummyCol, "width", 200)
 			UIUtils.checkSetterAndApply(tummyCol, "columnLockMode", "left")
 			UIUtils.checkSetterAndApply(tummyCol, "sortable", false)
 			UIUtils.checkSetterAndApply(tummyCol, "filterControl", "TextInput")
