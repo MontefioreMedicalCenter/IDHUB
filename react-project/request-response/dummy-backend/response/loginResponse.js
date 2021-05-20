@@ -1,6 +1,7 @@
 module.exports = {
     "createDate": "2018-03-26 04:00:00",
     "createdBy": "system",
+    "restApiKey": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.wQqHCKoz0DVoJI7x3ubvCdFUpyOUa4cZzeidWdgzE6c",
     "roleMap": [
         {
             "accessActiveFlag": 1,
