@@ -1,6 +1,13 @@
 import React from 'react';
- 
-import {UIComponent, Constants, UIUtils,FlexDataGridEvent} from "../../../flexicious"
+
+import { UIComponent, Constants, UIUtils, FlexDataGridEvent } from "../../../flexicious"
+import IconButton from '@material-ui/core/IconButton'
+import add from '../../../../src/assets/images/add.png'//filterShowHide
+import filterShowHide from '../../../../src/assets/images/filterShowHide.png'
+import filter from '../../../../src/assets/images/filter.png'
+import clearFilter from '../../../../src/assets/images/clearFilter.png'//clearFilter//
+import word from '../../../../src/assets/images/word.png'
+import exporte from '../../../../src/assets/images/export.png'
 /*eslint-disable */
 /**
  * Flexicious
@@ -337,8 +344,14 @@ export default class PagerControl extends UIComponent {
 
         for (const tca of this.grid.toolbarActions) {
             html.push(tca.seperatorBefore ? <span id={gridId + "_" + tca.code} className={'pagerDiv separatorCell'}>|</span> : "");
-            const style = (tca.iconUrl) ? { background: 'transparent url(' + tca.iconUrl + ') no-repeat left center', paddingLeft: '20px' } : {};
-            html.push(<span valign={'middle'} className={'pagerDiv iconCell toolbarButtonIconCell'} title={tca.tooltip} style={style} >tca.name</span>);
+            const style = (tca.iconUrl) ? { background: 'transparent url(' + tca.iconUrl + ') no-repeat left center' } : {};
+            html.push(
+                <span valign={'middle'} className={'pagerDiv iconCell toolbarButtonIconCell'} title={tca.tooltip} style={style} >
+                    <IconButton className={'imageButtonSize'} style={{ marginTop: "5px" }}>
+                        <img src={add} />
+                    </IconButton>
+                </span>
+            );
             html.push(tca.seperatorAfter ? <span className={'pagerDiv separatorCell'}>|</span> : "")
         }
 
@@ -437,24 +450,24 @@ export default class PagerControl extends UIComponent {
                 topLevelToolbarButtons.push(
                     <span key="6">
                         <span key={gridId + "btnFilterShowHide"} id={gridId + "btnFilterShowHide"} className={"pagerDiv  iconCell"}>
-                            <img tabIndex={0} src={this.grid.getThemeToolbarIconFolder() + "/filterShowHide.png"} className={"imageButtonFilterShowHide"}
-                                alt={Constants.PGR_BTN_FILTER_TOOLTIP} title={Constants.PGR_BTN_FILTER_TOOLTIP} />
+                            <img tabIndex={0} src={filterShowHide} className={"imageButtonFilterShowHide"}
+                                alt={Constants.PGR_BTN_FILTER_TOOLTIP} title={Constants.PGR_BTN_FILTER_TOOLTIP} style={{ marginTop: "9px" }} />
                         </span>
                     </span>
                 );
                 topLevelToolbarButtons.push(
                     <span key="7">
                         <span key={gridId + "btnFilter"} id={gridId + "btnFilter"} className={"pagerDiv  iconCell"}>
-                            <img tabIndex={0} src={this.grid.getThemeToolbarIconFolder() + "/filter.png"} className={"imageButtonFilter"}
-                                alt={Constants.PGR_BTN_RUN_FILTER_TOOLTIP} title={Constants.PGR_BTN_RUN_FILTER_TOOLTIP} />
+                            <img tabIndex={0} src={filter} className={"imageButtonFilter"}
+                                alt={Constants.PGR_BTN_RUN_FILTER_TOOLTIP} title={Constants.PGR_BTN_RUN_FILTER_TOOLTIP} style={{ marginTop: "9px" }} />
                         </span>
                     </span>
                 );
                 topLevelToolbarButtons.push(
                     <span key="8">
                         <span key={gridId + "btnClearFilter"} id={gridId + "btnClearFilter"} className={"pagerDiv  iconCell"}>
-                            <img tabIndex={0} src={this.grid.getThemeToolbarIconFolder() + "/clearFilter.png"} className={"imageButtonClearFilter"}
-                                alt={Constants.PGR_BTN_CLEAR_FILTER_TOOLTIP} title={Constants.PGR_BTN_CLEAR_FILTER_TOOLTIP} />
+                            <img tabIndex={0} src={clearFilter} className={"imageButtonClearFilter"}
+                                alt={Constants.PGR_BTN_CLEAR_FILTER_TOOLTIP} title={Constants.PGR_BTN_CLEAR_FILTER_TOOLTIP} style={{ marginTop: "9px" }} />
                         </span>
                         <span key={gridId + "linesep" + linesep++} className={"pagerDiv lineSep"}>&nbsp;</span>
                     </span>
@@ -490,8 +503,8 @@ export default class PagerControl extends UIComponent {
                 topLevelToolbarButtons.push(
                     <span key="11">
                         <span key={gridId + "btnWord"} id={gridId + "btnWord"} className={"pagerDiv  iconCell"}>
-                            <img tabIndex={0} src={this.grid.getThemeToolbarIconFolder() + "/word.png"} className={"imageButtonWord"}
-                                alt={Constants.PGR_BTN_WORD_TOOLTIP} title={Constants.PGR_BTN_WORD_TOOLTIP} />
+                            <img tabIndex={0} src={word} className={"imageButtonWord"}
+                                alt={Constants.PGR_BTN_WORD_TOOLTIP} title={Constants.PGR_BTN_WORD_TOOLTIP} style={{ marginTop: "9px" }} />
                         </span>
                     </span>);
             }
@@ -499,8 +512,8 @@ export default class PagerControl extends UIComponent {
                 topLevelToolbarButtons.push(
                     <span key="12">
                         <span key={gridId + "btnExcel"} id={gridId + "btnExcel"} className={"pagerDiv  iconCell"}>
-                            <img tabIndex={0} src={this.grid.getThemeToolbarIconFolder() + "/export.png"} className={"imageButtonExcel"}
-                                alt={Constants.PGR_BTN_EXCEL_TOOLTIP} title={Constants.PGR_BTN_EXCEL_TOOLTIP} />
+                            <img tabIndex={0} src={exporte} className={"imageButtonExcel"}
+                                alt={Constants.PGR_BTN_EXCEL_TOOLTIP} title={Constants.PGR_BTN_EXCEL_TOOLTIP} style={{ marginTop: "9px" }} />
                         </span>
                     </span>);
             }
@@ -509,7 +522,7 @@ export default class PagerControl extends UIComponent {
         let gridId = this.grid.id;
         gridId += "_";
 
-        const val = <div className={"pagerControl flexiciousGridPager cellRenderer"} style={{display:'block'}}>
+        const val = <div className={"pagerControl flexiciousGridPager cellRenderer"} style={{ display: 'block' }}>
             <span className={"pagerTable"} key={gridId + "pagerTable"} style={{ float: "left", height: this.getHeight() + 'px' }}>
                 {this.level.enablePaging ? <span key="pageInfo" className={"pagerDiv pageInfo"} /> : null}
 
