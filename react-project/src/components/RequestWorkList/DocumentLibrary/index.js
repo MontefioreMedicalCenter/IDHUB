@@ -25,7 +25,7 @@ const styles = theme => ({
 
 const remove = new ClassFactory(Remove)
 
-const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, documentlibraryTitle, onOpenDocument }) => {
+const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, documentlibraryTitle, onOpenDocument, updateWorkList }) => {
 	const dispatch = useDispatch()
 	const dataGridRef = useRef(null)
 	const fileName = useRef(null)
@@ -149,13 +149,21 @@ const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, docume
 				selectedGroup.worklistStatus='Ready'
 				selectedGroup.workLists.forEach(x => { x.worklistStatus = "Ready"})
 				// WorklistService.saveWorkGroup(selectedGroup)
-				WorklistService.getInstance().saveWorkGroup(selectedGroup)
+				WorklistService.getInstance().saveWorkGroup(
+					selectedGroup,
+					updateWorkList,
+					MontefioreUtils.showError
+				)
 			}		
 			else if (!readyStatus && (worklist.worklistStatus === 'Ready' || worklist.worklistStatus === 'Rejected'))
 			{
 				selectedGroup.worklistStatus='Initial'
 				selectedGroup.workLists.forEach(xx => { xx.worklistStatus = "Initial"})	
-				WorklistService.getInstance().saveWorkGroup(selectedGroup)
+				WorklistService.getInstance().saveWorkGroup(
+					selectedGroup,
+					updateWorkList,
+					MontefioreUtils.showError
+				)
 			}
 		}
 		

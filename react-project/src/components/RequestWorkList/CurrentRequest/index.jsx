@@ -1759,6 +1759,7 @@ const CurrentRequest = ({ tabValue }) => {
 				onOpenDocument={onOpenDocument}
 				openDocumentLibrary={openDocumentLibrary}
 				documentlibraryTitle={documentlibraryTitle}
+				updateWorkList={updateWorkList}
 			/>
 		</div>
 	)
