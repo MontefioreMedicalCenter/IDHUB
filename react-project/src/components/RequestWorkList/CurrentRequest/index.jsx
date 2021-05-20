@@ -1514,7 +1514,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableCellClickRowSelect={false}
 									sortable={false}
 								/>
-								<ReactDataGridColumn
+								{/* <ReactDataGridColumn
 									dataField="epicRequest"
 									headerText="EPIC"
 									width={60}
@@ -1561,7 +1561,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemRenderer={checkBoxItemRenderer}
 									filterCompareFunction={null}
 									filterComboBoxWidth={150}
-								/>
+								/> */}
 								<ReactDataGridColumn
 									dataField="mmcEmailRequest"
 									headerText="MMC Email"
