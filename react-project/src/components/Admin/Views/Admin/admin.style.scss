@@ -1,6 +1,7 @@
 .admin-main-container {
-    height: 100%;
+    height: calc(100% - 22px);
     padding: 15px;
+    padding-bottom: 5px;
   }
   
   .grid-container {

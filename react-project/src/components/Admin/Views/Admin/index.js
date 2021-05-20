@@ -6,6 +6,7 @@ import IdEmployeeSubgroupModifier from './IdEmployeeSubgroupModifier'
 import IdCampusCodeModifier from './IdCampusCodeModifier'
 import TitleModifier from './TitleModifier'
 import { Route, Switch } from 'react-router'
+import { Paper } from '@material-ui/core'
 
 
 const tabList = [
@@ -61,19 +62,21 @@ const AdminTab = () => {
                 tabValue={tabValue}
                 tabList={tabList}
             />
-            <Switch>
-                {routes.map((route, idx) => {
-                    return route.component ? (
-                        <Route
-                            key={idx}
-                            path={route.url}
-                            exact={route.exact}
-                            name={route.name}
-                            render={props => <route.component {...props} />}
-                        />
-                    ) : null
-                })}
-            </Switch>
+            <Paper style={{ height: 'calc(100% - 45px)', width: '100%' }}>
+                <Switch>
+                    {routes.map((route, idx) => {
+                        return route.component ? (
+                            <Route
+                                key={idx}
+                                path={route.url}
+                                exact={route.exact}
+                                name={route.name}
+                                render={props => <route.component {...props} />}
+                            />
+                        ) : null
+                    })}
+                </Switch>
+            </Paper>
         </div>
     )
 
