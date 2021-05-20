@@ -62,12 +62,13 @@ const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, docume
 
 	const onFileSelect = event => {
 		file = event.target
+		const name = file.files.length ? file.files[0].name : 'browse..'
 		fileName.current.innerText =
 			worklist.worklistId +
 			'_' +
 			moment(new Date()).format('YYYYMMDD') +
 			'_' +
-			file.files.length && file.files[0].name
+			name
 	}
 
 	const deleteWorklistDocument = e => {
