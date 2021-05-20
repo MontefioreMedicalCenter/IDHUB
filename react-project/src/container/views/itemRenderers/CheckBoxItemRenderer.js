@@ -10,11 +10,6 @@ const CheckBoxItemRenderer = props => {
 	const handleChangeData = () => {
 		const rowData = props.row.getData()
 		const dataField = props.column.getDataField()
-		if (rowData[dataField] === 'Y') {
-			rowData[dataField] = 'N'
-		} else {
-			rowData[dataField] = 'Y'
-		}
 
 		if (dataField === 'epicRequest') {
 			if (
@@ -30,6 +25,18 @@ const CheckBoxItemRenderer = props => {
 						() => {}
 					)
 				)
+				rowData[dataField] = 'N'
+			}else {
+				if (rowData[dataField] === 'Y') {
+					rowData[dataField] = 'N'
+				} else {
+					rowData[dataField] = 'Y'
+				}
+			}
+		} else {
+			if (rowData[dataField] === 'Y') {
+				rowData[dataField] = 'N'
+			} else {
 				rowData[dataField] = 'Y'
 			}
 		}
