@@ -95,7 +95,7 @@ export default class ReviewerWorkListMediator {
             var list = new ArrayCollection()
             resp.result.forEach(data => {
                 let workGroup = new IdWorklistGroup()
-                workGroup.fromJson(camelizeKeys(data))
+                workGroup.fromJson(data)
                 workGroup.workLists.forEach(wl => (wl.worklistGroup = workGroup))
                 list.addItem(workGroup)
             })
