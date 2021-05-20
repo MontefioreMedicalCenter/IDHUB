@@ -45,6 +45,7 @@ const Login = () => {
 			const loginModel = new LoginModel()
 			loginModel.fromJson({ user: camelizeKeys(resp.result) })
 			localStorage.setItem('user-id', loginModel.user.userId)
+			localStorage.setItem('token', loginModel.user.restApiKey)
 
 			dispatch(saveLoginModel(loginModel))
 			findLookupLists()
