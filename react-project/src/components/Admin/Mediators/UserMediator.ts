@@ -175,6 +175,7 @@ export default class UserMediator extends Mediator {
 			if (ind < 0 && !(role.roleId === 'Admin' || role.roleId === 'SDEmailer')) {
 				var col: FlexDataGridColumn = new FlexDataGridColumn();
 				col.setHeaderText(role.roleId);
+				col.setWidth(100);
 				//Alert.show("UserMediator:col header is: " + col.headerText);
 				col.setUniqueIdentifier(role.roleId);
 				col.sortable = false
@@ -185,7 +186,11 @@ export default class UserMediator extends Mediator {
 				this.view.grid.addColumn(col);
 			}
 		}
-		//roleCapability.grid.distributeColumnWidthsEqually();
+		var col2: FlexDataGridColumn = new FlexDataGridColumn();
+		col2.setHeaderText('');
+		col2.setWidth(100);
+		this.view.grid.addColumn(col2);
+		// this.view.grid.distributeColumnWidthsEqually();
 		this.view.hl = hl
 		this.view.grid.refreshCells();
 		this.dispatch(new ManageUserEvent(ManageUserEvent.SET_ROLE_DONE))
