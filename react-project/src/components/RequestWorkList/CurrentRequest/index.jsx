@@ -102,6 +102,10 @@ const CurrentRequest = ({ tabValue }) => {
 	var numb_regex = /[0-9]/
 	var numb_errregex = /[.+-]/
 
+
+
+
+
 	const comboDP = [
 		{ label: 'N', data: 'N' },
 		{ label: 'Y', data: 'Y' }
@@ -117,7 +121,17 @@ const CurrentRequest = ({ tabValue }) => {
 	//this is how Facebook recommends we run code on mount. Stupid ESlint does not like it.
 	/* eslint-disable*/
 	useEffect(() => {
-		findWorklist()
+		findWorklist();
+		CurrentRequest.pageStore = {};
+		CurrentRequest.pageStore._workList = new ArrayCollection();
+		CurrentRequest.pageStore._selectedGroup=null;
+		CurrentRequest.pageStore._selectedRequest=null;
+		CurrentRequest.pageStore.selectedItem=null
+		CurrentRequest.pageStore.isWorklistGroup=false;;
+		CurrentRequest.pageStore.isWorklist=false;
+		CurrentRequest.pageStore.isWorklistChild=false;
+		CurrentRequest.pageStore._index=-1;
+
 	}, [])
 	/* eslint-disable*/
 
@@ -320,37 +334,35 @@ const CurrentRequest = ({ tabValue }) => {
 		return 0xffffff
 	}
 
-	var isWorklist = false
 
 	const iconClick = props => {
-		CurrentRequest.index = -1
+		CurrentRequest.pageStore._index = -1
 
-		const selectedItem = props.row.getData()
-		let selectedGroup = {}
-		let selectedRequest = {}
-		const isWorklistGroup = selectedItem.constructorName === 'IdWorklistGroup'
-		if (isWorklistGroup) {
-			selectedGroup = selectedItem
+		CurrentRequest.pageStore.selectedItem = props.row.getData()
+		CurrentRequest.pageStore._selectedRequest = {}
+		CurrentRequest.pageStore.isWorklistGroup = CurrentRequest.pageStore.selectedItem.constructorName === 'IdWorklistGroup'
+		if (CurrentRequest.pageStore.isWorklistGroup) {
+			CurrentRequest.pageStore._selectedGroup = CurrentRequest.pageStore.selectedItem
 		} else {
-			selectedRequest = selectedItem
+			CurrentRequest.pageStore._selectedRequest = CurrentRequest.pageStore.selectedItem
 		}
 		const level = props.cell.getNestDepth()
 		let isnotsave = false
-		isWorklist = Object.keys(selectedRequest).length !== 0 && level === 1
+		CurrentRequest.pageStore.isWorklist = Object.keys(CurrentRequest.pageStore._selectedRequest).length !== 0 && level === 1
 
-		const selectedobj = isWorklistGroup ? selectedGroup : selectedRequest
+		const selectedobj = CurrentRequest.pageStore.isWorklistGroup ? selectedGroup : CurrentRequest.pageStore._selectedRequest
 
-		const isWorklistChild =
-			Object.keys(selectedRequest).length !== 0 && level === 2
-		if (isWorklist || isWorklistChild) {
-			selectedGroup = selectedItem.worklistGroup
+		CurrentRequest.pageStore.isWorklistChild =
+			Object.keys(CurrentRequest.pageStore._selectedRequest).length !== 0 && level === 2
+		if (CurrentRequest.pageStore.isWorklist || CurrentRequest.pageStore.isWorklistChild) {
+			CurrentRequest.pageStore._selectedGroup = CurrentRequest.pageStore.selectedItem.worklistGroup
 		}
 		var deleteid = ''
 
 		var gridDP = props.grid.getDataProvider()
 
-		CurrentRequest.index = gridDP.getItemIndex(selectedItem)
-		if (CurrentRequest.index == -1) CurrentRequest.index = gridDP.getItemIndex(selectedGroup)
+		CurrentRequest.pageStore._index = gridDP.getItemIndex(CurrentRequest.pageStore.selectedItem)
+		if (CurrentRequest.pageStore._index == -1) CurrentRequest.pageStore._index = gridDP.getItemIndex(CurrentRequest.pageStore._selectedGroup)
 
 		if (props.cell.getColumn() !== null) {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
@@ -360,22 +372,22 @@ const CurrentRequest = ({ tabValue }) => {
 				setWorklists(props.row.getData())
 				onOpenDocument()
 			} else if (props.cell.getColumn().getHeaderText() === 'Submit') {
-				// var alertId = isWorklistGroup ? selectedGroup.worklistId : selectedRequest.worklistId
+				// var alertId = CurrentRequest.pageStore.isWorklistGroup ? CurrentRequest.pageStore._selectedGroup.worklistId : CurrentRequest.pageStore._selectedRequest.worklistId
 				if (
-					selectedItem.worklistStatus == 'Ready' ||
-					selectedItem.worklistStatus == 'Rejected' ||
-					selectedItem.worklistStatus == 'Processed'
+					CurrentRequest.pageStore.selectedItem.worklistStatus == 'Ready' ||
+					CurrentRequest.pageStore.selectedItem.worklistStatus == 'Rejected' ||
+					CurrentRequest.pageStore.selectedItem.worklistStatus == 'Processed'
 				) {
-					//selectedItem.worklistStatus
+					//CurrentRequest.pageStore.selectedItem.worklistStatus
 					dispatch(
 						showMessage(
 							'Confirm',
-							'Are you sure you want to Submit ' + selectedItem.worklistId,
+							'Are you sure you want to Submit ' + CurrentRequest.pageStore.selectedItem.worklistId,
 							'YES_NO',
 							() => {
-								if (isWorklistGroup) {
-									selectedGroup.edit = false
-									var worklistGroup = selectedGroup
+								if (CurrentRequest.pageStore.isWorklistGroup) {
+									CurrentRequest.pageStore._selectedGroup.edit = false
+									var worklistGroup = CurrentRequest.pageStore._selectedGroup
 
 									if (worklistGroup.worklistStatus === 'Processed') {
 										worklistGroup.worklistStatus = 'Accepted'
@@ -396,35 +408,35 @@ const CurrentRequest = ({ tabValue }) => {
 										})
 									}
 									WorklistService.getInstance().saveWorkGroup(
-										selectedGroup,
+										CurrentRequest.pageStore._selectedGroup,
 										updateWorkList,
 										MontefioreUtils.showError
 									)
 									props.cell.getGrid().refreshCells()
 								}
-								if (isWorklistChild) {
-									selectedRequest.edit = false
+								if (CurrentRequest.pageStore.isWorklistChild) {
+									CurrentRequest.pageStore._selectedRequest.edit = false
 									props.cell.getGrid().refreshCells()
-									selectedRequest.worklistStatus = 'Submitted'
+									CurrentRequest.pageStore._selectedRequest.worklistStatus = 'Submitted'
 
 									WorklistService.getInstance().saveWorklist(
-										selectedRequest,
+										CurrentRequest.pageStore._selectedRequest,
 										updateWorkList,
 										MontefioreUtils.showError
 									)
 								}
-								if (isWorklist) {
-									selectedRequest.edit = false
-									if (selectedGroup.worklistStatus == 'Processed') {
-										selectedGroup.worklistStatus = 'Accepted'
-										selectedRequest.worklistStatus = 'Accepted'
+								if (CurrentRequest.pageStore.isWorklist) {
+									CurrentRequest.pageStore._selectedRequest.edit = false
+									if (CurrentRequest.pageStore._selectedGroup.worklistStatus == 'Processed') {
+										CurrentRequest.pageStore._selectedGroup.worklistStatus = 'Accepted'
+										CurrentRequest.pageStore._selectedRequest.worklistStatus = 'Accepted'
 									} else {
-										selectedGroup.worklistStatus = 'Submitted'
-										selectedRequest.worklistStatus = 'Submitted'
-										selectedGroup.submitDate = new Date()
+										CurrentRequest.pageStore._selectedGroup.worklistStatus = 'Submitted'
+										CurrentRequest.pageStore._selectedRequest.worklistStatus = 'Submitted'
+										CurrentRequest.pageStore._selectedGroup.submitDate = new Date()
 									}
 									WorklistService.getInstance().saveWorkGroup(
-										selectedGroup,
+										CurrentRequest.pageStore._selectedGroup,
 										updateWorkList,
 										MontefioreUtils.showError
 									)
@@ -438,18 +450,18 @@ const CurrentRequest = ({ tabValue }) => {
 					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
-				if (isWorklistGroup) {
-					selectedGroup.edit = false
+				if (CurrentRequest.pageStore.isWorklistGroup) {
+					CurrentRequest.pageStore._selectedGroup.edit = false
 					WorklistService.getInstance().saveWorkGroup(
-						selectedGroup,
+						CurrentRequest.pageStore._selectedGroup,
 						updateWorkList,
 						MontefioreUtils.showError
 					)
-				} else if (isWorklist || isWorklistChild) {
-					selectedRequest.edit = false
+				} else if (CurrentRequest.pageStore.isWorklist || CurrentRequest.pageStore.isWorklistChild) {
+					CurrentRequest.pageStore._selectedRequest.edit = false
 
 					WorklistService.getInstance().saveWorklist(
-						selectedRequest,
+						CurrentRequest.pageStore._selectedRequest,
 						updateWorkList,
 						MontefioreUtils.showError
 					)
@@ -474,45 +486,45 @@ const CurrentRequest = ({ tabValue }) => {
 						)
 					)
 				} else {
-					if (isWorklistGroup) {
-						if (!selectedGroup.edit) {
-							selectedGroup.edit = true
+					if (CurrentRequest.pageStore.isWorklistGroup) {
+						if (!CurrentRequest.pageStore._selectedGroup.edit) {
+							CurrentRequest.pageStore._selectedGroup.edit = true
 							props.cell.getGrid().cellEditableFunction = isCellEditable
 							props.cell.getGrid().refreshCells()
 						} else {
-							selectedGroup.edit = false
+							CurrentRequest.pageStore._selectedGroup.edit = false
 							props.cell.getGrid().refreshCells()
 						}
-					} else if (isWorklistChild) {
-						if (!selectedRequest.edit) {
-							selectedRequest.edit = true
+					} else if (CurrentRequest.pageStore.isWorklistChild) {
+						if (!CurrentRequest.pageStore._selectedRequest.edit) {
+							CurrentRequest.pageStore._selectedRequest.edit = true
 							props.cell.getGrid().cellEditableFunction = isCellEditable
 							props.cell.getGrid().refreshCells()
 						} else {
-							selectedRequest.edit = false
+							CurrentRequest.pageStore._selectedRequest.edit = false
 							props.cell.getGrid().refreshCells()
 						}
-					} else if (isWorklist) {
-						if (!selectedRequest.edit) {
-							selectedRequest.edit = true
+					} else if (CurrentRequest.pageStore.isWorklist) {
+						if (!CurrentRequest.pageStore._selectedRequest.edit) {
+							CurrentRequest.pageStore._selectedRequest.edit = true
 							props.cell.getGrid().cellEditableFunction = isCellEditable
 							props.cell.getGrid().refreshCells()
 						} else {
-							selectedRequest.edit = false
+							CurrentRequest.pageStore._selectedRequest.edit = false
 							props.cell.getGrid().refreshCells()
 						}
 					}
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Delete') {
 				if (
-					selectedGroup.worklistId != null ||
-					selectedRequest.worklistId != null
+					CurrentRequest.pageStore._selectedGroup.worklistId != null ||
+					CurrentRequest.pageStore._selectedRequest.worklistId != null
 				) {
-					deleteid = isWorklistGroup
-						? selectedGroup.worklistId
-						: selectedRequest.worklistId +
+					deleteid = CurrentRequest.pageStore.isWorklistGroup
+						? CurrentRequest.pageStore._selectedGroup.worklistId
+						: CurrentRequest.pageStore._selectedRequest.worklistId +
 						  '.' +
-						  selectedRequest.id.worklistSeqNum
+						  CurrentRequest.pageStore._selectedRequest.id.worklistSeqNum
 				} else {
 					isnotsave = true
 				}
@@ -524,19 +536,19 @@ const CurrentRequest = ({ tabValue }) => {
 						'Confirm_Cancel',
 						() => {
 							if (isnotsave) {
-								gridDP.removeItemAt(CurrentRequest.index)
+								gridDP.removeItemAt(CurrentRequest.pageStore._index)
 							} else if (
-								isWorklistChild &&
-								selectedGroup.workLists.length > 1
+								CurrentRequest.pageStore.isWorklistChild &&
+								CurrentRequest.pageStore._selectedGroup.workLists.length > 1
 							) {
 								WorklistService.getInstance().deleteWorkListSingle(
-									selectedRequest,
+									CurrentRequest.pageStore._selectedRequest,
 									updateWorkList,
 									MontefioreUtils.showError
 								)
 							} else {
 								WorklistService.getInstance().deleteWorkListGroup(
-									selectedGroup,
+									CurrentRequest.pageStore._selectedGroup,
 									deletedWorkList,
 									MontefioreUtils.showError
 								)
@@ -554,7 +566,7 @@ const CurrentRequest = ({ tabValue }) => {
 	const deletedWorkList = event => {
 		var gridDP = dataGridRef.current.getDataProvider()
 		var vp = dataGridRef.current.getVerticalScrollPosition()
-		gridDP.removeItemAt(CurrentRequest.index)
+		gridDP.removeItemAt(CurrentRequest.pageStore._index)
 		dataGridRef.current.validateNow()
 		dataGridRef.current.expandAll()
 		dataGridRef.current.gotoVerticalPosition(vp)
@@ -567,10 +579,10 @@ const CurrentRequest = ({ tabValue }) => {
 
 		var vpos = dataGridRef.current.getVerticalScrollPosition()
 		var gridDP = dataGridRef.current.getDataProvider()
-		gridDP.removeItemAt(CurrentRequest.index)
+		gridDP.removeItemAt(CurrentRequest.pageStore._index)
 
-		if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), CurrentRequest.index)
-		else gridDP.addItemAt(workGroup, CurrentRequest.index)
+		if (CurrentRequest.pageStore.isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), CurrentRequest.pageStore._index)
+		else gridDP.addItemAt(workGroup, CurrentRequest.pageStore._index)
 		// dataGridRef.current.expandAll()
 		dataGridRef.current.rebuildBody()
 		dataGridRef.current.validateNow()
