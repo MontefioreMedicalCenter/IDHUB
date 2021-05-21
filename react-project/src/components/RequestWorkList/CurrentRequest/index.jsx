@@ -355,7 +355,11 @@ const CurrentRequest = ({ tabValue }) => {
 
 		if (props.cell.getColumn() !== null) {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
-				alert('implement doc viewer here')
+				setDocumentlibraryTitle('Request Documents')
+				dispatch(showDelete(true))
+				dispatch(showUpload(true))
+				setWorklists(props.row.getData())
+				onOpenDocument()
 			} else if (props.cell.getColumn().getHeaderText() === 'Submit') {
 				// var alertId = isWorklistGroup ? selectedGroup.worklistId : selectedRequest.worklistId
 				if (
@@ -1650,13 +1654,7 @@ const CurrentRequest = ({ tabValue }) => {
 								editable={false}
 								hideText={true}
 								headerWordWrap={true}
-								onDocumentClick={e => {
-									setDocumentlibraryTitle('Request Documents')
-									dispatch(showDelete(true))
-									dispatch(showUpload(true))
-									setWorklists(e.row.getData())
-									onOpenDocument()
-								}}
+								onDocumentClick={iconClick}
 								iconToolTip="View/Upload Request Document"
 								iconHandCursor={true}
 								columnWidthMode="fixed"
