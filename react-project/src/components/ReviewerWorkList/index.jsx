@@ -240,7 +240,7 @@ const ReviewWorkList = () => {
                         <ReactDataGridColumn columnLockMode="right" editable={false} hideText headerText="Reject" enableIcon useIconRollOverTimer={false} iconFunction={dynamicIconFunctionReject} iconToolTip="Reject Request" iconHandCursor columnWidthMode="fixed" width="80" iconLeft="30" sortable={false} />
                     </ReactDataGridColumnGroup>
                     <ReactDataGridColumn columnLockMode="right" editable={false} hideText headerText="Accept" enableIcon useIconRollOverTimer={false} iconFunction={dynamicIconFunctionAccept} iconToolTip="Accept Request" iconHandCursor columnWidthMode="fixed" width="60" iconLeft="20" sortable={false} />
-                    <ReactDataGridColumnLevel horizontalGridLines={false} horizontalGridLineColor="0xffffff" horizontalGridLineThickness="0" rowHeight="23" nestIndent="30" reusePreviousLevelColumns alternatingItemColors={[0xFFFFFF, 0xFFFFFF]} initialSortField="id.worklistSeqNum" />
+                    <ReactDataGridColumnLevel enableFooters horizontalGridLines={false} horizontalGridLineColor="0xffffff" horizontalGridLineThickness="0" rowHeight="23" nestIndent="30" reusePreviousLevelColumns alternatingItemColors={[0xFFFFFF, 0xFFFFFF]} initialSortField="id.worklistSeqNum" />
                 </ReactDataGridColumnLevel>
             </DataGrid>
             <AdvanceDialog
