@@ -122,7 +122,7 @@ export default class IdWorklist extends IdWorklistBase {
 		} else {
 			this._managerPh = value
 		}
-		if (this.managerExt === null || this.managerExt === '') {
+		if (this.managerExt === null || this.managerExt === '' || this.managerExt === undefined ) {
 			addExt = false
 		} else addExt = true
 		if (addExt) {
@@ -140,12 +140,12 @@ export default class IdWorklist extends IdWorklistBase {
 	set managerExt(value) {
 		var addExt = false
 		this._managerExt = value
-		if (value == null || value === '') {
+		if (value == null || value === '' || value === undefined) {
 			addExt = false
 		} else addExt = true
 		if (addExt) {
 			this.managerPhone = this._managerPh + ' Ext ' + value
-		} else {
+		} else if (this._managerPh) {
 			this.managerPhone = this._managerPh.substring(0, 12)
 		}
 	}

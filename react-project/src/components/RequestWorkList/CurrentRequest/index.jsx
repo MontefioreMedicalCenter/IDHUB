@@ -1026,7 +1026,7 @@ const CurrentRequest = ({ tabValue }) => {
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		var managerph = grid.getCurrentEditCell().rowInfo.getData().managerExt
 		if (managerph !== null) {
-			if (managerph.length < 1 && txt.getText().length > 1) {
+			if (managerph && managerph.length < 1 && txt.getText().length > 1) {
 				valSuccess = false
 				grid.setErrorByObject(
 					cell.rowInfo.getData(),
