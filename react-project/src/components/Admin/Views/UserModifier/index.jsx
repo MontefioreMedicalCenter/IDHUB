@@ -26,6 +26,9 @@ import ActiveRenderer from '../../../../container/views/itemRenderers/ActiveRend
 import StyledPagerRenderer from '../StyledPager';
 import AdvanceDialog from '../../../../shared/components/AdvanceDialog';
 import AddNewUser from '../AddNewUser';
+import store from '../../../../AppConfig/store/configureStore';
+import { showMessage } from '../../../../AppConfig/store/actions/homeAction';
+import { toast } from 'react-toastify';
 
 
 const save = new ClassFactory(Save)
@@ -191,13 +194,17 @@ export default class UserModifier extends EventDispatcher {
 
 
     onDelete(data/*: Object*/)/*: boolean*/ {
-        if (window.confirm("Are you sure you want to delete this item?")) {// "Confirm Delete", Alert.OK | Alert.CANCEL, this, function (event: CloseEvent)/*: void*/ {
+        store.dispatch(
+            showMessage('Confirm Delete',
+                'Are you sure you want to delete this item?',
+                'Ok_Cancel',
+                () => {
             this.dispatchEvent(new AdminEditEvent(AdminEditEvent.DELETE, data));
-            //Alert.show("Trigger delete on the backend")
+                    },
+             () => {  
+                toast.warning("Cancel the delete.")
         }
-        else {
-            alert("Cancel the delete.")
-        }
+        ))
         return true;
     }
 
@@ -211,19 +218,20 @@ export default class UserModifier extends EventDispatcher {
         return false;
     }
     onRem = (data/*: Object*/)/*: boolean*/ => {
-        if (window.confirm("Are you sure you want to delete this item?")) {//}, "Confirm Delete", Alert.OK | Alert.CANCEL, this, function (event: CloseEvent)/*: void*/ {
-            //            if (this.event.detail === Alert.OK) {
-            //Alert.show("Trigger delete on the backend")
+        store.dispatch(
+            showMessage('Confirm Delete',
+                'Are you sure you want to delete this item?',
+                'Ok_Cancel',
+                () => {
             this._indx = (this.grid.getDataProvider()).indexOf(data)
             var evt/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.DELETE_USER)
             evt.data = data
             this.dispatchEvent(evt);
+                    },
+             () => {  
+                toast.warning("Cancel the delete.")
         }
-        else {// if (this.event.detail === Alert.NO)
-            
-            alert("Cancel the delete.")
-
-        }
+        ))
         return true;
     }
 

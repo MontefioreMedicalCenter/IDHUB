@@ -22,6 +22,8 @@ import IdDepartment from '../../../../../vo/admin/IdDepartment';
 import ExampleUtils from '../../../../../utils/ExampleUtils';
 import IdDepartmentMediator from '../../../Mediators/IdDepartmentMediator.ts';
 import AdminCheckBoxRenderer from '../../../../../container/views/itemRenderers/AdminCheckBoxRenderer';
+import store from '../../../../../AppConfig/store/configureStore';
+import { showMessage } from '../../../../../AppConfig/store/actions/homeAction';
 
 const AdminCheckBox = new ClassFactory(AdminCheckBoxRenderer)
 const isCellEditable = (cell) => {
@@ -82,25 +84,26 @@ export default class IdDepartmentModifier extends React.Component {
         var idx/*:IdDepartment*/;
         var gridDP/*:ArrayCollection*/ = this.grid.getDataProvider();
         if (data.edit && this._indEdit === (this.grid.getDataProvider()).getItemIndex(data)) {
-            MontefioreUtils.showConfirm("Are you sure you want to cancel your changes?", "Confirm Cancel", MontefioreUtils.YES | MontefioreUtils.NO, this,
-                (event) => {
-                    if (event.detail === MontefioreUtils.YES) {
-                        idx = gridDP.getItemAt(this._indEdit);
-                        if (this._indEdit === 0 && idx.departmentId >= this.lastN) {
-                            gridDP.removeItemAt(0);
-                        }
-                        else {
-                            idx.departmentName = this.keeper;
-                            gridDP.setItemAt(idx, this._indEdit);
-                        }
-                        data.edit = false;
-                        this._indEdit = -1;
-                        this.grid.refreshCells();
-                        return;
-
-                    } else if (event.detail === MontefioreUtils.NO) {
+            store.dispatch(showMessage('Confirm cancel',
+                'Are you sure you want to cancel your changes?',
+                'Yes_No',
+                () => {
+                    idx = gridDP.getItemAt(this._indEdit);
+                    if (this._indEdit === 0 && idx.departmentId >= this.lastN) {
+                        gridDP.removeItemAt(0);
                     }
-                })
+                    else {
+                        idx.departmentName = this.keeper;
+                        gridDP.setItemAt(idx, this._indEdit);
+                    }
+                    data.edit = false;
+                    this._indEdit = -1;
+                    this.grid.refreshCells();
+                    return;
+
+                },
+                () => { }
+            ))
         } else {
             if (this._indEdit < 0) {
                 data.edit = true;
@@ -145,19 +148,20 @@ export default class IdDepartmentModifier extends React.Component {
 
 
     onDelete(data/*:Object*/)/*:Boolean*/ {
-        MontefioreUtils.showConfirm("Are you sure you want to delete this item?", "Confirm Delete", MontefioreUtils.OK
-            | MontefioreUtils.CANCEL, this,
-            (event) => {
-                if (event.detail === MontefioreUtils.OK) {
+        store.dispatch(
+            showMessage('Confirm delete',
+                'Are you sure you want to delete this item?',
+                'Ok_Cancel',
+                () => {
                     this.lastN = 0;
                     this._indEdit = -1;
                     this.grid.dispatchEvent(new IdDepartmentAdminEvent(IdDepartmentAdminEvent.DELETE, data));
                     this.grid.refreshCells();
+                },
+                () => {
+                    toast.warning("Cancel the delete.")
                 }
-                else if (event.detail === MontefioreUtils.CANCEL) {
-                    alert("Cancel the delete.")
-                }
-            })
+            ))
         return true;
     }
 
@@ -201,8 +205,8 @@ export default class IdDepartmentModifier extends React.Component {
     }
     render() {
         return (
-            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" 
-            pagerRenderer={MontefioreUtils.pagerFactory} enablePaging="true" enableToolbarActions="true" horizontalScrollPolicy="auto" styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}  editable="true" cellEditableFunction={isCellEditable} enableCopy="true" enableExport="true">
+            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true"
+                pagerRenderer={MontefioreUtils.pagerFactory} enablePaging="true" enableToolbarActions="true" horizontalScrollPolicy="auto" styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)} editable="true" cellEditableFunction={isCellEditable} enableCopy="true" enableExport="true">
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="departmentId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Department ID" itemEditorApplyOnValueCommit="true" editable={false} />
                     <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="departmentName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Department Name" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validatedept.bind(this)} />

@@ -1,5 +1,8 @@
 import ServiceProxyBase from './ServiceProxyBase'
 import qs from 'qs'
+import { showMessage } from '../../AppConfig/store/actions/homeAction'
+import store from '../../AppConfig/store/configureStore'
+
 export default class BoxService extends ServiceProxyBase {
 	constructor(props) {
 		super(props)
@@ -16,7 +19,13 @@ export default class BoxService extends ServiceProxyBase {
 				alert("Confirm with montefiore? File has been sent to Box !" + msg)
 			}
 		}
-		if (typeof resultHandler == 'undefined') resultHandler = ()=>{alert("Files Transferred to Box Sucessfully!")}
+		if (typeof resultHandler == 'undefined') resultHandler = ()=>{
+			store.dispatch(
+				showMessage('Success',
+                    'Files Transferred to Box Sucessfully!',
+                    'OK',
+                    () => {}))
+		}
 		var bodyFormData = qs.stringify({
 			worklistId: workListId
 		})

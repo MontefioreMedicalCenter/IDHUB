@@ -18,6 +18,7 @@ import { reviewerWorklistData, storeWorklist } from "../../AppConfig/store/actio
 import store from '../../AppConfig/store/configureStore'
 import { setDocumentLibrary } from "../../AppConfig/store/actions/workListSheet";
 import { showDelete, showUpload } from "../../AppConfig/store/actions/documentLibrary";
+import { showMessage } from "../../AppConfig/store/actions/homeAction";
 
 
 export default class ReviewerWorkListMediator {
@@ -188,27 +189,57 @@ export default class ReviewerWorkListMediator {
             }
             else if (event.cell.getColumn().getHeaderText() == "Under Review") {
                 alertMsg=this.selectedGroup.worklistStatus != "UnderReview" ? "Are you sure you want to mark Request:" + this.selectedGroup.worklistId + " Under Review?" : "Are you sure you want to Cancel Review for Request:" + this.selectedGroup.worklistId + "?"
-                if(confirm(alertMsg)){
-                    var worklistGroup:IdWorklistGroup=this.selectedGroup
-                    worklistGroup.worklistStatus=this.selectedItem.worklistStatus == "UnderReview" ? "Submitted" : "UnderReview"
-                    worklistGroup.reviewerUserId=worklistGroup.worklistStatus == "UnderReview" ?  this.loginModel.user.userId : null
-                    if (this.isWorklist)
-                    {
-                        this.selectedRequest.worklistStatus=worklistGroup.worklistStatus
-                    }
-                    this.wlservice.saveWorkGroup(worklistGroup)
-                }
+                // if(confirm(alertMsg)){
+                //     var worklistGroup:IdWorklistGroup=this.selectedGroup
+                //     worklistGroup.worklistStatus=this.selectedItem.worklistStatus == "UnderReview" ? "Submitted" : "UnderReview"
+                //     worklistGroup.reviewerUserId=worklistGroup.worklistStatus == "UnderReview" ?  this.loginModel.user.userId : null
+                //     if (this.isWorklist)
+                //     {
+                //         this.selectedRequest.worklistStatus=worklistGroup.worklistStatus
+                //     }
+                //     this.wlservice.saveWorkGroup(worklistGroup)
+                // }
+                        store.dispatch(
+									showMessage(
+										'Confirm',
+										alertMsg,
+										'Ok_Cancel',
+										() => {
+											var worklistGroup: IdWorklistGroup = this.selectedGroup
+											worklistGroup.worklistStatus =
+												this.selectedItem.worklistStatus == 'UnderReview'
+													? 'Submitted'
+													: 'UnderReview'
+											worklistGroup.reviewerUserId =
+												worklistGroup.worklistStatus == 'UnderReview'
+													? this.loginModel.user.userId
+													: null
+											if (this.isWorklist) {
+												this.selectedRequest.worklistStatus =
+													worklistGroup.worklistStatus
+											}
+											this.wlservice.saveWorkGroup(worklistGroup)
+										},
+										() => {}
+									)
+								)
+
 
             }
             else if (event.cell.getColumn().getHeaderText() == "Reject") {
                 if (this.selectedItem != null && this.selectedItem.worklistStatus != "Rejected" && (this.selectedItem.reviewerComments == null || this.selectedItem.reviewerComments.length < 1)) {
-                    alert("Please fill in a Reject Reason before Rejecting"/* , "Reject Reason" */)
+
+                    store.dispatch(showMessage('Reject Reason',
+                    'Please fill in a Reject Reason before Rejecting',
+                    'OK',
+                    () => {}))
                     return;
                 }
-                alertMsg=this.selectedItem.worklistStatus != "Rejected" ? "Are you sure you want to Reject " + msg + this.selectedGroup.worklistId + "?" : "Are you sure you want to cancel Rejection of " + msg + this.selectedGroup.worklistId + "?"
-                if (window.confirm(alertMsg))
-                {
-                    if (!this.isWorklistChild)
+                store.dispatch(showMessage('Confirm',
+                this.selectedItem.worklistStatus != "Rejected" ?'Are you sure you want to Reject ' +this.selectedGroup.worklistId:"Are you sure you want to cancel Rejection of " + msg + this.selectedGroup.worklistId + "?",
+                    'Ok_Cancel',
+                    () => {
+                        if (!this.isWorklistChild)
                         {
                             var worklistGroup:IdWorklistGroup=this.selectedGroup
                             worklistGroup.worklistStatus=worklistGroup.worklistStatus != "Rejected" ? "Rejected" : "Submitted"
@@ -230,27 +261,34 @@ export default class ReviewerWorkListMediator {
                             gridDP.setItemAt(this.selectedItem,this.idx)
 
                         }
-                }
+                    },
+                    () => {}
+                    ))
             }
             else if (event.cell.getColumn().getHeaderText() == "Accept") {
 
-                if (window.confirm("Are you sure you want to Accept this " + msg + this.selectedGroup.worklistId + "?")) 
-                {
-                    var worklistGroup:IdWorklistGroup=this.selectedGroup
-                    worklistGroup.worklistStatus="Accepted"
-                    worklistGroup.acceptDate= new Date()
+                store.dispatch(showMessage('Confirm Accept',
+                    'Are you sure you want to Accept this ' + this.selectedGroup.worklistId + "?",
+                    'Ok_Cancel',
+                    () => {
+                            var worklistGroup:IdWorklistGroup=this.selectedGroup
+                            worklistGroup.worklistStatus="Accepted"
+                            worklistGroup.acceptDate= new Date()
+        
+                            worklistGroup.reviewerUserId=this.loginModel.user.userId
+                            for  (var x of worklistGroup.workLists)
+                            {
+                                x.worklistStatus="Accepted"
+                            }
+                            if (worklistGroup.fileList != null && worklistGroup.fileList.length > 0)
+                                this.bservice.sendDocumentsToBox(worklistGroup.worklistId)
+                            this.wlservice.saveWorkGroup((worklistGroup))
+                            this.wlservice.sendAcceptMailToHelpDesk(this.selectedGroup)
+                            gridDP.setItemAt(worklistGroup,this.idx)
 
-                    worklistGroup.reviewerUserId=this.loginModel.user.userId
-                    for  (var x of worklistGroup.workLists)
-                    {
-                        x.worklistStatus="Accepted"
-                    }
-                    if (worklistGroup.fileList != null && worklistGroup.fileList.length > 0)
-                        this.bservice.sendDocumentsToBox(worklistGroup.worklistId) 
-                    this.wlservice.saveWorkGroup((worklistGroup))
-                    this.wlservice.sendAcceptMailToHelpDesk(this.selectedGroup)
-                    gridDP.setItemAt(worklistGroup,this.idx)
-                }
+                    },
+                    () => {}
+                    ))
             }
         }
     }

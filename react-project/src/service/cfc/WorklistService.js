@@ -3,6 +3,8 @@ import qs from 'qs'
 import { stringifyCircularObjectWithModifiedKeys } from '../../shared/utils'
 import WorkListEvent from '../../events/WorkListEvent'
 import IdWorklistGroup from '../../vo/worklist/IdWorklistGroup'
+import store from '../../AppConfig/store/configureStore'
+import { showMessage } from '../../AppConfig/store/actions/homeAction'
 export default class WorklistService extends ServiceProxyBase {
 	constructor(props) {
 		super(props)
@@ -174,9 +176,11 @@ export default class WorklistService extends ServiceProxyBase {
 	sendRejectMailSuccessResult(
 		event //:ResultEvent, token:Object=null):void
 	) {
-		alert(
-			'Email sent to Requestor Sucessfully!' /* , "Requestor Email", Alert.OK */
-		)
+		store.dispatch(
+			showMessage('Requestor Email',
+				'Email sent to Requestor Sucessfully!',
+				'OK',
+				() => { }))
 	}
 
 	sendAcceptMailToHelpDesk(
@@ -204,7 +208,13 @@ export default class WorklistService extends ServiceProxyBase {
 	sendAcceptMailSuccessResult(
 		event //:ResultEvent, token:Object=null):void
 	) {
-		alert('Email sent to Help Desk Sucessfully!') //, "Help Desk Email sent", Alert.OK)
+		// alert('Email sent to Help Desk Sucessfully!') //, "Help Desk Email sent", Alert.OK)
+		store.dispatch(
+			showMessage('Help Desk Email sent',
+				'Email sent to Help Desk Sucessfully! ',
+				'OK',
+				() => { }
+			))
 	}
 
 	sendDocumentsToBox(

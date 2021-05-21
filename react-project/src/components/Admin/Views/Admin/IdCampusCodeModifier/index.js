@@ -22,6 +22,8 @@ import IdCampusCode from '../../../../../vo/admin/IdCampusCode';
 import ExampleUtils from '../../../../../utils/ExampleUtils';
 import IdCampusCodeMediator from '../../../Mediators/IdCampusCodeMediator.ts';
 import AdminCheckBoxRenderer from '../../../../../container/views/itemRenderers/AdminCheckBoxRenderer';
+import store from '../../../../../AppConfig/store/configureStore';
+import { showMessage } from '../../../../../AppConfig/store/actions/homeAction';
 
 const AdminCheckBox = new ClassFactory(AdminCheckBoxRenderer)
 
@@ -73,8 +75,10 @@ export default class TitleModifier extends React.Component {
         var grid = this.grid;
         var gridDP = grid.getDataProvider();
         if (data.edit && this._indEdit === (grid.getDataProvider()).getItemIndex(data)) {
-            MontefioreUtils.showConfirm("Are you sure you want to cancel your changes?", "Confirm Cancel", MontefioreUtils.YES | MontefioreUtils.NO, this, (event) => {
-                if (event.detail === MontefioreUtils.YES) {
+            store.dispatch(showMessage('Confirm Cancel',
+                'Are you sure you want to cancel your changes?',
+                'Confirm_Cancel',
+                () => {
                     idx = gridDP.getItemAt(this._indEdit);
                     if (this._indEdit === 0 && idx.campusCodeId >= this.lastN) {
                         gridDP.removeItemAt(0);
@@ -88,9 +92,9 @@ export default class TitleModifier extends React.Component {
                     this._indEdit = -1;
                     grid.refreshCells();
                     return;
-                } else if (event.detail === MontefioreUtils.NO) {
-                }
-            })
+                },
+                () => { }
+            ))
         } else {
             if (this._indEdit < 0) {
                 data.edit = true
@@ -128,18 +132,22 @@ export default class TitleModifier extends React.Component {
             toast.warning("Invalid action!")
     }
     onDelete(data) {
-        MontefioreUtils.showConfirm("Are you sure you want to delete this item?", "Confirm Delete", MontefioreUtils.OK | MontefioreUtils.CANCEL, this, (event) => {
-            if (event.detail === MontefioreUtils.OK) {
-                this.lastN = 0;
-                this._indEdit = -1;
-                this.grid.dispatchEvent(new IdCampusCodeAdminEvent(IdCampusCodeAdminEvent.DELETE, data));
-                this.grid.refreshCells();
-            }
-            else if (event.detail === MontefioreUtils.NO) {
-                toast.warning("Cancel the delete.")
-            }
-        })
+        store.dispatch(
+            showMessage('Confirm Delete',
+                'Are you sure you want to delete this item?',
+                'Ok_Cancel',
+                () => {
+                    this.lastN = 0;
+                    this._indEdit = -1;
+                    this.grid.dispatchEvent(new IdCampusCodeAdminEvent(IdCampusCodeAdminEvent.DELETE, data));
+                    this.grid.refreshCells();
+                },
+                () => {
+                    toast.warning("Cancel the delete.")
+                }
+            ))
         return true;
+
     }
 
     onSave(data) {

@@ -23,6 +23,8 @@ import IdTitle from '../../../../../vo/admin/IdTitle';
 import ExampleUtils from '../../../../../utils/ExampleUtils';
 import TitleMediator from '../../../Mediators/TitleMediator.ts';
 import AdminCheckBoxRenderer from '../../../../../container/views/itemRenderers/AdminCheckBoxRenderer';
+import store from '../../../../../AppConfig/store/configureStore';
+import { showMessage } from '../../../../../AppConfig/store/actions/homeAction';
 
 const AdminCheckBox = new ClassFactory(AdminCheckBoxRenderer)
 const isCellEditable = (cell) => {
@@ -84,8 +86,10 @@ export default class TitleModifier extends React.Component {
         var gridDP = this.grid.getDataProvider();
 
         if (data.edit && this._indEdit === (gridDP).getItemIndex(data)) {
-            MontefioreUtils.showConfirm("Are you sure you want to cancel your changes?", "Confirm Cancel", MontefioreUtils.YES | MontefioreUtils.NO, this, (event) => {
-                if (event.detail === MontefioreUtils.YES) {
+            store.dispatch(showMessage('Confirm change',
+                'Are you sure you want to cancel your changes?',
+                'Yes_No',
+                () => {
                     //Alert.show("Trigger delete on the backend")
                     idx = gridDP.getItemAt(this._indEdit);
                     if (this._indEdit === 0 && idx.titleId >= this.lastN) {
@@ -100,10 +104,9 @@ export default class TitleModifier extends React.Component {
                     grid.refreshCells();
                     return;
                     //dispatchEvent(new AccountClassAdminEvent(AccountClassAdminEvent.GET, data));
-                } else if (event.detail === MontefioreUtils.NO) {
-                    //Alert.show("Cancel the delete.")
-                }
-            })
+                },
+                () => { }
+            ))
         } else {
 
             if (this._indEdit < 0) {
@@ -132,27 +135,26 @@ export default class TitleModifier extends React.Component {
         var gridDP = grid.getDataProvider()
         var index = gridDP.getItemIndex(data)
 
-        MontefioreUtils.showConfirm("Are you sure you want to delete this item?", "Confirm Delete", MontefioreUtils.OK | MontefioreUtils.CANCEL, this, (event) => {
-
-
-
-            if (event.detail === MontefioreUtils.OK) {
-                if (data.titleId === -1) {
-                    gridDP.removeItemAt(index)
+        store.dispatch(
+            showMessage('confirm delete',
+                'Are you sure you want to delete this item?',
+                'Ok_Cancel',
+                () => {
+                    if (data.titleId === -1) {
+                        gridDP.removeItemAt(index)
+                    }
+                    else {
+                        grid.dispatchEvent(new IdTitleAdminEvent(IdTitleAdminEvent.DELETE, data));
+                    }
+                },
+                () => {
+                    toast.warning("Cancel the delete.")
                 }
-                else {
-
-                    grid.dispatchEvent(new IdTitleAdminEvent(IdTitleAdminEvent.DELETE, data));
-
-                }
-                //Alert.show("Trigger delete on the backend")
-            }
-            else if (event.detail === MontefioreUtils.NO) {
-                alert("Cancel the delete.")
-            }
-        })
+            ))
         return true;
     }
+
+
 
     onSave(data) {
         if (data.titleName != null) {
@@ -209,7 +211,7 @@ export default class TitleModifier extends React.Component {
     render() {
         return (
             <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" editable cellEditableFunction={isCellEditable} enableCopy enableEagerDraw enableExport styleName="gridStyle" enableToolbarActions toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}
-            pagerRenderer={MontefioreUtils.pagerFactory} toolbarExcelHandlerFunction={this.onToolbarExport.bind(this)}>
+                pagerRenderer={MontefioreUtils.pagerFactory} toolbarExcelHandlerFunction={this.onToolbarExport.bind(this)}>
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters enablePaging pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Id" itemEditorApplyOnValueCommit />
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Name" itemEditorApplyOnValueCommit itemEditorValidatorFunction={this.validateTitle.bind(this)} />
