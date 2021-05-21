@@ -369,7 +369,7 @@ const CurrentRequest = ({ tabValue }) => {
 				setDocumentlibraryTitle('Request Documents')
 				dispatch(showDelete(true))
 				dispatch(showUpload(true))
-				setWorklists(props.row.getData())
+				setWorklists(CurrentRequest.pageStore._selectedGroup)
 				onOpenDocument()
 			} else if (props.cell.getColumn().getHeaderText() === 'Submit') {
 				// var alertId = CurrentRequest.pageStore.isWorklistGroup ? CurrentRequest.pageStore._selectedGroup.worklistId : CurrentRequest.pageStore._selectedRequest.worklistId

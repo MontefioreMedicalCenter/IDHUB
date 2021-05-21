@@ -139,8 +139,8 @@ const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, docume
 					}
 				})
 			}	
-			var selectedRequest = worklist
-			var selectedGroup = worklist && worklist.worklistGroup
+			var selectedRequest = worklist.constructorName === "IdWorklist" ? worklist : null;
+			var selectedGroup = worklist.constructorName === "IdWorklistGroup" ? worklist : null;
 			if (selectedRequest != null)
 				selectedGroup=selectedRequest.worklistGroup
 			if (selectedGroup != null){		
