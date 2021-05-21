@@ -320,7 +320,7 @@ const CurrentRequest = ({ tabValue }) => {
 		return 0xffffff
 	}
 
-	isWorklist = false
+	var isWorklist = false
 
 	const iconClick = props => {
 		CurrentRequest.index = -1
