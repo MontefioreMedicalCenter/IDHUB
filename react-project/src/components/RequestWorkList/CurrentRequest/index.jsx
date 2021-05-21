@@ -320,11 +320,10 @@ const CurrentRequest = ({ tabValue }) => {
 		return 0xffffff
 	}
 
-	var index = -1
-	var isWorklist = false
+	isWorklist = false
 
 	const iconClick = props => {
-		index = -1
+		CurrentRequest.index = -1
 
 		const selectedItem = props.row.getData()
 		let selectedGroup = {}
@@ -350,8 +349,8 @@ const CurrentRequest = ({ tabValue }) => {
 
 		var gridDP = props.grid.getDataProvider()
 
-		index = gridDP.getItemIndex(selectedItem)
-		if (index == -1) index = gridDP.getItemIndex(selectedGroup)
+		CurrentRequest.index = gridDP.getItemIndex(selectedItem)
+		if (CurrentRequest.index == -1) CurrentRequest.index = gridDP.getItemIndex(selectedGroup)
 
 		if (props.cell.getColumn() !== null) {
 			if (props.cell.getColumn().getHeaderText() === 'Upload or View Docs') {
@@ -525,7 +524,7 @@ const CurrentRequest = ({ tabValue }) => {
 						'Confirm_Cancel',
 						() => {
 							if (isnotsave) {
-								gridDP.removeItemAt(index)
+								gridDP.removeItemAt(CurrentRequest.index)
 							} else if (
 								isWorklistChild &&
 								selectedGroup.workLists.length > 1
@@ -555,7 +554,7 @@ const CurrentRequest = ({ tabValue }) => {
 	const deletedWorkList = event => {
 		var gridDP = dataGridRef.current.getDataProvider()
 		var vp = dataGridRef.current.getVerticalScrollPosition()
-		gridDP.removeItemAt(index)
+		gridDP.removeItemAt(CurrentRequest.index)
 		dataGridRef.current.validateNow()
 		dataGridRef.current.expandAll()
 		dataGridRef.current.gotoVerticalPosition(vp)
@@ -568,10 +567,10 @@ const CurrentRequest = ({ tabValue }) => {
 
 		var vpos = dataGridRef.current.getVerticalScrollPosition()
 		var gridDP = dataGridRef.current.getDataProvider()
-		gridDP.removeItemAt(index)
+		gridDP.removeItemAt(CurrentRequest.index)
 
-		if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), index)
-		else gridDP.addItemAt(workGroup, index)
+		if (isWorklist) gridDP.addItemAt(workGroup.workLists.getItemAt(0), CurrentRequest.index)
+		else gridDP.addItemAt(workGroup, CurrentRequest.index)
 		// dataGridRef.current.expandAll()
 		dataGridRef.current.rebuildBody()
 		dataGridRef.current.validateNow()
@@ -1106,8 +1105,8 @@ const CurrentRequest = ({ tabValue }) => {
 			grid.getColumnLevel().filterFunction = filterDeviceTypes
 			grid.getColumnLevel().nextLevel.filterFunction = filterDeviceTypesChild
 			grid.processFilter()
-			grid.removeAllSorts()
-			grid.expandAll()
+			//grid.removeAllSorts()
+			//grid.expandAll()
 		}
 	}
 

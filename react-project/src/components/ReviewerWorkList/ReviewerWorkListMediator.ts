@@ -119,7 +119,7 @@ export default class ReviewerWorkListMediator {
         this.grid.getColumnLevel().filterFunction = this.filterDeviceTypes;
         this.grid.getColumnLevel().nextLevel.filterFunction = this.filterDeviceTypesChild;
         this.grid.processFilter()
-        this.grid.expandAll()
+        //this.grid.expandAll()
     }
 
     private updateWorkList(event: any): void {
