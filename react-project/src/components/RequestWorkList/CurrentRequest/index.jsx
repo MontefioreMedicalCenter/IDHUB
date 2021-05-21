@@ -350,7 +350,7 @@ const CurrentRequest = ({ tabValue }) => {
 		let isnotsave = false
 		CurrentRequest.pageStore.isWorklist = Object.keys(CurrentRequest.pageStore._selectedRequest).length !== 0 && level === 1
 
-		const selectedobj = CurrentRequest.pageStore.isWorklistGroup ? selectedGroup : CurrentRequest.pageStore._selectedRequest
+		const selectedobj = CurrentRequest.pageStore.isWorklistGroup ? CurrentRequest.pageStore._selectedGroup : CurrentRequest.pageStore._selectedRequest
 
 		CurrentRequest.pageStore.isWorklistChild =
 			Object.keys(CurrentRequest.pageStore._selectedRequest).length !== 0 && level === 2
