@@ -1189,6 +1189,7 @@ const CurrentRequest = ({ tabValue }) => {
 						editable
 						enableDrillDown
 						showAddEmployee
+						showRefresh
 						filterVisible={false}
 						headerWordWrap
 						headerHeight={60}

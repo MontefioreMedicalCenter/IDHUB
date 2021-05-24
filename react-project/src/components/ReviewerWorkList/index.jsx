@@ -31,11 +31,6 @@ const vbox1_creationCompleteHandler = (event) => {
     grid.rebuildPager()
 }
 
-const onExecuteToolbarAction = (action, currentTarget, extendedPager) => {
-    /* if (action.code == "Refresh") {
-        dispatchEvent(new WorkListEvent(WorkListEvent.GET_REV_WORK_LIST));
-    } */
-}
 const placeExpandCollapseIcon = img => {
     img.move(0, 0)
 }
@@ -165,6 +160,13 @@ const ReviewWorkList = () => {
         // eslint-disable-next-line
     }, [])
 
+    const onExecuteToolbarAction = (action, currentTarget, extendedPager) => {
+        if (action.code === "Refresh") {
+            // dispatchEvent(new WorkListEvent(WorkListEvent.GET_REV_WORK_LIST));
+            new ReviewerWorkListMediator().onRegister(grid, loginModel);
+        }
+    }
+
     const onOpenDocument = () => {
         dispatch(reviewerWorklistData(!documentPopup))
     }
@@ -204,6 +206,7 @@ const ReviewWorkList = () => {
         <div className="reviewWork-main-container">
             <DataGrid creationComplete={vbox1_creationCompleteHandler} ref={g => grid = g} enableDefaultDisclosureIcon={false}             
 						clearOpenItemsOnDataProviderChange={false}
+                        showRefresh
 						selectedKeyField={'uniqueIdentifier'}
                         width="100%" height="100%" editable enableCopy enablePaging enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={onExecuteToolbarAction} virtualScroll alternatingItemColors={[0xffffff, 0xffffff]} cellBackgroundColorFunction={getColor} horizontalScrollPolicy="auto" enableDrillDown >
                 <ReactDataGridColumnLevel rowHeight="23" enablePaging alternatingItemColors={[0xe1eef7, 0xe1eef7]} horizontalGridLines pageSize="10000" childrenField="_workLists" enableFilters horizontalGridLineColor="#99BBE8" horizontalGridLineThickness="1">

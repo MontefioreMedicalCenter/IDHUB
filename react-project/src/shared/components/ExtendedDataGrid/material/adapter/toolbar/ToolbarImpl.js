@@ -346,19 +346,20 @@ export default class ToolbarImpl extends React.Component {
 										</IconButton>
 									</Tooltip>
 								</span>
-								<span
-									key={gridId + 'btnAddRefresh'}
-									className={'pagerDiv  iconCell'}
-									id={gridId + 'btnAddRefresh'}
-									onClick={this.executeToolbarAction.bind(this, 'Refresh')}>
-									<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
-										{/* <Refresh fontSize="large" />  */}
-										<img alt={refresh} src={refresh} />
-									</IconButton>
-								</span>
-								<span className={'pagerDiv lineSep'}>&nbsp;</span>
 							</>
 						)}
+						{grid.showRefresh && <span
+							key={gridId + 'btnAddRefresh'}
+							className={'pagerDiv  iconCell'}
+							id={gridId + 'btnAddRefresh'}
+							onClick={this.executeToolbarAction.bind(this, 'Refresh')}>
+							<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
+								{/* <Refresh fontSize="large" />  */}
+								<img alt={refresh} src={refresh} />
+							</IconButton>
+						</span>}
+						<span className={'pagerDiv lineSep'}>&nbsp;</span>
+							
 						<span
 							key={gridId + 'btnCollapseOne'}
 							className={'pagerDiv  iconCell'}
