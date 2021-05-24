@@ -183,7 +183,7 @@ export default class TitleModifier extends React.Component {
             this.grid.refreshCells()
         }
         else
-            alert("Invalid action!")
+        toast.error("Invalid action!")
     }
 
     validateTitle(editor) {

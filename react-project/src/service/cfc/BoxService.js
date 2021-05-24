@@ -2,6 +2,7 @@ import ServiceProxyBase from './ServiceProxyBase'
 import qs from 'qs'
 import { showMessage } from '../../AppConfig/store/actions/homeAction'
 import store from '../../AppConfig/store/configureStore'
+import { toast } from 'react-toastify'
 
 export default class BoxService extends ServiceProxyBase {
 	constructor(props) {
@@ -14,9 +15,9 @@ export default class BoxService extends ServiceProxyBase {
 		if (typeof faultHandler == 'undefined') faultHandler = (msg)=>{
 			if(msg.error)msg=JSON.stringify(msg.error);
 			if(msg.indexOf("The process cannot access the file because it is being used by another process") < 0){
-				alert(msg)
+				toast.warning(msg)
 			}else{
-				alert("Confirm with montefiore? File has been sent to Box !" + msg)
+				toast.warning("Confirm with montefiore? File has been sent to Box !" + msg)
 			}
 		}
 		if (typeof resultHandler == 'undefined') resultHandler = ()=>{

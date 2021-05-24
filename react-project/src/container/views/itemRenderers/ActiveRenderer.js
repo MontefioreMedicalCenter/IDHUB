@@ -3,6 +3,7 @@ import { Checkbox } from '@material-ui/core'
 import { UIComponent } from '../../../flexicious'
 import { useDispatch } from 'react-redux'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
+import { toast } from 'react-toastify'
 
 const ActiveRenderer = props => {
 	const dispatch = useDispatch()
@@ -14,7 +15,7 @@ const ActiveRenderer = props => {
 		var data = cell.rowInfo.getData()
 		var msg = ''
 		if (data.edit) {
-			alert('Please save the change first !')
+			toast.warning('Please save the change first !')
 		} else {
 			if (tcbx.checked) {
 				data.userActiveFlag = 1

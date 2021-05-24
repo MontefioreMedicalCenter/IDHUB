@@ -122,7 +122,7 @@ export default class IdDepartmentModifier extends React.Component {
 
         if (action.code === "Add Department") {
             if (this._indEdit >= 0) {
-                alert("Please save the row previously being edited first !");
+                toast.warning("Please save the row previously being edited first !");
                 return;
             }
             this._indEdit = -10;
@@ -143,7 +143,7 @@ export default class IdDepartmentModifier extends React.Component {
             this.grid.refreshCells()
         }
         else
-            alert("Invalid action!")
+        toast.error("Invalid action!")
     }
 
 

@@ -1,6 +1,7 @@
 import { Button, Checkbox } from '@material-ui/core'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { toast } from 'react-toastify'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 import WorklistService from '../../../service/cfc/WorklistService'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
@@ -122,12 +123,12 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 		var dateDiff = new Date(startDate.getTime() - endDate.getTime())
 		var difference = Math.abs(Math.round(dateDiff.getTime() / MS_PER_DAY))
 		if (startDate === null || endDate === null || startDate > endDate) {
-			alert(
+			toast.warning(
 				'Processed Start and End Dates are required and Start Date should be less than End Date.'
 			)
 			return
 		} else if (difference > 180) {
-			alert('Please select Date Range within six months.')
+			toast.warning('Please select Date Range within six months.')
 			return
 		}
 		wlservice.findProcessedWorklistGroups(

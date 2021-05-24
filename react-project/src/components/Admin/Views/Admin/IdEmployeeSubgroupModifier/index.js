@@ -130,7 +130,7 @@ export default class TitleModifier extends React.Component {
             this.grid.refreshCells()
         }
         else
-            alert("Invalid action!")
+        toast.warning("Invalid action!")
     }
 
 

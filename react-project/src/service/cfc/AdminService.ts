@@ -57,7 +57,7 @@ export default class AdminService extends ServiceProxyBase {
         if (dp >= 0) {
             smsg = "User Already Existed!"
         }
-        alert(smsg)
+        toast.warning(smsg)
     }
 
     protected savefailureFaultEvent(event: any, token: Object = null): void {
@@ -73,7 +73,7 @@ export default class AdminService extends ServiceProxyBase {
             Alert.show("Foreign key")
         }
         Alert.show("fault: " + fmsg) */
-        alert('User cannot be deleted because he/she already has request(s) assigned')
+        toast.warning('User cannot be deleted because he/she already has request(s) assigned')
     }
 
     public getUsers(): AxiosPromise<any> {

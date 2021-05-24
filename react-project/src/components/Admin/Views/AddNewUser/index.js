@@ -7,6 +7,7 @@ import ManageUserEvent from '../../../../events/ManageUserEvent.ts'
 import AddUserMediator from '../../Mediators/AddUserMediator.ts'
 import { UIComponent } from '../../../../flexicious'
 import saveB from '../../../../assets/images/saveB.png'
+import { toast } from 'react-toastify';
 
 const styles = {
     input1: {
@@ -22,9 +23,8 @@ class AddNewUser extends UIComponent {
 
     saveClick = (data) => {
         var case_regex = /[A-Z]/;
-        console.log(case_regex)
         if (case_regex.test(this.usernameValidatorSource())) {
-            alert("Please type in only the lower-case letters for the user Id !")
+            toast.warning("Please type in only the lower-case letters for the user Id !")
         } else {
             this.dispatchEvent(new ManageUserEvent(ManageUserEvent.ADD_USER));
         }

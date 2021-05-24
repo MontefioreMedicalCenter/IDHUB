@@ -1,5 +1,6 @@
 import { Checkbox } from '@material-ui/core'
 import React from 'react'
+import { toast } from 'react-toastify'
 import IdUserRoleMap from '../../../../vo/main/IdUserRoleMap'
 import IdUserRoleMapPK from '../../../../vo/main/IdUserRoleMapPK'
 
@@ -58,9 +59,9 @@ class UsrRole extends React.Component {
 		var dif = caps.length + adds.length - rems.length
 		//Alert.show("dif is: [" + dif + "].")
 		if (usr.add && (usr.userId === null || usr.userId.length <= 0)) {
-			alert('Please type in Capability first !')
+			toast.warning('Please type in Capability first !')
 		} else if (!usr.edit) {
-			alert('Please Click the Edit icon first !')
+			toast.warning('Please Click the Edit icon first !')
 			//var grid:FlexDataGrid=pg as FlexDataGrid
 			if (tgt.checked) this.setState({ roleChkbx: false })
 			else this.setState({ roleChkbx: true })
@@ -81,7 +82,7 @@ class UsrRole extends React.Component {
 				}
 				//Alert.show("UsrRole.mxml: usr: addMaps: " + usr.addMaps.length + ", remMaps: " + usr.remMaps.length)
 			} else {
-				alert('One user should have only ONE role !')
+				toast.warning('One user should have only ONE role !')
 				// var grid=pg
 				if (tgt.selected) this.setState({ roleChkbx: false })
 				//else tgt.selected=true

@@ -115,16 +115,18 @@ export default class UserModifier extends EventDispatcher {
     }
     editHandle = (data) => {
         if (data.edit) {
-            if (window.confirm("Are you sure you want to cancel your changes?")) {//, "Confirm Cancel", Alert.YES | Alert.NO, this, function (event: CloseEvent)/*: void*/ {
-                //Alert.show("Trigger delete on the backend: data: " + data)
-                this._indx = (this.grid.getDataProvider()).indexOf(data)
-                var evt/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.CLR_USR)
-                evt.data = data
+            store.dispatch(showMessage('Confirm Cancel',
+                'Are you sure you want to cancel your changes?',
+                'Yes_No',
+                () => {
+                    this._indx = (this.grid.getDataProvider()).indexOf(data)
+                    var evt/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.CLR_USR)
+                    evt.data = data
 
-                this.dispatchEvent(evt);
-            } else {//if (this.event.detail === Alert.NO)
-
-            }
+                    this.dispatchEvent(evt);
+                },
+                () => { }
+            ))
         } else {
             data.edit = true
         }
@@ -142,7 +144,7 @@ export default class UserModifier extends EventDispatcher {
         var usr = (data);
         //Alert.show("*** " + (usr.roleMap.length-usr.remMaps.length))
         if (usr.userActiveFlag === 1 && ((usr.roleMap.length - usr.remMaps.length) < 1) && usr.addMaps.length < 1) {
-            alert("An active user should have One role !")
+            toast.warning("An active user should have One role !")
             if (i === 2) usr.userActiveFlag = 0
         } else {
             this.dispatchEvent(event);
@@ -157,7 +159,7 @@ export default class UserModifier extends EventDispatcher {
             this.grid.cellEditableFunction = isCellEditable;
             this.grid.refreshCells();
         } else {
-            alert("Please save the row previously being edited first !")
+            toast.warning("Please save the row previously being edited first !")
         }
     }
     onAddClick = () => {
@@ -237,23 +239,27 @@ export default class UserModifier extends EventDispatcher {
 
     onExecuteToolbarAction(action/* : ToolbarAction */, currentTarget/*: Object*/, extendedPager/*: any*/)/*: void*/ {
         if (action.code === "Edit")
-            alert("Launch Edit Window")
+            toast.warning("Launch Edit Window")
         else if (action.code === "Delete") {
-            if (window.confirm("Are you sure you wish to delete this record?")) {//, "Confirm Delete", Alert.OK | Alert.CANCEL, this, function (event: CloseEvent)/*: void*/ {
-                //do the delete....you have the grid.selectedKey or grid.selectedObject here...
-                alert("Trigger delete on the backend")
+            store.dispatch(showMessage('Confirm Delete',
+                'Are you sure you wish to delete this record?',
+                'OK_Cancel',
+                () => {
+                    toast.warning("Trigger delete on the backend")
 
-            }
+                },
+                () => { }
+            ))
         }
         else if (action.code === "Add User") {
             this.dispatchEvent(new ManageUserEvent(ManageUserEvent.ADD_USER));
         }
         else
-            alert("Invalid action!")
+        toast.error("Invalid action!")
     }
 
     pageChanged(event/*: any*/)/*: void*/ {
-        alert("pageChanged.")
+        toast.warning("pageChanged.")
     }
 
     componentDidMount() {

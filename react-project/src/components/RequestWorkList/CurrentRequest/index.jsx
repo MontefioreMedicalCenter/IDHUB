@@ -171,7 +171,7 @@ const CurrentRequest = ({ tabValue }) => {
 		} else if (action.code == 'Refresh') {
 			findWorklist()
 		} else if (action.code == 'SubmitAll') {
-			alert('Need to implement this')
+			toast.warning('Need to implement this')
 			// var arrayvalidsubmit:ArrayCollection=new ArrayCollection();
 			// 		var arrayvalidsubmitgroup:ArrayCollection=new ArrayCollection();
 			// 		var arrayselectedobject:ArrayCollection=grid.selectedObjects
@@ -558,7 +558,7 @@ const CurrentRequest = ({ tabValue }) => {
 					)
 				)
 			} else if (props.cell.getColumn().getHeaderText() === 'Add') {
-				alert('todo implement this')
+				toast.warning('todo implement this')
 			}
 		}
 	}

@@ -5,6 +5,7 @@ import WorkListEvent from '../../events/WorkListEvent'
 import IdWorklistGroup from '../../vo/worklist/IdWorklistGroup'
 import store from '../../AppConfig/store/configureStore'
 import { showMessage } from '../../AppConfig/store/actions/homeAction'
+import { toast } from 'react-toastify'
 export default class WorklistService extends ServiceProxyBase {
 	constructor(props) {
 		super(props)
@@ -237,7 +238,7 @@ export default class WorklistService extends ServiceProxyBase {
 	boxTransferSuccessResult(
 		event //:ResultEvent, token:Object=null):void
 	) {
-		alert('Files Trasferred to Box Sucessfully!') //, "Bos File Transfer", Alert.OK)
+		toast.warning('Files Trasferred to Box Sucessfully!') //, "Bos File Transfer", Alert.OK)
 	}
 
 	failureFaultEvent(
@@ -245,9 +246,9 @@ export default class WorklistService extends ServiceProxyBase {
 	) {
 		var msg = err.error ? err.error.message : err.toString()
 		if (msg.indexOf('Aborting findWorklistGroups() as userId is') > -1) {
-			alert('logging out ')
+			toast.warning('logging out ')
 			this.loginService.logOut()
-		} else alert(msg) //.faultString, "Error Message", Alert.OK)
+		} else toast.warning(msg) //.faultString, "Error Message", Alert.OK)
 	}
 
 	findProcessedWorklistGroups(startDate, endDate, firstName, lastName, resultHandler, faultHandler) {
