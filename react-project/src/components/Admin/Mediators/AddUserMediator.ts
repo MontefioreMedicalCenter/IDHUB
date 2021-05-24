@@ -5,6 +5,8 @@ import IdUser from '../../../vo/main/IdUser'
 import AddUser from '../Views/AddNewUser.js'
 import Mediator from './Mediator.ts'
 import { isValidPhoneNumber } from 'react-phone-number-input'
+import store from '../../../AppConfig/store/configureStore'
+import { showMessage } from '../../../AppConfig/store/actions/homeAction'
 
 export default class AddUserMediator extends Mediator {
 	/*[Inject]*/
@@ -168,7 +170,15 @@ export default class AddUserMediator extends Mediator {
 		} else {
 			var cIndex: number = valMsg.lastIndexOf(',')
 			var fValMsg: string = valMsg.substring(0, cIndex)
-			alert(fValMsg + ' Not Valid !')
+			// alert(fValMsg + ' Not Valid !')
+			store.dispatch(showMessage('',
+			        fValMsg + ' Not Valid' ,
+                    'OK',
+                    () => {
+						
+                    },
+                    () => {}
+                    ))
 		}
 	}
 
