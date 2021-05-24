@@ -975,7 +975,7 @@ const CurrentRequest = ({ tabValue }) => {
 
 		const number = `+1${txt.getText()}`
 		const valResult = isValidPhoneNumber(number)
-		if (txt.getText().length > 0 && !valResult == 'invalid') {
+		if (txt.getText().length > 0 && !valResult) {
 			valSuccess = false
 			grid.setErrorByObject(
 				cell.rowInfo.getData(),
@@ -986,7 +986,7 @@ const CurrentRequest = ({ tabValue }) => {
 		if (
 			txt.getText().length > 0 &&
 			txt.getText().replaceAll('-', '').length < 10 &&
-			!valResult == 'valid'
+			!valResult
 		) {
 			valSuccess = false
 			grid.setErrorByObject(

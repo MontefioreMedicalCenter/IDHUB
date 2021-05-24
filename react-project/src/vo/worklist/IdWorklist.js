@@ -1,8 +1,9 @@
-import ExampleUtils from '../../utils/ExampleUtils'
+// import ExampleUtils from '../../utils/ExampleUtils'
 import ArrayCollection from '../ArrayCollection'
 import DirectoryListEntry from './DirectoryListEntry'
 import IdWorklistBase from './IdWorklistBase'
 import IdWorklistPK from './IdWorklistPK'
+import phoneFormatter from 'phone-formatter'
 
 export default class IdWorklist extends IdWorklistBase {
 	constructor(
@@ -115,10 +116,11 @@ export default class IdWorklist extends IdWorklistBase {
 	}
 	set managerPh(value) {
 		var addExt = false
-		var phval = ExampleUtils.phoneFormatter1
-		var phresult = phval.format(value)
+		// var phval = ExampleUtils.phoneFormatter1
+		var phresult = value.length > 9 ? phoneFormatter.format(value, "NNN-NNN-NNNN").replaceAll('N', '') : value
 		if (phresult.length > 0) {
-			this._managerPh = phval.format(value)
+			// this._managerPh = phval.format(value)
+			 this._managerPh = value.length > 9 ? phoneFormatter.format(value, "NNN-NNN-NNNN").replaceAll('N', '') : value
 		} else {
 			this._managerPh = value
 		}
