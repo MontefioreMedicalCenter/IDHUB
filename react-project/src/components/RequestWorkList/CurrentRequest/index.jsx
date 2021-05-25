@@ -888,7 +888,7 @@ const CurrentRequest = ({ tabValue }) => {
 		var txt = editor
 
 		var emailVal = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g)
-		var valResult = emailVal.test(txt.getText())
+		var valResult = emailVal.test(txt.getText().toLowerCase())
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		if (
 			(colheader === 'Personal or Business Email' &&
