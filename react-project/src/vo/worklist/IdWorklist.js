@@ -145,7 +145,7 @@ export default class IdWorklist extends IdWorklistBase {
 		if (value == null || value === '' || value === undefined) {
 			addExt = false
 		} else addExt = true
-		if (addExt) {
+		if (addExt && this._managerPh) { //cause phnum is Empty
 			this.managerPhone = this._managerPh + ' Ext ' + value
 		} else if (this._managerPh) {
 			this.managerPhone = this._managerPh.substring(0, 12)
