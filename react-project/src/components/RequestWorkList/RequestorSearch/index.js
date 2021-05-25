@@ -20,13 +20,14 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 	const dispatch = useDispatch()
 	const fileName = useRef(null)
 	const [groupCheckbox, setGroupCheckbox] = useState(true)
+	const [file, setFile] = useState(null)
 	const [startDate, setStartDate] = useState(lastMonth)
 	const [endDate, setEndDate] = useState(now)
 	const [firstName, setFirstName] = useState('')
 	const [lastName, setlastName] = useState('')
 	const [errorTxt, setErrorTxt] = useState('')
 
-	var file = null
+	// var file = null
 
 	const refreshTab = useCallback(() => {
 		if(dataGrid) {
@@ -58,10 +59,12 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 	}
 
 	const onFileSelect = event => {
-		file = event.target
+		// file = event.target
+		var tempFile = event.target
+		setFile(event.target)
 		if (
-			file.files[0].name.indexOf('.xlsx') < 0 ||
-			file.files[0].name.indexOf('.xls') < 0
+			tempFile.files[0].name.indexOf('.xlsx') < 0 ||
+			tempFile.files[0].name.indexOf('.xls') < 0
 		) {
 			dispatch(
 				showMessage(
@@ -74,8 +77,8 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 			)
 			return
 		}
-		if (file.files[0]) {
-			fileName.current.innerText = file.files[0].name
+		if (tempFile.files[0]) {
+			fileName.current.innerText = tempFile.files[0].name
 			fileName.current.style.color = 'black'
 			fileName.current.style.fontStyle = 'italic'
 		}
@@ -108,6 +111,8 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 	const loadWorklistFromSpreadsheetResultEvent = resp => {
 		findWorklist()
 		setErrorTxt(resp.result.message)
+		setFile(null)
+		fileName.current.innerText = 'browse...'
 	}
 
 	const handleStartDateChange = date => {
