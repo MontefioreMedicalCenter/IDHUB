@@ -222,6 +222,9 @@ export default class DataGrid extends MaterialDataGrid {
 		}
 		this.headerPaddingLeft = 4
 		this.headerColors = this.columnGroupColors = [0xffffff, 0x99bbe8]
+		this.rollOverColor = 0xFFE79D
+		this.enableActiveCellHighlight = true
+		this.activeCellColor = 0xBDD4F1
 		//Vertical Grid Lines for all Grids
 		this.verticalGridLines = true
 		this.verticalGridLineColor = 0xcccccc
