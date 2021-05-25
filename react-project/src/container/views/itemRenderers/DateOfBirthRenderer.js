@@ -1,14 +1,28 @@
 import React from 'react'
+import { toast } from 'react-toastify'
 import { UIComponent } from '../../../flexicious'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
 
 const DateOfBirthRenderer = props => {
 	const handleDateChange = date => {
-		props.row.rowPositionInfo.rowData.dateOfBirth = date
+		var frmDate = new Date(
+			("1922"),
+			("01"),
+			("01")
+		)
+		var toDate = new Date(
+			("2011"),
+			("01"),
+			("01")
+		)
+		if(date > frmDate && date < toDate)
+		{props.row.rowPositionInfo.rowData.dateOfBirth = date
 		props.cell.refreshCell()
 		const container = props.cell.getGrid().getBodyContainer()
 		if (container._inEdit) {
 			container.endEdit(container.getEditor())
+		}}else{
+			toast.warning("Invalid DOB date")
 		}
 	}
 
@@ -33,7 +47,8 @@ const DateOfBirthRenderer = props => {
 			style={{
 				minWidth: "100%"
 			}}
-			onDateChange={handleDateChange}
+			onDateChange={(date) => handleDateChange(date)}
+			
 		/>
 	)
 }
