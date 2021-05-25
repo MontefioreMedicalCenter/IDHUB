@@ -51,7 +51,8 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 
 	const LocateFile = () => {
 		const ele = document.getElementById('uploaderBulkDocs')
-
+		ele.value = '';
+		setErrorTxt('')
 		if (ele) {
 			ele.onchange = e => onFileSelect(e)
 			ele.click()
@@ -113,6 +114,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 		setErrorTxt(resp.result.message)
 		setFile(null)
 		fileName.current.innerText = 'browse...'
+		fileName.current.style.color = 'grey'
 	}
 
 	const handleStartDateChange = date => {
