@@ -155,6 +155,7 @@ class AddNewUser extends UIComponent {
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px", margin: "2px" }}
+                                    autoComplete='off'
                                 />
                             </div>
                             <div className="container-space">
