@@ -13,7 +13,6 @@ import { Paper, withStyles } from '@material-ui/core'
 import WorklistService from '../../../service/cfc/WorklistService'
 import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup'
 import ArrayCollection from '../../../vo/ArrayCollection'
-import { camelizeKeys } from '../../../shared/utils'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
 import AdvanceDialog from '../../../shared/components/AdvanceDialog'
@@ -574,7 +573,7 @@ const CurrentRequest = ({ tabValue }) => {
 
 	const updateWorkList = resp => {
 		let workGroup = new IdWorklistGroup()
-		workGroup.fromJson(camelizeKeys(resp.result))
+		workGroup.fromJson(resp.result)
 		workGroup.workLists.forEach(wl => (wl.worklistGroup = workGroup))
 
 		var vpos = dataGridRef.current.getVerticalScrollPosition()
