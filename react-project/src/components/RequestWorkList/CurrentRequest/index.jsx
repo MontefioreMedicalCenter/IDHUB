@@ -50,6 +50,7 @@ import moment from 'moment'
 import { isValidPhoneNumber } from 'react-phone-number-input'
 import { isValid } from 'ssn-validator'
 import CustomDateComboBox from '../../../shared/components/CustomDateComboBox'
+import MontifioreTextinput from '../../../shared/components/ExtendedDataGrid/material/grid/MontifioreTextInput'
 
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
 const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
@@ -76,6 +77,9 @@ const endDateRendererEditorWrapper = new ClassFactory(
 )
 const dateOfBirthRendererEditorWrapper = new ClassFactory(
 	DateOfBirthRenderer.editorWrapper
+)
+const textInputEditor = new ClassFactory(
+	MontifioreTextinput
 )
 const checkBoxItemRenderer = new ClassFactory(CheckBoxItemRenderer)
 const dateFilter = new ClassFactory(CustomDateComboBox)
@@ -1194,7 +1198,7 @@ const CurrentRequest = ({ tabValue }) => {
 						headerHeight={60}
 						enableDefaultDisclosureIcon={false}
 						headerSortSeparatorRight={3}
-						selectionMode="none"
+						// selectionMode="none"
 						toolbarActionExecutedFunction={onExecuteToolbarAction}
 						cellEditableFunction={isCellEditable}>
 						<ReactDataGridColumnLevel
@@ -1262,6 +1266,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterOperation="Contains"
 									filterWaterMark="Contains"
 									headerWordWrap={true}
+									itemEditor={textInputEditor}
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
@@ -1278,6 +1283,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterWaterMark="Contains"
 									headerWordWrap={true}
 									enableRecursiveSearch={true}
+									itemEditor={textInputEditor}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemEditorValidatorFunction={validateFname}
@@ -1290,6 +1296,7 @@ const CurrentRequest = ({ tabValue }) => {
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
+									itemEditor={textInputEditor}
 									sortable={false}
 									itemEditorValidatorFunction={validateInitial}
 								/>
@@ -1355,6 +1362,7 @@ const CurrentRequest = ({ tabValue }) => {
 									dataField="nonMonteEmail"
 									headerText="Personal or Business Email"
 									width={120}
+									itemEditor={textInputEditor}
 									headerWordWrap={true}
 									itemEditorValidatorFunction={validatePersonEmail}
 									itemEditorApplyOnValueCommit={true}
@@ -1391,7 +1399,8 @@ const CurrentRequest = ({ tabValue }) => {
 									filterOperation="Contains"
 									filterWaterMark="Contains"
 									enableRecursiveSearch={true}
-									headerWordWrap="True"
+									itemEditor={textInputEditor}
+									headerWordWrap="true"
 									itemEditorValidatorFunction={validateCompanyCode}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
@@ -1492,6 +1501,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableRecursiveSearch={true}
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
+									itemEditor={textInputEditor}
 									enableCellClickRowSelect={false}
 									itemEditorValidatorFunction={validatesmanagersource}
 									sortable={false}
@@ -1503,6 +1513,7 @@ const CurrentRequest = ({ tabValue }) => {
 									width={100}
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
+									itemEditor={textInputEditor}
 									enableCellClickRowSelect={false}
 									itemEditorValidatorFunction={validatePhone}
 									sortable={false}
@@ -1511,6 +1522,7 @@ const CurrentRequest = ({ tabValue }) => {
 									textAlign={'left'}
 									dataField="managerExt"
 									headerText="MHS Manager Ext"
+									itemEditor={textInputEditor}
 									width={100}
 									itemEditorValidatorFunction={validateExt}
 									headerWordWrap={true}
@@ -1523,6 +1535,7 @@ const CurrentRequest = ({ tabValue }) => {
 									dataField="managerEmail"
 									headerText="MHS Manager Email"
 									width={100}
+									itemEditor={textInputEditor}
 									headerWordWrap={true}
 									itemEditorValidatorFunction={validatePersonEmail}
 									itemEditorApplyOnValueCommit={true}
@@ -1605,6 +1618,7 @@ const CurrentRequest = ({ tabValue }) => {
 									enableRecursiveSearch={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
+									itemEditor={textInputEditor}
 									sortable={false}
 									itemEditorValidatorFunction={validateAdditionalComment}
 									filterCompareFunction={null}
