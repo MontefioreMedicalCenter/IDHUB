@@ -24,7 +24,11 @@ const formatter = (item, dataField, formatString) => {
 	}
 }
 MontefioreUtils.showError = err => {
-	toast.error('Error: ' + (err.error ? err.error.message : err.toString()))
+	if(err.error.response && err.error.response.data && err.error.response.data.reason) {
+		toast.error('Error: ' + (err.error ? err.error.response.data.reason : err.toString()))
+	} else {
+		toast.error('Error: ' + (err.error ? err.error.message : err.toString()))
+	}
 }
 MontefioreUtils.dateFormatter2 = (item, { dataField }) => {
 	return formatter(item, dataField, 'MMM D, YYYY')
