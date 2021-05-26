@@ -5,15 +5,16 @@ import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/mate
 
 const DateOfBirthRenderer = props => {
 	const handleDateChange = date => {
+		var now = new Date()
 		var frmDate = new Date(
-			("1922"),
-			("01"),
-			("01")
+			now.getFullYear() - 100,
+			now.getMonth(),
+			now.getDate()
 		)
 		var toDate = new Date(
-			("2011"),
-			("01"),
-			("01")
+			now.getFullYear() - 10,
+			now.getMonth(),
+			now.getDate()
 		)
 		if(date > frmDate && date < toDate)
 		{props.row.rowPositionInfo.rowData.dateOfBirth = date
