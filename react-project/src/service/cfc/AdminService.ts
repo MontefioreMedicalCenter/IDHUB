@@ -116,7 +116,7 @@ export default class AdminService extends ServiceProxyBase {
     }
     public addNewUser(user: IdUser): AxiosPromise<any> {
         var formData = qs.stringify({
-            users: stringifyCircularObjectWithModifiedKeys(user)
+            user: stringifyCircularObjectWithModifiedKeys(user)
         })
 
         return this.callServiceMethod(
