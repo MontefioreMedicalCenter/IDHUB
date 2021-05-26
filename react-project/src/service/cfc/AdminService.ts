@@ -51,8 +51,8 @@ export default class AdminService extends ServiceProxyBase {
 
     //addfailureFaultEvent
     protected addfailureFaultEvent(event: any, token: Object = null): void {
-        var msg = event.message;
-        var dp: number = msg.faultString.indexOf("User Already Existed");
+        var msg = event.error && event.error.response.data.message;
+        var dp: number = msg.indexOf("User Already Existed");
         var smsg: string = "User Already Existed!"
         if (dp >= 0) {
             smsg = "User Already Existed!"
@@ -116,7 +116,7 @@ export default class AdminService extends ServiceProxyBase {
     }
     public addNewUser(user: IdUser): AxiosPromise<any> {
         var formData = qs.stringify({
-            user: stringifyCircularObjectWithModifiedKeys(user)
+            users: stringifyCircularObjectWithModifiedKeys(user)
         })
 
         return this.callServiceMethod(
