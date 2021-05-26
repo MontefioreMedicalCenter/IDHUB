@@ -81,11 +81,11 @@ const Login = () => {
 	}
 
 	const emptyField = () => {
-		toast.warning('Fields cannot be empty!!')
+		toast.warning('Username or password cannot be empty!!')
 	}
 
 	const loginFaultHandler = (error) => {
-		MontefioreUtils.showError(error.error.response.data.message)
+		toast.error(error.error.response.data.message)
 		setState({
 			userName: '',
 			password: ''
@@ -93,7 +93,7 @@ const Login = () => {
 	}
 
 	const handleOnLogin = () => {
-		if (state.userName === '' && state.password === '') {
+		if (state.userName === '' || state.password === '') {
 			emptyField()
 		}
 		if (state.userName && state.password) {
