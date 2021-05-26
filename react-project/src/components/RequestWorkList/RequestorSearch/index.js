@@ -52,6 +52,9 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 	const LocateFile = () => {
 		const ele = document.getElementById('uploaderBulkDocs')
 		ele.value = '';
+		setFile(null)
+		fileName.current.innerText = 'browse...'
+		fileName.current.style.color = 'grey'
 		setErrorTxt('')
 		if (ele) {
 			ele.onchange = e => onFileSelect(e)
@@ -86,20 +89,32 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 	}
 
 	const onLoadComplete = () => {
-		dispatch(
-			showMessage(
-				'Confirm Upload',
-				'Are you sure you want to upload this file?',
-				'YES_NO',
-				onConfirm,
-				() => {}
+		if(file && file.files.length) {
+			dispatch(
+				showMessage(
+					'Confirm Upload',
+					'Are you sure you want to upload this file?',
+					'YES_NO',
+					onConfirm,
+					() => {}
+				)
 			)
-		)
+		} else {
+			dispatch(
+				showMessage(
+					'No File Selected',
+					'Please select a file before importing.',
+					'Ok',
+					() => {},
+					() => {}
+				)
+			)
+		}
 	}
 
 	const onConfirm = () => {
 		setErrorTxt('')
-		if (file && file.files) {
+		if (file && file.files.length) {
 			WorklistService.getInstance().loadWorklistFromSpreadsheet(
 				file.files,
 				String(groupCheckbox),
