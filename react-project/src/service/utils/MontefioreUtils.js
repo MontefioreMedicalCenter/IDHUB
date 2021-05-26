@@ -24,7 +24,7 @@ const formatter = (item, dataField, formatString) => {
 	}
 }
 MontefioreUtils.showError = err => {
-	if(err.error.response && err.error.response.data && err.error.response.data.reason) {
+	if(err.error && err.error.response && err.error.response.data && err.error.response.data.reason) {
 		toast.error('Error: ' + (err.error ? err.error.response.data.reason : err.toString()))
 	} else {
 		toast.error('Error: ' + (err.error ? err.error.message : err.toString()))
