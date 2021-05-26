@@ -167,6 +167,7 @@ export default class AddUserMediator extends Mediator {
 			this.service.addNewUser(user)
 			// PopUpManager.removePopUp(this.view)
 			// this.mediatorMap.removeMediatorByView(this.view)
+			this.view.props.closePopup()
 		} else {
 			var cIndex: number = valMsg.lastIndexOf(',')
 			var fValMsg: string = valMsg.substring(0, cIndex)

@@ -325,7 +325,7 @@ export default class UserModifier extends EventDispatcher {
                     open={this.state.newUser}
                     handleClose={() => {return this.setState({newUser: false})}}
                     headerTitle="Add New User"
-                    bodyRenderer={<AddNewUser />}
+                    bodyRenderer={<AddNewUser closePopup={() => {return this.setState({newUser: false})}}/>}
                 />
             </div>
         )
