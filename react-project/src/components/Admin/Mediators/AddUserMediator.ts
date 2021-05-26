@@ -4,9 +4,10 @@ import AdminService from '../../../service/cfc/AdminService.ts'
 import IdUser from '../../../vo/main/IdUser'
 import AddUser from '../Views/AddNewUser.js'
 import Mediator from './Mediator.ts'
-import { isValidPhoneNumber } from 'react-phone-number-input'
+import { isPossiblePhoneNumber } from 'react-phone-number-input'
 import store from '../../../AppConfig/store/configureStore'
 import { showMessage } from '../../../AppConfig/store/actions/homeAction'
+import { toast } from 'react-toastify'
 
 export default class AddUserMediator extends Mediator {
 	/*[Inject]*/
@@ -116,8 +117,9 @@ export default class AddUserMediator extends Mediator {
 		// phoneNumberValidator.source = this.view.phoneNumberValidatorSource
 		// phoneNumberValidator.property = this.view.phoneNumberValidatorProperty
 		// var phResult: ValidationResultEvent = phoneNumberValidator.validate()
-		const number = `+1${this.view.phoneNumberValidatorSource()}`
-		const valResultphone = isValidPhoneNumber(number)
+		const number = `+1${this.view.phoneNumberValidatorSource().replaceAll("-"," ")}`
+		// const valResultphone = isValidPhoneNumber(number)
+		const valResultphone = isPossiblePhoneNumber(number)
 		// if(typeof this.view.phoneNumberValidatorSource() !== "number" && this.view.usernameValidatorSource() === "") {
 		if (!valResultphone) {
 			//Alert.show("uValResult: " + uValResult)
