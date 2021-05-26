@@ -85,7 +85,7 @@ export default class ReviewerWorkListMediator {
         return this;
     }
     public onUnRegister():void{
-
+        this.grid = null
         GlobalEventDispatcher.instance().removeEventListener( WorkListEvent.REV_WORK_LIST, this.setWorkList);
         GlobalEventDispatcher.instance().removeEventListener( WorkListEvent.GET_REV_WORK_LIST, this.findWorklists);
         GlobalEventDispatcher.instance().removeEventListener( WorkListEvent.SAVED_SINGLE, this.updateWorkList);
@@ -115,11 +115,13 @@ export default class ReviewerWorkListMediator {
             else
                 workListGroupArr.addItem(workGroup)
         }
-        workListGroupArr.addAll(workListArr)
-        this.grid.setDataProvider(workListGroupArr);
-        this.grid.getColumnLevel().filterFunction = this.filterDeviceTypes;
-        this.grid.getColumnLevel().nextLevel.filterFunction = this.filterDeviceTypesChild;
-        this.grid.processFilter()
+        if(this.grid) {
+            workListGroupArr.addAll(workListArr)
+            this.grid.setDataProvider(workListGroupArr);
+            this.grid.getColumnLevel().filterFunction = this.filterDeviceTypes;
+            this.grid.getColumnLevel().nextLevel.filterFunction = this.filterDeviceTypesChild;
+            this.grid.processFilter()
+        }
         //this.grid.expandAll()
     }
 
