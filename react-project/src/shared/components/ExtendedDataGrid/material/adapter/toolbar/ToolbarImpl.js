@@ -873,5 +873,6 @@ export default class ToolbarImpl extends React.Component {
 		const grid = this.props.pager.grid
 		grid.toolbarActionExecutedFunction &&
 			grid.toolbarActionExecutedFunction(data)
+		grid.rebuild() //when we refresh the grid remains filtered but the filter value no longer displayed. 
 	}
 }
