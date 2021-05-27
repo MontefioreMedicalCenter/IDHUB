@@ -45,40 +45,40 @@ export default class ServiceProxyBase extends TypedObject {
 	static progressHook(hookFunction: Function) {
 		ServiceProxyBase._hook = hookFunction
 	}
-	getHeaderData(){
+	getHeaderData() {
 		var headerData = {
 			userName: localStorage.getItem('user-id'),
 			Authorization: localStorage.getItem('token'),
 			'Content-Type': 'application/json'
 		}
-		return headerData;
+		return headerData
 	}
-	getHeaderFormData(){
+	getHeaderFormData() {
 		var headerData = {
 			userName: localStorage.getItem('user-id'),
 			Authorization: localStorage.getItem('token'),
 			'Content-Type': 'application/x-www-form-urlencoded'
 		}
-		return headerData;
+		return headerData
 	}
 
-	convertToVo(arr,converter){
-		var list = new ArrayCollection();
-		if(arr instanceof Array){
+	convertToVo(arr, converter) {
+		var list = new ArrayCollection()
+		if (arr instanceof Array) {
 			arr.forEach(data => {
 				let converted = converter()
 				converted.fromJson(camelizeKeys(data))
 				list.addItem(converted)
 			})
-			return list;
-		} else{
+			return list
+		} else {
 			let converted = converter()
 			converted.fromJson(camelizeKeys(arr))
-			return converted;
+			return converted
 		}
 	}
-	dispatchEvent(evt){
-		GlobalEventDispatcher.instance().dispatchEvent(evt);
+	dispatchEvent(evt) {
+		GlobalEventDispatcher.instance().dispatchEvent(evt)
 	}
 	getClassNames() {
 		return ['ServiceProxyBase', 'TypedObject']
@@ -180,6 +180,9 @@ export default class ServiceProxyBase extends TypedObject {
 						if (faultFunction) {
 							// traceError(response.data);
 							faultFunction({ error: err, response })
+							if(err.response.status === 408) {
+								document.dispatchEvent(new Event("logout"))
+							}
 						}
 					}
 				}
@@ -191,6 +194,9 @@ export default class ServiceProxyBase extends TypedObject {
 					this.execHook()
 				}
 				faultFunction({ error: err })
+				if(err.response.status === 408) {
+					document.dispatchEvent(new Event("logout"))
+				}
 			}
 		)
 

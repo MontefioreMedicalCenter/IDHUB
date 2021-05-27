@@ -22,6 +22,14 @@ const Main = () => {
 	const [mainTabData, setTabData] = useState([])
 
 	useEffect(() => {
+		document.addEventListener('logout', handleLogout)
+		return () => {
+			document.removeEventListener('logout', handleLogout)
+		}
+		// eslint-disable-next-line
+	}, [])
+
+	useEffect(() => {
 		if (Object.keys(loginModel).length) {
 			const isAdmin = loginModel.user.hasRole('Admin')
 			// const isAdminRequestor = loginModel.user.hasRole("AdminRequestor")
