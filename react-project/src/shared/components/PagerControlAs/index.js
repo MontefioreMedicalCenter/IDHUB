@@ -344,14 +344,12 @@ export default class PagerControl extends UIComponent {
 
         for (const tca of this.grid.toolbarActions) {
             html.push(tca.seperatorBefore ? <span id={gridId + "_" + tca.code} className={'pagerDiv separatorCell'}>|</span> : "");
-            const style = (tca.iconUrl) ? { background: 'transparent url(' + tca.iconUrl + ') no-repeat left center' } : {};
-            html.push(
-                <span valign={'middle'} className={'pagerDiv iconCell toolbarButtonIconCell'} title={tca.tooltip} style={style} >
-                    <IconButton className={'imageButtonSize'} style={{ marginTop: "5px" }}>
-                        <img src={add} />
-                    </IconButton>
-                </span>
-            );
+            const style = (tca.iconUrl) ? { background: 'transparent url(' + tca.iconUrl + ') no-repeat left center', paddingLeft: '20px' } : {};
+            html.push(<span valign={'middle'} title={tca.tooltip} style={style} >
+                <IconButton className={' imageButtonSize pagerDiv iconCell '}>
+                    <img className={' toolbarButtonIconCell'} src={add} style={{ paddingTop: "9px", paddingBottom: "9px" }} />
+                </IconButton>
+            </span>);
             html.push(tca.seperatorAfter ? <span className={'pagerDiv separatorCell'}>|</span> : "")
         }
 
