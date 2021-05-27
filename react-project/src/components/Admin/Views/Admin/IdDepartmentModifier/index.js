@@ -210,29 +210,20 @@ export default class IdDepartmentModifier extends React.Component {
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="departmentId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Department ID" itemEditorApplyOnValueCommit="true" editable={false} />
                     <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="departmentName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Department Name" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validatedept.bind(this)} />
-                    <ReactDataGridColumn headerText="Active" editable={false} enableCellClickRowSelect={false} itemRenderer={AdminCheckBox}>
-                        {/* <nestedtreedatagrid:itemRenderer>
-                            
-                            <fx:Component>
-                                <mx:HBox width="100%" horizontalAlign="center" >
-                                    <s:CheckBox id="activeChkBox" enabled="{data.edit}" selected="{data.activeFlag==1?true:false}"  click="if(data.activeFlag==0) data.activeFlag=1 else data.activeFlag=0" styleName="checkBoxStyle"/>
-                                </mx:HBox>
-                            </fx:Component>
-                            
-                        </nestedtreedatagrid:itemRenderer> */}
+                    <ReactDataGridColumn headerText="Active" editable={false}  itemRenderer={AdminCheckBox}>
                     </ReactDataGridColumn>
-                    <ReactDataGridColumn width="100" dataField="createDate" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Create Date" labelFunction={dateLabel} editable={false} />
-                    <ReactDataGridColumn width="100" dataField="updateDate" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Update Date" labelFunction={dateLabel} editable={false} />
+                    <ReactDataGridColumn width="100" dataField="createDate" enableCellClickRowSelect={false} filterControl="DateComboBox" filterOperation="Contains" headerText="Create Date" labelFunction={dateLabel} editable={false} />
+                    <ReactDataGridColumn width="100" dataField="updateDate" enableCellClickRowSelect={false} filterControl="DateComboBox" filterOperation="Contains" headerText="Update Date" labelFunction={dateLabel} editable={false} />
                     <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Updated By" editable={false} />
 
                     <ReactDataGridColumn headerText="Edit" width="50" excludeFromExport="true" editable={false}
-                        iconFunction={dynamicIconFunction} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon useIconRollOverTimer={false} iconClick={this.onEdit.bind(this)}>
+                        sortable={false} iconFunction={dynamicIconFunction} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon useIconRollOverTimer={false} iconClick={this.onEdit.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Delete" width="50" excludeFromExport="true" editable={false}
-                        enableIcon useIconRollOverTimer={false} iconFunction={getDeleteIcon} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
+                        sortable={false} enableIcon useIconRollOverTimer={false} iconFunction={getDeleteIcon} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Save" width="50" excludeFromExport="true" editable={false}
-                        iconFunction={getSaveB} iconHandCursor iconPlacementFunction={MontefioreUtils.placeIcon} enableIcon useIconRollOverTimer={false} iconClick={this.onSave.bind(this)}>
+                        sortable={false} iconFunction={getSaveB} iconHandCursor iconPlacementFunction={MontefioreUtils.placeIcon} enableIcon useIconRollOverTimer={false} iconClick={this.onSave.bind(this)}>
                     </ReactDataGridColumn>
                 </ReactDataGridColumnLevel>
             </DataGrid>

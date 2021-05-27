@@ -209,39 +209,18 @@ export default class TitleModifier extends React.Component {
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="employeeSubGroupId" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type ID" itemEditorApplyOnValueCommit="true" editable="false" />
                     <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="employeeSubGroupName" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validateuseridtype.bind(this)} />
                     <ReactDataGridColumn headerText="Active" editable="false" enableCellClickRowSelect="false" itemRenderer={AdminCheckBox}>
-                        {/* <fx:Component>
-								<mx:HBox width="100%" horizontalAlign="center" >
-									<s:CheckBox id="activeChkBox" enabled="{data.edit}" selected="{data.activeFlag==1?true:false}"  click="if(data.activeFlag==0) data.activeFlag=1; else data.activeFlag=0;" styleName="checkBoxStyle"/>
-								</mx:HBox>
-							</fx:Component> */}
                     </ReactDataGridColumn>
                     <ReactDataGridColumn width="100" dataField="createDate" enableCellClickRowSelect="false" filterOperation="Contains" headerText="Create Date" labelFunction={dateLabel} editable="false" filterControl="DateComboBox" />
                     <ReactDataGridColumn width="100" dataField="updateDate" enableCellClickRowSelect="false" filterControl="DateComboBox" filterOperation="Contains" headerText="Update Date" labelFunction={dateLabel} editable="false" />
                     <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="Updated By" editable="false" />
-
                     <ReactDataGridColumn headerText="Edit" width="50" excludeFromExport="true" editable="false"
-                        iconFunction={dynamicIconFunction} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon useIconRollOverTimer={false} iconClick={this.onEdit.bind(this)}>
-                        {/* <nestedtreedatagrid:itemRenderer>
-							<fx:Component>
-								<mx:Image source="{parentDocument.dynamicIconFunction(data)}" click="parentDocument.onEdit(data)" scaleContent="false" useHandCursor="true" buttonMode="true" mouseChildren="false"/>
-							</fx:Component>
-						</nestedtreedatagrid:itemRenderer> */}
+                        sortable={false} iconFunction={dynamicIconFunction} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon useIconRollOverTimer={false} iconClick={this.onEdit.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Delete" width="50" excludeFromExport="true" editable="false"
-                        enableIcon useIconRollOverTimer={false} iconFunction={getDeleteIcon} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
-                        {/* <nestedtreedatagrid:itemRenderer>
-							<fx:Component>
-								<mx:Image source="@Embed('../../../../assets/img/delete.png')" click="parentDocument.onDelete(data)" scaleContent="false" useHandCursor="true" buttonMode="true" mouseChildren="false" visible="{parentDocument.checkId(data)}"/>
-							</fx:Component>
-						</nestedtreedatagrid:itemRenderer> */}
+                        sortable={false} enableIcon useIconRollOverTimer={false} iconFunction={getDeleteIcon} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor iconClick={this.onDelete.bind(this)}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn headerText="Save" width="50" excludeFromExport="true" editable="false"
-                        iconHandCursor enableIcon useIconRollOverTimer={false} iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
-                        {/* <nestedtreedatagrid:itemRenderer>
-							<fx:Component>
-								<mx:Image source="@Embed('../../../../assets/img/saveB.png')" click="parentDocument.onSave(data)" scaleContent="false" useHandCursor="true" buttonMode="true" mouseChildren="false"/>
-							</fx:Component>
-						</nestedtreedatagrid:itemRenderer> */}
+                        sortable={false} iconHandCursor enableIcon useIconRollOverTimer={false} iconPlacementFunction={MontefioreUtils.placeIcon} iconFunction={getSaveB} iconClick={this.onSave.bind(this)}>
                     </ReactDataGridColumn>
                 </ReactDataGridColumnLevel>
             </DataGrid>);

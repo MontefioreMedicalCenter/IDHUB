@@ -17,6 +17,9 @@ export default class MaterialDateComboBox extends DateComboBox {
 	constructor() {
 		super('span')
 		this.handleChange = this.handleChange.bind(this)
+		this.setDateRangeOptions([ 
+            DateRange.DATE_RANGE_CUSTOM
+        ]);
 	}
 	changeEventHandler() {}
 	clear() {
