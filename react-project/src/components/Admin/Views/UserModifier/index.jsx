@@ -274,49 +274,16 @@ export default class UserModifier extends EventDispatcher {
     render() {
         return (
             <div className="userModifier-main-container">
-                <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" editable cellEditableFunction={cellEdit} enableCopy enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction} virtualScroll="true" onAddClick={this.onAddClick}>
+                <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" filterVisible={false} editable cellEditableFunction={cellEdit} enableCopy enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction} virtualScroll="true" onAddClick={this.onAddClick}>
                     <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="5000" pagerRenderer={new ClassFactory(StyledPagerRenderer)} >
                         <ReactDataGridColumnGroup headerText="Menu">
                             <ReactDataGridColumn width="50" dataField="userActiveFlag" enableCellClickRowSelect="false" headerAlign="center" headerText="Active" columnLockMode="right" excludeFromExport="true" itemEditorApplyOnValueCommit="true" itemRenderer={new ClassFactory(ActiveRenderer)} saveHandle={(data, i) => this.saveHandle(data, i)}>
                             </ReactDataGridColumn>
-                            {/* <ReactDataGridColumn headerText="Edit" enableIcon useIconRollOverTimer={false} iconFunction={dynamicIcon} uniqueIdentifier="Edit" width="50" headerAlign="center" columnLockMode="right" excludeFromExport="true" >  */}
                             <ReactDataGridColumn headerText="Edit" uniqueIdentifier="Edit" width="50" headerAlign="center" columnLockMode="right" excludeFromExport="true" itemRenderer={edit} onHandleEdit={(props) => { this.editHandle(props.cell.rowInfo.getData()) }}>
-                                {/* <nestedtreedatagrid:itemRenderer>
-									<fx:Component>
-										<mx:HBox width="100%" horizontalAlign="center" horizontalScrollPolicy="off">
-											<mx:Image source="{parentDocument.dynamicIcon(data)}" click="parentDocument.editHandle(data)" scaleContent="false" useHandCursor="true" buttonMode="true" mouseChildren="true"/>
-										</mx:HBox>
-									</fx:Component>
-								</nestedtreedatagrid:itemRenderer> */}
                             </ReactDataGridColumn>
                             <ReactDataGridColumn width="50" enableCellClickRowSelect="false" headerAlign="center" headerText="Delete User" columnLockMode="right" excludeFromExport="true" itemRenderer={remove} onHandleDelete={(props) => { this.onRem(props.cell.rowInfo.getData()) }}>
-                                {/* <nestedtreedatagrid:itemRenderer>
-									<fx:Component>
-										<mx:HBox width="100%" horizontalAlign="center" horizontalScrollPolicy="off">
-											<mx:Image buttonMode="true" mouseChildren="false" scaleContent="false" source="@Embed('org/monte/edi/idhub/assets/img/delete.png')" useHandCursor="true" click="parentDocument.onRem(data)"/>
-										</mx:HBox>
-									</fx:Component>
-								</nestedtreedatagrid:itemRenderer> */}
                             </ReactDataGridColumn>
                             <ReactDataGridColumn width="50" enableCellClickRowSelect="false" headerAlign="center" headerText="Save" columnLockMode="right" excludeFromExport="true" itemRenderer={save} onHandleSave={(props) => { this.saveHandle(props.cell.rowInfo.getData(), 1) }}>
-                                {/* <nestedtreedatagrid:itemRenderer>
-									<fx:Component>
-										<mx:HBox width="100%" horizontalAlign="center" horizontalScrollPolicy="off">
-
-											<fx:Script>
-												<![CDATA[
-													protected function saveHandle(data:MouseEvent):void
-													{
-														// TODO Auto-generated method stub
-
-													}
-												]]>
-											</fx:Script>
-
-											<mx:Image buttonMode="true" mouseChildren="false" scaleContent="false" source="@Embed('org/monte/edi/idhub/assets/img/saveB.png')" useHandCursor="true" click="parentDocument.saveHandle(data,1)"/>
-										</mx:HBox>
-									</fx:Component>
-								</nestedtreedatagrid:itemRenderer> */}
                             </ReactDataGridColumn>
                         </ReactDataGridColumnGroup>
                     </ReactDataGridColumnLevel>
