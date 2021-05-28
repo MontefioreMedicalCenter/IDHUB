@@ -44,7 +44,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 					dataGrid.showAddEmployee = false
 					dataGrid.setDataProvider([])
 				}
-			}, 500)
+			}, 2000)
 		}
 	}, [valueOfTab, dataGrid, findWorklist])
 
