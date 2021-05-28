@@ -6,16 +6,16 @@ import { MenuItem, Select } from '@material-ui/core'
 import IconButton from '@material-ui/core/IconButton'
 import {
 	Add,
-	ArrowLeft,
-	ArrowRight,
+	// ArrowLeft,
+	// ArrowRight,
 	// ClearAll,
 	// FilterList,
 	GetApp,
 	// Refresh,
 	Settings,
 	SettingsApplications,
-	SkipNext,
-	SkipPrevious,
+	// SkipNext,
+	// SkipPrevious,
 	// Sync
 } from '@material-ui/icons'
 import React from 'react'
@@ -35,7 +35,14 @@ import refresh from '../../../../../../assets/images/refresh.png'
 import filterShowHide from '../../../../../../assets/images/filterShowHide.png'
 import filter from '../../../../../../assets/images/filter.png'
 import clearFilter from '../../../../../../assets/images/clearFilter.png'
-
+import decrease from '../../../../../../assets/images/collapse.png'
+import expand from '../../../../../../assets/images/expand.png'
+import expandAll from '../../../../../../assets/images/expandall.png'
+import collapseAll from '../../../../../../assets/images/collapseall.png'
+import firstPageArrow from '../../../../../../assets/images/firstPage.png'
+import prevPage from '../../../../../../assets/images/prevPage.png'
+import nextPage from '../../../../../../assets/images/nextPage.png'
+import lastPage from '../../../../../../assets/images/lastPage.png'
 
 /**
  * Toolbar that sits on top of the datagrid component
@@ -365,14 +372,8 @@ export default class ToolbarImpl extends React.Component {
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnCollapseOne'}
 							onClick={grid.expandUp.bind(grid)}>
-							<IconButton className={'imageButtonSize'}>
-								<img
-									alt={Constants.PGR_BTN_EXP_ONE_UP_TOOLTIP}
-									className={'imageButtonExpandUp'}
-									src={grid.getThemeToolbarIconFolder() + '/collapseOne.png'}
-									tabIndex={0}
-									title={Constants.PGR_BTN_EXP_ONE_UP_TOOLTIP}
-								/>
+							<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
+								<img  alt={decrease} src={decrease} />
 							</IconButton>
 						</span>
 
@@ -381,14 +382,8 @@ export default class ToolbarImpl extends React.Component {
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnExpandOne'}
 							onClick={grid.expandDown.bind(grid)}>
-							<IconButton className={'imageButtonSize'}>
-								<img
-									alt={Constants.PGR_BTN_EXP_ONE_DOWN_TOOLTIP}
-									className={'imageButtonExpandDown'}
-									src={grid.getThemeToolbarIconFolder() + '/expandOne.png'}
-									tabIndex={0}
-									title={Constants.PGR_BTN_EXP_ONE_DOWN_TOOLTIP}
-								/>
+							<IconButton className={'imageButtonSize'}  style={{ marginTop: "8px" }}>
+								<img alt={expand} src={expand} />
 							</IconButton>
 						</span>
 						<span className={'pagerDiv lineSep'}>&nbsp;</span>
@@ -397,14 +392,8 @@ export default class ToolbarImpl extends React.Component {
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnCollapseAll'}
 							onClick={grid.collapseAll.bind(grid)}>
-							<IconButton className={'imageButtonSize'}>
-								<img
-									alt={Constants.PGR_BTN_COLLAPSE_ALL_TOOLTIP}
-									className={'imageButtonCollapseAll'}
-									src={grid.getThemeToolbarIconFolder() + '/collapseAll.png'}
-									tabIndex={0}
-									title={Constants.PGR_BTN_COLLAPSE_ALL_TOOLTIP}
-								/>
+							<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
+								<img alt={collapseAll} src={collapseAll} />
 							</IconButton>
 						</span>
 
@@ -413,14 +402,8 @@ export default class ToolbarImpl extends React.Component {
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnExpandAll'}
 							onClick={grid.expandAll.bind(grid)}>
-							<IconButton className={'imageButtonSize'}>
-								<img
-									alt={Constants.PGR_BTN_EXP_ALL_TOOLTIP}
-									className={'imageButtonExpandAll'}
-									src={grid.getThemeToolbarIconFolder() + '/expandAll.png'}
-									tabIndex={0}
-									title={Constants.PGR_BTN_EXP_ALL_TOOLTIP}
-								/>
+							<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
+								<img alt={expand} src={expandAll} />
 							</IconButton>
 						</span>
 						<span
@@ -704,9 +687,13 @@ export default class ToolbarImpl extends React.Component {
 								className={'imageButtonFirstPage imageButtonSize'}
 								disabled={this.getPageIndex() === 0}
 								tabIndex="0"
-								title={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP}>
+								title={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP}
+								style={{ marginTop: "7px" }}>
 								{' '}
-								<SkipPrevious />{' '}
+								{/* <SkipPrevious color="primary" />{' '} */}
+								{/* <img alt='firstPageArrow' src={firstPageArrow} /> */}
+								<img tabIndex='0' src={firstPageArrow} className={"imageButtonFirstPage"}
+                        alt={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP} title={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP} />
 							</IconButton>
 							{/* <img tabIndex='0' src={grid.getThemeToolbarIconFolder() + "/firstPage.png"} className={"imageButtonFirstPage"}
                         alt={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP} title={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP} /> */}
@@ -724,9 +711,11 @@ export default class ToolbarImpl extends React.Component {
 								className={'imageButtonPrevPage imageButtonSize'}
 								disabled={this.getPageIndex() === 0}
 								tabIndex="0"
-								title={Constants.PGR_BTN_PREV_PAGE_TOOLTIP}>
+								title={Constants.PGR_BTN_PREV_PAGE_TOOLTIP}
+								style={{ marginTop: "7px" }}>
 								{' '}
-								<ArrowLeft />{' '}
+								{/* <ArrowLeft color="primary"/>{' '} */}
+								<img alt='prevPage' src={prevPage} />
 							</IconButton>
 							{/* <img tabIndex='0' src={grid.getThemeToolbarIconFolder() + "/prevPage.png"} className={"imageButtonPrevPage"}
                         alt={Constants.PGR_BTN_PREV_PAGE_TOOLTIP} title={Constants.PGR_BTN_PREV_PAGE_TOOLTIP} /> */}
@@ -744,9 +733,11 @@ export default class ToolbarImpl extends React.Component {
 								className={'imageButtonNextpage imageButtonSize'}
 								disabled={this.getPageIndex() >= this.getPageCount() - 1}
 								tabIndex="0"
-								title={Constants.PGR_BTN_NEXT_PAGE_TOOLTIP}>
+								title={Constants.PGR_BTN_NEXT_PAGE_TOOLTIP}
+								style={{ marginTop: "7px" }}>
 								{' '}
-								<ArrowRight />{' '}
+								{/* <ArrowRight color="primary"/>{' '} */}
+								<img alt='nextPage' src={nextPage} />
 							</IconButton>
 							{/* <img tabIndex='0' src={grid.getThemeToolbarIconFolder() + "/nextPage.png"} className={"imageButtonNextPage"}
                         alt={Constants.PGR_BTN_NEXT_PAGE_TOOLTIP} title={Constants.PGR_BTN_NEXT_PAGE_TOOLTIP} /> */}
@@ -764,9 +755,11 @@ export default class ToolbarImpl extends React.Component {
 								className={'imageButtonLastPage imageButtonSize'}
 								disabled={this.getPageIndex() >= this.getPageCount() - 1}
 								tabIndex="0"
-								title={Constants.PGR_BTN_LAST_PAGE_TOOLTIP}>
+								title={Constants.PGR_BTN_LAST_PAGE_TOOLTIP}
+								style={{ marginTop: "7px" }}>
 								{' '}
-								<SkipNext />{' '}
+								{/* <SkipNext color="primary"/>{' '} */}
+								<img alt='lastPage' src={lastPage} />
 							</IconButton>
 							{/* <img tabIndex='0' src={grid.getThemeToolbarIconFolder() + "/lastPage.png"} className={"imageButtonLastPage"}
                         alt={Constants.PGR_BTN_LAST_PAGE_TOOLTIP} title={Constants.PGR_BTN_LAST_PAGE_TOOLTIP} /> */}

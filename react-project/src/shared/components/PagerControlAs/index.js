@@ -8,6 +8,10 @@ import filter from '../../../../src/assets/images/filter.png'
 import clearFilter from '../../../../src/assets/images/clearFilter.png'//clearFilter//
 import word from '../../../../src/assets/images/word.png'
 import exporte from '../../../../src/assets/images/export.png'
+import firstPageArrow from '../../../../src/assets/images/firstPage.png'
+import prevPage from '../../../../src/assets/images/prevPage.png'
+import nextPage from '../../../../src/assets/images/nextPage.png'
+import lastPage from '../../../../src/assets/images/lastPage.png'
 /*eslint-disable */
 /**
  * Flexicious
@@ -525,23 +529,23 @@ export default class PagerControl extends UIComponent {
                 {this.level.enablePaging ? <span key="pageInfo" className={"pagerDiv pageInfo"} /> : null}
 
                 {this.level.enablePaging ? <span key={gridId + "btnFirstPage"} id={gridId + "btnFirstPage"} className={"pagerDiv iconCell firstPage"}>
-                    <img alt='First Page' tabIndex='0' src={this.grid.getThemeToolbarIconFolder() + "/firstPage.png"} className={"imageButtonFirstPage"}
-                        alt={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP} title={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP} />
+                    <img alt='First Page' tabIndex='0' src={firstPageArrow} className={"imageButtonFirstPage"}
+                        alt={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP} title={Constants.PGR_BTN_FIRST_PAGE_TOOLTIP} style={{ marginTop: "9px" }} />
                 </span> : null}
 
                 {this.level.enablePaging ? <span key={gridId + "btnPreviousPage"} id={gridId + "btnPreviousPage"} className={"pagerDiv iconCell prevPage"}>
-                    <img alt='Previous Page' tabIndex='0' src={this.grid.getThemeToolbarIconFolder() + "/prevPage.png"} className={"imageButtonPrevPage"}
-                        alt={Constants.PGR_BTN_PREV_PAGE_TOOLTIP} title={Constants.PGR_BTN_PREV_PAGE_TOOLTIP} />
+                    <img alt='Previous Page' tabIndex='0' src={prevPage} className={"imageButtonPrevPage"}
+                        alt={Constants.PGR_BTN_PREV_PAGE_TOOLTIP} title={Constants.PGR_BTN_PREV_PAGE_TOOLTIP} style={{ marginTop: "9px" }}/>
                 </span> : null}
 
                 {this.level.enablePaging ? <span key={gridId + "btnNextPage"} id={gridId + "btnNextPage"} className={"pagerDiv iconCell nextPage"}>
-                    <img alt='Next Page' tabIndex='0' src={this.grid.getThemeToolbarIconFolder() + "/nextPage.png"} className={"imageButtonNextPage"}
-                        alt={Constants.PGR_BTN_NEXT_PAGE_TOOLTIP} title={Constants.PGR_BTN_NEXT_PAGE_TOOLTIP} />
+                    <img alt='Next Page' tabIndex='0' src={nextPage} className={"imageButtonNextPage"}
+                        alt={Constants.PGR_BTN_NEXT_PAGE_TOOLTIP} title={Constants.PGR_BTN_NEXT_PAGE_TOOLTIP} style={{ marginTop: "9px" }}/>
                 </span> : null}
 
                 {this.level.enablePaging ? <span key={gridId + "btnLastPage"} id={gridId + "btnLastPage"} className={"pagerDiv iconCell lastPage"}>
-                    <img alt='Next Page' tabIndex='0' src={this.grid.getThemeToolbarIconFolder() + "/lastPage.png"} className={"imageButtonLastPage"}
-                        alt={Constants.PGR_BTN_LAST_PAGE_TOOLTIP} title={Constants.PGR_BTN_LAST_PAGE_TOOLTIP} />
+                    <img alt='Next Page' tabIndex='0' src={lastPage} className={"imageButtonLastPage"}
+                        alt={Constants.PGR_BTN_LAST_PAGE_TOOLTIP} title={Constants.PGR_BTN_LAST_PAGE_TOOLTIP} style={{ marginTop: "9px" }}/>
                 </span> : null}
 
                 {this.level.enablePaging ? <span key={gridId + "linesep" + linesep++} className={"pagerDiv lineSep"}>&nbsp;</span> : null}
