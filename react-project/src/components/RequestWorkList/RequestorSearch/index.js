@@ -8,6 +8,8 @@ import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
 import './requestSearch.scss'
 
+var timeout = null
+
 const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) => {
 	var now = new Date()
 	var currentDate = now.getDate()
@@ -33,13 +35,16 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 		if(dataGrid) {
 			dataGrid.clearAllFilters();
 			dataGrid.refreshCells();
-			if(valueOfTab === 0 ) {
-				dataGrid.showAddEmployee = true
-				findWorklist();
-			} else {
-				dataGrid.showAddEmployee = false
-				dataGrid.setDataProvider([])
-			}
+			clearTimeout(timeout)
+			timeout = setTimeout(() => {
+				if(valueOfTab === 0 ) {
+					dataGrid.showAddEmployee = true
+					findWorklist();
+				} else {
+					dataGrid.showAddEmployee = false
+					dataGrid.setDataProvider([])
+				}
+			}, 500)
 		}
 	}, [valueOfTab, dataGrid, findWorklist])
 
