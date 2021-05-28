@@ -2,11 +2,12 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { UIComponent } from '../../../flexicious'
 import ComboBox from '../../../shared/components/ComboBox'
+import { getActiveLookup } from '../../../shared/utils'
 
 const EmployeeSubGroup = props => {
 	const employeeSubGroup = props.row.rowPositionInfo.rowData.employeeSubGroup
 	const employeeSubgroupList = useSelector(
-		state => state.workListState.workListmodel.lookupLists.employeeSubgroupList
+		state => getActiveLookup(state.workListState.workListmodel.lookupLists.employeeSubgroupList)
 	)
 
 	const handleOnChange = event => {

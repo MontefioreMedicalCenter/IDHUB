@@ -1,5 +1,6 @@
 import { camelCase } from 'lodash'
 import moment from "moment"
+import ArrayCollection from '../../vo/ArrayCollection'
 
 export const deepCopy = data => {
 	// deep copy
@@ -36,6 +37,17 @@ export const toUintColorCode = colorStr => {
 export const authenticate = () => {
 	const data = localStorage.getItem('loginModel')
 	return Boolean(data)
+}
+
+export const getActiveLookup = (lkup) => {
+	var activelookup=new ArrayCollection();
+	lkup.forEach((lookupobject) => {
+		if (lookupobject.activeFlag === 1)
+		{
+			activelookup.addItem(lookupobject)
+		}
+	})
+	return activelookup;
 }
 
 export const camelizeKeys = obj => {

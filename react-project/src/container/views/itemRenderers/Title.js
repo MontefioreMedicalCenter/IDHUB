@@ -2,11 +2,12 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import { UIComponent } from '../../../flexicious'
 import ComboBox from '../../../shared/components/ComboBox'
+import { getActiveLookup } from '../../../shared/utils'
 
 const Title = props => {
 	const title = props.row.rowPositionInfo.rowData.title
 	const titleList = useSelector(
-		state => state.workListState.workListmodel.lookupLists.titleList
+		state => getActiveLookup(state.workListState.workListmodel.lookupLists.titleList)
 	)
 
 	const handleOnChange = event => {
