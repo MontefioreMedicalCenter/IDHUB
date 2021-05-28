@@ -96,13 +96,22 @@ export default class ServiceProxyBase extends TypedObject {
 		if (token) {
 			headers = {
 				'Content-Type': 'application/json',
-				Authorization: 'Bearer ' + token
+				userName: localStorage.getItem('user-id'),
+				Authorization: localStorage.getItem('token'),
 			}
 		} else {
 			if (contentType === 'form') {
-				headers = { 'Content-Type': 'application/x-www-form-urlencoded' }
+				headers = { 
+					'Content-Type': 'application/x-www-form-urlencoded',
+					userName: localStorage.getItem('user-id'),
+					Authorization: localStorage.getItem('token'),
+				 }
 			} else {
-				headers = { 'Content-Type': 'application/json' }
+				headers = {
+					'Content-Type': 'application/json',
+					userName: localStorage.getItem('user-id'),
+					Authorization: localStorage.getItem('token'),
+				}
 			}
 		}
 
