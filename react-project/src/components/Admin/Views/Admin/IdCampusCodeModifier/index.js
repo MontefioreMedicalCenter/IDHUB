@@ -208,7 +208,7 @@ export default class TitleModifier extends React.Component {
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="campusCodeId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Location ID" itemEditorApplyOnValueCommit="true" editable={false} />
                     <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="campusCodeName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Location Name" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validatecampus.bind(this)} />
-                    <ReactDataGridColumn headerText="Active" editable={false} enableCellClickRowSelect={false} itemRenderer={AdminCheckBox}>
+                    <ReactDataGridColumn headerText="Active" dataField="activeFlag" editable={false} enableCellClickRowSelect={false} itemRenderer={AdminCheckBox}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn width="100" dataField="createDate" enableCellClickRowSelect={false} filterOperation="Contains" headerText="Create Date" labelFunction={dateLabel} editable={false} filterControl="DateComboBox" />
                     <ReactDataGridColumn width="100" dataField="updateDate" enableCellClickRowSelect={false} filterOperation="Contains" headerText="Update Date" labelFunction={dateLabel} editable={false} filterControl="DateComboBox" />

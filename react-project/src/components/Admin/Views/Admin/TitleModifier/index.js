@@ -215,7 +215,7 @@ export default class TitleModifier extends React.Component {
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters enablePaging pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Id" itemEditorApplyOnValueCommit />
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Name" itemEditorApplyOnValueCommit itemEditorValidatorFunction={this.validateTitle.bind(this)} />
-                    <ReactDataGridColumn headerText="Active" editable={false} itemRenderer={AdminCheckBox}>
+                    <ReactDataGridColumn headerText="Active" dataField="activeFlag" editable={false} itemRenderer={AdminCheckBox}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="createDate" enableCellClickRowSelect={false} filterControl="DateComboBox" filterOperation="Contains" headerText="Create Date" itemEditorApplyOnValueCommit labelFunction={dateLabel} editable={false} />
                     <ReactDataGridColumn width="150" columnWidthMode="fitToContent" dataField="updateDate" enableCellClickRowSelect={false} filterControl="DateComboBox" filterOperation="Contains" headerText="Updated Date" itemEditorApplyOnValueCommit labelFunction={dateLabel} editable={false} />

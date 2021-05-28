@@ -210,7 +210,7 @@ export default class IdDepartmentModifier extends React.Component {
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="departmentId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Department ID" itemEditorApplyOnValueCommit="true" editable={false} />
                     <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="departmentName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Department Name" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validatedept.bind(this)} />
-                    <ReactDataGridColumn headerText="Active" editable={false}  itemRenderer={AdminCheckBox}>
+                    <ReactDataGridColumn dataField="activeFlag" headerText="Active" editable={false}  itemRenderer={AdminCheckBox}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn width="100" dataField="createDate" enableCellClickRowSelect={false} filterControl="DateComboBox" filterOperation="Contains" headerText="Create Date" labelFunction={dateLabel} editable={false} />
                     <ReactDataGridColumn width="100" dataField="updateDate" enableCellClickRowSelect={false} filterControl="DateComboBox" filterOperation="Contains" headerText="Update Date" labelFunction={dateLabel} editable={false} />
