@@ -51,6 +51,7 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 import { isValid } from 'ssn-validator'
 import CustomDateComboBox from '../../../shared/components/CustomDateComboBox'
 import MontifioreTextinput from '../../../shared/components/ExtendedDataGrid/material/grid/MontifioreTextInput'
+import { getRowHeight } from '../../../shared/utils'
 
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
 const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
@@ -1199,6 +1200,8 @@ const CurrentRequest = ({ tabValue }) => {
 						enableDefaultDisclosureIcon={false}
 						headerSortSeparatorRight={3}
 						// selectionMode="none"
+						variableRowHeight
+						getRowHeightFunction={getRowHeight}
 						toolbarActionExecutedFunction={onExecuteToolbarAction}
 						cellEditableFunction={isCellEditable}>
 						<ReactDataGridColumnLevel

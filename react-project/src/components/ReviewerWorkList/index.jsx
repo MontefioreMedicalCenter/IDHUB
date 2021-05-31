@@ -25,6 +25,7 @@ import AdvanceDialog from '../../shared/components/AdvanceDialog';
 import DocumentLibrary from '../RequestWorkList/DocumentLibrary';
 import { reviewerWorklistData } from '../../AppConfig/store/actions/reviewerWorklistAction';
 import DocumentViewer from '../RequestWorkList/DocumentViewer';
+import { getRowHeight } from '../../shared/utils';
 let grid;
 const vbox1_creationCompleteHandler = (event) => {
     grid.toolbarActions.addItem(new ToolbarAction("Refresh", 1, "", "Refresh Worklist", "org/monte/edi/idhub/assets/img/refresh.png", false, true));
@@ -204,7 +205,9 @@ const ReviewWorkList = () => {
 
     return (
         <div className="reviewWork-main-container">
-            <DataGrid creationComplete={vbox1_creationCompleteHandler} ref={g => grid = g} enableDefaultDisclosureIcon={false}             
+            <DataGrid creationComplete={vbox1_creationCompleteHandler} ref={g => grid = g} enableDefaultDisclosureIcon={false}
+                        variableRowHeight
+                        getRowHeightFunction={getRowHeight}          
 						clearOpenItemsOnDataProviderChange={false}
                         showRefresh
 						selectedKeyField={'uniqueIdentifier'}

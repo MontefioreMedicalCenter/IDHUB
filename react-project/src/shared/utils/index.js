@@ -49,7 +49,34 @@ export const getActiveLookup = (lkup) => {
 	})
 	return activelookup;
 }
+export const getRowHeight = (item, level) => {
+	const columnElement = document.createElement("div");
+	const height = [];
 
+	document.body.appendChild(columnElement);
+
+	columnElement.style.height = "auto";
+	columnElement.style.width = "initial";
+	columnElement.style.fontSize = "13px";
+
+	level.grid.getColumns().forEach((select, index) => {
+		const col = level.grid.getColumns()[index];
+		columnElement.innerHTML = item.additionalComments;
+		columnElement.style.width = col.getWidth() - 150 + "px";
+		height.push(columnElement.offsetHeight);
+	});
+
+	document.body.removeChild(columnElement);
+
+	const maximumHeight =  Math.max(...height);
+	const defaultRowHeight = level.grid.getRowHeight();
+
+	if (maximumHeight <= defaultRowHeight) {
+		return defaultRowHeight;
+	} else {
+		return maximumHeight;
+	}
+}
 export const camelizeKeys = obj => {
 	if (Array.isArray(obj)) {
 		return obj.map(v => camelizeKeys(v))
