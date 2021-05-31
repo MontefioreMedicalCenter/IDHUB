@@ -9,7 +9,8 @@ import Montefiore from '../../assets/images/Doing-More-Logo.jpg'
 import LoginService from '../../service/cfc/LoginService'
 import { useDispatch, useSelector } from 'react-redux'
 import AlertDialog from '../../shared/components/AlertDialog'
-import { removeMessage } from '../../AppConfig/store/actions/homeAction'
+import { removeMessage, showMessage } from '../../AppConfig/store/actions/homeAction'
+import IdleTimer from './IdleTimer'
 
 const Main = () => {
 	const history = useHistory()
@@ -20,6 +21,33 @@ const Main = () => {
 	const dateString = `${moment().format('MM/DD/YYYY')}`
 	const timeString = `${moment().format('HH:mm:ss')}`
 	const [mainTabData, setTabData] = useState([])
+
+	useEffect(() => {
+		const timer = new IdleTimer({
+			timeout: 1800, // checkin ideal time for 30 mins
+			onTimeout: () => {
+				handleOnSessionTimeout()
+			}
+		})
+
+		return () => {
+			timer.cleanup()
+		}
+		// eslint-disable-next-line
+	}, [])
+
+	const handleOnSessionTimeout = () => {
+		dispatch(
+			showMessage(
+				'Session Timeout',
+				'Session Timeout, Please login again.',
+				'Ok',
+				() => {
+					handleLogout()
+				},
+			)
+		)
+	}
 
 	useEffect(() => {
 		document.addEventListener('logout', handleLogout)
@@ -107,9 +135,15 @@ const Main = () => {
 						) : null
 					})}
 				</Switch>
-				<p style={{ fontSize: "13px", textAlign: "right", margin: "0px", padding: "0px 10px" }}>
+				<p
+					style={{
+						fontSize: '13px',
+						textAlign: 'right',
+						margin: '0px',
+						padding: '0px 10px'
+					}}>
 					Content © 2018, MIT .All rights reserved.
-          		</p>
+				</p>
 			</div>
 			<AlertDialog {...alertData} onClose={() => dispatch(removeMessage())} />
 		</div>
