@@ -78,7 +78,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public getUsers(): AxiosPromise<any> {
         return this.callServiceMethod(
-            'get',
+            'post',
             'IdentityHub/api/adminsvc/getAllUsers',
             null,
             null,
@@ -98,7 +98,7 @@ export default class AdminService extends ServiceProxyBase {
 
     public getAllRoles(startDate: Date = null, endDate: Date = null): AxiosPromise<any> {
         return this.callServiceMethod(
-            'get',
+            'post',
             'IdentityHub/api/adminsvc/getAllRoles',
             null,
             null,
@@ -142,7 +142,7 @@ export default class AdminService extends ServiceProxyBase {
     }
     public getAllRoles4Usr(): AxiosPromise<any> {
         return this.callServiceMethod(
-            'get',
+            'post',
             'IdentityHub/api/adminsvc/getAllRoles',
             null,
             null,
@@ -162,7 +162,7 @@ export default class AdminService extends ServiceProxyBase {
     public getRoleUsr(): AxiosPromise<any> {
         //Alert.show("getRoleUsr():")
         return this.callServiceMethod(
-            'get',
+            'post',
             'IdentityHub/api/adminsvc/getAllRoles',
             null,
             null,
