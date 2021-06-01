@@ -17,13 +17,13 @@ const Submit = props => {
 			props.cell.rowInfo.getData().worklistStatus === 'Rejected'
 		) {
 			return (
-				<Button onClick={onSubmit}>
+				<Button onClick={onSubmit} style={{height:"100%"}} >
 					<img id="accept" alt="accept" src={accept} />
 				</Button>
 			)
 		} else if (props.cell.rowInfo.getData().worklistStatus === 'Processed') {
 			return (
-				<Button onClick={onSubmit}>
+				<Button onClick={onSubmit} style={{height:"100%"}} >
 					<img id="dropbox" alt="dropbox" src={dropbox} />
 				</Button>
 			)

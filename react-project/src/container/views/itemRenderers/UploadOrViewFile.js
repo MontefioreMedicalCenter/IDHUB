@@ -28,7 +28,7 @@ const UploadOrViewFile = props => {
 	) {
 		if (props.cell.rowInfo.getData().worklistStatus !== 'OnHold') {
 			return (
-				<Button onClick={handleClick}>
+				<Button onClick={handleClick} style={{height:"100%"}}>
 					<FolderIcon fontSize="small" style={{ fill: '#1daed6' }} />
 				</Button>
 			)

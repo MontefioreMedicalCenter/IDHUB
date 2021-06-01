@@ -11,7 +11,7 @@ const Remove = props => {
 
 	if (props.cell.rowInfo.getIsDataRow() && tabValue === 0) {
 		return (
-			<Button onClick={onDelete}>
+			<Button onClick={onDelete} style={{height:"100%"}}>
 				<DeleteIcon fontSize="small" />
 			</Button>
 		)

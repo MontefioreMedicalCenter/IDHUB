@@ -8,7 +8,7 @@ const Save = props => {
 	}
 	if (props.cell.rowInfo.getIsDataRow()) {
 		return (
-			<Button onClick={onSave}>
+			<Button onClick={onSave} style={{height:"100%"}}>
 				<SaveIcon fontSize="small" />
 			</Button>
 		)

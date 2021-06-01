@@ -13,7 +13,7 @@ const edit = props => {
 			return <div />
 		} else {
 			return (
-				<Button onClick={onEdit}>
+				<Button onClick={onEdit} style={{height:"100%"}}>
 					<img
 						id="Edit"
 						alt="Edit"
