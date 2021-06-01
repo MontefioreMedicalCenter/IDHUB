@@ -25,8 +25,10 @@ import IdEmployeeSubgroupMediator from '../../../Mediators/IdEmployeeSubgroupMed
 import AdminCheckBoxRenderer from '../../../../../container/views/itemRenderers/AdminCheckBoxRenderer';
 import store from '../../../../../AppConfig/store/configureStore';
 import { showMessage } from '../../../../../AppConfig/store/actions/homeAction';
+import MontifioreTextinput from '../../../../../shared/components/ExtendedDataGrid/material/grid/MontifioreTextInput';
 
 const AdminCheckBox = new ClassFactory(AdminCheckBoxRenderer)
+const testBoxRenderer = new ClassFactory(MontifioreTextinput)
 
 const dateLabel = (item, col) => {
     var dateStr/*:String*/ = ''
@@ -177,7 +179,9 @@ export default class TitleModifier extends React.Component {
         this.grid.clearErrorByObject(cell.rowInfo.data);
 
         if (txt.getValue().length < 1) {
-            this.grid.setErrorByObject(cell.rowInfo.data, cell.column.dataField, "Missing required field :Name");
+            this.grid.setErrorByObject(
+                cell.rowInfo.getData(),cell.getColumn().dataField, "Missing required field :Name"
+            );
             valSuccess = false;
         }
         else {
@@ -207,7 +211,7 @@ export default class TitleModifier extends React.Component {
                 editable="true" cellEditableFunction={this.isCellEditable} enableCopy="true" enableExport="true">
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="employeeSubGroupId" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type ID" itemEditorApplyOnValueCommit="true" editable="false" />
-                    <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="employeeSubGroupName" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type" itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validateuseridtype.bind(this)} />
+                    <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="employeeSubGroupName" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type" itemEditor={testBoxRenderer} itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validateuseridtype.bind(this)} />
                     <ReactDataGridColumn headerText="Active" dataField="activeFlag" editable="false" enableCellClickRowSelect="false" itemRenderer={AdminCheckBox}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn width="100" dataField="createDate" enableCellClickRowSelect="false" filterOperation="Contains" headerText="Create Date" labelFunction={dateLabel} editable="false" filterControl="DateComboBox" />

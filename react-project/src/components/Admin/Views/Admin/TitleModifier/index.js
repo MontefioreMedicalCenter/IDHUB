@@ -25,8 +25,10 @@ import TitleMediator from '../../../Mediators/TitleMediator.ts';
 import AdminCheckBoxRenderer from '../../../../../container/views/itemRenderers/AdminCheckBoxRenderer';
 import store from '../../../../../AppConfig/store/configureStore';
 import { showMessage } from '../../../../../AppConfig/store/actions/homeAction';
+import MontifioreTextinput from '../../../../../shared/components/ExtendedDataGrid/material/grid/MontifioreTextInput';
 
 const AdminCheckBox = new ClassFactory(AdminCheckBoxRenderer)
+const testBoxRenderer = new ClassFactory(MontifioreTextinput)
 const isCellEditable = (cell) => {
     return cell.rowInfo.getData().edit === true
 }
@@ -214,7 +216,7 @@ export default class TitleModifier extends React.Component {
                 pagerRenderer={MontefioreUtils.pagerFactory} toolbarExcelHandlerFunction={this.onToolbarExport.bind(this)}>
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters enablePaging pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Id" itemEditorApplyOnValueCommit />
-                    <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleName" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Name" itemEditorApplyOnValueCommit itemEditorValidatorFunction={this.validateTitle.bind(this)} />
+                    <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleName" itemEditor={testBoxRenderer} enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Name" itemEditorApplyOnValueCommit itemEditorValidatorFunction={this.validateTitle.bind(this)} />
                     <ReactDataGridColumn headerText="Active" dataField="activeFlag" editable={false} itemRenderer={AdminCheckBox}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="createDate" enableCellClickRowSelect={false} filterControl="DateComboBox" filterOperation="Contains" headerText="Create Date" itemEditorApplyOnValueCommit labelFunction={dateLabel} editable={false} />
