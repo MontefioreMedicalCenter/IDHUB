@@ -51,6 +51,8 @@ export default class StorageService extends ServiceProxyBase {
 		}
 
 		var headerData = {
+			userName: localStorage.getItem('user-id'),
+			Authorization: localStorage.getItem('token'),
 			'Content-Type': 'multipart/form-data'
 		}
 

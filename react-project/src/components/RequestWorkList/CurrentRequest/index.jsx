@@ -699,7 +699,7 @@ const CurrentRequest = ({ tabValue }) => {
 		var startdt = dataGridRef.current.getCurrentEditCell().rowInfo.getData()
 			.startDate
 		var enddt = dataField.selectedDate
-		if (startdt == null) {
+		if (startdt === null || startdt === undefined) {
 			grid.setErrorByObject(
 				cell.rowInfo.getData(),
 				cell.getColumn().dataField,
@@ -720,7 +720,7 @@ const CurrentRequest = ({ tabValue }) => {
 				now.getDate()
 			)
 		}
-		if (valResult == 'invalid') {
+		if (!valResult) {
 			valSuccess = false
 			grid.setErrorByObject(
 				cell.rowInfo.getData(),
