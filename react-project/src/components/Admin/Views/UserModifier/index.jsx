@@ -10,7 +10,8 @@ import {
     ReactDataGridColumnLevel,
     ClassFactory,
     ExtendedExportController,
-    EventDispatcher
+    EventDispatcher,
+    ToolbarAction
 } from '../../../../flexicious';
 
 import DataGrid from '../../../../shared/components/ExtendedDataGrid';
@@ -29,6 +30,7 @@ import AddNewUser from '../AddNewUser';
 import store from '../../../../AppConfig/store/configureStore';
 import { showMessage } from '../../../../AppConfig/store/actions/homeAction';
 import { toast } from 'react-toastify';
+import MontefioreUtils from '../../../../service/utils/MontefioreUtils';
 
 
 const save = new ClassFactory(Save)
@@ -237,7 +239,7 @@ export default class UserModifier extends EventDispatcher {
         return true;
     }
 
-    onExecuteToolbarAction(action/* : ToolbarAction */, currentTarget/*: Object*/, extendedPager/*: any*/)/*: void*/ {
+    onExecuteToolbarAction = (action/* : ToolbarAction */, currentTarget/*: Object*/, extendedPager/*: any*/) => {
         if (action.code === "Edit")
             toast.warning("Launch Edit Window")
         else if (action.code === "Delete") {
@@ -252,7 +254,8 @@ export default class UserModifier extends EventDispatcher {
             ))
         }
         else if (action.code === "Add User") {
-            this.dispatchEvent(new ManageUserEvent(ManageUserEvent.ADD_USER));
+            this.setState({newUser: true})
+            // this.dispatchEvent(new ManageUserEvent(ManageUserEvent.ADD_USER));
         }
         else
         toast.error("Invalid action!")
@@ -263,6 +266,9 @@ export default class UserModifier extends EventDispatcher {
     }
 
     componentDidMount() {
+        this.grid.toolbarActions.push(new ToolbarAction("Add User", -1, "", "Add", "org/monte/edi/idhub/assets/img/add.png", false, true));
+        this.grid.rebuildPager();
+
         this.mediator = new UserMediator();
         this.mediator.onRegister(this, this.gridRef.current);
         this.gridRef.current.setDataProvider([]);
@@ -274,8 +280,8 @@ export default class UserModifier extends EventDispatcher {
     render() {
         return (
             <div className="userModifier-main-container">
-                <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" filterVisible={false} editable cellEditableFunction={cellEdit} enableCopy enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction} virtualScroll="true" onAddClick={this.onAddClick}>
-                    <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="5000" pagerRenderer={new ClassFactory(StyledPagerRenderer)} >
+                <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" filterVisible={false} editable cellEditableFunction={cellEdit} enableCopy enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction} virtualScroll="true" onAddClick={this.onAddClick} pagerRenderer={MontefioreUtils.pagerFactory}>
+                    <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="5000" /* pagerRenderer={new ClassFactory(StyledPagerRenderer)} */ >
                         <ReactDataGridColumnGroup headerText="Menu">
                             <ReactDataGridColumn width="50" dataField="userActiveFlag" enableCellClickRowSelect="false" headerAlign="center" headerText="Active" columnLockMode="right" excludeFromExport="true" itemEditorApplyOnValueCommit="true" itemRenderer={new ClassFactory(ActiveRenderer)} saveHandle={(data, i) => this.saveHandle(data, i)}>
                             </ReactDataGridColumn>
