@@ -51,7 +51,7 @@ import { isValidPhoneNumber } from 'react-phone-number-input'
 import { isValid } from 'ssn-validator'
 import CustomDateComboBox from '../../../shared/components/CustomDateComboBox'
 import MontifioreTextinput from '../../../shared/components/ExtendedDataGrid/material/grid/MontifioreTextInput'
-import { getRowHeight } from '../../../shared/utils'
+// import { getRowHeight } from '../../../shared/utils'
 
 const ssnItemRenderer = new ClassFactory(SsnItemRender)
 const uploadOrViewFile = new ClassFactory(UploadOrViewFile)
@@ -171,7 +171,7 @@ const CurrentRequest = ({ tabValue }) => {
 				gridDP.addItemAt(wk, 0)
 			}
 			grid.cellEditableFunction = isCellEditable
-			grid.refreshGrid()
+			grid.refreshCells()
 		} else if (action.code == 'Refresh') {
 			findWorklist()
 		} else if (action.code == 'SubmitAll') {
@@ -1200,8 +1200,8 @@ const CurrentRequest = ({ tabValue }) => {
 						enableDefaultDisclosureIcon={false}
 						headerSortSeparatorRight={3}
 						// selectionMode="none"
-						variableRowHeight
-						getRowHeightFunction={getRowHeight}
+						// variableRowHeight
+						// getRowHeightFunction={getRowHeight}
 						toolbarActionExecutedFunction={onExecuteToolbarAction}
 						cellEditableFunction={isCellEditable}>
 						<ReactDataGridColumnLevel
