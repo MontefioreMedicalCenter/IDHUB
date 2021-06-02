@@ -23,6 +23,7 @@ const UploadOrViewFile = props => {
 	}
 
 	if (
+		props.cell &&
 		props.cell.rowInfo.getIsDataRow() &&
 		props.cell.level.getNestDepth() === 1
 	) {
