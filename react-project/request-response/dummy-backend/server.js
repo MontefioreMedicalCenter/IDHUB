@@ -286,10 +286,10 @@ app.post(
 app.get('/IdentityHub/api/storagesvc/listDocumentLibraryFiles', (req, res) => {
 	sendResponse(res, 200, listDocumentLibraryFiles)
 })
-app.get('/IdentityHub/api/adminsvc/getAllRoles', (req, res) => {
+app.post('/IdentityHub/api/adminsvc/getAllRoles', (req, res) => {
 	sendResponse(res, 200, getAllRoles)
 })
-app.get('/IdentityHub/api/adminsvc/getAllUsers', (req, res) => {
+app.post('/IdentityHub/api/adminsvc/getAllUsers', (req, res) => {
 	sendResponse(res, 200, getAllUsers)
 })
 
