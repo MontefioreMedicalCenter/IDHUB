@@ -1,15 +1,81 @@
+import moment from 'moment'
 import React from 'react'
 import { UIComponent } from '../../../flexicious'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
 
 const EndDateRenderer = props => {
 	const handleDateChange = date => {
-		props.row.rowPositionInfo.rowData.endDate = date
-		props.cell.refreshCell()
-		const container = props.cell.getGrid().getBodyContainer()
-		if (container._inEdit) {
-			container.endEdit(container.getEditor())
+		var valSuccess = true
+		var dateFormat = 'MM/DD/YY'
+		var cell = props.grid.getCurrentEditingCell()
+		var startdt = props.row.rowPositionInfo.rowData.startDate
+		var valResult = moment(
+			moment(date).format(dateFormat),
+			dateFormat,
+			true
+		).isValid()
+		if (startdt === null || startdt === undefined) {
+			props.grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid End date'
+			)
+			valSuccess = false
+			return valSuccess
+		} else {
+			var now = new Date()
+			var nowMMDDYYY = new Date(
+				now.getFullYear(),
+				now.getMonth(),
+				now.getDate()
+			)
+			var nextyeardt = new Date(
+				now.getFullYear() + 5,
+				now.getMonth(),
+				now.getDate()
+			)
 		}
+		if (!valResult) {
+			valSuccess = false
+			props.grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid end date'
+			)
+		}
+		if (date < nowMMDDYYY) {
+			valSuccess = false
+			props.grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid End date'
+			)
+		}
+		else if (startdt > date) {
+			valSuccess = false
+			props.grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid End date'
+			)
+		} else if (date > nextyeardt) {
+			valSuccess = false
+			props.grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid End date'
+			)
+		} 
+		else 
+		{
+			props.row.rowPositionInfo.rowData.endDate = date
+			props.cell.refreshCell()
+			const container = props.cell.getGrid().getBodyContainer()
+			if (container._inEdit) {
+				container.endEdit(container.getEditor())
+			}
+		}
+		// return valSuccess
 	}
 
 	return (

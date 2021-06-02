@@ -1,15 +1,45 @@
+import moment from 'moment'
 import React from 'react'
 import { UIComponent } from '../../../flexicious'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
 
 const StartDateRenderer = props => {
 	const handleDateChange = date => {
-		props.row.rowPositionInfo.rowData.startDate = date
-		props.cell.refreshCell()
-		const container = props.cell.getGrid().getBodyContainer()
-		if (container._inEdit) {
-			container.endEdit(container.getEditor())
+		var valSuccess = true
+		var dateFormat = 'MM/DD/YY'
+		var cell = props.grid.getCurrentEditingCell()
+		var enddt = props.row.rowPositionInfo.rowData.endDate
+		if (cell == null || date == null) {
+			return valSuccess
 		}
+		props.grid.clearErrorByObject(cell.rowInfo.getData())
+		var valResult = moment(
+			moment(date).format(dateFormat),
+			dateFormat,
+			true
+		).isValid()
+		if(!valResult){
+			props.grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Start date'
+			)
+		}
+		else if (enddt && enddt < date) {
+			props.grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid Start date'
+			)
+		} else {
+			props.row.rowPositionInfo.rowData.startDate = date
+			props.cell.refreshCell()
+			const container = props.cell.getGrid().getBodyContainer()
+			if (container._inEdit) {
+				container.endEdit(container.getEditor())
+			} 
+		}
+		// return valSuccess		
 	}
 
 	return (

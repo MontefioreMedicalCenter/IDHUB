@@ -1471,7 +1471,7 @@ const CurrentRequest = ({ tabValue }) => {
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemEditor={startDateRendererEditorWrapper}
-									itemEditorValidatorFunction={validateStartDate}
+									// itemEditorValidatorFunction={validateStartDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 									// filterCompareFunction={null}
 								/>
@@ -1489,7 +1489,7 @@ const CurrentRequest = ({ tabValue }) => {
 									formatter={ExampleUtils.dateFormatter3}
 									// labelFunction={MontefioreUtils.dateFormatter2}
 									itemEditor={endDateRendererEditorWrapper}
-									itemEditorValidatorFunction={validateEndDate}
+									// itemEditorValidatorFunction={validateEndDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 									// filterCompareFunction={null}
 								/>
