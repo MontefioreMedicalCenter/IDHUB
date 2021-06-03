@@ -87,6 +87,7 @@ export default class UserMediator extends Mediator {
 			var dummyCol: FlexDataGridColumn = new FlexDataGridColumn();
 			dummyCol.setDataField("userId");
 			dummyCol.setHeaderText("User");
+			UIUtils.checkSetterAndApply(dummyCol, "width", 100)
 			UIUtils.checkSetterAndApply(dummyCol, "itemEditorApplyOnValueCommit", true)
 			UIUtils.checkSetterAndApply(dummyCol, "headerAlign", "center")
 			UIUtils.checkSetterAndApply(dummyCol, "textAlign", "left")
@@ -101,6 +102,7 @@ export default class UserMediator extends Mediator {
 			var lummyCol: FlexDataGridColumn = new FlexDataGridColumn();
 			UIUtils.checkSetterAndApply(lummyCol, "dataField", "userLastName")
 			UIUtils.checkSetterAndApply(lummyCol, "headerText", "Last Name")
+			UIUtils.checkSetterAndApply(lummyCol, "width", 100)
 			UIUtils.checkSetterAndApply(lummyCol, "itemEditorApplyOnValueCommit", true)
 			UIUtils.checkSetterAndApply(lummyCol, "headerAlign", "center")
 			UIUtils.checkSetterAndApply(lummyCol, "textAlign", "left")
@@ -115,6 +117,7 @@ export default class UserMediator extends Mediator {
 			var fummyCol: FlexDataGridColumn = new FlexDataGridColumn();
 			UIUtils.checkSetterAndApply(fummyCol, "dataField", "userFirstName")
 			UIUtils.checkSetterAndApply(fummyCol, "headerText", "First Name")
+			UIUtils.checkSetterAndApply(fummyCol, "width", 100)
 			UIUtils.checkSetterAndApply(fummyCol, "itemEditorApplyOnValueCommit", true)
 			UIUtils.checkSetterAndApply(fummyCol, "headerAlign", "center")
 			UIUtils.checkSetterAndApply(fummyCol, "textAlign", "left")
@@ -134,7 +137,7 @@ export default class UserMediator extends Mediator {
 			UIUtils.checkSetterAndApply(tummyCol, "textAlign", "left")
 			tummyCol.setStyle('fontWeight', 'bold')
 			//UIUtils.checkSetterAndApply(tummyCol,"columnWidthMode="fitToContent"	
-			UIUtils.checkSetterAndApply(tummyCol, "width", 200)
+			UIUtils.checkSetterAndApply(tummyCol, "width", 170)
 			UIUtils.checkSetterAndApply(tummyCol, "columnLockMode", "left")
 			UIUtils.checkSetterAndApply(tummyCol, "sortable", false)
 			UIUtils.checkSetterAndApply(tummyCol, "filterControl", "TextInput")
@@ -143,6 +146,7 @@ export default class UserMediator extends Mediator {
 			var pummyCol: FlexDataGridColumn = new FlexDataGridColumn();
 			UIUtils.checkSetterAndApply(pummyCol, "dataField", "userPhone")
 			UIUtils.checkSetterAndApply(pummyCol, "headerText", "Phone Number")
+			UIUtils.checkSetterAndApply(pummyCol, "width", 100 )
 			UIUtils.checkSetterAndApply(pummyCol, "itemEditorApplyOnValueCommit", true)
 			UIUtils.checkSetterAndApply(pummyCol, "headerAlign", "center")
 			pummyCol.setStyle('fontWeight', 'bold')
@@ -430,7 +434,7 @@ export default class UserMediator extends Mediator {
 					col.itemRenderer = new ClassFactory(UsrRole)
 				}
 			}
-			this.view.grid.reDraw()
+			this.view.grid.refreshCells()
 		}
 	}
 }
