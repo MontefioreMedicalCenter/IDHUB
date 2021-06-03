@@ -203,7 +203,7 @@ export default class ServiceProxyBase extends TypedObject {
 					this.execHook()
 				}
 				faultFunction({ error: err })
-				if(err.response.status === 408) {
+				if(err.response && err.response.status === 408) {
 					document.dispatchEvent(new Event("logout"))
 				}
 			}

@@ -85,7 +85,11 @@ const Login = () => {
 	}
 
 	const loginFaultHandler = (error) => {
-		toast.error(error.error.response.data.message)
+		if(error.error.response){
+			toast.error(error.error.response.data.message)
+		} else {
+			MontefioreUtils.showError(error)
+		}
 		setState({
 			userName: '',
 			password: ''
