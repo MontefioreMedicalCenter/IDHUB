@@ -52,6 +52,7 @@ const DateOfBirthRenderer = props => {
 			keyboard
 			color=" "
 			format={'MM/DD/YY'}
+			error={false}
 			key={props.row.rowPositionInfo.rowData.worklistId}
 			InputProps={{
 				inputProps: {

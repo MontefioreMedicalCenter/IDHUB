@@ -83,6 +83,7 @@ const EndDateRenderer = props => {
 			keyboard
 			color=" "
 			format={'MM/DD/YY'}
+			error={false}
 			key={`${props.row.rowPositionInfo.rowData.sourceUniqueId}2`}
 			InputProps={{
 				inputProps: {
