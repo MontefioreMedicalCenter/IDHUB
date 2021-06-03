@@ -1337,7 +1337,7 @@ const CurrentRequest = ({ tabValue }) => {
 									filterRenderer={dateFilter}
 									enableRecursiveSearch={true}
 									formatter={ExampleUtils.dateFormatter3}
-									itemEditorValidatorFunction={validateDOB}
+									// itemEditorValidatorFunction={validateDOB}
 									// filterCompareFunction={null}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}

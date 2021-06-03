@@ -1,29 +1,49 @@
+import moment from 'moment'
 import React from 'react'
-import { toast } from 'react-toastify'
 import { UIComponent } from '../../../flexicious'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
 
 const DateOfBirthRenderer = props => {
 	const handleDateChange = date => {
+		var dateFormat = 'MM-DD-YY'
+		var cell = props.grid.getCurrentEditingCell()
+		props.grid.clearErrorByObject(cell.rowInfo.getData())
+		var valResult = moment(
+			moment(date).format(dateFormat),
+			dateFormat,
+			true
+		).isValid()
 		var now = new Date()
-		var frmDate = new Date(
+		var hundyeardt = new Date(
 			now.getFullYear() - 100,
 			now.getMonth(),
 			now.getDate()
 		)
-		var toDate = new Date(
+		var tenyeardt = new Date(
 			now.getFullYear() - 10,
 			now.getMonth(),
 			now.getDate()
 		)
-		if(date > frmDate && date < toDate)
-		{props.row.rowPositionInfo.rowData.dateOfBirth = date
-		props.cell.refreshCell()
-		const container = props.cell.getGrid().getBodyContainer()
-		if (container._inEdit) {
-			container.endEdit(container.getEditor())
-		}}else{
-			toast.warning("Invalid DOB date")
+		if (!valResult) {
+			props.grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid DOB date'
+			)
+		}
+		if (date > tenyeardt || date < hundyeardt) {
+			props.grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid DOB date'
+			)
+		} else {
+			props.row.rowPositionInfo.rowData.dateOfBirth = date
+			props.cell.refreshCell()
+			const container = props.cell.getGrid().getBodyContainer()
+			if (container._inEdit) {
+				container.endEdit(container.getEditor())
+			}
 		}
 	}
 
