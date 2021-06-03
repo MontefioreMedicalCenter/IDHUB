@@ -24,7 +24,7 @@ import Save from '../../../../container/views/itemRenderers/Save';
 import Remove from '../../../../container/views/itemRenderers/Remove';
 import Edit from '../../../../container/views/itemRenderers/Edit';
 import ActiveRenderer from '../../../../container/views/itemRenderers/ActiveRenderer';
-import StyledPagerRenderer from '../StyledPager';
+// import StyledPagerRenderer from '../StyledPager';
 import AdvanceDialog from '../../../../shared/components/AdvanceDialog';
 import AddNewUser from '../AddNewUser';
 import store from '../../../../AppConfig/store/configureStore';
