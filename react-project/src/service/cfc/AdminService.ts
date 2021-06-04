@@ -52,10 +52,10 @@ export default class AdminService extends ServiceProxyBase {
     //addfailureFaultEvent
     protected addfailureFaultEvent(event: any, token: Object = null): void {
         var msg = event.error && event.error.response.data.message;
-        var dp: number = msg.indexOf("User Already Existed");
-        var smsg: string = "User Already Existed!"
+        var dp: number = msg.indexOf("User Already Exists!");
+        var smsg: string = "User Already Exists!"
         if (dp >= 0) {
-            smsg = "User Already Existed!"
+            smsg = "User Already Exists!"
         }
         toast.warning(smsg)
     }
