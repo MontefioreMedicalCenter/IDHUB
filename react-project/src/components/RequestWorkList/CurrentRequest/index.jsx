@@ -1323,7 +1323,8 @@ const CurrentRequest = ({ tabValue }) => {
 									headerWordWrap={true}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									sortable={false}
+									sortable={false}									
+									itemEditor={textInputEditor}
 									itemRenderer={ssnItemRenderer}
 									// labelFunction={findSSNLabel}
 									itemEditorValidatorFunction={validateSSN}
