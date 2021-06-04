@@ -137,7 +137,7 @@ export default class AddUserMediator extends Mediator {
 		// emailVld.property = 'text'
 		// var emValResult: ValidationResultEvent = emailVld.validate()
 
-		const emailVal = new RegExp(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,15}/g)
+		const emailVal = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}/g)
 		const valResultemail = emailVal.test(this.view.emailValSrc())
 		if (!valResultemail) {
 			// if (typeof this.view.emailValSrc() !== 'string' && this.view.usernameValidatorSource() === '') {
