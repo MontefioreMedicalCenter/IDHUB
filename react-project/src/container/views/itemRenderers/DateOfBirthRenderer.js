@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { UIComponent } from '../../../flexicious'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
 
@@ -46,6 +46,12 @@ const DateOfBirthRenderer = props => {
 			}
 		}
 	}
+
+	// wrote this fuction so that user don't have to tap twice to get the focus.
+	useEffect(() => {
+		document.getElementsByClassName('MuiInputBase-adornedEnd')[0].click()
+	},[])
+
 
 	return (
 		<MaterialDatePicker

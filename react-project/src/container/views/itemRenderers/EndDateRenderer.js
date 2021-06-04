@@ -1,5 +1,5 @@
 import moment from 'moment'
-import React from 'react'
+import React, { useEffect } from 'react'
 import { UIComponent } from '../../../flexicious'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
 
@@ -77,6 +77,10 @@ const EndDateRenderer = props => {
 		}
 		// return valSuccess
 	}
+
+	useEffect(() => {
+		document.getElementsByClassName('MuiInputBase-adornedEnd')[0].click()
+	},[])
 
 	return (
 		<MaterialDatePicker
