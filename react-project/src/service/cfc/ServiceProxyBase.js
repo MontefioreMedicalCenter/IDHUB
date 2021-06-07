@@ -67,13 +67,13 @@ export default class ServiceProxyBase extends TypedObject {
 		if (arr instanceof Array) {
 			arr.forEach(data => {
 				let converted = converter()
-				converted.fromJson(camelizeKeys(data))
+				converted.fromJson(data)
 				list.addItem(converted)
 			})
 			return list
 		} else {
 			let converted = converter()
-			converted.fromJson(camelizeKeys(arr))
+			converted.fromJson(arr)
 			return converted
 		}
 	}
