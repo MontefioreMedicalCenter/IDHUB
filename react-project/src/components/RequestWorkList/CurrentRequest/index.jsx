@@ -1121,7 +1121,8 @@ const CurrentRequest = ({ tabValue }) => {
 			grid.getColumnLevel().filterFunction = filterDeviceTypes
 			grid.getColumnLevel().nextLevel.filterFunction = filterDeviceTypesChild
 			grid.processFilter()
-			//grid.removeAllSorts()
+			// grid.removeAllSorts()
+			grid.clearAllFilters()
 			//grid.expandAll()
 		}
 	}
