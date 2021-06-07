@@ -18,6 +18,7 @@ const SsnItemRender = props => {
 				editable={"false"}
 				key={data.ssn}
 				text={data.ssn}
+				readOnly = {props}
 				style={{
 					height: '35px',
 					width: '100%',
