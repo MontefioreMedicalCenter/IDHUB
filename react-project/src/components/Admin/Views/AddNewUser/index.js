@@ -5,7 +5,7 @@ import { withStyles } from '@material-ui/core'
 import TextField from '@material-ui/core/TextField'
 import ManageUserEvent from '../../../../events/ManageUserEvent.ts'
 import AddUserMediator from '../../Mediators/AddUserMediator.ts'
-import { UIComponent } from '../../../../flexicious'
+import { EventDispatcher } from '../../../../flexicious'
 import saveB from '../../../../assets/images/saveB.png'
 import { toast } from 'react-toastify';
 
@@ -19,7 +19,14 @@ const styles = {
     }
 };
 
-class AddNewUser extends UIComponent {
+class AddNewUser extends EventDispatcher {
+
+    constructor(props) {
+        super(props);
+        this.state = {
+            errorMsg: false
+        };
+    }
 
     saveClick = (data) => {
         var case_regex = /[A-Z]/;
@@ -68,6 +75,11 @@ class AddNewUser extends UIComponent {
         this.mediator.onRegister(this);
     }
 
+    validateUserId = (props) => {
+        var UserId = document.getElementById('userId').value
+        var userExists = props.users.current.getDataProvider().filter(x => x.userId === UserId)
+        this.setState({ errorMsg: userExists.length > 0 })
+    }
 
     render() {
 
@@ -83,6 +95,8 @@ class AddNewUser extends UIComponent {
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
+                                    onBlur={() => this.validateUserId(this.props)}
+                                    error={(this.state.errorMsg) ? true : false}
                                 />
                             </div>
                             <div className="container-space">
@@ -166,7 +180,7 @@ class AddNewUser extends UIComponent {
                                     onClick={(data) => { this.saveClick(data) }}
                                     style={{ maxWidth: '30px', height: '20px', fontSize: 'xx-small' }}
                                 >
-                                <img src={saveB} alt="saveB" />
+                                    <img src={saveB} alt="saveB" />
                                     Save
                         </Button>
                             </div>
