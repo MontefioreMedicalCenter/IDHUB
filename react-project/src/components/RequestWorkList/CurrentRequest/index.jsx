@@ -259,7 +259,20 @@ const CurrentRequest = ({ tabValue }) => {
 
 	const docLibrarySuccessResult = ({ result }) => {
 		const StorageService = new StorageServiceEvent()
-		StorageService.data = result
+		var sortedResult = result.sort((a, b) => {
+			var nameA = a.baseName.toUpperCase(); // ignore upper and lowercase
+  			var nameB = b.baseName.toUpperCase(); // ignore upper and lowercase
+
+			  if (nameA < nameB) {
+				return -1;
+			  }
+			  if (nameA > nameB) {
+				return 1;
+			  }
+			  // names must be equal
+			  return 0;
+		})
+		StorageService.data = sortedResult
 
 		dispatch(setDocumentLibrary(StorageService.data))
 	}
