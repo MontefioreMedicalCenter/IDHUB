@@ -16,7 +16,6 @@ import {
 import axios from 'axios'
 import GlobalEventDispatcher from '../utils/GlobalEventDispatcher'
 import ArrayCollection from '../../vo/ArrayCollection'
-import { camelizeKeys } from '../../shared/utils'
 const amf = window.amf
 
 /**

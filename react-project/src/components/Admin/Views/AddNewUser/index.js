@@ -8,6 +8,8 @@ import AddUserMediator from '../../Mediators/AddUserMediator.ts'
 import { EventDispatcher } from '../../../../flexicious'
 import saveB from '../../../../assets/images/saveB.png'
 import { toast } from 'react-toastify';
+import { validateEmail } from '../../../../shared/utils';
+import { isPossiblePhoneNumber } from 'react-phone-number-input';
 
 const styles = {
     input1: {
@@ -24,7 +26,12 @@ class AddNewUser extends EventDispatcher {
     constructor(props) {
         super(props);
         this.state = {
-            errorMsg: false
+            errorMsg: false,
+            emailError: {
+                errorMessage: "",
+                isError: false
+            },
+            phoneError: false,
         };
     }
 
@@ -79,6 +86,17 @@ class AddNewUser extends EventDispatcher {
         var UserId = document.getElementById('userId').value
         var userExists = props.users.current.getDataProvider().filter(x => x.userId === UserId)
         this.setState({ errorMsg: userExists.length > 0 })
+    }
+
+    handleValidateEmail= e => {
+        const errorObj = validateEmail(e.target.value)
+        this.setState({emailError: errorObj})
+    }
+
+    handleValidatePhone = e => {
+        const number = `+1${e.target.value.replaceAll("-","")}`
+        const isValidPhone = isPossiblePhoneNumber(number)
+        this.setState({phoneError: !isValidPhone})
     }
 
     render() {
@@ -161,6 +179,9 @@ class AddNewUser extends EventDispatcher {
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
+                                    onBlur={this.handleValidatePhone}
+                                    error={this.state.phoneError}
+                                    helperText={this.state.phoneError ? "Invalid phone" : ""}
                                 />
                             </div>
                             <div className="container-space">
@@ -168,8 +189,11 @@ class AddNewUser extends EventDispatcher {
                                     id="email"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
-                                    style={{ width: "200px", marginLeft: "10px", margin: "2px" }}
+                                    style={{ width: "200px", marginLeft: "10px" }}
                                     autoComplete='off'
+                                    onBlur={this.handleValidateEmail}
+                                    error={this.state.emailError.isError}
+                                    helperText={this.state.emailError.errorMessage}
                                 />
                             </div>
                             <div className="container-space">
@@ -178,7 +202,7 @@ class AddNewUser extends EventDispatcher {
                                     color="primary"
                                     size="large"
                                     onClick={(data) => { this.saveClick(data) }}
-                                    style={{ maxWidth: '30px', height: '20px', fontSize: 'xx-small' }}
+                                    style={{ width: '100px', maxWidth: '100px', height: '30px', fontSize: 'xx-small', justifyContent: 'space-between', display: 'flex' }}
                                 >
                                     <img src={saveB} alt="saveB" />
                                     Save
