@@ -1792,7 +1792,7 @@ const CurrentRequest = ({ tabValue }) => {
 				open={openModal}
 				handleClose={() => setOpenModal(false)}
 				headerTitle="Document Viewer"
-				bodyRenderer={<DocumentViewer documentFileUrl={documentFileUrl} />}
+				bodyRenderer={<DocumentViewer documentFileUrl={documentFileUrl} onClose={setOpenModal} />}
 			/>
 			<DocumentLibrary
 				worklist={worklist}
