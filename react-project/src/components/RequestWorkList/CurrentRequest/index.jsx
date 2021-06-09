@@ -554,6 +554,7 @@ const CurrentRequest = ({ tabValue }) => {
 						() => {
 							if (isnotsave) {
 								gridDP.removeItemAt(CurrentRequest.pageStore._index)
+								dataGridRef.current.refreshGrid()
 							} else if (
 								CurrentRequest.pageStore.isWorklistChild &&
 								CurrentRequest.pageStore._selectedGroup.workLists.length > 1
