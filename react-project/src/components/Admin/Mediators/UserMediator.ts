@@ -16,7 +16,6 @@ import IdUser from "../../../vo/main/IdUser";
 import IdUserRoleMap from "../../../vo/main/IdUserRoleMap";
 import GlobalEventDispatcher from "../../../service/utils/GlobalEventDispatcher";
 import { toast } from 'react-toastify'
-import { camelizeKeys } from "../../../shared/utils";
 import UsrRole from "../Views/UsrRole";
 
 export default class UserMediator extends Mediator {
