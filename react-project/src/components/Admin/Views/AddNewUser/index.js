@@ -27,6 +27,8 @@ class AddNewUser extends EventDispatcher {
         super(props);
         this.state = {
             errorMsg: false,
+            errorTxt: "",
+            errorCaps:"",
             emailError: {
                 errorMessage: "",
                 isError: false
@@ -84,8 +86,19 @@ class AddNewUser extends EventDispatcher {
 
     validateUserId = (props) => {
         var UserId = document.getElementById('userId').value
+        var case_regex = /[A-Z]/;        
         var userExists = props.users.current.getDataProvider().filter(x => x.userId === UserId)
-        this.setState({ errorMsg: userExists.length > 0 })
+        this.setState({ errorMsg: case_regex.test(UserId) || userExists.length > 0 })
+        if(userExists.length > 0){
+            this.setState({errorTxt:"User Already Exists!"})
+        }else{
+            this.setState({errorTxt:""})
+        }
+        if (case_regex.test(UserId)) {
+            this.setState({errorCaps:"Please type in only the lower-case letters for the user Id !"})
+        }else{
+            this.setState({errorCaps:""})
+        }
     }
 
     handleValidateEmail= e => {
@@ -114,7 +127,8 @@ class AddNewUser extends EventDispatcher {
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
                                     onBlur={() => this.validateUserId(this.props)}
-                                    error={(this.state.errorMsg) ? true : false}
+                                    error={this.state.errorMsg}
+                                    helperText={this.state.errorTxt || this.state.errorCaps}
                                 />
                             </div>
                             <div className="container-space">
