@@ -122,6 +122,11 @@ const CurrentRequest = ({ tabValue }) => {
 	const worklistResultHandler = resp => {
 		setWorkList({ workList: resp.result })
 	}
+	const worklistResultHandlerThroughSearch = resp => {
+		if(dataGridRef.current && dataGridRef.current.showAddEmployee) {
+			setWorkList({ workList: resp.result })
+		}
+	}
 	//this is how Facebook recommends we run code on mount. Stupid ESlint does not like it.
 	/* eslint-disable*/
 	useEffect(() => {
@@ -142,6 +147,13 @@ const CurrentRequest = ({ tabValue }) => {
 	const findWorklist = () => {
 		WorklistService.getInstance().findWorklistGroups(
 			worklistResultHandler,
+			MontefioreUtils.showError
+		)
+	}
+
+	const findWorklistThroughSearch = () => {
+		WorklistService.getInstance().findWorklistGroups(
+			worklistResultHandlerThroughSearch,
 			MontefioreUtils.showError
 		)
 	}
@@ -1172,7 +1184,7 @@ const CurrentRequest = ({ tabValue }) => {
 		<div className="requestor-grid-container">
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
 				<RequestorSearch
-					findWorklist={findWorklist}
+					findWorklist={findWorklistThroughSearch}
 					setWorkList={setWorkList}
 					valueOfTab={tabValue}
 					dataGrid={dataGridRef.current}
