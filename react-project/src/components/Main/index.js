@@ -24,7 +24,7 @@ const Main = () => {
 
 	useEffect(() => {
 		const timer = new IdleTimer({
-			timeout: 1800, // checkin ideal time for 30 mins
+			timeout: 3600, // checkin ideal time for 60 mins
 			onTimeout: () => {
 				handleOnSessionTimeout()
 			}
