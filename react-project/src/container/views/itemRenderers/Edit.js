@@ -9,17 +9,19 @@ const edit = props => {
 	}
 
 	if (props.cell) {
-		if (!props.cell.rowInfo.getIsDataRow()) {
-			return <div />
-		} else {
+		if (props.cell.rowInfo && props.cell.rowInfo.getIsDataRow()) {
 			return (
-				<Button onClick={onEdit} style={{height:"100%"}}>
+				<Button onClick={onEdit} style={{ height: '100%' }}>
 					<img
 						id="Edit"
 						alt="Edit"
 						src={props.cell.rowInfo.getData().edit ? Edit : InActive}
 					/>
 				</Button>
+			)
+		} else {
+			return (
+				<div />
 			)
 		}
 	}

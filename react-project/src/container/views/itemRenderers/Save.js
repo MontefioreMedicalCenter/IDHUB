@@ -6,7 +6,7 @@ const Save = props => {
 	const onSave = () => {
 		props.column.handleSave(props)
 	}
-	if (props.cell.rowInfo.getIsDataRow()) {
+	if (props.cell.rowInfo && props.cell.rowInfo.getIsDataRow()) {
 		return (
 			<Button onClick={onSave} style={{height:"100%"}}>
 				<SaveIcon fontSize="small" />

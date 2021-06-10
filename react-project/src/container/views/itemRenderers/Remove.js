@@ -9,7 +9,7 @@ const Remove = props => {
 		props.column.handleDelete(props)
 	}
 
-	if (props.cell.rowInfo.getIsDataRow() && tabValue === 0) {
+	if (props.cell.rowInfo && props.cell.rowInfo.getIsDataRow() && tabValue === 0) {
 		return (
 			<Button onClick={onDelete} style={{height:"100%"}}>
 				<DeleteIcon fontSize="small" />
