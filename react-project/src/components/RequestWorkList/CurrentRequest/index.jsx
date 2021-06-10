@@ -1051,11 +1051,11 @@ const CurrentRequest = ({ tabValue }) => {
 	const validateExt = editor => {
 		var valSuccess = true
 		var cell = dataGridRef.current.getCurrentEditCell()
-		var txt = editor
+		var txt = editor.getText()
 		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 		var managerph = grid.getCurrentEditCell().rowInfo.getData().managerExt
-		if (managerph !== null) {
+		if (managerph && managerph !== null) {
 			if (managerph && managerph.length < 1 && txt.getText().length > 1) {
 				valSuccess = false
 				grid.setErrorByObject(
@@ -1065,7 +1065,7 @@ const CurrentRequest = ({ tabValue }) => {
 				)
 			}
 		}
-		if (managerph === null && txt.getText().length > 1) {
+		if (!managerph && !txt)  {
 			valSuccess = false
 			grid.setErrorByObject(
 				cell.rowInfo.getData(),
@@ -1073,8 +1073,12 @@ const CurrentRequest = ({ tabValue }) => {
 				'Invalid Ext'
 			)
 		}
-		var valResult = Number(txt.getText()) !== NaN
-		if (txt.getText().length > 0 && !valResult) {
+		
+		var valResult = false
+		if(!Number(editor.getText())){
+			valResult = true
+		}
+		if (txt.length > 0 && valResult) {
 			grid.setErrorByObject(
 				cell.rowInfo.getData(),
 				cell.getColumn().dataField,
