@@ -5,44 +5,54 @@ import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/mate
 
 const DateOfBirthRenderer = props => {
 	const handleDateChange = date => {
-		var dateFormat = 'MM-DD-YY'
-		var cell = props.grid.getCurrentEditingCell()
-		props.grid.clearErrorByObject(cell.rowInfo.getData())
-		var valResult = moment(
-			moment(date).format(dateFormat),
-			dateFormat,
-			true
-		).isValid()
-		var now = new Date()
-		var hundyeardt = new Date(
-			now.getFullYear() - 100,
-			now.getMonth(),
-			now.getDate()
-		)
-		var tenyeardt = new Date(
-			now.getFullYear() - 10,
-			now.getMonth(),
-			now.getDate()
-		)
-		if (!valResult) {
-			props.grid.setErrorByObject(
-				cell.rowInfo.getData(),
-				cell.getColumn().dataField,
-				'Invalid DOB date'
-			)
-		}
-		if (date > tenyeardt || date < hundyeardt) {
+		debugger
+		if (!date.getDate()) {
+			var cell = props.grid.getCurrentEditingCell()
 			props.grid.setErrorByObject(
 				cell.rowInfo.getData(),
 				cell.getColumn().dataField,
 				'Invalid DOB date'
 			)
 		} else {
-			props.row.rowPositionInfo.rowData.dateOfBirth = date
-			props.cell.refreshCell()
-			const container = props.cell.getGrid().getBodyContainer()
-			if (container._inEdit) {
-				container.endEdit(container.getEditor())
+			var dateFormat = 'MM-DD-YY'
+			cell = props.grid.getCurrentEditingCell()
+			props.grid.clearErrorByObject(cell.rowInfo.getData())
+			var valResult = moment(
+				moment(date).format(dateFormat),
+				dateFormat,
+				true
+			).isValid()
+			var now = new Date()
+			var hundyeardt = new Date(
+				now.getFullYear() - 100,
+				now.getMonth(),
+				now.getDate()
+			)
+			var tenyeardt = new Date(
+				now.getFullYear() - 10,
+				now.getMonth(),
+				now.getDate()
+			)
+			if (!valResult) {
+				props.grid.setErrorByObject(
+					cell.rowInfo.getData(),
+					cell.getColumn().dataField,
+					'Invalid DOB date'
+				)
+			}
+			if (date > tenyeardt || date < hundyeardt) {
+				props.grid.setErrorByObject(
+					cell.rowInfo.getData(),
+					cell.getColumn().dataField,
+					'Invalid DOB date'
+				)
+			} else {
+				props.row.rowPositionInfo.rowData.dateOfBirth = date
+				props.cell.refreshCell()
+				const container = props.cell.getGrid().getBodyContainer()
+				if (container._inEdit) {
+					container.endEdit(container.getEditor())
+				}
 			}
 		}
 	}
@@ -50,7 +60,7 @@ const DateOfBirthRenderer = props => {
 	// wrote this fuction so that user don't have to tap twice to get the focus.
 	useEffect(() => {
 		document.getElementsByClassName('MuiInputBase-adornedEnd')[0].click()
-	},[])
+	}, [])
 
 
 	return (
@@ -76,7 +86,6 @@ const DateOfBirthRenderer = props => {
 				minWidth: "100%"
 			}}
 			onDateChange={(date) => handleDateChange(date)}
-			
 		/>
 	)
 }
