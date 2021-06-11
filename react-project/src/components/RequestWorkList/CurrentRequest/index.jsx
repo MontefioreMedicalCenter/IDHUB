@@ -105,7 +105,7 @@ const CurrentRequest = ({ tabValue }) => {
 	const [documentFileUrl, setDocumentFileUrl] = useState('')
 	var numb_regex = /[0-9]/
 	var numb_errregex = /[.+-]/
-
+	var initialLoad = true;
 
 
 
@@ -598,7 +598,7 @@ const CurrentRequest = ({ tabValue }) => {
 		var vp = dataGridRef.current.getVerticalScrollPosition()
 		gridDP.removeItemAt(CurrentRequest.pageStore._index)
 		dataGridRef.current.validateNow()
-		dataGridRef.current.expandAll()
+		// dataGridRef.current.expandAll()
 		dataGridRef.current.gotoVerticalPosition(vp)
 	}
 
@@ -1153,7 +1153,10 @@ const CurrentRequest = ({ tabValue }) => {
 			grid.processFilter()
 			// grid.removeAllSorts()
 			grid.clearAllFilters()
-			//grid.expandAll()
+			if(initialLoad) {
+				grid.expandAll()
+				initialLoad = false
+			}
 		}
 	}
 
