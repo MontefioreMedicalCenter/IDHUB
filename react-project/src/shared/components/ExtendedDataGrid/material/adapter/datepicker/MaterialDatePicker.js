@@ -122,7 +122,7 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 		return (
 			<MuiPickersUtilsProvider utils={DateUtils}>
 				<InlineDatePicker
-					invalidDateMessage="Enter Date in MM/DD/YY format"
+					invalidDateMessage="Enter Date in MM/DD/YYYY format"
 					className={classNames({
 						[classes.primaryScheme]: color === 'primary',
 						[classes.contrastScheme]: color === 'contrast'

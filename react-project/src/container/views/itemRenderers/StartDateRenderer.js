@@ -32,7 +32,14 @@ const StartDateRenderer = props => {
 				'Invalid Start date'
 			)
 		} else {
-			props.row.rowPositionInfo.rowData.startDate = date
+			const now = new Date();
+			const dateData = new Date(
+				date.getFullYear(),
+				date.getMonth(),
+				date.getDate(),
+				now.getHours()
+			)
+			props.row.rowPositionInfo.rowData.startDate = dateData
 			props.cell.refreshCell()
 			const container = props.cell.getGrid().getBodyContainer()
 			if (container._inEdit) {
@@ -51,7 +58,7 @@ const StartDateRenderer = props => {
 			keyboard
 			color=" "
 			format={'MM/DD/YYYY'}
-			error={false}
+			// error={false}
 			key={props.row.rowPositionInfo.rowData.worklistId}
 			InputProps={{
 				inputProps: {

@@ -1368,7 +1368,7 @@ const CurrentRequest = ({ tabValue }) => {
 									// filterControl="DateComboBox"
 									filterRenderer={dateFilter}
 									enableRecursiveSearch={true}
-									formatter={ExampleUtils.dateFormatter3}
+									formatter={ExampleUtils.dateFormatter5}
 									// itemEditorValidatorFunction={validateDOB}
 									// filterCompareFunction={null}
 									itemEditorApplyOnValueCommit={true}
@@ -1499,7 +1499,7 @@ const CurrentRequest = ({ tabValue }) => {
 									// filterControl="DateComboBox"
 									enableRecursiveSearch={true}
 									headerWordWrap={false}
-									formatter={ExampleUtils.dateFormatter3}
+									formatter={ExampleUtils.dateFormatter5}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
 									itemEditor={startDateRendererEditorWrapper}
@@ -1518,7 +1518,7 @@ const CurrentRequest = ({ tabValue }) => {
 									headerWordWrap={false}
 									itemEditorApplyOnValueCommit={true}
 									enableCellClickRowSelect={false}
-									formatter={ExampleUtils.dateFormatter3}
+									formatter={ExampleUtils.dateFormatter5}
 									// labelFunction={MontefioreUtils.dateFormatter2}
 									itemEditor={endDateRendererEditorWrapper}
 									// itemEditorValidatorFunction={validateEndDate}
