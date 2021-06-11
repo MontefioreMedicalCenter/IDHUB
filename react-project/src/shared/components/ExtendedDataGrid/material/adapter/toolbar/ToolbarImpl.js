@@ -360,21 +360,25 @@ export default class ToolbarImpl extends React.Component {
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnAddRefresh'}
 							onClick={this.executeToolbarAction.bind(this, 'Refresh')}>
-							<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
-								{/* <Refresh fontSize="large" />  */}
-								<img alt={refresh} src={refresh} />
-							</IconButton>
+							<Tooltip title="Refresh">
+								<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
+									{/* <Refresh fontSize="large" />  */}
+									<img alt={refresh} src={refresh} />
+								</IconButton>
+							</Tooltip>
 						</span>}
 						<span className={'pagerDiv lineSep'}>&nbsp;</span>
-							
+
 						<span
 							key={gridId + 'btnCollapseOne'}
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnCollapseOne'}
 							onClick={grid.expandUp.bind(grid)}>
-							<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
-								<img  alt={decrease} src={decrease} />
-							</IconButton>
+							<Tooltip title="Collapse">
+								<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
+									<img alt={decrease} src={decrease} />
+								</IconButton>
+							</Tooltip>
 						</span>
 
 						<span
@@ -382,9 +386,11 @@ export default class ToolbarImpl extends React.Component {
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnExpandOne'}
 							onClick={grid.expandDown.bind(grid)}>
-							<IconButton className={'imageButtonSize'}  style={{ marginTop: "8px" }}>
-								<img alt={expand} src={expand} />
-							</IconButton>
+							<Tooltip title="Expand">
+								<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
+									<img alt={expand} src={expand} />
+								</IconButton>
+							</Tooltip>
 						</span>
 						<span className={'pagerDiv lineSep'}>&nbsp;</span>
 						<span
@@ -392,9 +398,11 @@ export default class ToolbarImpl extends React.Component {
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnCollapseAll'}
 							onClick={grid.collapseAll.bind(grid)}>
-							<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
-								<img alt={collapseAll} src={collapseAll} />
-							</IconButton>
+							<Tooltip title="Collapse All">
+								<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
+									<img alt={collapseAll} src={collapseAll} />
+								</IconButton>
+							</Tooltip>
 						</span>
 
 						<span
@@ -402,9 +410,11 @@ export default class ToolbarImpl extends React.Component {
 							className={'pagerDiv  iconCell'}
 							id={gridId + 'btnExpandAll'}
 							onClick={grid.expandAll.bind(grid)}>
-							<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
-								<img alt={expand} src={expandAll} />
-							</IconButton>
+							<Tooltip title="Expand All">
+								<IconButton className={'imageButtonSize'} style={{ marginTop: "8px" }}>
+									<img alt={expand} src={expandAll} />
+								</IconButton>
+							</Tooltip>
 						</span>
 						<span
 							key={gridId + 'linesep' + linesep++}
@@ -513,12 +523,14 @@ export default class ToolbarImpl extends React.Component {
 							id={gridId + 'btnFilterShowHide'}
 							onClick={this.onShowHideFilter.bind(this)}>
 							<IconButton
-								style={{ width: '20px', height: '40px' }}
-								title={Constants.PGR_BTN_FILTER_TOOLTIP}>
+								style={{ width: '20px', height: '40px' }}>
 								{/* filterShowHide */}
 								{/* <FilterList className={'imageButtonFilterShowHide'} /> */}
-								<img alt={filterShowHide} src={filterShowHide} />
+								<Tooltip title={Constants.PGR_BTN_FILTER_TOOLTIP}>
+									<img alt={filterShowHide} src={filterShowHide} />
+								</Tooltip>
 							</IconButton>
+
 						</span>
 					</span>
 				)
@@ -530,10 +542,11 @@ export default class ToolbarImpl extends React.Component {
 							id={gridId + 'btnFilter'}
 							onClick={this.onProcessFilter.bind(this)}>
 							<IconButton
-								style={{ width: '20px', height: '40px' }}
-								title={Constants.PGR_BTN_RUN_FILTER_TOOLTIP}>
+								style={{ width: '20px', height: '40px' }}>
 								{/* <Sync className={'imageButtonFilter'} /> */}
-								<img alt={filter} src={filter} />
+								<Tooltip title={Constants.PGR_BTN_RUN_FILTER_TOOLTIP}>
+									<img alt={filter} src={filter} />
+								</Tooltip>
 							</IconButton>
 						</span>
 					</span>
@@ -546,11 +559,12 @@ export default class ToolbarImpl extends React.Component {
 							id={gridId + 'btnClearFilter'}
 							onClick={this.onClearFilter.bind(this)}>
 							<IconButton
-								style={{ width: '20px', height: '40px' }}
-								title={Constants.PGR_BTN_CLEAR_FILTER_TOOLTIP}>
+								style={{ width: '20px', height: '40px' }}>
 								{/* <ClearAll className={'imageButtonClearFilter'} /> */}
 								{/* clearFilter */}
-								<img alt={clearFilter} src={clearFilter} />
+								<Tooltip title={Constants.PGR_BTN_CLEAR_FILTER_TOOLTIP}>
+									<img alt={clearFilter} src={clearFilter} />
+								</Tooltip>
 							</IconButton>
 						</span>
 						<span
