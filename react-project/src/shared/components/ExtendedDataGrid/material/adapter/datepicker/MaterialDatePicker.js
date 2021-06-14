@@ -93,10 +93,13 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 	}
 
 	hadleonkeyup = (e) => {
-		if(e.target.value && e.keyCode === 9)
-			{
-				this.handleOnChange(new Date(e.target.value))	
+		if (e.target.value && e.keyCode === 9) {
+			let enteredDate = e.target.value
+			let date = enteredDate.split("/")
+			if (date.length === 3) {
+				this.handleOnChange(new Date(e.target.value))
 			}
+		}
 	}
 	static getDerivedStateFromProps = (newProps, prevState) => {
 		const { selected, changed } = prevState
