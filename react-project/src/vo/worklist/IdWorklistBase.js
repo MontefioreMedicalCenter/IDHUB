@@ -1,4 +1,4 @@
-import ExampleUtils from '../../utils/ExampleUtils'
+// import ExampleUtils from '../../utils/ExampleUtils'
 import VoBase from '../VoBase'
 import IdWorklistGroup from './IdWorklistGroup'
 import IdWorklistPK from './IdWorklistPK'
@@ -411,11 +411,12 @@ export default class IdWorklistBase extends VoBase {
 		return this._sourceUniqueId
 	}
 	set ssn(value) {
-		var ssnval = ExampleUtils.phoneFormatter2
-		var ssnresult = ssnval.format(value)
-		//Alert.show(ssnresult);
-		if (ssnresult !== '') this._ssn = ssnval.format(value)
-		else this._ssn = value
+		// var ssnval = ExampleUtils.phoneFormatter2
+		// var ssnresult = ssnval.format(value)
+		// //Alert.show(ssnresult);
+		// if (ssnresult !== '') this._ssn = ssnval.format(value)
+		// else this._ssn = value
+		this._ssn = value
 	}
 	get ssn() {
 		return this._ssn
