@@ -600,6 +600,7 @@ const CurrentRequest = ({ tabValue }) => {
 		dataGridRef.current.validateNow()
 		// dataGridRef.current.expandAll()
 		dataGridRef.current.gotoVerticalPosition(vp)
+		dataGridRef.current.refreshGrid()
 	}
 
 	const updateWorkList = resp => {
