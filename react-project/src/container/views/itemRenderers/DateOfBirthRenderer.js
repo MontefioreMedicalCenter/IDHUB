@@ -73,7 +73,7 @@ const DateOfBirthRenderer = props => {
 		<MaterialDatePicker
 			keyboard
 			color=" "
-			format={'MM/DD/YYYY'}
+			format={'M/D/YYYY'}
 			// error={false}
 			key={props.row.rowPositionInfo.rowData.worklistId}
 			InputProps={{
