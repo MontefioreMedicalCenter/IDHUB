@@ -154,6 +154,7 @@ const ReviewWorkList = () => {
 
 
     useEffect(() => {
+        localStorage.setItem('reviewerInitialLoad', true)
         const mediator = new ReviewerWorkListMediator().onRegister(grid, loginModel);
         return () => {
             mediator.onUnRegister();

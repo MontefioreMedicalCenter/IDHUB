@@ -122,6 +122,11 @@ export default class ReviewerWorkListMediator {
             this.grid.processFilter()
         }
         //this.grid.expandAll()
+        var initialLoad = Boolean(localStorage.getItem('reviewerInitialLoad') === 'true')
+        if(initialLoad) {
+            this.grid.expandAll()
+            localStorage.setItem('reviewerInitialLoad', false)
+        }
     }
 
     private updateWorkList(event: any): void {
