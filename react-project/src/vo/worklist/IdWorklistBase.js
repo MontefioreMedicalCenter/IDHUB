@@ -1,4 +1,4 @@
-// import ExampleUtils from '../../utils/ExampleUtils'
+import ExampleUtils from '../../utils/ExampleUtils'
 import VoBase from '../VoBase'
 import IdWorklistGroup from './IdWorklistGroup'
 import IdWorklistPK from './IdWorklistPK'
@@ -413,10 +413,14 @@ export default class IdWorklistBase extends VoBase {
 	set ssn(value) {
 		// var ssnval = ExampleUtils.phoneFormatter2
 		// var ssnresult = ssnval.format(value)
-		// //Alert.show(ssnresult);
-		// if (ssnresult !== '') this._ssn = ssnval.format(value)
-		// else this._ssn = value
-		this._ssn = value
+		//Alert.show(ssnresult);
+		if(value && value.length > 8){
+			value.replaceAll('-', '')
+			const data = value.replace(/\D/g, '').match(/(\d{3})(\d{2})(\d{4})/)
+			this._ssn = data[1]+'-'+data[2]+'-'+data[3]
+		} 
+		else this._ssn = value
+		// this._ssn = value
 	}
 	get ssn() {
 		return this._ssn
