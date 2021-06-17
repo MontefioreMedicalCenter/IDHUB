@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import { withStyles } from '@material-ui/core/styles'
 import DateUtils from '@date-io/moment'
 import { InlineDatePicker, MuiPickersUtilsProvider } from 'material-ui-pickers'
+import { toast } from 'react-toastify'
 
 // import Toolbar from "@material-ui/core/Toolbar";
 // const toolbar = <Toolbar />; //needed to import toolbar dor date picker
@@ -95,12 +96,23 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 	hadleonkeyup = (e) => {
 		if (e.target.value && e.keyCode === 9) {
 			let enteredDate = e.target.value
-			let date = enteredDate.split("/")
-			if (date.length === 3) {
+			let dateCheck = enteredDate.split("/")
+			if ((dateCheck[2] && dateCheck[2].length <= 3) || dateCheck.length !== 3) {
+				this.dateFormat(e)
+			} else if (dateCheck.length === 3) {
 				this.handleOnChange(new Date(e.target.value))
 			}
 		}
 	}
+
+	dateFormat = (e) => {
+		let enteredDate = e.target.value
+		let dateCheck = enteredDate.split("/")
+		if ((dateCheck[2] && dateCheck[2].length <= 3) || dateCheck.length !== 3) {
+			toast.warning("Enter Date in MM/DD/YYYY format")
+		}
+	}
+
 	static getDerivedStateFromProps = (newProps, prevState) => {
 		const { selected, changed } = prevState
 		const { selectedDate } = newProps
@@ -137,6 +149,7 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 					clearable		
 					onChange={w => this.handleOnChange(w ? w.toDate(): null)}
 					onKeyDown={(e) => this.hadleonkeyup(e)}
+					onBlurCapture={(e) => this.dateFormat(e)}
 					{...more}
 				/>
 			</MuiPickersUtilsProvider>
