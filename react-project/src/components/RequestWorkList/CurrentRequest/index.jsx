@@ -508,7 +508,9 @@ const CurrentRequest = ({ tabValue }) => {
 								if (tabValue === 0) {
 									findWorklist()
 									props.cell.refreshCell()
-									props.grid.gotoVerticalPosition(vpos)
+									setTimeout(() => {
+										props.grid.gotoVerticalPosition(vpos)
+									}, 500)
 								}
 							},
 							() => {}
