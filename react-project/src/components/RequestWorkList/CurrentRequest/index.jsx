@@ -1068,14 +1068,14 @@ const CurrentRequest = ({ tabValue }) => {
 				)
 			}
 		}
-		if (!managerph && !txt)  {
-			valSuccess = false
-			grid.setErrorByObject(
-				cell.rowInfo.getData(),
-				cell.getColumn().dataField,
-				'Invalid Ext'
-			)
-		}
+		// if (!managerph && !txt)  {
+		// 	valSuccess = false
+		// 	grid.setErrorByObject(
+		// 		cell.rowInfo.getData(),
+		// 		cell.getColumn().dataField,
+		// 		'Invalid Ext'
+		// 	)
+		// }
 		
 		var valResult = false
 		if(!Number(editor.getText())){
