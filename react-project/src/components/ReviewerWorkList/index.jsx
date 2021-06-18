@@ -212,7 +212,7 @@ const ReviewWorkList = () => {
 						clearOpenItemsOnDataProviderChange={false}
                         showRefresh
 						selectedKeyField={'uniqueIdentifier'}
-                        filterVisible={false}
+                        filterVisible={true}
                         width="100%" height="100%" editable enableCopy enablePaging enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={onExecuteToolbarAction} virtualScroll alternatingItemColors={[0xffffff, 0xffffff]} cellBackgroundColorFunction={getColor} horizontalScrollPolicy="auto" enableDrillDown >
                 <ReactDataGridColumnLevel rowHeight="23" enablePaging alternatingItemColors={[0xe1eef7, 0xe1eef7]} horizontalGridLines pageSize="10000" childrenField="_workLists" enableFilters horizontalGridLineColor="#99BBE8" horizontalGridLineThickness="1">
                     <ReactDataGridColumnGroup headerText="ID">

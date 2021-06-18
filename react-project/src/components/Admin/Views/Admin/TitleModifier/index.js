@@ -212,7 +212,7 @@ export default class TitleModifier extends React.Component {
 
     render() {
         return (
-            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" editable filterVisible={false} cellEditableFunction={isCellEditable} enableCopy enableEagerDraw enableExport styleName="gridStyle" enableToolbarActions toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}
+            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" editable filterVisible={true} cellEditableFunction={isCellEditable} enableCopy enableEagerDraw enableExport styleName="gridStyle" enableToolbarActions toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}
                 pagerRenderer={MontefioreUtils.pagerFactory} toolbarExcelHandlerFunction={this.onToolbarExport.bind(this)}>
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters enablePaging pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="titleId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Title Id" itemEditorApplyOnValueCommit />

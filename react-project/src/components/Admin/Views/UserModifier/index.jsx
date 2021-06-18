@@ -280,7 +280,7 @@ export default class UserModifier extends EventDispatcher {
     render() {
         return (
             <div className="userModifier-main-container">
-                <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" filterVisible={false} editable cellEditableFunction={cellEdit} enableCopy enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction} virtualScroll="true" onAddClick={this.onAddClick} pagerRenderer={MontefioreUtils.pagerFactory}>
+                <DataGrid ref={this.gridRef} id="grid" width="100%" height="100%" filterVisible={true} editable cellEditableFunction={cellEdit} enableCopy enableToolbarActions enableEagerDraw styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction} virtualScroll="true" onAddClick={this.onAddClick} pagerRenderer={MontefioreUtils.pagerFactory}>
                     <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="5000" /* pagerRenderer={new ClassFactory(StyledPagerRenderer)} */ >
                         <ReactDataGridColumnGroup headerText="Menu">
                             <ReactDataGridColumn width="50" dataField="userActiveFlag" enableCellClickRowSelect="false" headerAlign="center" headerText="Active" columnLockMode="right" excludeFromExport="true" itemEditorApplyOnValueCommit="true" itemRenderer={new ClassFactory(ActiveRenderer)} saveHandle={(data, i) => this.saveHandle(data, i)}>

@@ -206,7 +206,7 @@ export default class TitleModifier extends React.Component {
     }
     render() {
         return (
-            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" filterVisible={false} pagerRenderer={MontefioreUtils.pagerFactory} enablePaging="true" enableToolbarActions="true"
+            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" filterVisible={true} pagerRenderer={MontefioreUtils.pagerFactory} enablePaging="true" enableToolbarActions="true"
                 horizontalScrollPolicy="auto" styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}
                 editable="true" cellEditableFunction={this.isCellEditable} enableCopy="true" enableExport="true">
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">

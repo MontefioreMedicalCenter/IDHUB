@@ -207,7 +207,7 @@ export default class IdDepartmentModifier extends React.Component {
     }
     render() {
         return (
-            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" filterVisible={false}
+            <DataGrid id="grid" ref={g => this.grid = g} width="100%" height="100%" enableEagerDraw="true" filterVisible={true}
                 pagerRenderer={MontefioreUtils.pagerFactory} enablePaging="true" enableToolbarActions="true" horizontalScrollPolicy="auto" styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)} editable="true" cellEditableFunction={isCellEditable} enableCopy="true" enableExport="true">
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="departmentId" enableCellClickRowSelect={false} filterControl="TextInput" filterOperation="Contains" headerText="Department ID" itemEditorApplyOnValueCommit="true" editable={false} />
