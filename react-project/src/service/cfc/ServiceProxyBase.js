@@ -188,7 +188,7 @@ export default class ServiceProxyBase extends TypedObject {
 						if (faultFunction) {
 							// traceError(response.data);
 							faultFunction({ error: err, response })
-							if(err.response.status === 408) {
+							if(err.response && err.response.status === 408) {
 								document.dispatchEvent(new Event("logout"))
 							}
 						}

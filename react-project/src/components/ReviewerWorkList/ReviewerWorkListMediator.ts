@@ -123,7 +123,7 @@ export default class ReviewerWorkListMediator {
         }
         //this.grid.expandAll()
         var initialLoad = Boolean(localStorage.getItem('reviewerInitialLoad') === 'true')
-        if(initialLoad) {
+        if(initialLoad && this.grid) {
             this.grid.expandAll()
             localStorage.setItem('reviewerInitialLoad', false)
         }

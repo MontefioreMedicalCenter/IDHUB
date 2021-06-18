@@ -1156,7 +1156,7 @@ const CurrentRequest = ({ tabValue }) => {
 			grid.processFilter()
 			// grid.removeAllSorts()
 			grid.clearAllFilters()
-			if(initialLoad) {
+			if(initialLoad && grid) {
 				grid.expandAll()
 				initialLoad = false
 			}
