@@ -39,6 +39,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 				dataGrid.showRefresh = true
 				findWorklist();
 			} else {
+				window.stop();
 				dataGrid.showAddEmployee = false
 				dataGrid.showRefresh = false
 				dataGrid.setDataProvider([])
