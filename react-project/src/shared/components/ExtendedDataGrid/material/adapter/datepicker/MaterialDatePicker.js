@@ -106,11 +106,16 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 	}
 
 	dateFormat = (e) => {
-		let enteredDate = e.target.value
-		let dateCheck = enteredDate.split("/")
-		if ((dateCheck[2] && dateCheck[2].length <= 3) || dateCheck.length !== 3) {
-			toast.warning("Enter Date in MM/DD/YYYY format")
-		}
+		var value = e.target.value
+		setTimeout(() => {
+			if(document.getElementsByClassName('MuiPopover-root').length< 1) {
+				let enteredDate = value
+				let dateCheck = enteredDate.split("/")
+				if ((dateCheck[2] && dateCheck[2].length <= 3) || dateCheck.length !== 3) {
+					toast.warning("Enter Date in MM/DD/YYYY format")
+				}
+			}
+		}, 300)
 	}
 
 	static getDerivedStateFromProps = (newProps, prevState) => {
