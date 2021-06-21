@@ -505,13 +505,13 @@ const CurrentRequest = ({ tabValue }) => {
 							'Confirm_Cancel',
 							() => {
 								selectedobj.edit = false
-								if (tabValue === 0) {
+								if (dataGridRef.current.showAddEmployee) {
 									findWorklist()
-									props.cell.refreshCell()
-									setTimeout(() => {
-										props.grid.gotoVerticalPosition(vpos)
-									}, 500)
 								}
+								props.cell.refreshCell()
+								setTimeout(() => {
+									props.grid.gotoVerticalPosition(vpos)
+								}, 500)
 							},
 							() => {}
 						)
