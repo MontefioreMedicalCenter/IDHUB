@@ -53,7 +53,7 @@ const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, docume
 
 	const LocateFile = () => {
 		const ele = document.getElementById('uploaderDocs')
-
+		ele.value = '';
 		if (ele) {
 			ele.onchange = e => onFileSelect(e)
 			ele.click()
@@ -88,21 +88,23 @@ const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, docume
 						MontefioreUtils.showError
 					)
 				},
-				() => {}
+				() => { }
 			)
 		)
 	}
 
 	const uploadFile = () => {
-		dispatch(
-			showMessage(
-				'Confirm Upload',
-				'Are you sure you want to upload this file?',
-				'YES_NO',
-				onConfirm,
-				() => {}
+		if (file && file.files) {
+			dispatch(
+				showMessage(
+					'Confirm Upload',
+					'Are you sure you want to upload this file?',
+					'YES_NO',
+					onConfirm,
+					() => { }
+				)
 			)
-		)
+		}
 	}
 
 	const onConfirm = () => {
@@ -128,37 +130,33 @@ const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, docume
 	}
 
 	const dispose = (event) => {
-			var gridDp = dataGridRef.current.getDataProvider()
-			var readyStatus = false
-	 		if (gridDp != null  && gridDp.length > 0) 
-			{
-				gridDp.forEach(data => {
-					if (data.baseName.toLocaleLowerCase().indexOf('confagree')===21)
-					{
-						readyStatus=true
-					}
-				})
-			}	
-			var selectedRequest = worklist && worklist.constructorName === "IdWorklist" ? worklist : null;
-			var selectedGroup = worklist && worklist.constructorName === "IdWorklistGroup" ? worklist : null;
-			if (selectedRequest != null)
-				selectedGroup=selectedRequest.worklistGroup
-			if (selectedGroup != null){		
-			if (readyStatus && worklist.worklistStatus === 'Initial')
-			{
-				selectedGroup.worklistStatus='Ready'
-				selectedGroup.workLists.forEach(x => { x.worklistStatus = "Ready"})
+		var gridDp = dataGridRef.current.getDataProvider()
+		var readyStatus = false
+		if (gridDp != null && gridDp.length > 0) {
+			gridDp.forEach(data => {
+				if (data.baseName.toLocaleLowerCase().indexOf('confagree') === 21) {
+					readyStatus = true
+				}
+			})
+		}
+		var selectedRequest = worklist && worklist.constructorName === "IdWorklist" ? worklist : null;
+		var selectedGroup = worklist && worklist.constructorName === "IdWorklistGroup" ? worklist : null;
+		if (selectedRequest != null)
+			selectedGroup = selectedRequest.worklistGroup
+		if (selectedGroup != null) {
+			if (readyStatus && worklist.worklistStatus === 'Initial') {
+				selectedGroup.worklistStatus = 'Ready'
+				selectedGroup.workLists.forEach(x => { x.worklistStatus = "Ready" })
 				// WorklistService.saveWorkGroup(selectedGroup)
 				WorklistService.getInstance().saveWorkGroup(
 					selectedGroup,
 					updateWorkList,
 					MontefioreUtils.showError
 				)
-			}		
-			else if (!readyStatus && (worklist.worklistStatus === 'Ready' || worklist.worklistStatus === 'Rejected'))
-			{
-				selectedGroup.worklistStatus='Initial'
-				selectedGroup.workLists.forEach(xx => { xx.worklistStatus = "Initial"})	
+			}
+			else if (!readyStatus && (worklist.worklistStatus === 'Ready' || worklist.worklistStatus === 'Rejected')) {
+				selectedGroup.worklistStatus = 'Initial'
+				selectedGroup.workLists.forEach(xx => { xx.worklistStatus = "Initial" })
 				WorklistService.getInstance().saveWorkGroup(
 					selectedGroup,
 					updateWorkList,
@@ -166,7 +164,7 @@ const DocumentLibrary = ({ worklist, onShowDocument, openDocumentLibrary, docume
 				)
 			}
 		}
-		
+
 		onOpenDocument()
 	}
 
