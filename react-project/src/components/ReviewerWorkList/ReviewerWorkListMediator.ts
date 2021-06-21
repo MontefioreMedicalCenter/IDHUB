@@ -132,7 +132,7 @@ export default class ReviewerWorkListMediator {
     private updateWorkList(event: any): void {
         var vpos: number = this.grid.getVerticalScrollPosition();
         var gridDP: ArrayCollection = <ArrayCollection>this.grid.getDataProvider();
-        if (this.idx > 0) {
+        if (this.idx > -1) {
             gridDP.removeItemAt(this.idx)
         }
         var nitem: Object = null
