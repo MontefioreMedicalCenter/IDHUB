@@ -293,6 +293,9 @@ const CurrentRequest = ({ tabValue }) => {
 		const rowData = cell.rowInfo.getData()
 		var selectedRequest = rowData instanceof IdWorklist ? rowData : null
 		const column = cell.getColumn()
+		if (rowData.noSSN === "Y" && column.dataField === 'ssn') {
+			return rowData.edit === false 
+		}
 		if (rowData.worklistStatus === 'Processed')
 			return rowData.edit && column.dataField === 'endDate'
 		else if (cell.level.getNestDepth() !== 1 || selectedRequest !== null)
