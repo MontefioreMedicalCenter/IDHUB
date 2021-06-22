@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './requestWork.style.scss'
 import { Paper, Tab, Tabs } from '@material-ui/core'
 import CurrentRequest from './CurrentRequest'
@@ -8,6 +8,11 @@ import { setTabValue } from '../../AppConfig/store/actions/workListSheet'
 const RequestWorkList = () => {
 	const [tab, setTab] = useState(0)
 	const dispatch = useDispatch();
+
+	useEffect(() => {
+		handleChange(null, tab)
+		// eslint-disable-next-line
+	}, [])
 
 	const handleChange = (event, value) => {
 		setTab(value)
