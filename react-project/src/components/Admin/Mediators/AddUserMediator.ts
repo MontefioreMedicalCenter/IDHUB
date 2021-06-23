@@ -58,7 +58,7 @@ export default class AddUserMediator extends Mediator {
 		//if (Validator.validateAll([usernameValidator,emailVald]).length)
 		var val: boolean = true
 		var valMsg: string = ''
-		var numb_regex: RegExp = /^[a-zA-Z]*$/
+		var numb_regex: RegExp = /^[a-zA-Z]+([\s][a-zA-Z]+)*$/
 		var user = this.view.usernameValidatorSource()
 
 		// var usernameValidator: Validator = new Validator()
