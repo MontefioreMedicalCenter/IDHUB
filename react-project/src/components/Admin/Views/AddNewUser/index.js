@@ -28,7 +28,7 @@ class AddNewUser extends EventDispatcher {
         this.state = {
             errorMsg: false,
             errorTxt: "",
-            errorCaps:"",
+            errorCaps: "",
             emailError: {
                 errorMessage: "",
                 isError: false
@@ -86,30 +86,30 @@ class AddNewUser extends EventDispatcher {
 
     validateUserId = (props) => {
         var UserId = document.getElementById('userId').value
-        var case_regex = /[A-Z]/;        
+        var case_regex = /[A-Z]/;
         var userExists = props.users.current.getDataProvider().filter(x => x.userId === UserId)
         this.setState({ errorMsg: case_regex.test(UserId) || userExists.length > 0 })
-        if(userExists.length > 0){
-            this.setState({errorTxt:"User Already Exists!"})
-        }else{
-            this.setState({errorTxt:""})
+        if (userExists.length > 0) {
+            this.setState({ errorTxt: "User Already Exists!" })
+        } else {
+            this.setState({ errorTxt: "" })
         }
         if (case_regex.test(UserId)) {
-            this.setState({errorCaps:"Please type in only the lower-case letters for the user Id !"})
-        }else{
-            this.setState({errorCaps:""})
+            this.setState({ errorCaps: "Please type in only the lower-case letters for the user Id !" })
+        } else {
+            this.setState({ errorCaps: "" })
         }
     }
 
-    handleValidateEmail= e => {
+    handleValidateEmail = e => {
         const errorObj = validateEmail(e.target.value)
-        this.setState({emailError: errorObj})
+        this.setState({ emailError: errorObj })
     }
 
     handleValidatePhone = e => {
-        const number = `+1${e.target.value.replaceAll("-","")}`
+        const number = `+1${e.target.value.replaceAll("-", "")}`
         const isValidPhone = isPossiblePhoneNumber(number)
-        this.setState({phoneError: !isValidPhone})
+        this.setState({ phoneError: !isValidPhone })
     }
 
     render() {
@@ -120,8 +120,8 @@ class AddNewUser extends EventDispatcher {
                     <div style={{ overflow: "auto" }}>
                         <div style={{ flexDirection: "column", justifyContent: "center", display: "flex", overflow: "auto", alignItems: "center" }}>
 
-                            <div className="container-space" >
-                                User Id: <TextField
+                            <div className="container-space" style={{ marginLeft: "24px" }}>
+                                User Id : <TextField
                                     id="userId"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
@@ -129,66 +129,69 @@ class AddNewUser extends EventDispatcher {
                                     onBlur={() => this.validateUserId(this.props)}
                                     error={this.state.errorMsg}
                                     helperText={this.state.errorTxt || this.state.errorCaps}
-                                />
+                                />&nbsp;&nbsp;
+                                <h5 className="required-font-style">*Required</h5>
                             </div>
-                            <div className="container-space">
-                                First Name: <TextField
+                            <div className="container-space" style={{ marginTop: "-12px" }}>
+                                First Name : <TextField
                                     id="firstname"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
-                                />
+                                />&nbsp;&nbsp;
+                                <h5 className="required-font-style">*Required</h5>
                             </div>
-                            <div className="container-space">
-                                Last Name: <TextField
+                            <div className="container-space" style={{ marginTop: "-12px" }}>
+                                Last Name : <TextField
                                     id="lastName"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
-                                />
+                                />&nbsp;&nbsp;
+                                <h5 className="required-font-style">*Required</h5>
                             </div>
-                            <div className="container-space">
-                                Address: <TextField
+                            <div className="container-space" style={{ marginRight: "82px", marginTop: "-8px" }}>
+                                Address : <TextField
                                     id="address1"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
                                 />
                             </div>
-                            <div className="container-space">
-                                Address Line 2: <TextField
+                            <div className="container-space" style={{ marginRight: "82px" }}>
+                                Address Line 2 : <TextField
                                     id="address2"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
                                 />
                             </div>
-                            <div className="container-space">
-                                City: <TextField
+                            <div className="container-space" style={{ marginRight: "82px" }}>
+                                City : <TextField
                                     id="city"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
                                 />
                             </div>
-                            <div className="container-space">
-                                State: <TextField
+                            <div className="container-space" style={{ marginRight: "82px" }}>
+                                State : <TextField
                                     id="state"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
                                 />
                             </div>
-                            <div className="container-space">
-                                ZIP: <TextField
+                            <div className="container-space" style={{ marginRight: "82px" }}>
+                                ZIP : <TextField
                                     id="zip"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
                                 />
                             </div>
-                            <div className="container-space">
-                                Phone: <TextField
+                            <div className="container-space" style={{ marginLeft: "28px", marginTop: "-6px" }}>
+                                Phone : <TextField
                                     id="phone"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
@@ -196,10 +199,11 @@ class AddNewUser extends EventDispatcher {
                                     onBlur={this.handleValidatePhone}
                                     error={this.state.phoneError}
                                     helperText={this.state.phoneError ? "Invalid phone" : ""}
-                                />
+                                />&nbsp;&nbsp;
+                                <h5 className="required-font-style">*Required</h5>
                             </div>
-                            <div className="container-space">
-                                Email: <TextField
+                            <div className="container-space" style={{ marginLeft: "28px", marginTop: "-12px" }}>
+                                Email : <TextField
                                     id="email"
                                     variant="outlined"
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
@@ -208,7 +212,8 @@ class AddNewUser extends EventDispatcher {
                                     onBlur={this.handleValidateEmail}
                                     error={this.state.emailError.isError}
                                     helperText={this.state.emailError.errorMessage}
-                                />
+                                />&nbsp;&nbsp;
+                                <h5 className="required-font-style">*Required</h5>
                             </div>
                             <div className="container-space">
                                 <Button
