@@ -211,13 +211,13 @@ export default class TitleModifier extends React.Component {
                 horizontalScrollPolicy="auto" styleName="gridStyle" toolbarActionExecutedFunction={this.onExecuteToolbarAction.bind(this)}
                 editable="true" cellEditableFunction={this.isCellEditable} enableCopy="true" enableExport="true">
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
-                    <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="employeeSubGroupId" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type ID" itemEditorApplyOnValueCommit="true" editable="false" />
+                    <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="employeeSubGroupId" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" textAlign={'left'} headerText="User Type ID" itemEditorApplyOnValueCommit="true" editable="false" />
                     <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="employeeSubGroupName" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type" itemEditor={testBoxRenderer} itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validateuseridtype.bind(this)} />
                     <ReactDataGridColumn headerText="Active" dataField="activeFlag" editable="false" enableCellClickRowSelect="false" itemRenderer={AdminCheckBox}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn width="100" dataField="createDate" enableCellClickRowSelect="false" filterOperation="Contains" headerText="Create Date" labelFunction={dateLabel} editable="false" filterControl="DateComboBox" />
                     <ReactDataGridColumn width="100" dataField="updateDate" enableCellClickRowSelect="false" filterControl="DateComboBox" filterOperation="Contains" headerText="Update Date" labelFunction={dateLabel} editable="false" />
-                    <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="Updated By" editable="false" />
+                    <ReactDataGridColumn width="100" dataField="updatedBy" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" textAlign={'left'} headerText="Updated By" editable="false" />
                     <ReactDataGridColumn headerText="Edit" width="50" excludeFromExport="true" editable="false"
                         sortable={false} iconFunction={dynamicIconFunction} iconPlacementFunction={MontefioreUtils.placeIcon} iconHandCursor enableIcon useIconRollOverTimer={false} iconClick={this.onEdit.bind(this)}>
                     </ReactDataGridColumn>
