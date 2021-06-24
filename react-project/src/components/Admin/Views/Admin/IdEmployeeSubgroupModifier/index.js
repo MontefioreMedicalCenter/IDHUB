@@ -128,6 +128,7 @@ export default class TitleModifier extends React.Component {
             this.lastN = lastRow.employeeSubGroupId + 1
             this._indEdit = 0;
             gridDP.addItemAt(val, 0);
+            this.grid.setPageIndex(0)
             this.grid.rebuildBody();
             this.grid.refreshCells()
         }

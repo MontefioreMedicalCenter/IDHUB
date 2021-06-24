@@ -127,6 +127,7 @@ export default class TitleModifier extends React.Component {
             this._indEdit = 0;
             gridDP.addItemAt(idcampuscodeClass, 0);
             this.grid.rebuildBody();
+            this.grid.setPageIndex(0)
             this.lastN = lastRow.campusCodeId + 1;
             this.grid.refreshCells()
         }

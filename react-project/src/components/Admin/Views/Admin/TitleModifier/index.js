@@ -181,6 +181,7 @@ export default class TitleModifier extends React.Component {
             title.activeFlag = 1
             title.edit = true;
             gridDP.addItemAt(title, 0);
+            this.grid.setPageIndex(0)
             this.grid.rebuildBody();
             this.grid.refreshCells()
         }
