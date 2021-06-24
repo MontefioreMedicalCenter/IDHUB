@@ -140,6 +140,7 @@ export default class IdDepartmentModifier extends React.Component {
             idDepartmentClass.activeFlag = 1;
             this._indEdit = 0;
             gridDP.addItemAt(idDepartmentClass, 0);
+            this.grid.setPageIndex(0)
             this.grid.rebuildBody();
             this.lastN = lastRow.departmentId + 1;
             this.grid.refreshCells()
