@@ -34,6 +34,7 @@ class AddNewUser extends EventDispatcher {
                 isError: false
             },
             phoneError: false,
+            phoneNum: "",
         };
     }
 
@@ -110,6 +111,12 @@ class AddNewUser extends EventDispatcher {
         const number = `+1${e.target.value.replaceAll("-", "")}`
         const isValidPhone = isPossiblePhoneNumber(number)
         this.setState({ phoneError: !isValidPhone })
+    }
+
+    handelOnChange = e => {
+        var currentNumber = e.target.value.replaceAll("-", "")
+        currentNumber = Array.from(currentNumber).map((e, index) => (index === 3 || index === 6) ? '-' + e : e).join('')
+        this.setState({ phoneNum: currentNumber })
     }
 
     render() {
@@ -197,6 +204,8 @@ class AddNewUser extends EventDispatcher {
                                     InputProps={{ classes: { input: this.props.classes.input1 } }}
                                     style={{ width: "200px", marginLeft: "10px" }}
                                     onBlur={this.handleValidatePhone}
+                                    onChange={this.handelOnChange}
+                                    value={this.state.phoneNum}
                                     error={this.state.phoneError}
                                     helperText={this.state.phoneError ? "Invalid phone" : ""}
                                 />&nbsp;&nbsp;
