@@ -49,7 +49,7 @@ const CheckBoxItemRenderer = props => {
 	}
 
 	return (
-		<div style={{visibility: props.column.getDataField() === "noSSN" && props.row.getData().constructorName !== 'IdWorklist' ? "hidden" : "visible", display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
+		<div style={{visibility: props.row.getData().constructorName !== 'IdWorklist' ? "hidden" : "visible", display: 'flex', height: '100%', alignItems: 'center', justifyContent: 'center' }}>
 			<Checkbox
 				id="ChkBox"
 				disabled={tabValue === 0 ? !props.row.getData().edit : true}
