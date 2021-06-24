@@ -11,9 +11,9 @@ class UsrRole extends React.Component {
 		this.state = this.initializeFromProps(props.row.getData())
 	}
 
-	// componentWillReceiveProps(nextProps) {
-	// 	this.setState(this.initializeFromProps(nextProps.row.getData()))
-	// }
+	componentWillReceiveProps(nextProps) {
+		this.setState(this.initializeFromProps(nextProps.row.getData()))
+	}
 
 	initializeFromProps = value => {
 		var headerTxt = this.props.column.getHeaderText()

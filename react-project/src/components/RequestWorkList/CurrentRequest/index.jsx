@@ -875,13 +875,26 @@ const CurrentRequest = ({ tabValue }) => {
 		var valSuccess = true
 		var cell = dataGridRef.current.getCurrentEditCell()
 		var txt = editor
-
+		
 		var valResult = isValid(txt.getText())
 		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 
-		if (grid.getCurrentEditCell().rowInfo.getData().noSSN == 'Y') {
+		if (grid.getCurrentEditCell().rowInfo.getData().noSSN === 'Y' &&  txt.getText() === "" ) {
 			return valSuccess
+		} else if (grid.getCurrentEditCell().rowInfo.getData().noSSN === 'N' && txt.getText() === "") {
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid SSN'
+			)
+			grid.setErrorByObject(
+				cell.rowInfo.getData(),
+				cell.getColumn().dataField,
+				'Invalid SSN, SSN cannot be blank'
+			)
+			return valSuccess 
+
 		} else if (txt.getText().length < 4) {
 			valSuccess = false
 			grid.setErrorByObject(
