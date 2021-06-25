@@ -512,9 +512,7 @@ const CurrentRequest = ({ tabValue }) => {
 									findWorklist()
 								}
 								props.cell.refreshCell()
-								setTimeout(() => {
-									props.grid.gotoVerticalPosition(vpos)
-								}, 500)
+								scrollWin(vpos)
 							},
 							() => {}
 						)
@@ -596,6 +594,11 @@ const CurrentRequest = ({ tabValue }) => {
 				toast.warning('todo implement this')
 			}
 		}
+	}
+
+	const scrollWin = (vpos) => {
+		dataGridRef.current.refreshCells();
+		dataGridRef.current.gotoVerticalPosition(vpos)
 	}
 
 	const deletedWorkList = event => {
@@ -1156,6 +1159,7 @@ const CurrentRequest = ({ tabValue }) => {
 		var workListGroupArr = new ArrayCollection()
 		var workListArr = new ArrayCollection()
 		var grid = dataGridRef.current
+		var vpos = dataGridRef.current && dataGridRef.current.getVerticalScrollPosition()
 		event.workList.forEach(data => {
 			let workGroup = new IdWorklistGroup()
 			workGroup.fromJson(data)
@@ -1172,10 +1176,13 @@ const CurrentRequest = ({ tabValue }) => {
 			grid.processFilter()
 			// grid.removeAllSorts()
 			grid.clearAllFilters()
-			if(initialLoad && grid) {
+			if (initialLoad && grid) {
 				grid.expandAll()
 				initialLoad = false
 			}
+			setTimeout(() => {
+				scrollWin(vpos)
+			}, 500)
 		}
 	}
 
