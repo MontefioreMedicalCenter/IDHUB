@@ -219,6 +219,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 							keyboard
 							color=" "
 							format={'MM/DD/YYYY'}
+							disableOnBlur
 							InputProps={{
 								inputProps: {
 									style: {
@@ -240,6 +241,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 							keyboard
 							color=" "
 							format={'MM/DD/YYYY'}
+							disableOnBlur
 							InputProps={{
 								inputProps: {
 									style: {

@@ -72,7 +72,8 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 	static defaultProps = {
 		color: 'primary',
 		format: 'MM/DD/YYYY',
-		selectedDate: new Date()
+		selectedDate: new Date(),
+		disableOnBlur: false
 	}
 
 	handleOnChange = date => {
@@ -154,7 +155,7 @@ class MaterialDatePicker extends React.PureComponent<Props> {
 					clearable		
 					onChange={w => this.handleOnChange(w ? w.toDate(): null)}
 					onKeyDown={(e) => this.hadleonkeyup(e)}
-					onBlurCapture={(e) => this.dateFormat(e)}
+					onBlurCapture={(e) => { !this.props.disableOnBlur && this.dateFormat(e)}}
 					{...more}
 				/>
 			</MuiPickersUtilsProvider>
