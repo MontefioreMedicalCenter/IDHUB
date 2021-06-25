@@ -212,7 +212,7 @@ export default class TitleModifier extends React.Component {
                 editable="true" cellEditableFunction={this.isCellEditable} enableCopy="true" enableExport="true">
                 <ReactDataGridColumnLevel rowHeight="21" enableFilters="true" enablePaging="true" pageSize="50">
                     <ReactDataGridColumn width="100" columnWidthMode="fitToContent" dataField="employeeSubGroupId" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" textAlign={'left'} headerText="User Type ID" itemEditorApplyOnValueCommit="true" editable="false" />
-                    <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="employeeSubGroupName" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" headerText="User Type" itemEditor={testBoxRenderer} itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validateuseridtype.bind(this)} />
+                    <ReactDataGridColumn width="350" columnWidthMode="fitToContent" dataField="employeeSubGroupName" enableCellClickRowSelect="false" filterControl="TextInput" filterOperation="Contains" textAlign={'left'} headerText="User Type" itemEditor={testBoxRenderer} itemEditorApplyOnValueCommit="true" itemEditorValidatorFunction={this.validateuseridtype.bind(this)} />
                     <ReactDataGridColumn headerText="Active" dataField="activeFlag" editable="false" enableCellClickRowSelect="false" itemRenderer={AdminCheckBox}>
                     </ReactDataGridColumn>
                     <ReactDataGridColumn width="100" dataField="createDate" enableCellClickRowSelect="false" filterOperation="Contains" headerText="Create Date" labelFunction={dateLabel} editable="false" filterControl="DateComboBox" />
