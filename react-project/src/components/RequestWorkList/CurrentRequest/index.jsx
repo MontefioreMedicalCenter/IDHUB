@@ -1218,7 +1218,10 @@ const CurrentRequest = ({ tabValue }) => {
 			<Paper style={{ height: '100%', width: '100%', marginTop: '10px' }}>
 				<RequestorSearch
 					findWorklist={findWorklistThroughSearch}
-					setWorkList={setWorkList}
+					setWorkList={() => {
+						initialLoad= true
+						setWorkList()
+					}}
 					valueOfTab={tabValue}
 					dataGrid={dataGridRef.current}
 				/>
