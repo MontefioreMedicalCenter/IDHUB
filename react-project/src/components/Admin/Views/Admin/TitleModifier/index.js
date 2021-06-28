@@ -177,7 +177,9 @@ export default class TitleModifier extends React.Component {
         if (action.code === "Add") {
             var gridDP = this.grid.getDataProvider()
             var title = new IdTitle();
-            title.titleId = "-1"
+            
+            var lastRow = gridDP.getItemAt(gridDP.length - 1);
+            title.titleId = lastRow.titleId + 1
             title.activeFlag = 1
             title.edit = true;
             gridDP.addItemAt(title, 0);
