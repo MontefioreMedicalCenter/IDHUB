@@ -883,20 +883,19 @@ const CurrentRequest = ({ tabValue }) => {
 		var grid = dataGridRef.current
 		grid.clearErrorByObject(cell.rowInfo.getData())
 
-		if (grid.getCurrentEditCell().rowInfo.getData().noSSN === 'Y' &&  txt.getText() === "" ) {
+		if (grid.getCurrentEditCell().rowInfo.getData().noSSN === 'Y' && txt.getText() === "") {
 			return valSuccess
-		} else if (grid.getCurrentEditCell().rowInfo.getData().noSSN === 'N' && txt.getText() === "") {
+		} else if (grid.getCurrentEditCell().rowInfo.getData().noSSN === 'N' && txt.getText().length < 1) {
+			// grid.setErrorByObject(
+			// 	cell.rowInfo.getData(),
+			// 	cell.getColumn().dataField,
+			// 	'Invalid SSN'
+			// )
 			grid.setErrorByObject(
-				cell.rowInfo.getData(),
-				cell.getColumn().dataField,
-				'Invalid SSN'
+				cell.rowInfo.getData()
 			)
-			grid.setErrorByObject(
-				cell.rowInfo.getData(),
-				cell.getColumn().dataField,
-				'Invalid SSN, SSN cannot be blank'
-			)
-			return valSuccess 
+			toast.warning("Invalid SSN")
+			return valSuccess
 
 		} else if (txt.getText().length < 4) {
 			valSuccess = false
