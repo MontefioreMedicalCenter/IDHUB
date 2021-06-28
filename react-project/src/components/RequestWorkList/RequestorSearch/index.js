@@ -31,10 +31,10 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 	// var file = null
 
 	const refreshTab = useCallback(() => {
-		if(dataGrid) {
+		if (dataGrid) {
 			dataGrid.clearAllFilters();
 			dataGrid.refreshCells();
-			if(valueOfTab === 0 ) {
+			if (valueOfTab === 0) {
 				dataGrid.showAddEmployee = true
 				dataGrid.showRefresh = true
 				findWorklist();
@@ -79,8 +79,8 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 					'Cancel Upload',
 					'Bulk Import File should be an Excel File!. Please review and upload again.',
 					'OK',
-					() => {},
-					() => {}
+					() => { },
+					() => { }
 				)
 			)
 			return
@@ -93,14 +93,14 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 	}
 
 	const onLoadComplete = () => {
-		if(file && file.files.length) {
+		if (file && file.files.length) {
 			dispatch(
 				showMessage(
 					'Confirm Upload',
 					'Are you sure you want to upload this file?',
 					'YES_NO',
 					onConfirm,
-					() => {}
+					() => { }
 				)
 			)
 		} else {
@@ -109,8 +109,8 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 					'No File Selected',
 					'Please select a file before importing.',
 					'Ok',
-					() => {},
-					() => {}
+					() => { },
+					() => { }
 				)
 			)
 		}
@@ -214,7 +214,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 			) : (
 				<div style={{ display: 'flex', alignItems: 'center' }}>
 					<div className="upload-inner-container">
-						Processed Date &nbsp; From: &nbsp;
+						<h5 style={{ fontFamily: "sans-serif" }}>Processed Date &nbsp; From: &nbsp;</h5>
 						<MaterialDatePicker
 							keyboard
 							color=" "
@@ -226,17 +226,22 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 										height: '30px',
 										padding: '5px',
 										width: '75px',
-										fontSize: 'small'
+										fontSize: '14px',
+										marginLeft: '10px',
+										fontFamily:'sans-serif'
 									}
 								}
 							}}
 							selectedDate={startDate}
 							onDateChange={handleStartDateChange}
 							style={{
-								minWidth: 100
+								height: "45px",
+								minWidth: "157px",
+								maxWidth: "157px"
 							}}
 						/>
-						&nbsp; To: &nbsp;
+
+						&nbsp;&nbsp;&nbsp;<h5 style={{ fontFamily: "sans-serif" }}> To: </h5> &nbsp;
 						<MaterialDatePicker
 							keyboard
 							color=" "
@@ -248,38 +253,42 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 										height: '30px',
 										padding: '5px',
 										width: '75px',
-										fontSize: 'small'
+										fontSize: '14px',
+										marginLeft: '10px',
+										fontFamily:'sans-serif'
 									}
 								}
 							}}
 							selectedDate={endDate}
 							onDateChange={handleEndDateChange}
 							style={{
-								minWidth: 100
+								height: "45px",
+								minWidth: "157px",
+								maxWidth: "157px"
 							}}
 						/>
-						&nbsp; First Name &nbsp;
+						<h5 style={{ fontFamily: "sans-serif" }}>&nbsp; First Name :&nbsp;</h5>
 						<input
 							type="text"
-							style={{ width: '70px' }}
+							style={{ width: '100px' }}
 							onChange={e => setFirstName(e.target.value)}
 							value={firstName}
 						/>
-						&nbsp; Last Name &nbsp;
+						<h5 style={{ fontFamily: "sans-serif" }}>&nbsp; Last Name :&nbsp;</h5>
 						<input
 							type="text"
-							style={{ width: '70px' }}
+							style={{ width: '100px' }}
 							onChange={e => setlastName(e.target.value)}
 							value={lastName}
 						/>
-						&nbsp; Processed{' '}
+						<h5 style={{ fontFamily: "sans-serif" }}>&nbsp; Processed{' '}</h5>
 						<Checkbox
 							size="small"
 							color="primary"
 							checked={true}
 						/>{' '}
 					</div>
-					<div className="button">
+					<div style={{ marginBottom: "10px" }}>
 						<Button
 							variant="contained"
 							color="primary"
