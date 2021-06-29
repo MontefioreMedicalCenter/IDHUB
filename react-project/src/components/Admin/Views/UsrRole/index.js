@@ -12,6 +12,7 @@ class UsrRole extends React.Component {
 	}
 
 	componentWillReceiveProps(nextProps) {
+		if(!nextProps.row.getData().edit)
 		this.setState(this.initializeFromProps(nextProps.row.getData()))
 	}
 
