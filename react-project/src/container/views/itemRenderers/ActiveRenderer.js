@@ -19,20 +19,20 @@ const ActiveRenderer = props => {
 		} else {
 			if (tcbx.checked) {
 				data.userActiveFlag = 1
-				msg = 'activated'
+				msg = ' Do you want to activate user? '
 			} else {
 				data.userActiveFlag = 0
-				msg = 'de-activated'
+				msg = ' Do you want to deactivate the user? '
 			}
 			dispatch(
 				showMessage(
 					'Confirm Activate',
-					'The use is ' + msg + '. Do you want to save it?',
+					msg,
 					'YES_NO',
 					() => {
 						props.column.saveHandle(data, 2)
 					},
-					() => {}
+					() => { }
 				)
 			)
 		}
