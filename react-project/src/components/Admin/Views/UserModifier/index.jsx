@@ -148,6 +148,7 @@ export default class UserModifier extends EventDispatcher {
         if (usr.userActiveFlag === 1 && ((usr.roleMap.length - usr.remMaps.length) < 1) && usr.addMaps.length < 1) {
             toast.warning("An active user should have One role !")
             if (i === 2) usr.userActiveFlag = 0
+            this.grid.refreshCells()
         } else {
             this.dispatchEvent(event);
         }
