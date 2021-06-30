@@ -23,7 +23,7 @@ export default class BoxService extends ServiceProxyBase {
 		if (typeof resultHandler == 'undefined') resultHandler = ()=>{
 			store.dispatch(
 				showMessage('Success',
-                    'Files Transferred to Box Sucessfully!',
+                    'Files Transferred to Box Successfully!',
                     'OK',
                     () => {}))
 		}
