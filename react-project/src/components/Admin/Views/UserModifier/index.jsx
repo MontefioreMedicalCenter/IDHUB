@@ -31,6 +31,7 @@ import store from '../../../../AppConfig/store/configureStore';
 import { showMessage } from '../../../../AppConfig/store/actions/homeAction';
 import { toast } from 'react-toastify';
 import MontefioreUtils from '../../../../service/utils/MontefioreUtils';
+import { isPossiblePhoneNumber } from 'react-phone-number-input'
 
 
 const save = new ClassFactory(Save)
@@ -82,9 +83,9 @@ export default class UserModifier extends EventDispatcher {
         this._indx = -1
         this.editable/*: boolean*/ = true;
         this.gridRef = React.createRef();
-        this.mediator =  new UserMediator();/* :UserMediator */;
-        this.state= {
-            newUser : false
+        this.mediator = new UserMediator();/* :UserMediator */;
+        this.state = {
+            newUser: false
         }
     }
 
@@ -135,25 +136,64 @@ export default class UserModifier extends EventDispatcher {
         this.grid.refreshCells();
     }
     saveHandle = (data, i) => {
-        //Alert.show("saveHandle(): data: " + data)
-        var dpa = this.grid.getDataProvider()
-        //Alert.show("" + dpa)
-        this._indx = dpa.indexOf(data)
-        //grid.refreshCells();
-        //Alert.show("saveHandle():_indx: " + _indx)
-        var event/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.SAVE_USER)
-        event.data = data
-        var usr = (data);
-        //Alert.show("*** " + (usr.roleMap.length-usr.remMaps.length))
-        if (usr.userActiveFlag === 1 && ((usr.roleMap.length - usr.remMaps.length) < 1) && usr.addMaps.length < 1) {
-            toast.warning("An active user should have One role !")
-            if (i === 2) usr.userActiveFlag = 0
-            this.grid.refreshCells()
-        } else {
-            this.dispatchEvent(event);
+        var numb_regex = /^[a-zA-Z]+([\s][a-zA-Z]+)*$/
+        var val = true
+        var valMsg = ""
+        var lastname = numb_regex.test(data.userLastName)
+        if (!lastname) {
+            valMsg += " Last Name,"
+            val = false
         }
-        //grid.refreshCells();
-        return false;
+        var firstname = numb_regex.test(data.userFirstName)
+        if (!firstname) {
+            valMsg += " First Name,"
+            val = false
+        }
+        const emailVal = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}/g)
+        const valResultemail = emailVal.test(data.userEmail)
+        if (!valResultemail) {
+            valMsg += " Email,"
+            val = false
+        }
+        const number = `+1${data.userPhone.replaceAll("-", " ")}`
+        const valResultphone = isPossiblePhoneNumber(number)
+        if (!valResultphone) {
+            valMsg += " Phone,"
+            val = false
+        }
+        if (!val) {
+            var cIndex = valMsg.lastIndexOf(',')
+            var fValMsg = valMsg.substring(0, cIndex)
+            store.dispatch(showMessage('',
+                fValMsg + ' not Valid ',
+                'OK',
+                () => {
+
+                },
+                () => { }
+            ))
+        }
+        else {
+            //Alert.show("saveHandle(): data: " + data)
+            var dpa = this.grid.getDataProvider()
+            //Alert.show("" + dpa)
+            this._indx = dpa.indexOf(data)
+            //grid.refreshCells();
+            //Alert.show("saveHandle():_indx: " + _indx)
+            var event/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.SAVE_USER)
+            event.data = data
+            var usr = (data);
+            //Alert.show("*** " + (usr.roleMap.length-usr.remMaps.length))
+            if (usr.userActiveFlag === 1 && ((usr.roleMap.length - usr.remMaps.length) < 1) && usr.addMaps.length < 1) {
+                toast.warning("An active user should have One role !")
+                if (i === 2) usr.userActiveFlag = 0
+                this.grid.refreshCells()
+            } else {
+                this.dispatchEvent(event);
+            }
+            //grid.refreshCells();
+            return false;
+        }
     }
     onEdit(data/*: any*/)/*: void*/ {
         if (this.editable) {
@@ -167,7 +207,7 @@ export default class UserModifier extends EventDispatcher {
     }
     onAddClick = () => {
         // this.dispatchEvent(new ManageUserEvent(ManageUserEvent.ADD_USER));
-        this.setState({newUser: true})
+        this.setState({ newUser: true })
 
     }
 
@@ -204,12 +244,12 @@ export default class UserModifier extends EventDispatcher {
                 'Are you sure you want to delete this item?',
                 'Ok_Cancel',
                 () => {
-            this.dispatchEvent(new AdminEditEvent(AdminEditEvent.DELETE, data));
-                    },
-             () => {  
-                toast.warning("Cancel the delete.")
-        }
-        ))
+                    this.dispatchEvent(new AdminEditEvent(AdminEditEvent.DELETE, data));
+                },
+                () => {
+                    toast.warning("Cancel the delete.")
+                }
+            ))
         return true;
     }
 
@@ -228,15 +268,15 @@ export default class UserModifier extends EventDispatcher {
                 'Are you sure you want to delete this item?',
                 'Ok_Cancel',
                 () => {
-            this._indx = (this.grid.getDataProvider()).indexOf(data)
-            var evt/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.DELETE_USER)
-            evt.data = data
-            this.dispatchEvent(evt);
-                    },
-             () => {  
-                toast.warning("Cancel the delete.")
-        }
-        ))
+                    this._indx = (this.grid.getDataProvider()).indexOf(data)
+                    var evt/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.DELETE_USER)
+                    evt.data = data
+                    this.dispatchEvent(evt);
+                },
+                () => {
+                    toast.warning("Cancel the delete.")
+                }
+            ))
         return true;
     }
 
@@ -255,11 +295,11 @@ export default class UserModifier extends EventDispatcher {
             ))
         }
         else if (action.code === "Add User") {
-            this.setState({newUser: true})
+            this.setState({ newUser: true })
             // this.dispatchEvent(new ManageUserEvent(ManageUserEvent.ADD_USER));
         }
         else
-        toast.error("Invalid action!")
+            toast.error("Invalid action!")
     }
 
     pageChanged(event/*: any*/)/*: void*/ {
@@ -297,9 +337,9 @@ export default class UserModifier extends EventDispatcher {
                 </DataGrid>
                 <AdvanceDialog
                     open={this.state.newUser}
-                    handleClose={() => {return this.setState({newUser: false})}}
+                    handleClose={() => { return this.setState({ newUser: false }) }}
                     headerTitle="Add New User"
-                    bodyRenderer={<AddNewUser closePopup={() => {return this.setState({newUser: false})}} users={this.gridRef}/>}
+                    bodyRenderer={<AddNewUser closePopup={() => { return this.setState({ newUser: false }) }} users={this.gridRef} />}
                 />
             </div>
         )
