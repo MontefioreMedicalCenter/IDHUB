@@ -598,8 +598,8 @@ const CurrentRequest = ({ tabValue }) => {
 	}
 
 	const scrollWin = (vpos) => {
-		dataGridRef.current.refreshCells();
-		dataGridRef.current.gotoVerticalPosition(vpos)
+		dataGridRef.current && dataGridRef.current.refreshCells();
+		dataGridRef.current && dataGridRef.current.gotoVerticalPosition(vpos)
 	}
 
 	const deletedWorkList = event => {
