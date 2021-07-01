@@ -153,7 +153,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 				'Processed Start and End Dates are required and Start Date should be less than End Date.'
 			)
 			return
-		} else if (difference > 180) {
+		} else if (difference > 184) {
 			toast.warning('Please select Date Range within six months.')
 			return
 		}
