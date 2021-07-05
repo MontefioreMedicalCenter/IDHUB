@@ -147,7 +147,7 @@ export default class ReviewerWorkListMediator {
         this.grid.refreshCells();
         this.grid.rebuildBody()
         this.grid.validateNow()
-        this.grid.gotoVerticalPosition(vpos)
+        this.grid && this.grid.gotoVerticalPosition(vpos)
     }
 
     public filterDeviceTypes(item: any): boolean {
