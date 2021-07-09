@@ -1,4 +1,4 @@
-import { Button, Checkbox } from '@material-ui/core'
+import { Button, Checkbox, CircularProgress } from '@material-ui/core'
 import React, { useCallback, useEffect, useRef, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { toast } from 'react-toastify'
@@ -27,6 +27,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 	const [firstName, setFirstName] = useState('')
 	const [lastName, setlastName] = useState('')
 	const [errorTxt, setErrorTxt] = useState('')
+	const [flag, setFlag] = useState(false)
 
 	// var file = null
 
@@ -117,13 +118,17 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 	}
 
 	const onConfirm = () => {
+		setFlag(true)
 		setErrorTxt('')
 		if (file && file.files.length) {
 			WorklistService.getInstance().loadWorklistFromSpreadsheet(
 				file.files,
 				String(groupCheckbox),
 				loadWorklistFromSpreadsheetResultEvent,
-				MontefioreUtils.showError
+				(err) => {
+					setFlag(false)
+					MontefioreUtils.showError(err)
+				}
 			)
 		}
 	}
@@ -134,6 +139,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 		setFile(null)
 		fileName.current.innerText = 'browse...'
 		fileName.current.style.color = 'grey'
+		setFlag(false)
 	}
 
 	const handleStartDateChange = date => {
@@ -206,10 +212,16 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 						variant="contained"
 						color="primary"
 						onClick={onLoadComplete}
+						disabled={flag}
 						size="small"
 						style={{ maxWidth: '30px', height: '20px', fontSize: 'xx-small' }}>
 						import
-					</Button>
+					</Button>&nbsp;&nbsp;
+					{flag &&
+						<h4 style={{ fontFamily: "monospace", color: "#ff1a1a" }}>
+							{"Import in Progress"}&nbsp;<CircularProgress size="10px" />
+						</h4>
+					}
 				</div>
 			) : (
 				<div style={{ display: 'flex', alignItems: 'center' }}>
@@ -228,7 +240,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 										width: '75px',
 										fontSize: '14px',
 										marginLeft: '10px',
-										fontFamily:'sans-serif'
+										fontFamily: 'sans-serif'
 									}
 								}
 							}}
@@ -255,7 +267,7 @@ const RequestorSearch = ({ findWorklist, valueOfTab, setWorkList, dataGrid }) =>
 										width: '75px',
 										fontSize: '14px',
 										marginLeft: '10px',
-										fontFamily:'sans-serif'
+										fontFamily: 'sans-serif'
 									}
 								}
 							}}
