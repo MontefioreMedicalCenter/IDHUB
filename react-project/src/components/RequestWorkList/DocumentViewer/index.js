@@ -9,17 +9,22 @@ const DocumentViewer = ({ documentFileUrl, onClose }) => {
 
 	const onUploadComplete = (event) => {
 		var iframe = document.getElementById('iframe')
-		if (!iframe.contentWindow.length > 0) {
-			dispatch(
-				showMessage(
-					"We can't open this file",
-					'something went wrong',
-					'OK',
-					() => {
-						onClose(false)
-					}
+		var extension = iframe.src
+		if (!extension.substring(extension.lastIndexOf(".")) === ".png" ||
+			!extension.substring(extension.lastIndexOf(".")) === ".jpg" ||
+			!extension.substring(extension.lastIndexOf(".")) === ".jpeg") {
+			if (!iframe.contentWindow.length > 0) {
+				dispatch(
+					showMessage(
+						"We can't open this file",
+						'something went wrong',
+						'OK',
+						() => {
+							onClose(false)
+						}
+					)
 				)
-			)
+			}
 		}
 	}
 	return (
