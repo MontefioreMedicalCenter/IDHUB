@@ -104,7 +104,7 @@ class UsrRole extends React.Component {
 				id="UsrRoleChkBox"
 				onClick={this.chkbx_handler}
 				checked={this.state.roleChkbx}
-				disabled={this.state.disabled}
+				disabled={!this.props.row.getData().edit}
 			/>
 		</div>
 	)
