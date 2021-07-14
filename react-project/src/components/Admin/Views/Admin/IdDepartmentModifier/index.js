@@ -169,14 +169,15 @@ export default class IdDepartmentModifier extends React.Component {
     }
 
     onSave(data/*:Object*/)/*:Boolean*/ {
-        if (data.departmentName != null) {
+        if (data.edit) {
+            if (data.departmentName != null) {
 
-            data.edit = false;
-            this._indEdit = -1;
-            this.grid.dispatchEvent(new IdDepartmentAdminEvent(IdDepartmentAdminEvent.SAVE, data));
-            this.grid.refreshCells();
-        }
-        return false;
+                data.edit = false;
+                this._indEdit = -1;
+                this.grid.dispatchEvent(new IdDepartmentAdminEvent(IdDepartmentAdminEvent.SAVE, data));
+                this.grid.refreshCells();
+            }
+        return false;}
     }
 
     // const checkId=(data/*:Object*/)=>/*:Boolean*/ {

@@ -154,15 +154,17 @@ export default class TitleModifier extends React.Component {
     }
 
     onSave(data) {
-        if (data.campusCodeName != null) {
-            data.edit = false;
-            this._indEdit = -1;
-            this.grid.dispatchEvent(new IdCampusCodeAdminEvent(IdCampusCodeAdminEvent.SAVE, data));
-            this.grid.refreshCells();
+        if (data.edit) {
+            if (data.campusCodeName != null) {
+                data.edit = false;
+                this._indEdit = -1;
+                this.grid.dispatchEvent(new IdCampusCodeAdminEvent(IdCampusCodeAdminEvent.SAVE, data));
+                this.grid.refreshCells();
+            }
+            //data.edit
+            this.editable = false
+            return false;
         }
-        //data.edit
-        this.editable = false
-        return false;
     }
 
     checkId(cell) {

@@ -484,21 +484,23 @@ const CurrentRequest = ({ tabValue }) => {
 					)
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
-				if (CurrentRequest.pageStore.isWorklistGroup) {
-					CurrentRequest.pageStore._selectedGroup.edit = false
-					WorklistService.getInstance().saveWorkGroup(
-						CurrentRequest.pageStore._selectedGroup,
-						updateWorkList,
-						MontefioreUtils.showError
-					)
-				} else if (CurrentRequest.pageStore.isWorklist || CurrentRequest.pageStore.isWorklistChild) {
-					CurrentRequest.pageStore._selectedRequest.edit = false
+				if (props.cell.rowInfo.getData().edit) {
+					if (CurrentRequest.pageStore.isWorklistGroup) {
+						CurrentRequest.pageStore._selectedGroup.edit = false
+						WorklistService.getInstance().saveWorkGroup(
+							CurrentRequest.pageStore._selectedGroup,
+							updateWorkList,
+							MontefioreUtils.showError
+						)
+					} else if (CurrentRequest.pageStore.isWorklist || CurrentRequest.pageStore.isWorklistChild) {
+						CurrentRequest.pageStore._selectedRequest.edit = false
 
-					WorklistService.getInstance().saveWorklist(
-						CurrentRequest.pageStore._selectedRequest,
-						updateWorkList,
-						MontefioreUtils.showError
-					)
+						WorklistService.getInstance().saveWorklist(
+							CurrentRequest.pageStore._selectedRequest,
+							updateWorkList,
+							MontefioreUtils.showError
+						)
+					}
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
 				if (selectedobj.edit) {

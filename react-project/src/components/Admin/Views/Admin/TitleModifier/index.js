@@ -159,18 +159,20 @@ export default class TitleModifier extends React.Component {
 
 
     onSave(data) {
-        if (data.titleName != null) {
-            this.grid.dispatchEvent(new IdTitleAdminEvent(IdTitleAdminEvent.SAVE, data));
+        if (data.edit) {
+            if (data.titleName != null) {
+                this.grid.dispatchEvent(new IdTitleAdminEvent(IdTitleAdminEvent.SAVE, data));
 
-            this.editable = true
-            data.edit = false;
-            this._indEdit = -1;
-            this.grid.cellEditableFunction = isCellEditable;
-            this.grid.refreshCells();
+                this.editable = true
+                data.edit = false;
+                this._indEdit = -1;
+                this.grid.cellEditableFunction = isCellEditable;
+                this.grid.refreshCells();
+            }
+
+
+            return false;
         }
-
-
-        return false;
     }
 
     onExecuteToolbarAction(action) {

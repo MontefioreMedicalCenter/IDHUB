@@ -156,14 +156,15 @@ export default class TitleModifier extends React.Component {
     }
 
     onSave(data) {
-
-        if (data.employeeSubGroupName != null) {
-            data.edit = false;
-            this._indEdit = -1;
-            this.grid.dispatchEvent(new IdEmployeeSubgroupAdminEvent(IdEmployeeSubgroupAdminEvent.SAVE, data));
-            this.grid.refreshCells();
+        if (data.edit) {
+            if (data.employeeSubGroupName != null) {
+                data.edit = false;
+                this._indEdit = -1;
+                this.grid.dispatchEvent(new IdEmployeeSubgroupAdminEvent(IdEmployeeSubgroupAdminEvent.SAVE, data));
+                this.grid.refreshCells();
+            }
+            return false;
         }
-        return false;
     }
 
     checkId(data) {
