@@ -91,19 +91,19 @@ export default class IdUser extends IdUserBase {
 	}
 	removeEntry(map) {
 		var exadd = this.exists(map.id, this._addMaps)
-		if (exadd >= 0) {
+		// if (exadd >= 0) {
 			this._addMaps.removeItemAt(exadd)
-		} else {
+		// } else {
 			this._remMaps.addItem(map)
-		}
+		// }
 	}
 	addEntry(map) {
 		var exadd = this.exists(map.id, this._remMaps)
-		if (exadd >= 0) {
+		// if (exadd >= 0) {
 			this._remMaps.removeItemAt(exadd)
-		} else {
+		// } else {
 			this._addMaps.addItem(map)
-		}
+		// }
 	}
 	exists(val, vs) {
 		var exist = -1
