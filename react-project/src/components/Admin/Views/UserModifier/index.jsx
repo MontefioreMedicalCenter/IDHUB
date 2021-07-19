@@ -330,7 +330,7 @@ export default class UserModifier extends EventDispatcher {
                             </ReactDataGridColumn>
                             <ReactDataGridColumn width="50" sortable={false} enableCellClickRowSelect="false" headerAlign="center" headerText="Delete User" columnLockMode="right" excludeFromExport="true" itemRenderer={remove} onHandleDelete={(props) => { this.onRem(props.cell.rowInfo.getData()) }}>
                             </ReactDataGridColumn>
-                            <ReactDataGridColumn width="50" sortable={false} enableCellClickRowSelect="false" headerAlign="center" headerText="Save" columnLockMode="right" excludeFromExport="true" itemRenderer={save} onHandleSave={(props) => { this.saveHandle(props.cell.rowInfo.getData(), 1) }}>
+                            <ReactDataGridColumn width="50" sortable={false} enableCellClickRowSelect="false" headerAlign="center" headerText="Save" columnLockMode="right" excludeFromExport="true" itemRenderer={save} onHandleSave={(props) => { props.cell.rowInfo.getData().edit && this.saveHandle(props.cell.rowInfo.getData(), 1) }}>
                             </ReactDataGridColumn>
                         </ReactDataGridColumnGroup>
                     </ReactDataGridColumnLevel>
