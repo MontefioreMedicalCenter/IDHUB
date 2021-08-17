@@ -23,10 +23,10 @@ const SsnItemRender = props => {
 					height: '35px',
 					width: '100%',
 					textAlign: 'center',
-					backgroundColor:
-						data.worklistGroup && data.worklistGroup.workLists.length === 1
-							? '#e1eef7'
-							: '#ffffff'
+					backgroundColor: '#e1eef7',
+						// data.worklistGroup && data.worklistGroup.workLists.length === 1
+						// 	? '#e1eef7'
+						// 	: '#ffffff'
 				}}
 				maxLength={11}
 				restrict="0-9"

@@ -66,6 +66,13 @@ export default class TitleModifier extends React.Component {
         this._indEdit/*:int*/ = -1;
     }
 
+    isCellEditable = (cell) => {
+        return cell.rowInfo.getData().edit === true
+    }
+
+    cellEditableForAdd = (cell) => {
+        return cell.rowInfo.getData().edit && cell.getColumn().headerText !== "Active";
+    }
 
     onEdit(data) {
         var idx;

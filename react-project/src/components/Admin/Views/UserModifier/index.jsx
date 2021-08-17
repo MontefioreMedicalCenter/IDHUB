@@ -136,65 +136,63 @@ export default class UserModifier extends EventDispatcher {
         this.grid.refreshCells();
     }
     saveHandle = (data, i) => {
-        if (data.edit) {
-            var numb_regex = /^[a-zA-Z]+([\s][a-zA-Z]+)*$/
-            var val = true
-            var valMsg = ""
-            var lastname = numb_regex.test(data.userLastName)
-            if (!lastname) {
-                valMsg += " Last Name,"
-                val = false
-            }
-            var firstname = numb_regex.test(data.userFirstName)
-            if (!firstname) {
-                valMsg += " First Name,"
-                val = false
-            }
-            const emailVal = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}/g)
-            const valResultemail = emailVal.test(data.userEmail)
-            if (!valResultemail) {
-                valMsg += " Email,"
-                val = false
-            }
-            const number = `+1${data.userPhone.replaceAll("-", " ")}`
-            const valResultphone = isPossiblePhoneNumber(number)
-            if (!valResultphone) {
-                valMsg += " Phone,"
-                val = false
-            }
-            if (!val) {
-                var cIndex = valMsg.lastIndexOf(',')
-                var fValMsg = valMsg.substring(0, cIndex)
-                store.dispatch(showMessage('',
-                    fValMsg + ' not Valid ',
-                    'OK',
-                    () => {
+        var numb_regex = /^[a-zA-Z]+([\s][a-zA-Z]+)*$/
+        var val = true
+        var valMsg = ""
+        var lastname = numb_regex.test(data.userLastName)
+        if (!lastname) {
+            valMsg += " Last Name,"
+            val = false
+        }
+        var firstname = numb_regex.test(data.userFirstName)
+        if (!firstname) {
+            valMsg += " First Name,"
+            val = false
+        }
+        const emailVal = new RegExp(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,15}/g)
+        const valResultemail = emailVal.test(data.userEmail)
+        if (!valResultemail) {
+            valMsg += " Email,"
+            val = false
+        }
+        const number = `+1${data.userPhone.replaceAll("-", " ")}`
+        const valResultphone = isPossiblePhoneNumber(number)
+        if (!valResultphone) {
+            valMsg += " Phone,"
+            val = false
+        }
+        if (!val) {
+            var cIndex = valMsg.lastIndexOf(',')
+            var fValMsg = valMsg.substring(0, cIndex)
+            store.dispatch(showMessage('',
+                fValMsg + ' not Valid ',
+                'OK',
+                () => {
 
-                    },
-                    () => { }
-                ))
+                },
+                () => { }
+            ))
+        }
+        else {
+            //Alert.show("saveHandle(): data: " + data)
+            var dpa = this.grid.getDataProvider()
+            //Alert.show("" + dpa)
+            this._indx = dpa.indexOf(data)
+            //grid.refreshCells();
+            //Alert.show("saveHandle():_indx: " + _indx)
+            var event/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.SAVE_USER)
+            event.data = data
+            var usr = (data);
+            //Alert.show("*** " + (usr.roleMap.length-usr.remMaps.length))
+            if (usr.userActiveFlag === 1 && ((usr.roleMap.length - usr.remMaps.length) < 1) && usr.addMaps.length < 1) {
+                toast.warning("An active user should have One role !")
+                if (i === 2) usr.userActiveFlag = 0
+                this.grid.refreshCells()
+            } else {
+                this.dispatchEvent(event);
             }
-            else {
-                //Alert.show("saveHandle(): data: " + data)
-                var dpa = this.grid.getDataProvider()
-                //Alert.show("" + dpa)
-                this._indx = dpa.indexOf(data)
-                //grid.refreshCells();
-                //Alert.show("saveHandle():_indx: " + _indx)
-                var event/*: ManageUserEvent*/ = new ManageUserEvent(ManageUserEvent.SAVE_USER)
-                event.data = data
-                var usr = (data);
-                //Alert.show("*** " + (usr.roleMap.length-usr.remMaps.length))
-                if (usr.userActiveFlag === 1 && ((usr.roleMap.length - usr.remMaps.length) < 1) && usr.addMaps.length < 1) {
-                    toast.warning("An active user should have One role !")
-                    if (i === 2) usr.userActiveFlag = 0
-                    this.grid.refreshCells()
-                } else {
-                    this.dispatchEvent(event);
-                }
-                //grid.refreshCells();
-                return false;
-            }
+            //grid.refreshCells();
+            return false;
         }
     }
     onEdit(data/*: any*/)/*: void*/ {
@@ -332,7 +330,7 @@ export default class UserModifier extends EventDispatcher {
                             </ReactDataGridColumn>
                             <ReactDataGridColumn width="50" sortable={false} enableCellClickRowSelect="false" headerAlign="center" headerText="Delete User" columnLockMode="right" excludeFromExport="true" itemRenderer={remove} onHandleDelete={(props) => { this.onRem(props.cell.rowInfo.getData()) }}>
                             </ReactDataGridColumn>
-                            <ReactDataGridColumn width="50" sortable={false} enableCellClickRowSelect="false" headerAlign="center" headerText="Save" columnLockMode="right" excludeFromExport="true" itemRenderer={save} onHandleSave={(props) => { this.saveHandle(props.cell.rowInfo.getData(), 1) }}>
+                            <ReactDataGridColumn width="50" sortable={false} enableCellClickRowSelect="false" headerAlign="center" headerText="Save" columnLockMode="right" excludeFromExport="true" itemRenderer={save} onHandleSave={(props) => { props.cell.rowInfo.getData().edit && this.saveHandle(props.cell.rowInfo.getData(), 1) }}>
                             </ReactDataGridColumn>
                         </ReactDataGridColumnGroup>
                     </ReactDataGridColumnLevel>
