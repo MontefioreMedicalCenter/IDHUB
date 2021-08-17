@@ -234,7 +234,7 @@ const ReviewWorkList = () => {
                     <ReactDataGridColumnGroup headerText="Requestor Information">
                         <ReactDataGridColumn width="100" columnWidthMode="fixed" textAlign={'left'} dataField="requestorFullName" enableCellClickRowSelect={false} filterControl="MultiSelectComboBox" filterComboBoxBuildFromGrid enableRecursiveSearch headerText="Name" useHandCursor editable={false} sortable={false} 
 									filterComboBoxWidth={150}/>
-                        <ReactDataGridColumn editable={false} width="100" dataField="worklistGroup.requesterUser.userPhone" textAlign={'left'} enableCellClickRowSelect={false} sortable={false} />
+                        <ReactDataGridColumn editable={false} width="100" headerText="Phone" dataField="worklistGroup.requesterUser.userPhone" textAlign={'left'} enableCellClickRowSelect={false} sortable={false} />
                         <ReactDataGridColumn editable={false} width="100" columnWidthMode="fixed" cellTextColorFunction={getCellTextColor} dataField="worklistGroup.requesterUser.userEmail" headerText="Email" enableCellClickRowSelect={false} useHandCursor useUnderLine color="blue" fontWeight="bold" sortable={false} />
                     </ReactDataGridColumnGroup>
                     <ReactDataGridColumn editable={false} columnLockMode="right" headerText="View Docs" hideText headerWordWrap enableIcon useIconRollOverTimer={false} iconFunction={dynamicIconFunctionUpload} iconToolTip="View Request Document" iconHandCursor columnWidthMode="fixed" width="60" iconLeft="25" />
