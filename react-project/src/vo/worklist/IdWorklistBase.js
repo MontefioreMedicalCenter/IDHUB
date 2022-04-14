@@ -417,7 +417,11 @@ export default class IdWorklistBase extends VoBase {
 		if(value && value.length > 8){
 			value.replaceAll('-', '')
 			const data = value.replace(/\D/g, '').match(/(\d{3})(\d{2})(\d{4})/)
-			this._ssn = data[1]+'-'+data[2]+'-'+data[3]
+			if(data) {
+				this._ssn = data[1]+'-'+data[2]+'-'+data[3]
+			} else {
+				this._ssn = value
+			}
 		} 
 		else this._ssn = value
 		// this._ssn = value
