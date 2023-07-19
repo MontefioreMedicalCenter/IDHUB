@@ -298,7 +298,7 @@ const CurrentRequest = ({ tabValue }) => {
 			&& rowData.edit === true ) {
 			return rowData.edit === false
 		}
-		if (rowData.worklistStatus === 'Processed')
+		if (rowData.worklistGroup.worklistStatus === 'Processed')
 			return rowData.edit && column.dataField === 'endDate'
 		else if (cell.level.getNestDepth() !== 1 || selectedRequest !== null)
 			return (
@@ -424,12 +424,12 @@ const CurrentRequest = ({ tabValue }) => {
 									var worklistGroup = CurrentRequest.pageStore._selectedGroup
 
 									if (worklistGroup.worklistStatus === 'Processed') {
-										worklistGroup.worklistStatus = 'Accepted'
+										//worklistGroup.worklistStatus = 'Accepted'
 										worklistGroup.requesterUserId = localStorage.getItem(
 											'user-id'
 										)
 										worklistGroup.workLists.forEach(x => {
-											x.worklistStatus = 'Accepted'
+											if(!x.worklistStatus == 'Processed')x.worklistStatus = 'Accepted'
 										})
 									} else {
 										worklistGroup.worklistStatus = 'Submitted'
@@ -1210,6 +1210,7 @@ const CurrentRequest = ({ tabValue }) => {
 				item.worklistStatus == 'OnHold' ||
 				item.worklistStatus == 'Rejected' ||
 				item.worklistStatus == 'Submitted' ||
+				item.worklistStatus == 'Accepted' ||
 				item.worklistStatus == 'Processed')
 		) {
 			return true

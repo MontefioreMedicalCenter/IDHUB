@@ -23,9 +23,8 @@ const Submit = props => {
 			)
 		} else if (props.cell.rowInfo.getData().worklistStatus === 'Processed') {
 			return (
-				<Button onClick={onSubmit} style={{height:"100%"}} >
-					<img id="dropbox" alt="dropbox" src={dropbox} />
-				</Button>
+				null
+				
 			)
 		}
 	}
