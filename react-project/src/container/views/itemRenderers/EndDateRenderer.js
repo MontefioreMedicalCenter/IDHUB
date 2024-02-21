@@ -2,6 +2,7 @@ import moment from 'moment'
 import React, { useEffect } from 'react'
 import { UIComponent } from '../../../flexicious'
 import MaterialDatePicker from '../../../shared/components/ExtendedDataGrid/material/adapter/datepicker/MaterialDatePicker'
+import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 
 const EndDateRenderer = props => {
 	const handleDateChange = date => {
@@ -30,7 +31,7 @@ const EndDateRenderer = props => {
 				now.getDate()
 			)
 			var nextyeardt = new Date(
-				now.getFullYear() + 5,
+				now.getFullYear() + 2,
 				now.getMonth(),
 				now.getDate()
 			)
@@ -60,11 +61,12 @@ const EndDateRenderer = props => {
 			)
 		} else if (date > nextyeardt) {
 			valSuccess = false
-			props.grid.setErrorByObject(
-				cell.rowInfo.getData(),
-				cell.getColumn().dataField,
-				'Invalid End date'
-			)
+			// props.grid.setErrorByObject(
+			// 	cell.rowInfo.getData(),
+			// 	cell.getColumn().dataField,
+			// 	'Invalid End date'
+			// )
+			MontefioreUtils.showError("End Date is More than Two Years ahead: ")
 		} 
 		else 
 		{

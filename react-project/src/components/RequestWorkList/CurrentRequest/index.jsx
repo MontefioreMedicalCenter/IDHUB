@@ -754,7 +754,7 @@ const CurrentRequest = ({ tabValue }) => {
 				now.getDate()
 			)
 			var nextyeardt = new Date(
-				now.getFullYear() + 5,
+				now.getFullYear() + 2,
 				now.getMonth(),
 				now.getDate()
 			)
@@ -787,7 +787,7 @@ const CurrentRequest = ({ tabValue }) => {
 			grid.setErrorByObject(
 				cell.rowInfo.getData(),
 				cell.getColumn().dataField,
-				'Invalid End date'
+				'End Date is More than Two Years ahead:'
 			)
 		} else {
 			grid.clearErrorByObject(cell.rowInfo.getData())
@@ -1557,7 +1557,7 @@ const CurrentRequest = ({ tabValue }) => {
 									formatter={ExampleUtils.dateFormatter5}
 									// labelFunction={MontefioreUtils.dateFormatter2}
 									itemEditor={endDateRendererEditorWrapper}
-									// itemEditorValidatorFunction={validateEndDate}
+									//itemEditorValidatorFunction={validateEndDate}
 									filterDateRangeOptions={[DateRange.DATE_RANGE_CUSTOM]}
 									// filterCompareFunction={null}
 								/>
