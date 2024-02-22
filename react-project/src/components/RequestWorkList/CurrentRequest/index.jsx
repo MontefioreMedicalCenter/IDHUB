@@ -12,6 +12,7 @@ import {
 import { Paper, withStyles } from '@material-ui/core'
 import WorklistService from '../../../service/cfc/WorklistService'
 import IdWorklistGroup from '../../../vo/worklist/IdWorklistGroup'
+import IdWorklist from '../../../vo/worklist/IdWorklist'
 import ArrayCollection from '../../../vo/ArrayCollection'
 import MontefioreUtils from '../../../service/utils/MontefioreUtils'
 import SsnItemRender from '../../../container/views/itemRenderers/SsnItemRender'
@@ -25,7 +26,6 @@ import Remove from '../../../container/views/itemRenderers/Remove'
 import Submit from '../../../container/views/itemRenderers/Submit'
 import Gender from '../../../container/views/itemRenderers/Gender'
 import DocumentLibrary from '../DocumentLibrary'
-import IdWorklist from '../../../vo/worklist/IdWorklist'
 import Title from '../../../container/views/itemRenderers/Title'
 import CampusCode from '../../../container/views/itemRenderers/CampusCode'
 import Department from '../../../container/views/itemRenderers/Department'
@@ -298,8 +298,9 @@ const CurrentRequest = ({ tabValue }) => {
 			&& rowData.edit === true ) {
 			return rowData.edit === false
 		}
-		if (rowData.worklistGroup.worklistStatus === 'Processed')
-			return rowData.edit && column.dataField === 'endDate'
+		if (rowData.worklistStatus === 'Processed'){
+			return rowData.edit && column.dataField === 'endDate' 
+		}
 		else if (cell.level.getNestDepth() !== 1 || selectedRequest !== null)
 			return (
 				rowData.edit &&
@@ -368,6 +369,7 @@ const CurrentRequest = ({ tabValue }) => {
 		return 0xffffff
 	}
 
+	var oldRequest = new IdWorklist()
 
 	const iconClick = props => {
 		CurrentRequest.pageStore._index = -1
@@ -375,6 +377,7 @@ const CurrentRequest = ({ tabValue }) => {
 		CurrentRequest.pageStore.selectedItem = props.row.getData()
 		CurrentRequest.pageStore._selectedRequest = {}
 		CurrentRequest.pageStore.isWorklistGroup = CurrentRequest.pageStore.selectedItem.constructorName === 'IdWorklistGroup'
+
 		if (CurrentRequest.pageStore.isWorklistGroup) {
 			CurrentRequest.pageStore._selectedGroup = CurrentRequest.pageStore.selectedItem
 		} else {
@@ -485,6 +488,22 @@ const CurrentRequest = ({ tabValue }) => {
 				}
 			} else if (props.cell.getColumn().getHeaderText() === 'Save') {
 				if (props.cell.rowInfo.getData().edit) {
+					var saveMsg = 'Save'
+					var endDate = CurrentRequest.pageStore._selectedRequest.endDate
+					var oldEndDate = oldRequest.endDate
+					
+					var workListId  = CurrentRequest.pageStore.isWorklistGroup? CurrentRequest.pageStore._selectedGroup.worklistId :''
+					var isWorklistProcessed = (CurrentRequest.pageStore.isWorklist||CurrentRequest.pageStore.isWorklistChild)&& CurrentRequest.pageStore.selectedItem.worklistStatus == 'Processed'
+					saveMsg = isWorklistProcessed
+					? 'submit ' + CurrentRequest.pageStore._selectedRequest.lastName +',' +  CurrentRequest.pageStore._selectedRequest.firstName+", end date: " + moment(endDate).format('MM/DD/YY') +' ?'
+					: saveMsg
+					if(((endDate !== oldEndDate) && isWorklistProcessed) || !isWorklistProcessed){
+					dispatch(
+						showMessage(
+							'Confirm',
+							'Are you sure you want to ' +saveMsg+ " "+  workListId,
+							'YES_NO',
+							() => {
 					if (CurrentRequest.pageStore.isWorklistGroup) {
 						CurrentRequest.pageStore._selectedGroup.edit = false
 						WorklistService.getInstance().saveWorkGroup(
@@ -501,8 +520,20 @@ const CurrentRequest = ({ tabValue }) => {
 							MontefioreUtils.showError
 						)
 					}
-				}
+				
+			},
+			() => {}
+		)
+	)
+		}
+		else selectedobj.edit = false
+		props.cell.getGrid().refreshCells()
+
+		}
+
+
 			} else if (props.cell.getColumn().getHeaderText() === 'Edit') {
+
 				if (selectedobj.edit) {
 					const vpos = props.grid.getVerticalScrollPosition()
 					dispatch(
@@ -514,6 +545,10 @@ const CurrentRequest = ({ tabValue }) => {
 								selectedobj.edit = false
 								if (dataGridRef.current.showAddEmployee) {
 									findWorklist()
+								}
+								else{
+									CurrentRequest.pageStore._selectedRequest.endDate = oldRequest.endDate
+								
 								}
 								props.cell.refreshCell()
 								scrollWin(vpos)
@@ -533,6 +568,8 @@ const CurrentRequest = ({ tabValue }) => {
 						}
 					} else if (CurrentRequest.pageStore.isWorklistChild) {
 						if (!CurrentRequest.pageStore._selectedRequest.edit) {
+
+							oldRequest = CurrentRequest.pageStore._selectedRequest.clone()
 							CurrentRequest.pageStore._selectedRequest.edit = true
 							props.cell.getGrid().cellEditableFunction = isCellEditable
 							props.cell.getGrid().refreshCells()
@@ -542,6 +579,7 @@ const CurrentRequest = ({ tabValue }) => {
 						}
 					} else if (CurrentRequest.pageStore.isWorklist) {
 						if (!CurrentRequest.pageStore._selectedRequest.edit) {
+							oldRequest = CurrentRequest.pageStore._selectedRequest.clone()
 							CurrentRequest.pageStore._selectedRequest.edit = true
 							props.cell.getGrid().cellEditableFunction = isCellEditable
 							props.cell.getGrid().refreshCells()
