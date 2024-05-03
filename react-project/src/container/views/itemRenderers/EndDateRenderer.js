@@ -33,7 +33,7 @@ const EndDateRenderer = props => {
 			var nextyeardt = new Date(
 				now.getFullYear() + 2,
 				now.getMonth(),
-				now.getDate()
+				now.getDate() + 10 
 			)
 		}
 		if (!valResult) {
